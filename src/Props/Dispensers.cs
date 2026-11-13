@@ -236,6 +236,15 @@ public class BlockEntityDispenser : BlockEntity
         return false;
     }
 
+    /// <summary>The rig's (balance tests, /backrooms rig bal): the machine was emptied eight days ago; does it restock?</summary>
+    internal string TestRestock()
+    {
+        stock = 0;
+        emptySinceDay = Api.World.Calendar.TotalDays - 8;
+        bool had = HasPortion(null);
+        return $"restocks {Restocks}, restocked after eight days {had} (stock {stock})";
+    }
+
     public void Dispense(IPlayer player, DispenseUse use = DispenseUse.Give)
     {
         if (Api.Side != EnumAppSide.Server || !HasPortion(player)) return;

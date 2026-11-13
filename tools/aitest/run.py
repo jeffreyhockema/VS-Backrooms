@@ -1827,6 +1827,214 @@ PROPS_CASES = [("props-lure-firealarm", _lure_case("firealarm")), ("props-lure-c
                ("props-lure-radio", _lure_case("radio")), ("props-lure-clock", _lure_case("alarmclock", scene=True)),
                ("props-sprinkler", t_props_sprinkler), ("props-steam", t_props_steam), ("props-breaker", t_props_breaker)]
 
+# ---------------------------------------------------------------- balance fixes (2026-11, branch exp/bal-int)
+# Runtime fixes that reach every world, checked through /backrooms bal (src/Cheats/RigCommands.cs) and classdrops: the Level 73 table
+# (once per guest per 12 game hours, kept over a restart), Coran leaving no carcass, the class scales and the Level 15 and 120 salvage,
+# the Level 14 cache pool, Level 23's water classes and Level 52's snack machines holding one-time stock.
+
+
+def _dummy_full(c):
+    """(entity id, x, y, z) of the dummy placed last."""
+    with c.srv.lock:
+        lines = list(c.srv.lines)
+    for l in reversed(lines):
+        mm = DUMMY_RE.search(l)
+        if mm:
+            return int(mm.group(1)), int(mm.group(2)), int(mm.group(3)), int(mm.group(4))
+    raise RuntimeError("no dummy placed")
+
+
+def _bal(c, args, timeout=20):
+    """/backrooms bal <args>: the line it answers with (rig-bal ... or rig-error ...)."""
+    return _ask(c, "/backrooms bal " + args, r"rig-(bal|error)[^\n]*", timeout)
+
+
+def _bal_retry(c, args, tries=12, wait=8):
+    """As _bal, but while the chunks round the spot load."""
+    last = None
+    for _ in range(tries):
+        r = _bal(c, args, timeout=40)
+        last = r
+        if r and "rig-error" not in r.group(0) and "loading" not in r.group(0):
+            return r
+        if r and "rig-error" in r.group(0) and "not loaded" not in r.group(0) and "loading" not in r.group(0) and "try again" not in r.group(0):
+            return r
+        time.sleep(wait)
+    return last
+
+
+def _meal(r):
+    """(result, satiety before, after, hydration before, after, hour) out of a rig-bal table line."""
+    m = re.search(r"table (\d+) (\w+) satiety (-?[\d.]+)->(-?[\d.]+) hydration (-?[\d.]+)->(-?[\d.]+) hour ([\d.]+)", r.group(0)) if r else None
+    return (m.group(2), float(m.group(3)), float(m.group(4)), float(m.group(5)), float(m.group(6)), float(m.group(7))) if m else None
+
+
+def _eat(c, who, n, tries=3):
+    """A dummy (entity id, x, y, z) eats at the place n x 2 blocks east of where that dummy was first put down."""
+    return _meal(_bal_retry(c, "table %d %d %d %d" % (who[0], who[1] + 2 * n, who[2], who[3]), tries=tries, wait=3))
+
+
+def t_bal_l73_table(c):
+    c.reset()
+    ids = []
+    for _ in range(2):
+        c.place(None, "73")
+        ids.append(_dummy_full(c))
+    a, b = ids
+    if a[0] == b[0]:
+        return False, "the second dummy was the first"
+    # (b eats at a's places, so both are at the same spot; the tables are ours)
+    r1 = _eat(c, a, 1)             # A eats at place 1
+    r2 = _eat(c, a, 2)             # A again, at another place: refused
+    r3 = _eat(c, (b[0],) + a[1:], 2)   # B at place 2: fed
+    fmt = lambda tag, r: "%s %s sat %s->%s hyd %s->%s" % (tag, r[0], r[1], r[2], r[3], r[4]) if r else tag + " no reply"
+    log = [fmt("A", r1), fmt("A again", r2), fmt("B", r3)]
+    if not (r1 and r2 and r3):
+        return False, "; ".join(log)
+    ok = r1[0] == "fed" and r1[2] - r1[1] >= 500 and r1[4] > r1[3] and r2[0] == "refused" and r2[2] == r2[1] and r2[4] == r2[3] \
+        and r3[0] == "fed" and r3[2] - r3[1] >= 500
+    # a restart: the first guest is still refused
+    c.srv.cmd("/autosavenow")
+    time.sleep(4)
+    c.restart()
+    for _ in range(10):
+        l = _ask(c, "/backrooms bal load %d %d" % (a[1], a[3]), r"rig-bal load (\w+)", 30)
+        if l and l.group(1) == "ok":
+            break
+        time.sleep(6)
+    r4 = _eat(c, a, 3, tries=4)
+    log.append("after restart A %s hour %s" % (r4[0] if r4 else "no reply (entity lost?)", r4[5] if r4 else "?"))
+    ok = ok and bool(r4) and r4[0] == "refused" and r4[2] == r4[1]
+    # thirteen game hours on: fed again
+    c.srv.cmd("/time add 13")
+    time.sleep(3)
+    h = _ask(c, "/backrooms bal hour", r"rig-bal hour ([\d.]+)")
+    r5 = _eat(c, a, 3)
+    log.append("13 h later (hour %s) A %s sat %s->%s" % (h.group(1) if h else "?", r5[0] if r5 else "no reply", r5[1] if r5 else "?", r5[2] if r5 else "?"))
+    ok = ok and bool(r5) and r5[0] == "fed" and r5[2] - r5[1] >= 500
+    return ok, "; ".join(log)
+
+
+def t_bal_coran(c):
+    c.reset()
+    c.place(None, "73")
+    r = None
+    for _ in range(14):
+        r = _ask(c, "/backrooms bal coranhound", r"rig-(bal|error)[^\n]*", 20)
+        if r and "rig-bal" in r.group(0):
+            break
+        time.sleep(6)   # (Coran is put down once the gate's ground is loaded)
+    m = re.search(r"coranhound (\d+) coran (\d+)", r.group(0)) if r else None
+    if not m:
+        return False, "no Hound beside Coran: " + (r.group(0) if r else "no reply")
+    hid = int(m.group(1))
+    mark = c.srv.mark()
+    struck = c.srv.wait(lambda l: ("Coran #%s struck" % m.group(2)) in l and "hound" in l and l, mark, 40)
+    if not struck:
+        return None, "Coran never struck the Hound (hound %d): %s" % (hid, r.group(0))
+    t0 = time.time()
+    seen = []
+    gone_at = None
+    while time.time() - t0 < 8:
+        e = _ask(c, "/backrooms bal ent %d" % hid, r"rig-bal ent \d+ (\S+) loaded (\d+)", 5)
+        st = e.group(1) if e else "?"
+        seen.append("%.1fs %s" % (time.time() - t0, st))
+        if st == "gone":
+            gone_at = time.time() - t0
+            break
+        time.sleep(0.4)
+    ok = gone_at is not None and gone_at <= 4.5
+    return ok, "hound %d struck; %s" % (hid, ", ".join(seen[:2] + seen[-2:]))
+
+
+_DROPS_RE = re.compile(r"at (-?\d+),(-?\d+): level (\S+), class scale ([\d.]+), food setting [\d.]+; average per roll over (\d+): (.*)")
+
+
+def _drops(c, level, block, rolls=4000):
+    """Places a dummy in the level, rolls the block's drops there; (class scale, {item: average per roll}) or (None, error text)."""
+    c.reset()
+    c.place(None, level)
+    _, x, y, z = _dummy_full(c)
+    r = _ask(c, "/backrooms classdrops %s %d %d %d" % (block, x, z, rolls), r"(No such block[^\n]*|%s at [^\n]*)" % re.escape(block), 60)
+    m = _DROPS_RE.search(r.group(0)) if r else None
+    if not m:
+        return None, r.group(0) if r else "no reply"
+    return float(m.group(4)), {k: float(v) for k, v in re.findall(r"(\S+) ([\d.]+)(?:,|$)", m.group(6))}
+
+
+def t_bal_drops(c):
+    out, ok = [], True
+    # (block, level, class scale, {item: the block type's json average x the scale}): read off the block types
+    checks = [("pantryshelf-north", "basement", 0.25, {"cannedbeans": 1.2 * 0.25}),
+              ("snackshelf-north", "36", 0.35, {"chips": 0.8 * 0.35, "candybar": 0.8 * 0.35, "soda": 0.5 * 0.35, "crackers": 0.4 * 0.35}),
+              ("l15-seat-lo-north", "15", 1.0, {"carpetfibre": 1.0}),
+              ("l120-rack-lower-off-north", "120", 1.0, {"scrapwire": 0.3, "l3999-circuitboard": 0.1})]
+    for block, level, scale, want in checks:
+        got_scale, got = _drops(c, level, block)
+        if got_scale is None:
+            out.append("%s: %s" % (block, got))
+            ok = False
+            continue
+        good = abs(got_scale - scale) < 0.001
+        parts = []
+        for item, avg in want.items():
+            have = got.get("backrooms:" + item, got.get(item, 0.0))
+            good = good and abs(have - avg) <= max(0.05, avg * 0.25)
+            parts.append("%s %.3f (json x scale %.3f)" % (item, have, avg))
+        if "seat" in block:
+            twine = got.get("game:flaxtwine", 0.0)
+            good = good and twine == 0
+            parts.append("twine %.3f" % twine)
+        ok = ok and good
+        out.append("%s L%s scale %s: %s%s" % (block, level, got_scale, ", ".join(parts), "" if good else " <- FAIL"))
+    return ok, "; ".join(out)
+
+
+def t_bal_l14_cache(c):
+    r = _bal(c, "cache 14 supplybox 400")
+    ctl = _bal(c, "cache 7 supplybox 400")
+    if not r or "extras:" not in r.group(0):
+        return False, r.group(0) if r else "no reply"
+    ex = r.group(0).split("extras:")[1].split("; contents again")[0]
+    forbidden = ("metalbit-iron", "metalbit-tinbronze", "gear-temporal")
+    bad = [w for w in forbidden if w in ex]
+    c7 = ctl.group(0).split("extras:")[1].split("; contents again")[0] if ctl and "extras:" in ctl.group(0) else "no control"
+    control = any(w in c7 for w in forbidden)
+    ok = not bad and ex.strip() != "" and control
+    return ok, "Level 14, 400 rolls, extras: %s; iron/tin/temporal in them: %s; Level 7 control (extras %s) has them: %s" % (ex.strip(), bad or "none", c7.strip()[:150], control)
+
+
+def t_bal_l23_water(c):
+    r = _bal_retry(c, "water", tries=30, wait=10)
+    if not r or "rig-bal water" not in r.group(0):
+        return None, "chunks never loaded: " + (r.group(0) if r else "no reply")
+    text = r.group(0)
+    spots = {m.group(1): tuple(int(g) for g in m.groups()[1:]) for m in re.finditer(r"\[(\w+) clean (\d+) tainted (\d+) other (\d+) cleanmaxdist (\d+)\]", text)}
+    heart, seed = spots.get("heart"), spots.get("seedling")
+    forest = [v for k, v in spots.items() if k.startswith("forest")]
+    if not heart or not seed:
+        return False, text[:300]
+    f_clean, f_taint = sum(v[0] for v in forest), sum(v[1] for v in forest)
+    ok = heart[0] > 0 and seed[0] > 0 and f_clean == 0 and f_taint > 0
+    return ok, text[len("rig-bal water "):][:420]
+
+
+def t_bal_l52_dispenser(c):
+    c.reset()
+    res = {}
+    for level in ("52", "9"):
+        c.place(None, level)
+        _, x, y, z = _dummy_full(c)
+        r = _bal_retry(c, "dispenser %d %d %d" % (x + 2, y, z), tries=4, wait=4)
+        res[level] = r.group(0) if r else "no reply"
+    ok = "restocks False" in res["52"] and "after eight days False" in res["52"] and "restocks True" in res["9"] and "after eight days True" in res["9"]
+    return ok, "L52: %s | L9 control: %s" % (res["52"][8:], res["9"][8:])
+
+
+BAL_CASES = [("bal-l73-table", t_bal_l73_table), ("bal-coran", t_bal_coran), ("bal-drops", t_bal_drops), ("bal-l14-cache", t_bal_l14_cache),
+             ("bal-l23-water", t_bal_l23_water), ("bal-l52-dispenser", t_bal_l52_dispenser)]
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--mods", required=True)
@@ -1869,13 +2077,15 @@ def main():
         only = (only - {"walk"}) | {n for n, _ in WALK_CASES}
     if only and "ways" in only:
         only = (only - {"ways"}) | {n for n, _ in WAYS_CASES}
+    if only and "bal" in only:
+        only = (only - {"bal"}) | {n for n, _ in BAL_CASES}
     if only and "props" in only:
         only = (only - {"props"}) | {n for n, _ in PROPS_CASES}
     if only and "iso-hound" in only:
         only = (only - {"iso-hound"}) | {n for n, _ in ISO_HOUND_CASES}
     if only:
         # A mistyped name would otherwise boot the server (up to 15 minutes), run nothing and exit 0
-        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES + WAYS_CASES + PROPS_CASES} | {"p1-no-errors", "dummies-smoke"}
+        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES + WAYS_CASES + PROPS_CASES + BAL_CASES} | {"p1-no-errors", "dummies-smoke"}
         if only - known:
             sys.exit("unknown case(s): " + ", ".join(sorted(only - known)))
     started = time.time()
@@ -1889,7 +2099,7 @@ def main():
         time.sleep(5)
         c = Ctx(srv)
         p1_start = srv.mark()
-        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES + WAYS_CASES + PROPS_CASES:
+        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES + WAYS_CASES + PROPS_CASES + BAL_CASES:
             if only and name not in only:
                 continue
             t0 = time.time()
@@ -1913,7 +2123,7 @@ def main():
             results.append(("dummies-smoke", ok))
             print("%s dummies-smoke: %s" % ("PASS" if ok else "FAIL", ev), flush=True)
         if a.rerun_failed and not died:
-            fns = dict(CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES + WAYS_CASES + PROPS_CASES)
+            fns = dict(CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES + WAYS_CASES + PROPS_CASES + BAL_CASES)
             fns["dummies-smoke"] = smoke
             for i, (name, ok0) in enumerate(list(results)):
                 if ok0 not in (False, None) or not fns.get(name):

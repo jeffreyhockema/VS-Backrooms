@@ -449,7 +449,7 @@ public class BlockEntityL73Table : BlockEntity
         if (api.Side == EnumAppSide.Server) RegisterGameTickListener(_ => Refill(), 5000 + api.World.Rand.Next(2000));
     }
 
-    private bool IsSet => Block is BlockL73Table { IsSet: true };
+    internal bool IsSet => Block is BlockL73Table { IsSet: true };
 
     public void Eat(IServerPlayer player)
     {
@@ -458,24 +458,31 @@ public class BlockEntityL73Table : BlockEntity
             player.SendIngameError("l73table", Say.T(player, "backrooms:l73-table-cleared"));
             return;
         }
-        EntityPlayer entity = player.Entity;
+        if (!Feed(player.Entity)) player.SendIngameError("l73table", Say.T(player, "backrooms:l73-table-fed"));
+    }
+
+    /// <summary>
+    /// Feeds one guest, once per <see cref="L73System.MealEveryHours"/> game hours (the hour of the last meal is on the guest, saved with
+    /// them): false if they have eaten at the table too recently (the place stays set for the next guest). Also the rig's (balance tests,
+    /// /backrooms rig bal), where a straw dummy stands in for a guest.
+    /// </summary>
+    internal bool Feed(Entity entity)
+    {
         double now = Api.World.Calendar.TotalHours;
         double last = entity.WatchedAttributes.GetDouble(L73System.LastMealKey, double.NegativeInfinity);
-        if (last <= now && now - last < L73System.MealEveryHours)
-        {
-            // (Already fed: the place stays set for the next guest)
-            player.SendIngameError("l73table", Say.T(player, "backrooms:l73-table-fed"));
-            return;
-        }
+        if (last <= now && now - last < L73System.MealEveryHours) return false;
         entity.WatchedAttributes.SetDouble(L73System.LastMealKey, now);
         entity.WatchedAttributes.MarkPathDirty(L73System.LastMealKey);
-        entity.ReceiveSaturation(L73System.MealSatiety, EnumFoodCategory.Protein);
+        // (A guest is an agent; the rig's straw dummy only has the hunger behaviour the rig gave it)
+        if (entity is EntityAgent agent) agent.ReceiveSaturation(L73System.MealSatiety, EnumFoodCategory.Protein);
+        else entity.GetBehavior<Vintagestory.GameContent.EntityBehaviorHunger>()?.OnEntityReceiveSaturation(L73System.MealSatiety, EnumFoodCategory.Protein, 10f, 1f);
         Needs.Needs.Hydrate(entity, L73System.MealHydration);
         Api.World.PlaySoundAt(new AssetLocation("game:sounds/player/eat"), entity, null, randomizePitch: true, range: 12);
         Api.World.RegisterCallback(_ => Api.World.PlaySoundAt(new AssetLocation("game:sounds/player/drink1"), entity, null, randomizePitch: true, range: 12), 600);
         readyAt = Api.World.Calendar.TotalHours + L73System.RefillHours;
         Swap("bare");
         MarkDirty();
+        return true;
     }
 
     private void Refill()

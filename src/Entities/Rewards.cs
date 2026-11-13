@@ -172,6 +172,17 @@ public class Rewards : ModSystem
         if (byPlayer?.WorldData.CurrentGameMode != EnumGameMode.Survival || !caches.Contains(oldblockId) || director?.Layout == null || blockSel?.Position == null) return;
         BlockPos pos = blockSel.Position;
         int level = director.Layout.LevelAt(WorldLayout.MacroOf(pos.X), WorldLayout.MacroOf(pos.Z));
+        Vec3d at = pos.ToVec3d().Add(0.5, 0.5, 0.5);
+        RollCache(byPlayer, level, pos, sapi.World.GetBlock(oldblockId), (stack, _) => sapi.World.SpawnItemEntity(stack, at));
+    }
+
+    /// <summary>
+    /// What a cache broken at <paramref name="pos"/> in <paramref name="level"/> gives besides its drops: its contents again, an extra
+    /// from the level's pool, a schematic. Each is handed to <paramref name="give"/> (with whether it is the pool's extra); also the rig's
+    /// (balance tests, /backrooms rig bal), which counts them instead of spawning them.
+    /// </summary>
+    internal void RollCache(IServerPlayer byPlayer, int level, BlockPos pos, Block block, Action<ItemStack, bool> give)
+    {
         double d = Danger.OfLevel(level);
         if (d <= 0) return;
         // The Hospital's danger 0.7 is its Hunter's strength; its caches pay as the Level 4-6 ones do, not the deepest pool (balance fixes 2026-11)
@@ -179,15 +190,14 @@ public class Rewards : ModSystem
         // Level 7's caches pay more the deeper they lie: on the bottom of the midnight zone, as much as the city's
         if (level == 7 && pos.Y < floorY) d = Math.Min(1, d + 0.3 * Math.Clamp((floorY - pos.Y) / (double)WorldLayout.AbyssDepth, 0, 1));
         Random rand = sapi.World.Rand;
-        Vec3d at = pos.ToVec3d().Add(0.5, 0.5, 0.5);
-        Block block = sapi.World.GetBlock(oldblockId);
 
         // Less picked over than it looks: its contents again
         if (rand.NextDouble() < 0.7 * d)
         {
             ItemStack[] again = block.GetDrops(sapi.World, pos, byPlayer);
-            if (again != null) foreach (ItemStack stack in again) if (stack != null) sapi.World.SpawnItemEntity(stack, at);
+            if (again != null) foreach (ItemStack stack in again) if (stack != null) give(stack, false);
         }
+
         // And something extra
         if (rand.NextDouble() < 0.15 + 0.35 * d)
         {
@@ -196,7 +206,7 @@ public class Rewards : ModSystem
             // Levels 1 to 5: about one extra in eight is a temporal gear, for the ward at the end of the climb (deeper pools carry their own)
             if (level is >= 1 and <= 5 && rand.NextDouble() < EarlyGearChance) (code, min, max) = ("game:gear-temporal", 1, 1);
             ItemStack stack = Make(code, min + rand.Next(max - min + 1));
-            if (stack != null) sapi.World.SpawnItemEntity(stack, at);
+            if (stack != null) give(stack, true);
         }
         // And, deep enough, a schematic another mod would have put in a ruin (the rarer kinds only in the deepest levels)
         if (schematics.Count > 0 && d >= SchematicDanger && rand.NextDouble() < (d >= DeepSchematicDanger ? DeepSchematicChance : SchematicChance))
@@ -209,7 +219,7 @@ public class Rewards : ModSystem
                 r -= s.Weight;
                 if (r <= 0) { pick = s; break; }
             }
-            if (Make(pick.Code, 1) is { } schematic) sapi.World.SpawnItemEntity(schematic, at);
+            if (Make(pick.Code, 1) is { } schematic) give(schematic, true);
         }
     }
 

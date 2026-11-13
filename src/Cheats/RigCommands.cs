@@ -3,6 +3,8 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Vintagestory.API.Common;
+using Vintagestory.API.Common.Entities;
+using Backrooms.Worldgen;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
 using Backrooms.Needs.Beds;
@@ -38,11 +40,189 @@ public class RigCommands : ModSystem
                 .WithArgs(parsers.Word("what"))
                 .HandleWith(Stash)
             .EndSubCommand()
+            .BeginSubCommand("bal")
+                .WithDescription("Dev (balance fixes 2026-11, tools/aitest BAL_CASES; from the console too): table <entityId> <x> <y> <z> (a straw dummy eats at a Level 73 place set there), hour, load <x> <z>, ent <id>, coranhound (a Hound beside Coran), cache <level> <block> <rolls> (a cache's extras, as Rewards rolls them), water (the class of the water by the Heart, Base Seedling and elsewhere in Level 23), dispenser <x> <y> <z> (a snack machine there, emptied for eight days: does it restock)")
+                .WithArgs(parsers.Word("what"), parsers.OptionalWord("a"), parsers.OptionalWord("b"), parsers.OptionalWord("c"), parsers.OptionalWord("d"))
+                .HandleWith(Bal)
+            .EndSubCommand()
             .BeginSubCommand("growtree")
                 .WithDescription("Dev: plants game:sapling-<wood>-free at x y z (the air block above the ground), makes it due and runs the sapling's own growth check until it turns into a tree; reports the tree generators the world has, the ground under it and the logs and leaves that came of it (from the console too)")
                 .WithArgs(parsers.Int("x"), parsers.Int("y"), parsers.Int("z"), parsers.OptionalWord("wood"))
                 .HandleWith(GrowTree)
             .EndSubCommand();
+    }
+
+    static int I(object o) => int.TryParse(o as string, NumberStyles.Integer, CultureInfo.InvariantCulture, out int v) ? v : 0;
+
+    TextCommandResult Bal(TextCommandCallingArgs args)
+    {
+        string what = ((string)args[0]).Trim(), a = args[1] as string, b = args[2] as string, c = args[3] as string, d = args[4] as string;
+        var menace = sapi.ModLoader.GetModSystem<Backrooms.Entities.MenaceSystem>();
+        var layout = menace?.Layout;
+        if (layout == null) return TextCommandResult.Error("rig-error: not a Backrooms world");
+        var ic = CultureInfo.InvariantCulture;
+        switch (what)
+        {
+            case "hour": return TextCommandResult.Success("rig-bal hour " + sapi.World.Calendar.TotalHours.ToString("0.00", ic));
+            case "load":
+            {
+                int x = I(a), z = I(b);
+                for (int dz = -2; dz <= 2; dz++)
+                    for (int dx = -2; dx <= 2; dx++) sapi.WorldManager.LoadChunkColumn((x >> 5) + dx, (z >> 5) + dz, true);
+                return TextCommandResult.Success("rig-bal load " + (sapi.World.BlockAccessor.GetChunkAtBlockPos(x, 1, z) != null ? "ok" : "loading"));
+            }
+            case "ent":
+            {
+                Entity e = sapi.World.GetEntityById(I(a));
+                return TextCommandResult.Success($"rig-bal ent {I(a)} " + (e == null ? "gone" : e.Alive ? "alive" : "dead-body") + $" loaded {sapi.World.LoadedEntities.Count}");
+            }
+            case "table":
+            {
+                Entity e = sapi.World.GetEntityById(I(a));
+                if (e == null) return TextCommandResult.Error("rig-error: no entity " + a);
+                var pos = new BlockPos(I(b), I(c), I(d));
+                if (sapi.World.BlockAccessor.GetChunkAtBlockPos(pos) == null) return TextCommandResult.Error("rig-error: table chunk not loaded");
+                if (sapi.World.BlockAccessor.GetBlock(pos) is not Backrooms.Regions.BlockL73Table)
+                {
+                    Block set = sapi.World.GetBlock(new AssetLocation("backrooms:l73-table-set-north"));
+                    if (set == null) return TextCommandResult.Error("rig-error: no block l73-table-set-north");
+                    sapi.World.BlockAccessor.SetBlock(set.BlockId, pos);
+                }
+                if (sapi.World.BlockAccessor.GetBlockEntity(pos) is not Backrooms.Regions.BlockEntityL73Table table)
+                {
+                    sapi.World.BlockAccessor.SpawnBlockEntity("BackroomsL73Table", pos);
+                    table = sapi.World.BlockAccessor.GetBlockEntity(pos) as Backrooms.Regions.BlockEntityL73Table;
+                }
+                if (table == null) return TextCommandResult.Error("rig-error: no table block entity");
+                // (A straw dummy has no hunger: give it the behaviour, so what the meal does to satiety can be read)
+                var hunger = e.GetBehavior<Vintagestory.GameContent.EntityBehaviorHunger>();
+                if (hunger == null)
+                {
+                    hunger = new Vintagestory.GameContent.EntityBehaviorHunger(e);
+                    e.AddBehavior(hunger);
+                    hunger.Initialize(e.Properties, Vintagestory.API.Datastructures.JsonObject.FromJson("{}"));
+                    hunger.Saturation = 100;
+                    Backrooms.Needs.Needs.SetHydration(e, 200);
+                }
+                float sat0 = hunger.Saturation, hyd0 = Backrooms.Needs.Needs.Hydration(e);
+                string result = !table.IsSet ? "cleared" : table.Feed(e) ? "fed" : "refused";
+                return TextCommandResult.Success($"rig-bal table {e.EntityId} {result} satiety {sat0:0}->{hunger.Saturation:0} hydration {hyd0:0}->{Backrooms.Needs.Needs.Hydration(e):0} hour {sapi.World.Calendar.TotalHours.ToString("0.00", ic)}");
+            }
+            case "coranhound":
+            {
+                Entity coran = Backrooms.Regions.L73System.Server?.Coran;
+                if (coran == null)
+                {
+                    // (He is put down outside the gate once its ground is loaded, a few seconds after a dummy is in the level)
+                    for (int dz = -2; dz <= 2; dz++)
+                        for (int dx = -2; dx <= 2; dx++) sapi.WorldManager.LoadChunkColumn((layout.L73Gate.X >> 5) + dx, (layout.L73Gate.Z >> 5) + dz, true);
+                    return TextCommandResult.Error("rig-error: Coran is not about (loading the gate's ground), try again");
+                }
+                EntityProperties type = sapi.World.GetEntityType(new AssetLocation("backrooms:hound"));
+                if (type == null) return TextCommandResult.Error("rig-error: no hound");
+                Entity hound = sapi.World.ClassRegistry.CreateEntity(type);
+                hound.Pos.SetPos(coran.Pos.X + 2, coran.Pos.Y, coran.Pos.Z);
+                hound.ServerPos.SetFrom(hound.Pos);
+                // (As /backrooms perceive puts a thing down: prepared for a dummy and always active, or the director's rules take a Hound nobody asked for away at once; its own tasks held still)
+                // (The dummy it is prepared for stands by Coran: a Hound far from its target is taken away)
+                if (menace.LivingDummies.FirstOrDefault() is { } dummy) dummy.TeleportToDouble(coran.Pos.X - 6, coran.Pos.Y, coran.Pos.Z);
+                if (menace.LivingDummies.FirstOrDefault() is { } dummy2) Backrooms.Entities.EntityBehaviorMenace.Prepare(hound, dummy2, Backrooms.Entities.Encounter.Ambient, passive: true, sapi.World.ElapsedMilliseconds);
+                hound.AlwaysActive = true;
+                sapi.World.SpawnEntity(hound);
+                if (hound.GetBehavior<Vintagestory.GameContent.EntityBehaviorTaskAI>()?.TaskManager is { } tasks)
+                {
+                    tasks.OnShouldExecuteTask += _ => false;
+                    tasks.StopTasks();
+                }
+                return TextCommandResult.Success($"rig-bal coranhound {hound.EntityId} coran {coran.EntityId} at {coran.Pos.X:0} {coran.Pos.Y:0} {coran.Pos.Z:0}");
+            }
+            case "cache":
+            {
+                int level = WorldLayout.FromDisplayName(a);
+                Block block = sapi.World.GetBlock(new AssetLocation("backrooms", b ?? "supplybox"));
+                if (level < 0 || block == null) return TextCommandResult.Error("rig-error: cache <level> <block> <rolls>");
+                int rolls = Math.Clamp(I(c) == 0 ? 200 : I(c), 1, 100000);
+                var rewards = sapi.ModLoader.GetModSystem<Backrooms.Entities.Rewards>();
+                var extras = new System.Collections.Generic.SortedDictionary<string, int>();
+                var again = new System.Collections.Generic.SortedDictionary<string, int>();
+                var pos = new BlockPos(0, 1, 0);
+                for (int i = 0; i < rolls; i++)
+                    rewards.RollCache(null, level, pos, block, (stack, extra) =>
+                    {
+                        var into = extra ? extras : again;
+                        string code = stack.Collectible.Code.ToShortString();
+                        into[code] = (into.TryGetValue(code, out int had) ? had : 0) + stack.StackSize;
+                    });
+                return TextCommandResult.Success($"rig-bal cache level {a} block {block.Code.Path} rolls {rolls}; extras: " + string.Join(", ", extras.Select(t => t.Key + " " + t.Value))
+                    + "; contents again: " + string.Join(", ", again.Select(t => t.Key + " " + t.Value)));
+            }
+            case "dispenser":
+            {
+                var pos = new BlockPos(I(a), I(b), I(c));
+                if (sapi.World.BlockAccessor.GetChunkAtBlockPos(pos) == null) return TextCommandResult.Error("rig-error: dispenser chunk not loaded");
+                Block machine = sapi.World.GetBlock(new AssetLocation("backrooms:snackvending-north"));
+                if (machine == null) return TextCommandResult.Error("rig-error: no block snackvending-north");
+                sapi.World.BlockAccessor.SetBlock(machine.BlockId, pos);
+                if (sapi.World.BlockAccessor.GetBlockEntity(pos) == null) sapi.World.BlockAccessor.SpawnBlockEntity("BackroomsDispenser", pos);
+                if (sapi.World.BlockAccessor.GetBlockEntity(pos) is not Backrooms.Props.BlockEntityDispenser be) return TextCommandResult.Error("rig-error: no dispenser block entity");
+                return TextCommandResult.Success($"rig-bal dispenser at {pos.X} {pos.Y} {pos.Z} level {WorldLayout.DisplayNumber(layout.LevelAt(WorldLayout.MacroOf(pos.X), WorldLayout.MacroOf(pos.Z)))}: " + be.TestRestock());
+            }
+            case "water": return Water(layout);
+            default: return TextCommandResult.Error("rig-error: bal hour, load, ent, table, coranhound, cache, water or dispenser");
+        }
+    }
+
+    /// <summary>The Level 23 water test: the class of every water block within 40 of the Heart, within Base Seedling's cavern, and in patches of the forest and glow rooms farther out.</summary>
+    TextCommandResult Water(WorldLayout layout)
+    {
+        var geometry = BackroomsWorld.CreateGeometry(sapi.World);
+        int floor = geometry.FloorFor(WorldLayout.Level23);
+        var (sx, sz, sr) = layout.L23SeedlingAt;
+        var spots = new System.Collections.Generic.List<(string Name, int X, int Z, int R)> { ("heart", layout.L23MidX, layout.L23MidZ, 40), ("seedling", sx, sz, sr) };
+        for (int i = 0; i < 6; i++)
+        {
+            double ang = i * Math.PI / 3 + 0.3;
+            spots.Add(("forest" + i, layout.L23MidX + (int)(Math.Cos(ang) * 110), layout.L23MidZ + (int)(Math.Sin(ang) * 110), 40));
+        }
+        int missing = 0;
+        foreach (var (_, x, z, r) in spots)
+            for (int cz = (z - r) >> 5; cz <= (z + r) >> 5; cz++)
+                for (int cx = (x - r) >> 5; cx <= (x + r) >> 5; cx++)
+                {
+                    sapi.WorldManager.LoadChunkColumn(cx, cz, true);
+                    if (sapi.World.BlockAccessor.GetChunkAtBlockPos(cx * 32, floor, cz * 32) == null) missing++;
+                }
+        if (missing > 0) return TextCommandResult.Error($"rig-error: loading the chunks of the Level 23 spots ({missing} missing), try again");
+        var text = new System.Text.StringBuilder("rig-bal water");
+        var pos = new BlockPos(0, 0, 0);
+        foreach (var (name, x, z, r) in spots)
+        {
+            int clean = 0, tainted = 0, other = 0;
+            double farthestClean = 0;
+            for (int gz = z - r; gz <= z + r; gz++)
+                for (int gx = x - r; gx <= x + r; gx++)
+                {
+                    if ((gx - x) * (gx - x) + (gz - z) * (gz - z) > r * r) continue;
+                    for (int y = floor - 30; y <= floor + WorldLayout.L23Top; y++)
+                    {
+                        pos.Set(gx, y, gz);
+                        Block fluid = sapi.World.BlockAccessor.GetBlock(pos, BlockLayersAccess.Fluid);
+                        if (fluid == null || fluid.Id == 0 || fluid.LiquidCode != "water") continue;
+                        switch (Backrooms.Needs.Water.WaterClass.Of(sapi.World, layout, fluid, pos))
+                        {
+                            case Backrooms.Needs.Water.WaterKind.Clean:
+                                clean++;
+                                farthestClean = Math.Max(farthestClean, name == "seedling" ? Math.Sqrt((gx - sx) * (double)(gx - sx) + (gz - sz) * (double)(gz - sz)) : layout.L23FromMid(gx, gz));
+                                break;
+                            case Backrooms.Needs.Water.WaterKind.Tainted: tainted++; break;
+                            default: other++; break;
+                        }
+                    }
+                }
+            text.Append($" [{name} clean {clean} tainted {tainted} other {other} cleanmaxdist {farthestClean:0}];");
+        }
+        text.Append($" coreRadius {WorldLayout.L23CoreRadius} poolRadius {WorldLayout.L23PoolRadius}");
+        return TextCommandResult.Success(text.ToString());
     }
 
     TextCommandResult Stash(TextCommandCallingArgs args)
