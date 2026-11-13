@@ -15,7 +15,7 @@ namespace Backrooms.Worldgen;
 /// across it and a green running man lit over it, with clear carpet before it; the M.E.G. placard beside it from layout 12
 /// (Level 0 is class 1, the Hospital class 4). Used: a reception room, one way.</item>
 /// <item><b>In, from Level 15</b> (Fandom 15: "walking into a futuristic door labeled 'Medical Center' will send you to Level
-/// 14"): one wing of Level 15 in <see cref="L14MedDoorChance"/> (never near its middle, where people are put down) has a
+/// 14"): one wing of Level 15 in <see cref="L14MedDoorShare"/> (never near its middle, where people are put down) has a
 /// white door marked MEDICAL CENTER in the wall of one of its medical bays, best on the corridor beside the bay's own door.
 /// Used: a reception room, one way. Laid by Level 15's own WorldLayout.Level15.Links.cs, which calls
 /// <see cref="L14PlaceMedDoor"/> last of its links.</item>
@@ -26,7 +26,8 @@ namespace Backrooms.Worldgen;
 /// and (our invention, LINKS.md: Wikidot 73 names Level 14 as a way in with no detail, and Fandom 14 has "certain floor tiles
 /// ... may collapse and give way unexpectedly") a patch of a corridor's floor sagging in its middle lane, cracked tiles round
 /// it as the warning ("if there are any signs of instability, the best thing to do would be to run"): stood on, it gives way
-/// and you fall out of the sky onto the Redlands, Level 73. All one way.</item>
+/// and you fall out of the sky onto the Redlands, Level 73 (from layout version 16 a quarter as often: <see cref="L14CollapseShare"/>).
+/// All one way.</item>
 /// </list>
 /// </summary>
 public sealed partial class WorldLayout
@@ -45,11 +46,21 @@ public sealed partial class WorldLayout
     /// <summary>How many cells apart two Lobby cells drawn for an EMERGENCY EXIT must be (else the lower roll keeps it).</summary>
     public const int L14ExitApart = 16;
 
-    /// <summary>The share of Level 15's wings with a MEDICAL CENTER door (if one of its medical bays has a wall for it).</summary>
+    /// <summary>The share of Level 15's wings with a MEDICAL CENTER door (if one of its medical bays has a wall for it), in worlds made before layout version 16.</summary>
     public const double L14MedDoorChance = 1 / 64.0;
 
-    /// <summary>The shares of the Hospital's wings with a futuristic door, a red exit door, a floor that gives way (one in about thirty in all).</summary>
+    /// <summary>The shares of the Hospital's wings with a futuristic door, a red exit door, a floor that gives way (one in about thirty in all; the floor in worlds made before layout version 16).</summary>
     public const double L14FutureChance = 1 / 80.0, L14RedChance = 1 / 80.0, L14CollapseChance = 1 / 112.0;
+
+    /// <summary>
+    /// The share of Level 15's wings with a MEDICAL CENTER door in this world, and of the Hospital's wings with a floor that
+    /// gives way: from layout version 16 a quarter of each, one in 256 and one in 448 (the progression rule, decision 20: a
+    /// way from Level 3's side of the world into the Class 4 hospital, and from it onto the Class 5 island and so to Level 9,
+    /// are shortcuts, a quarter as common; the kept ones are the same, the lowest rolls). The futuristic door back to Level 15
+    /// and the red door to Level ! are not ways deeper and stay.
+    /// </summary>
+    public double L14MedDoorShare => Version >= 16 ? L14MedDoorChance / 4 : L14MedDoorChance;
+    public double L14CollapseShare => Version >= 16 ? L14CollapseChance / 4 : L14CollapseChance;
 
     /// <summary>How far from the region's middle (blocks) the nearest way out may be: the reception rooms there are where everyone arrives.</summary>
     public const int L14WayOutClear = 200;
@@ -208,7 +219,7 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// Called by Level 15's links (WorldLayout.Level15.Links.cs) last of all, for every wing of Level 15: in one wing in
-    /// <see cref="L14MedDoorChance"/>, clear of the region's middle, a door marked MEDICAL CENTER in a medical bay's wall:
+    /// <see cref="L14MedDoorShare"/>, clear of the region's middle, a door marked MEDICAL CENTER in a medical bay's wall:
     /// best where it faces a corridor beside the bay's own door, else on the corridor anywhere along the bay, else inside the
     /// bay with the wall going on behind it. A plain wall tile with wall on with it either way, clear floor before it.
     /// </summary>
@@ -265,7 +276,7 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>Whether a wing of Level 15 is drawn for a MEDICAL CENTER door, by its hash alone (it may have no medical bay for it).</summary>
-    public bool L14MedWingDrawn(int hx, int hz) => Hashing.Unit(Hashing.Hash(seed, hx, hz, SaltL14MedWing)) < L14MedDoorChance;
+    public bool L14MedWingDrawn(int hx, int hz) => Hashing.Unit(Hashing.Hash(seed, hx, hz, SaltL14MedWing)) < L14MedDoorShare;
 
     /// <summary>The MEDICAL CENTER door in a wing of Level 15 (world position and the way it faces), if it has one.</summary>
     public (int X, int Z, ArchPier Facing)? L14MedDoorIn(int hx, int hz)
@@ -312,7 +323,7 @@ public sealed partial class WorldLayout
     {
         double r = L14WayOutRoll(plan.Hx, plan.Hz);
         byte kind = r < L14FutureChance ? L14WayFuture : r < L14FutureChance + L14RedChance ? L14WayRed
-            : r < L14FutureChance + L14RedChance + L14CollapseChance ? L14WayCollapse : L14WayNone;
+            : r < L14FutureChance + L14RedChance + L14CollapseShare ? L14WayCollapse : L14WayNone;
         if (kind == L14WayNone || !L14WingInside(plan)) return;
         var rng = new Rng(Hashing.Hash(seed, plan.Hx, plan.Hz, SaltL14WayPick));
         if (kind == L14WayCollapse) L14PlaceCollapse(plan, ref rng);

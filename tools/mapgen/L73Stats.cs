@@ -282,7 +282,7 @@ static partial class LevelModes
         // Level 6's deepest dark
         sw.Restart();
         var dark = layout.L73NearestDark(8);
-        Console.WriteLine($"Level 6's deepest dark (one cell in {WorldLayout.L73DarkCells}; {sw.ElapsedMilliseconds} ms to find the nearest {dark.Count}):");
+        Console.WriteLine($"Level 6's deepest dark (one cell in {layout.L73DarkOneIn}; {sw.ElapsedMilliseconds} ms to find the nearest {dark.Count}):");
         foreach (var (dx, dz, dist) in dark)
         {
             int mx = WorldLayout.MacroOf((int)dx), mz = WorldLayout.MacroOf((int)dz);
@@ -299,7 +299,7 @@ static partial class LevelModes
             darkRolled++;
             if (layout.IsL73DarkCell(rx, rz)) darkHeld++;
         }
-        double darkDensity = cellsPerKm2 / WorldLayout.L73DarkCells * darkHeld / Math.Max(1, darkRolled);
+        double darkDensity = cellsPerKm2 / layout.L73DarkOneIn * darkHeld / Math.Max(1, darkRolled);
         Console.WriteLine($"  {darkHeld} of {darkRolled} Level 6 cells that rolled one have the wall corner that stands for it: {darkDensity:0.00} a km2 of Level 6 "
                           + $"(about {1 / Math.Sqrt(Math.Max(1e-9, darkDensity)):0.0} km apart)");
 

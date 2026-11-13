@@ -12,13 +12,14 @@ namespace Backrooms.Worldgen;
 /// sign in the baggage wall, which is the way back (<see cref="L36Mat.LandDoor"/>, every 128 blocks along the wall; one that
 /// nothing has come in by is locked).</para>
 /// <para><b>Out:</b> each gate's flight lands in one level of six, always the same for that gate, named on the gate's screen
-/// (<see cref="L36FlightTo"/>); a restroom sink, overflowed, with your head under it, to the Poolrooms (src/Regions/L36System.cs
-/// and src/Thresholds/ThresholdNetwork.L36.cs). Both one-way.</para>
+/// (<see cref="L36FlightTo"/>; from layout version 16 few to Levels 10 and 11: <see cref="L36FlightIndex"/>); a restroom
+/// sink, overflowed, with your head under it, to the Poolrooms (src/Regions/L36System.cs and
+/// src/Thresholds/ThresholdNetwork.L36.cs). Both one-way.</para>
 /// </summary>
 public sealed partial class WorldLayout
 {
     /// <summary>Layout salts of the links (0x2530-0x253F, in the level's own 0x2500-0x25BF): the entrances in the host levels, the flights' levels.</summary>
-    private const ulong SaltL36Entrance = 0x2530, SaltL36FlightTo = 0x2532;
+    private const ulong SaltL36Entrance = 0x2530, SaltL36FlightTo = 0x2532, SaltL36FlightKeep = 0x2533;
 
     /// <summary>
     /// The salts of the keys the threshold network finds a gate's landing and a sink's surfacing by (in the level's threshold
@@ -40,8 +41,21 @@ public sealed partial class WorldLayout
     /// <summary>The internal level of a shown number from <see cref="L36FlightLevels"/>.</summary>
     public static int L36LevelOf(int shown) => shown switch { 37 => Poolrooms, 3999 => Level3999, 188 => Level188, _ => shown };
 
-    /// <summary>Which of <see cref="L36FlightLevels"/> a gate's flight lands in, by its jet-bridge door (always the same for that gate).</summary>
-    public int L36FlightIndex(int doorX, int doorZ) => (int)(Hashing.Hash(seed, doorX, doorZ, SaltL36FlightTo) % (ulong)L36FlightLevels.Length);
+    /// <summary>
+    /// Which of <see cref="L36FlightLevels"/> a gate's flight lands in, by its jet-bridge door (always the same for that gate).
+    /// A sixth each in worlds made before layout version 16. From 16 the flights on past the Suburbs, to the fields of Level 10
+    /// and the city, are a quarter as many (the progression rule, decision 20: the airport is entered from Level 9, and a way
+    /// from there to a later level is a shortcut, a quarter as common); the other three in four of those gates fly back to the
+    /// Suburbs or to the Poolrooms, half each, by a second roll of the door. 3999 and 188 keep their share (the rule keeps
+    /// their links), and so do the Suburbs' and the Poolrooms' own gates.
+    /// </summary>
+    public int L36FlightIndex(int doorX, int doorZ)
+    {
+        int i = (int)(Hashing.Hash(seed, doorX, doorZ, SaltL36FlightTo) % (ulong)L36FlightLevels.Length);
+        if (Version < 16 || L36FlightLevels[i] is not (10 or 11)) return i;
+        double keep = Hashing.Unit(Hashing.Hash(seed, doorX, doorZ, SaltL36FlightKeep));
+        return keep < 0.25 ? i : Array.IndexOf(L36FlightLevels, keep < 0.625 ? 9 : 37);
+    }
 
     /// <summary>Where a gate's flight lands, as its number is shown (Gate C32's: 186, which never leaves).</summary>
     public int L36FlightTo(L36Gate gate) => gate.SupportGroup ? 186 : L36FlightLevels[L36FlightIndex(gate.DoorX, gate.DoorZ)];
