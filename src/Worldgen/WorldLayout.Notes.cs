@@ -112,8 +112,14 @@ public sealed partial class WorldLayout
         Version < 9 ? null : NearestTile(gx, gz, 7, radius, t => t.Zone == L7ZoneLine, skip: skip);
 
     /// <summary>The nearest stretch of barn wall in Level 10 that isn't quite there (the way into the city).</summary>
-    public (int X, int Z)? NearestBarnWall(int gx, int gz, int radius, Func<int, int, bool> skip = null) =>
-        NearestTile(gx, gz, 10, radius, t => t.Under == Unders.Noclip, skip: skip);
+    public (int X, int Z)? NearestBarnWall(int gx, int gz, int radius, Func<int, int, bool> skip = null)
+    {
+        // (Field by field, not tile by tile: a barn's noclip stretch is always at the same place from its farmstead's site, so
+        // the notes can look thousands of blocks out; WorldLayout.Level10.cs)
+        foreach ((int x, int z) in BarnWallsNear(gx, gz, radius))
+            if (skip == null || !skip(x, z)) return (x, z);
+        return null;
+    }
 
     /// <summary>The heart of the nearest den in the same level. Decided cell by cell, so cheap to search far.</summary>
     public (int X, int Z)? NearestDen(int gx, int gz, int level, int radius, Func<int, int, bool> skip = null)

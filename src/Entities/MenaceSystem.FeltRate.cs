@@ -21,6 +21,8 @@ public struct SpawnTry
     public int JustSeen;
     /// <summary>1 when a capped scavenger pack refused before any spot was looked at.</summary>
     public int RatCap;
+    /// <summary>1 when the band's cap of menacing things about was full, so nothing was sent.</summary>
+    public int CapFull;
 }
 
 /// <summary>

@@ -525,9 +525,14 @@ public sealed partial class WorldLayout
     /// <see cref="Tile.Looted"/> at the level's <see cref="PickedOverShare"/> on a hash of their own (SaltStripped), never at
     /// spawn, behind a locked door or within three tiles of a camp, and the generator draws them as their stripped blocks, which
     /// give no food (WorldGenerator.Stripped.cs). Only Levels 1 to 5 move; the experimental levels keep their props.</item>
+    /// <item><b>16</b>: the feedback round of 2026-11 (package "late"): one Level 10 barn in five has the stretch of east wall that
+    /// isn't quite there (<see cref="NoclipBarnShare"/>; 11 % in 12 to 15), and only one city rowhouse front door in four opens into
+    /// the Suburbs (<see cref="RowhousePortalShare"/>): the rest are marked <see cref="RowhouseDoorPlain"/> and drawn as the city's
+    /// own locked front door (citydoor), while the ones that lead away wear the Suburbs' red door with its porch glow (in every
+    /// world, since before 16 every rowhouse door leads away).</item>
     /// </list>
     /// </summary>
-    public const int CurrentVersion = 15;
+    public const int CurrentVersion = 16;
 
     /// <summary>The layout version this world was made with (see <see cref="CurrentVersion"/>).</summary>
     public readonly int Version;

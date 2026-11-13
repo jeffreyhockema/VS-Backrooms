@@ -41,5 +41,12 @@
 				"kind": "rowhouse"
 			}
 		}
-	]
+	],
+	"lightHsvByType": {
+		"*-upper": [
+			6,
+			4,
+			8
+		]
+	}
 }

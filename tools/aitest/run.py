@@ -1401,6 +1401,47 @@ def t_sapling_grows(c):
 
 WORLD_CASES = [("sapling-grows", t_sapling_grows)]
 
+# ---------------------------------------------------------------- ways back (feedback round 2026-11, package "late")
+# `/backrooms wayback rowhouse x z` takes the nearest city rowhouse door that opens into the Suburbs (from x z) as someone beside
+# it would, then tries the way back as a player would: by the block standing where the way back is written (rel 1 and 2), asked
+# for the kind it is used as (ThresholdSystem.UseKindOf), and asks the pry bar whether it would break it. Layouts 9 to 15 left a
+# Suburbs house door there that had no threshold (it only said it was locked, and a pry bar destroyed it): this case would have
+# failed on that ("is NOT usable", "the pry bar would BREAK it").
+WAYBACK_RE = re.compile(r"\[backrooms\] wayback rowhouse (-?\d+) (-?\d+): (.*)")
+
+
+def t_ways_rowhouse_back(c):
+    out = []
+    k = int(time.time() * 1000) % 100000
+    for attempt in range(10):
+        # (The first tries at a key may only load its chunks: the same key again, as Ctx.place does)
+        m = c.srv.mark()
+        c.srv.cmd("/backrooms dummy place 11 %d" % k)
+        r = c.srv.wait(lambda l: DUMMY_RE.search(l) or ("not loaded" in l.lower() and l) or ("Found nowhere" in l and l), m, 30)
+        if not hasattr(r, "group"):
+            time.sleep(10)
+            if attempt == 5:
+                k += 1
+            continue
+        x, z = int(r.group(2)), int(r.group(4))
+        m = c.srv.mark()
+        c.srv.cmd("/backrooms wayback rowhouse %d %d" % (x, z))
+        line = c.srv.wait(lambda l: (WAYBACK_RE.search(l) and "way back" in l and l) or ("leads nowhere" in l and l) or ("found nowhere" in l and l), m, 120)
+        if not line:
+            out.append("no way-back report from %d %d" % (x, z))
+            continue
+        text = WAYBACK_RE.search(line).group(3) if WAYBACK_RE.search(line) else line
+        beside = re.search(r"way back beside: (.*?); blocks in", text)
+        if not beside:
+            return False, "the rowhouse door's way back is not beside the arrival: " + text[:300]
+        tried = beside.group(1)
+        ok = "leads home" in tried and "NOT" not in tried and "BREAK" not in tried and "suburbdoor" in tried
+        return ok, tried[:400]
+    return None, "; ".join(out) or "no Level 11 dummy could be placed"
+
+
+WAYS_CASES = [("ways-rowhouse-back", t_ways_rowhouse_back)]
+
 # ---------------------------------------------------------------- progression round, piece B: lethality and speed (plan.md 3.5)
 # `/backrooms armourtest <entity> <level> [set]` re-runs vanilla's armour rules on the real items (a straw dummy cannot wear any) and logs
 # one line per set; the speed floor is read off the entity log's "pace:" line (headless entities never walk).
@@ -1690,11 +1731,13 @@ def main():
         only = (only - {"world"}) | {n for n, _ in WORLD_CASES}
     if only and "walk" in only:
         only = (only - {"walk"}) | {n for n, _ in WALK_CASES}
+    if only and "ways" in only:
+        only = (only - {"ways"}) | {n for n, _ in WAYS_CASES}
     if only and "iso-hound" in only:
         only = (only - {"iso-hound"}) | {n for n, _ in ISO_HOUND_CASES}
     if only:
         # A mistyped name would otherwise boot the server (up to 15 minutes), run nothing and exit 0
-        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES} | {"p1-no-errors", "dummies-smoke"}
+        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES + WAYS_CASES} | {"p1-no-errors", "dummies-smoke"}
         if only - known:
             sys.exit("unknown case(s): " + ", ".join(sorted(only - known)))
     started = time.time()
@@ -1708,7 +1751,7 @@ def main():
         time.sleep(5)
         c = Ctx(srv)
         p1_start = srv.mark()
-        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES:
+        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES + WAYS_CASES:
             if only and name not in only:
                 continue
             t0 = time.time()
@@ -1732,7 +1775,7 @@ def main():
             results.append(("dummies-smoke", ok))
             print("%s dummies-smoke: %s" % ("PASS" if ok else "FAIL", ev), flush=True)
         if a.rerun_failed and not died:
-            fns = dict(CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES)
+            fns = dict(CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES + WAYS_CASES)
             fns["dummies-smoke"] = smoke
             for i, (name, ok0) in enumerate(list(results)):
                 if ok0 not in (False, None) or not fns.get(name):

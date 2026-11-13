@@ -324,7 +324,8 @@ public static class Roster
             E(Wretch, Heart, Menacing, 0.8, 1, 2),
             E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.3),
             E(Smiler, Approach, Menacing, 0.4) with { NeedsDark = true },
-            E(Hound, Edge, Menacing, 0.5, 2, 3),
+            // (Feedback round 2026-11: halved, 0.5 to 0.25, and one pack at a time with a quiet after it: MenaceSystem.HoundPacks.cs)
+            E(Hound, Edge, Menacing, 0.25, 2, 3),
             // Level 8's "spider problem": a giant one lying in wait in the dark off the road, out of sight, or coming
             // out of it (and the dweller of the level's nests, below). (Not put down as an ambush, ahead of the player
             // the way they look: in the caves that is mostly rock)
@@ -335,7 +336,8 @@ public static class Roster
             E(Faceling, Heart, Amb, 0.5) with { Rarity = 0.35 },
             E(FacelingChild, Heart, Amb, 0.3) with { Rarity = 0.35 },
             E(DeathRat, Heart, Menacing, 0.8, 2, 3),
-            E(Hound, Approach, Menacing, 1.0, 2, 3),
+            // (Feedback round 2026-11: halved, 1.0 to 0.5, and one pack at a time with a quiet after it: MenaceSystem.HoundPacks.cs)
+            E(Hound, Approach, Menacing, 0.5, 2, 3),
             E(Smiler, Approach, Menacing, 0.5) with { NeedsDark = true },
             E(SkinStealer, Approach, Menacing | Amb, 0.5) with { Rarity = SkinStealerWanders },
             // "Many Wretches" (Level 9's page)

@@ -25,7 +25,7 @@ public sealed partial class WorldGenerator
     private readonly int[] fasciaIds = new int[4];
     private int glassPaneId, cityRoofId, cityPlasterId, stainedGlassId, subwayTileId, subwayCeilingId, fountainRimId, poolCopingId;
     private int cityHumId, subwayRumbleId, subwayLightId, noclipBarnId;
-    private int rowhouseDoorLowerId, rowhouseDoorUpperId, basementDoorLowerId, basementDoorUpperId;
+    private int rowhouseDoorLowerId, rowhouseDoorUpperId, cityDoorLowerId, cityDoorUpperId, basementDoorLowerId, basementDoorUpperId;
     private int substationDoorLowerId, substationDoorUpperId, maintenanceDoorLowerId, maintenanceDoorUpperId, kitchenDoorLowerId, kitchenDoorUpperId;
     private readonly int[] subwayFloorIds = new int[5]; // bed, left rail, right rail, platform, edge
 
@@ -52,6 +52,9 @@ public sealed partial class WorldGenerator
         noclipBarnId = Id("noclipwall-barn");
         rowhouseDoorLowerId = Id("rowhousedoor-lower");
         rowhouseDoorUpperId = Id("rowhousedoor-upper");
+        // (Layout version 16: the rowhouse front doors that are only front doors, locked; the city's own green door)
+        cityDoorLowerId = Id("citydoor-lower");
+        cityDoorUpperId = Id("citydoor-upper");
         basementDoorLowerId = Id("basementdoor-lower");
         basementDoorUpperId = Id("basementdoor-upper");
         substationDoorLowerId = Id("substationdoor-lower");
@@ -224,6 +227,9 @@ public sealed partial class WorldGenerator
                 {
                     CityKind.Substation => rel == 1 ? substationDoorLowerId : substationDoorUpperId,
                     CityKind.Baths => rel == 1 ? poolDoorLowerId : poolDoorUpperId,
+                    // (A rowhouse's front door that leads nowhere, layout version 16 on: the city's own; the ones into the
+                    // Suburbs wear the Suburbs' red door with its porch glow, in every world)
+                    CityKind.Rowhouse when t.Variant == WorldLayout.RowhouseDoorPlain => rel == 1 ? cityDoorLowerId : cityDoorUpperId,
                     _ => rel == 1 ? rowhouseDoorLowerId : rowhouseDoorUpperId,
                 };
             }

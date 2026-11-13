@@ -1,0 +1,89 @@
+description: Feedback round 2026-11, package late (run with --seed 12345, whose spots these are; tools/mapgen rigspots) - the Level 10 barn wall that isn't quite there seen from 30 blocks east by day and by night (its orange glow), a city rowhouse door that leads to Level 9 (the Suburbs' red door, lit) and one that does not (the city's green door, locked) from the street by day and night, then through the red door to the Suburbs, the locked house door you arrive beside, the pry bar refused on it, and that door taking you back to the rowhouse.
+steps:
+  - expect_no_startup_issues: ""
+  - bot: closeguis
+  - bot: wait 3000
+  - bot: ready 48
+  - cmd: /backrooms heal
+  - cmd: /backrooms director off
+  - cmd: /gamemode creative
+  - server: /time setmonth jun
+  - server: /time set 12:00
+  # ----- Level 10: the barn wall, 30 blocks east of it, looking west
+  - cmd: /backrooms goto 10 timeout=60
+  - bot: movewait
+  - bot: tpr 506439.5 1 503462.5
+  - bot: ready 64
+  - bot: hud off
+  - bot: look 270 -2
+  - bot: wait 2500
+  - shot: l10-barnwall-day-30
+  - bot: tpr 506421.5 1 503462.5
+  - bot: ready 48
+  - bot: look 270 -8
+  - bot: wait 1500
+  - shot: l10-barnwall-day-12
+  - server: /time set 23:00
+  - bot: wait 4000
+  - shot: l10-barnwall-night-12
+  - bot: tpr 506439.5 1 503462.5
+  - bot: look 270 -2
+  - bot: wait 2500
+  - shot: l10-barnwall-night-30
+  # ----- Level 11: a rowhouse door into the Suburbs (red, lit), and one that is only a door (green), from the street
+  - server: /time set 12:00
+  - bot: hud on
+  - cmd: /backrooms goto 11 timeout=60
+  - bot: movewait
+  - bot: tpr 625357.5 -47 493312.5
+  - bot: ready 64
+  - bot: hud off
+  - bot: look 180 -4
+  - bot: wait 2500
+  - shot: l11-rowhouse-portal-day
+  - bot: tpr 625395.5 -47 493236.5
+  - bot: look 180 -4
+  - bot: wait 1500
+  - shot: l11-rowhouse-plain-day
+  - bot: hud on
+  - cmd: /backrooms rig use citydoor
+  - expect_chat: rig-use citydoor
+  - cmd: /backrooms menace
+  - expect_chat: Level 11,
+  - bot: hud off
+  - server: /time set 22:00
+  - bot: wait 4000
+  - shot: l11-rowhouse-plain-night
+  - bot: tpr 625357.5 -47 493312.5
+  - bot: look 180 -4
+  - bot: wait 2500
+  - shot: l11-rowhouse-portal-night
+  # ----- Through the red door into the Suburbs, the door you arrive beside, the pry bar, and back
+  - bot: tpr 625357.5 -47 493318.5
+  - bot: ready 48
+  - cmd: /backrooms rig use rowhousedoor
+  - expect_chat: rig-use rowhousedoor
+  - bot: movewait
+  - bot: ready 48
+  - bot: wait 2500
+  - cmd: /backrooms menace
+  - expect_chat: Level 9,
+  - face: suburbdoor-locked
+  - bot: hud off
+  - bot: wait 1500
+  - shot: l9-arrival-door
+  - bot: hud on
+  - cmd: /backrooms rig pry suburbdoor-locked
+  - expect_chat: pry-notlocked
+  - cmd: /backrooms rig use suburbdoor-locked
+  - expect_chat: rig-use suburbdoor-locked
+  - bot: movewait
+  - bot: ready 48
+  - bot: wait 2500
+  - cmd: /backrooms menace
+  - expect_chat: Level 11,
+  - face: rowhousedoor
+  - bot: hud off
+  - bot: wait 1500
+  - shot: l11-back-at-rowhouse
+  - bot: hud on

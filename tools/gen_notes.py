@@ -1142,8 +1142,9 @@ The full pool is one backyard in a few dozen, lit teal at midnight: the Poolroom
 ]))
 TRACKS.append(Track("rare-l10", "rare", "Folded notes", 10, chapter=RARE_CHAPTER, entries=[
     E("r-l10-1", "The way through", """
-Love, the barn wall: the east side, between the stalls, boards out of true, in a little under half the barns. I've marked
-the nearest one I know. My lad went through to the city and came back with tinned peaches.
+Love, the barn wall: the east side, between the stalls, boards out of true. Most barns haven't got one, so listen for
+traffic where there shouldn't be any. I've marked the nearest one I know. My lad went through to the city and came back
+with tinned peaches.
 — Nell""", mark="barnwall", w="nell"),
 ]))
 TRACKS.append(Track("rare-l11", "rare", "Folded notes", 11, chapter=RARE_CHAPTER, entries=[
@@ -1338,8 +1339,9 @@ white tile on Level 7's seabed in the twilight zone, faintly lit; the one backya
 is still full, lit teal. The last two are one way.
 — A.L.""", w="al"),
     E("ra09", "The barn wall, fair copy", """
-Fair copy, Level 10 to the city. Not every barn: a little under half. The east wall, between the stalls, where the boards
-look out of true and dust hangs in front of them. Walk into it. The thin spot you leave on the far side stays.
+Fair copy, Level 10 to the city. Not every barn: most haven't got it. The east wall, between the stalls, where the boards
+look out of true and dust hangs in front of them; by night the city's light shows orange between them, and you can hear
+its traffic from across the yard. Walk into it. The thin spot you leave on the far side stays.
 — A.L.""", mark="barnwall", w="al"),
     E("ra10", "Stash list", """
 Stash list, for whoever. Sealed, untouched. I counted it twice and didn't take it, because I couldn't carry it. Marked it

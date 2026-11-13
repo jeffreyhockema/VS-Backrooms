@@ -134,6 +134,13 @@ gives the numbers to set against what you feel, and `/backrooms feltrate` (below
 7. Level 4 stays calm: a Duller now and then, a Hound seldom.
 8. Level 10 is empty of anything hostile. No Hounds at its edge, no Clumps by the barns. Only the worms underfoot.
 9. Levels 8 and 9 are busy: off the lit road in Level 8, and in the Suburbs' dark streets, something turns up on most walks.
+   **Revised 2026-11 (feedback round, package "late"; `entity-difficulty.md` 3e):** a player gave up in Level 9 ("every 30
+   seconds another wolf enemy spawns on top of me"). The Hounds' share is halved in both rows and they come one pack at a
+   time: while a pack sent for you is about and hunting no other is sent (bar a 5 % second pack in Level 8's far dark and
+   Level 9's threshold and dens), and a quiet of 3 to 5 real minutes on Normal follows a pack that left or was killed
+   (`/backrooms menace` says which). A full cap now sends nothing. Expect a Hound pack in the Suburbs every several
+   minutes at most, not every one or two, with the other creatures as before. If two packs are on you at once outside the
+   worst places, or a pack comes within a minute or two of the last one going, note it with the time.
 10. Level 94 at night: stand in the hills after dusk for ten minutes (the first visit was five, partly still). Expect
     something in sight within that time, often sooner. Standing still for a few seconds is the doll's protection, so
     test that too. By day, and indoors, nothing comes. If ten real minutes pass with nothing in sight, say so, with

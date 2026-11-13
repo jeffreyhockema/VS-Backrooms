@@ -570,6 +570,24 @@ public sealed partial class ThresholdNetwork
     /// reason it will not let them through ("locked", "outoforder", "nowhere", or a region's own: "endexit", "endfake",
     /// "l3999-staff"; ThresholdSystem picks the message by it).
     /// </summary>
+    /// <summary>The kind a locked Suburbs house door (layout version 9 on) is used as: the way back written onto it, if any (see <see cref="UsedThreshold"/>).</summary>
+    public const string SuburbDoorKind = "suburbdoor";
+
+    /// <summary>Whether a way (a link) is written down at a tile: a threshold that has led somewhere, or the way back of one.</summary>
+    public bool Recorded(int x, int z) => TryGet((x, z), out _) || TryGet(layout.FeatureOrigin(x, z, Door), out _);
+
+    /// <summary>The tiles whose links lead to a place (within a radius of a point): the ways back written down to it. For the harness.</summary>
+    public List<(int X, int Z)> LinksTo(Link to, int x, int z, int radius)
+    {
+        var found = new List<(int X, int Z)>();
+        foreach (KeyValuePair<long, Link> link in links)
+        {
+            int lx = (int)(link.Key >> 32), lz = (int)(uint)link.Key;
+            if (link.Value == to && Math.Abs(lx - x) <= radius && Math.Abs(lz - z) <= radius) found.Add((lx, lz));
+        }
+        return found;
+    }
+
     public Passage Used(int x, int z, string kind, out string refusal)
     {
         Passage passage = UsedThreshold(x, z, kind, out refusal);
@@ -646,7 +664,15 @@ public sealed partial class ThresholdNetwork
                 return vent;
             }
             case "rowhouse":
-                // A rowhouse's front door opens into the Suburbs: where it can, out of a house's locked front door
+                // A rowhouse's front door opens into the Suburbs: where it can, out of a house's locked front door (from
+                // layout version 16 only one in four does, and wears the Suburbs' look: the rest are ordinary locked doors,
+                // a block of their own, so this is only for one set down where the layout has a plain door)
+                if (layout.TileAt(x, z) is { Kind: TileKind.Door, Level: 11, Variant: WorldLayout.RowhouseDoorPlain } plain
+                    && plain.Zone == (byte)CityKind.Rowhouse && !TryGet(at, out _))
+                {
+                    refusal = "locked";
+                    return null;
+                }
                 return WithSound(BothWays(at, here, 9, PlainDoor), "game:sounds/block/door");
             case "pooldoor":
             {
@@ -708,6 +734,17 @@ public sealed partial class ThresholdNetwork
             case "locked":
             {
                 // A door that is simply locked, unless something on the other side has opened onto it
+                var door = layout.FeatureOrigin(x, z, Door);
+                if (TryGet(door, out _)) return new Passage { Source = door, TwoWay = true, Sound = "game:sounds/block/door" };
+                refusal = "locked";
+                return null;
+            }
+            case SuburbDoorKind:
+            {
+                // A Suburbs house's locked front door (layout version 9 on: a block of its own, Deep/SuburbDoor.cs, not a
+                // threshold block). A city rowhouse's front door (or a doll's house of Level 94) puts you down beside one and
+                // writes its way back onto it: then it opens, onto where you came from. Otherwise it stays locked
+                if (TryGet(at, out _)) return new Passage { Source = at, TwoWay = true, Sound = "game:sounds/block/door" };
                 var door = layout.FeatureOrigin(x, z, Door);
                 if (TryGet(door, out _)) return new Passage { Source = door, TwoWay = true, Sound = "game:sounds/block/door" };
                 refusal = "locked";

@@ -55,6 +55,43 @@ public sealed partial class WorldLayout
         return (bi, bj, oi, oj, d2 - d1);
     }
 
+    /// <summary>
+    /// The share of farmsteads whose barn has the stretch of east wall that isn't quite there (the way into the city): a
+    /// little under half in the first worlds, about one in nine from layout version 12 (the progression round's quartered
+    /// shortcuts), one in five from version 16 (feedback round 2026-11: two hours of walking to find the one barn).
+    /// </summary>
+    public double NoclipBarnShare => Version >= 16 ? 0.2 : Version >= 12 ? 0.1125 : 0.45;
+
+    /// <summary>Where the noclip stretch is in a barn's frame (u, v), and so at (site x - 5, site z - 5) from its farmstead's site.</summary>
+    private const int NoclipBarnU = 21, NoclipBarnV = 14, BarnFrameU = 26, BarnFrameV = 19;
+
+    /// <summary>Whether the barn of field (i, j) has the noclip stretch, should the field be a farmstead.</summary>
+    private bool HasNoclipBarn(int i, int j) => Hashing.Unit(Hashing.Hash(seed, i, j, SaltL10Kind + 5)) < NoclipBarnShare;
+
+    /// <summary>
+    /// The noclip barn walls of Level 10 near a point, nearest first, within a radius: decided field by field from the
+    /// farmsteads' hashes and confirmed on the one tile each (built once), so a search thousands of blocks wide stays cheap
+    /// (the notes that mark the nearest one; <see cref="NearestBarnWall"/>).
+    /// </summary>
+    public IEnumerable<(int X, int Z)> BarnWallsNear(int gx, int gz, int radius)
+    {
+        int ci = Hashing.FloorDiv(gx, FieldSpacing), cj = Hashing.FloorDiv(gz, FieldSpacing), span = radius / FieldSpacing + 2;
+        var found = new List<(long D, int X, int Z)>();
+        for (int j = cj - span; j <= cj + span; j++)
+            for (int i = ci - span; i <= ci + span; i++)
+            {
+                if (!HasNoclipBarn(i, j)) continue;
+                (int sx, int sz) = FieldSite(i, j);
+                int x = sx + NoclipBarnU - BarnFrameU, z = sz + NoclipBarnV - BarnFrameV;
+                long d = (long)(x - gx) * (x - gx) + (long)(z - gz) * (z - gz);
+                if (d > (long)radius * radius || LevelAt(MacroOf(x), MacroOf(z)) != 10 || FieldKind(i, j) != FarmField.Farmstead) continue;
+                found.Add((d, x, z));
+            }
+        found.Sort((a, b) => a.D.CompareTo(b.D));
+        foreach ((long _, int x, int z) in found)
+            if (TileAt(x, z).Under == Unders.Noclip) yield return (x, z);
+    }
+
     /// <summary>What a field is. Farmsteads, paddocks and ponds that would not fit wholly inside Level 10 are left as meadow.</summary>
     private FarmField FieldKind(int i, int j)
     {
@@ -461,7 +498,7 @@ public sealed partial class WorldLayout
             PlanBarnTile(ref t, bu, bv, r, big: true);
             // In some barns, a stretch of the east wall between the stalls isn't quite there. Lean on it and you noclip
             // through, into the Endless City
-            if (bu == 21 && bv == 14 && Hashing.Unit(Hashing.Hash(seed, i, j, SaltL10Kind + 5)) < (Version >= 12 ? 0.1125 : 0.45)) t.Under = Unders.Noclip;
+            if (bu == NoclipBarnU && bv == NoclipBarnV && HasNoclipBarn(i, j)) t.Under = Unders.Noclip;
             return;
         }
         // A tool shed (walls at u 6-12, v 7-12 of its frame)
