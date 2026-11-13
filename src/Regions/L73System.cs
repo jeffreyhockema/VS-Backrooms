@@ -758,8 +758,17 @@ public partial class AiTaskL73Coran : AiTaskBase
                 Source = EnumDamageSource.Entity, SourceEntity = entity, CauseEntity = entity, Type = EnumDamageType.BluntAttack, KnockbackStrength = 2f,
                 SourcePos = entity.Pos.XYZ,
             }, 1000f);
-            // He leaves nothing (balance fixes 2026-11): no carcass to harvest, so following him is no meat or hide farm
-            if (!e.Alive) e.Die(EnumDespawnReason.Removed);
+            // He leaves nothing (balance fixes 2026-11): no carcass to harvest, so following him is no meat or hide farm. The body
+            // is taken a moment after it falls (Die on a dead entity does nothing, so it is despawned)
+            if (!e.Alive && entity.Api is ICoreServerAPI sapi)
+            {
+                Entity dead = e;
+                sapi.World.RegisterCallback(_ =>
+                {
+                    if (!dead.Alive && sapi.World.GetEntityById(dead.EntityId) == dead)
+                        sapi.World.DespawnEntity(dead, new EntityDespawnData { Reason = EnumDespawnReason.Removed });
+                }, 2500);
+            }
         }
         entity.World.PlaySoundAt(new AssetLocation($"backrooms:sounds/entity/73/coran/strike{1 + entity.World.Rand.Next(2)}"), entity, null, randomizePitch: true, range: 48, volume: 1f);
         if (hit.Length > 0) entity.World.Logger.Notification("[backrooms] Coran #{0} struck {1} ({2})", entity.EntityId, hit.Length, string.Join(", ", hit.Select(e => e.Code.Path)));
