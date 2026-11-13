@@ -129,7 +129,7 @@ blows); Level 1's heartland 8.6 and approach 23.5; Level 4's approach 21; Level 
   decision 21 thins food to x0.7 and x0.5) and from Level 6. Nothing else in the game feeds without limit but the Snackrooms'
   weekly restocks and Level 73's table (eaten in place, behind a class-5 run).
 - **Ways.** In: a wooden door with pop music behind it in Level 2 (1.2 per km2, the nearest 1.4 km), Level 3 (0.56), Level 6
-  (0.38); two-way. Out: the revolving door in one lobby in twelve (about one per 480 blocks square) to Level 9, 10 or 11, a third
+  (0.38); two-way. Out: the revolving door in one lobby in twelve (about one per 480 blocks square; one in 48 from layout 16) to Level 9, 10 or 11, a third
   each, one-way; stealing skates, to Level 0. **2 to 31 to 10/11** skips Levels 3-9, but the released game already has that skip
   through the Hub (Levels 1 and 2's Hub doors, then the Hub's one-way door to Level 11), and far more often, so 31 adds no new
   kind of skip. What it adds: **a third of its revolving doors drop whoever takes them into Level 9 (Class 5, a Hound kills in one

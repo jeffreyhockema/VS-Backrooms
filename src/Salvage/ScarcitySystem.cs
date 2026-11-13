@@ -45,8 +45,10 @@ public class ScarcitySystem : ModSystem
     public static float ClassScale(int level)
     {
         if (level < 0 || level is Worldgen.WorldLayout.Motion or Worldgen.WorldLayout.Hub or Worldgen.WorldLayout.Level974) return 1f;
-        // The experimental Basement: Class 2, but Fandom's resource class is "Lack of Needed Resources" (its plan: no food of its own): its pantries' shelves halved too (balance review 2026-11-01)
-        if (level == Worldgen.WorldLayout.Basement) return 0.5f;
+        // The experimental Basement: Class 2, but Fandom's resource class is "Lack of Needed Resources" (its plan: no food of its own): its pantries' shelves cut to a quarter (was a half; balance fixes 2026-11) (balance review 2026-11-01)
+        if (level == Worldgen.WorldLayout.Basement) return 0.25f;
+        // The airport: lore Class 1, but entered only from Levels 9 and 11 (Class 5, food x0.35 there): not a refill for what the way in lacks (balance fixes 2026-11)
+        if (level == Worldgen.WorldLayout.Level36) return 0.35f;
         return Worldgen.WorldLayout.SurvivalClass(level) switch { 3 => 0.7f, 4 => 0.5f, 5 => 0.35f, _ => 1f };
     }
 

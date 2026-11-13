@@ -79,8 +79,8 @@
 				"type": "item",
 				"code": "game:clay-red",
 				"quantity": {
-					"avg": 0.6,
-					"var": 0.4
+					"avg": 0.2,
+					"var": 0.15
 				}
 			}
 		],
@@ -89,8 +89,8 @@
 				"type": "item",
 				"code": "game:clay-red",
 				"quantity": {
-					"avg": 0.3,
-					"var": 0.3
+					"avg": 0.1,
+					"var": 0.1
 				}
 			}
 		]

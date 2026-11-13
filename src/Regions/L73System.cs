@@ -43,6 +43,12 @@ public partial class L73System : ModSystem
     /// <summary>How long a place at the table takes to be set again (game hours).</summary>
     public const double RefillHours = 4;
 
+    /// <summary>Balance fixes 2026-11: the table feeds each wanderer once, then not again for this many game hours (the lore's one meal).</summary>
+    public const double MealEveryHours = 12;
+
+    /// <summary>The player's watched attribute holding the game hour of their last meal at the table (per player, saved with them).</summary>
+    public const string LastMealKey = "backrooms:l73lastmeal";
+
     /// <summary>What a place at the table gives: satiety (a stew of Hound meat and bread), and hydration (a glass of water).</summary>
     public const float MealSatiety = 600, MealHydration = 700;
 
@@ -443,7 +449,7 @@ public class BlockEntityL73Table : BlockEntity
         if (api.Side == EnumAppSide.Server) RegisterGameTickListener(_ => Refill(), 5000 + api.World.Rand.Next(2000));
     }
 
-    private bool IsSet => Block is BlockL73Table { IsSet: true };
+    internal bool IsSet => Block is BlockL73Table { IsSet: true };
 
     public void Eat(IServerPlayer player)
     {
@@ -452,14 +458,31 @@ public class BlockEntityL73Table : BlockEntity
             player.SendIngameError("l73table", Say.T(player, "backrooms:l73-table-cleared"));
             return;
         }
-        EntityPlayer entity = player.Entity;
-        entity.ReceiveSaturation(L73System.MealSatiety, EnumFoodCategory.Protein);
+        if (!Feed(player.Entity)) player.SendIngameError("l73table", Say.T(player, "backrooms:l73-table-fed"));
+    }
+
+    /// <summary>
+    /// Feeds one guest, once per <see cref="L73System.MealEveryHours"/> game hours (the hour of the last meal is on the guest, saved with
+    /// them): false if they have eaten at the table too recently (the place stays set for the next guest). Also the rig's (balance tests,
+    /// /backrooms rig bal), where a straw dummy stands in for a guest.
+    /// </summary>
+    internal bool Feed(Entity entity)
+    {
+        double now = Api.World.Calendar.TotalHours;
+        double last = entity.WatchedAttributes.GetDouble(L73System.LastMealKey, double.NegativeInfinity);
+        if (last <= now && now - last < L73System.MealEveryHours) return false;
+        entity.WatchedAttributes.SetDouble(L73System.LastMealKey, now);
+        entity.WatchedAttributes.MarkPathDirty(L73System.LastMealKey);
+        // (A guest is an agent; the rig's straw dummy only has the hunger behaviour the rig gave it)
+        if (entity is EntityAgent agent) agent.ReceiveSaturation(L73System.MealSatiety, EnumFoodCategory.Protein);
+        else entity.GetBehavior<Vintagestory.GameContent.EntityBehaviorHunger>()?.OnEntityReceiveSaturation(L73System.MealSatiety, EnumFoodCategory.Protein, 10f, 1f);
         Needs.Needs.Hydrate(entity, L73System.MealHydration);
         Api.World.PlaySoundAt(new AssetLocation("game:sounds/player/eat"), entity, null, randomizePitch: true, range: 12);
         Api.World.RegisterCallback(_ => Api.World.PlaySoundAt(new AssetLocation("game:sounds/player/drink1"), entity, null, randomizePitch: true, range: 12), 600);
         readyAt = Api.World.Calendar.TotalHours + L73System.RefillHours;
         Swap("bare");
         MarkDirty();
+        return true;
     }
 
     private void Refill()
@@ -736,11 +759,24 @@ public partial class AiTaskL73Coran : AiTaskBase
     {
         var hit = entity.World.GetEntitiesAround(entity.Pos.XYZ, (float)SweepBlocks, 5, e => e.Alive && e.Code != null && Prey.Contains(e.Code.Path));
         foreach (Entity e in hit)
+        {
             e.ReceiveDamage(new DamageSource
             {
                 Source = EnumDamageSource.Entity, SourceEntity = entity, CauseEntity = entity, Type = EnumDamageType.BluntAttack, KnockbackStrength = 2f,
                 SourcePos = entity.Pos.XYZ,
             }, 1000f);
+            // He leaves nothing (balance fixes 2026-11): no carcass to harvest, so following him is no meat or hide farm. The body
+            // is taken a moment after it falls (Die on a dead entity does nothing, so it is despawned)
+            if (!e.Alive && entity.Api is ICoreServerAPI sapi)
+            {
+                Entity dead = e;
+                sapi.World.RegisterCallback(_ =>
+                {
+                    if (!dead.Alive && sapi.World.GetEntityById(dead.EntityId) == dead)
+                        sapi.World.DespawnEntity(dead, new EntityDespawnData { Reason = EnumDespawnReason.Removed });
+                }, 2500);
+            }
+        }
         entity.World.PlaySoundAt(new AssetLocation($"backrooms:sounds/entity/73/coran/strike{1 + entity.World.Rand.Next(2)}"), entity, null, randomizePitch: true, range: 48, volume: 1f);
         if (hit.Length > 0) entity.World.Logger.Notification("[backrooms] Coran #{0} struck {1} ({2})", entity.EntityId, hit.Length, string.Join(", ", hit.Select(e => e.Code.Path)));
         prey = null;

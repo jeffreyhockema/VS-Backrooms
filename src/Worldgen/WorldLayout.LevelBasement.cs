@@ -688,7 +688,7 @@ public sealed partial class WorldLayout
     /// inside a gap in the cell's sides; and in the middle of a big room, now and then something more: a store room's aisles
     /// of shelving, a sitting room round a coffee table, a workshop's pallet of lumber.
     /// </summary>
-    private static void BasementFurnishRoom(Builder b, ref Rng rng, BasementRoomKind kind, int x0, int z0, int x1, int z1, bool middleTaken,
+    private void BasementFurnishRoom(Builder b, ref Rng rng, BasementRoomKind kind, int x0, int z0, int x1, int z1, bool middleTaken,
         bool[] keepClear, Func<int, int, bool> solid, Func<int, int, bool> open)
     {
         int w = x1 - x0 + 1, h = z1 - z0 + 1;
@@ -800,6 +800,24 @@ public sealed partial class WorldLayout
                     break;
                 case BasementRoomKind.Workshop:
                     // Somebody's workshop: a bench, tools on the wall, lumber, a barrel of nails
+                    // (Layout version 16: whole copper tools are rare, about three times Level 1's toolboxes a cell, not 30 times:
+                    // the tool shelf 13 % to 1.2 %, the rack 10 % to 0.6 %, the toolbox 8 % to 1.5 %; the rest goes to plain lumber and parts)
+                    if (Version >= 16)
+                    {
+                        if (roll < 0.28) t.Variant = Props.Workbench;
+                        else if (roll < 0.292) t.Variant = Props.ToolShelf;
+                        else if (roll < 0.298) t.Variant = Props.ToolRack;
+                        else if (roll < 0.313) t.Variant = Props.Toolbox;
+                        else if (roll < 0.393) t.Variant = Props.NailBarrel;
+                        else if (roll < 0.543) t.Variant = Props.Plywood;
+                        else if (roll < 0.603) t.Variant = Props.PipeStack;
+                        else if (roll < 0.663) t.Variant = Props.CableSpool;
+                        else if (roll < 0.783) t.Variant = Props.MachineParts;
+                        else if (roll < 0.903) { t.Variant = Props.BasementShelving; t.Stack = (byte)(rng.Chance(0.6) ? 2 : 3); }
+                        else if (roll < 0.963) t.Variant = Props.FloorFan;
+                        else { t.Stack = 1; t.Looted = true; }
+                        break;
+                    }
                     if (roll < 0.2) t.Variant = Props.Workbench;
                     else if (roll < 0.33) t.Variant = Props.ToolShelf;
                     else if (roll < 0.43) t.Variant = Props.ToolRack;
@@ -849,6 +867,9 @@ public sealed partial class WorldLayout
                     else if (roll < 0.68) t.Variant = Props.Icebox;
                     else if (roll < 0.8) { t.Stack = 1; t.Looted = rng.Chance(0.85); }
                     else if (roll < 0.9) t.Variant = Props.CardboardBoxes;
+                    // (Layout version 16: seeds are Level 9's: a sack is rare here, 0.5 % of slots not 5 %, the rest plain shelving)
+                    else if (Version >= 16 && roll < 0.905) t.Variant = Props.SeedSacks;
+                    else if (Version >= 16 && roll < 0.95) { t.Variant = Props.BasementShelving; t.Stack = 1; }
                     else if (roll < 0.95) t.Variant = Props.SeedSacks;
                     else t.Variant = Props.NailBarrel;
                     break;

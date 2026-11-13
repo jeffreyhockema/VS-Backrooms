@@ -68,6 +68,26 @@ the 0.611 review), so main's next layout bump is **17**. Built in four packages 
 - The carpet bag is 4 carpet squares + 2 carpet fibres (it was 5 fibres + a twine, 23 fibres a bag). The tutorial's bag
   steps follow: cut 4 squares, cut 2 fibres, craft the bag (its twine step is gone).
 
+- **Balance of the new levels (0.700.0-pre.11).** A read-only review of the ten new levels (reports kept by the lead) found
+  resources too easy to come by and shortcuts built at full rate; the user's calls: fix them, shortcuts rarer but lore kept,
+  Level 52 far fewer trees, Level 73's table once per player.
+  - All worlds: Basement food x0.25 (was x0.5); Level 36 food x0.35 (its ways in are Levels 9 and 11); Level 14's caches pay the
+    Level 4-6 pool (no bronze, iron or temporal gears); Level 15's seats, curtains, lockers and corpses give carpet fibre, not
+    twine; Level 120's racks and wrecks half the scrap wire and circuit boards; Level 31's server every 12 game hours (was 6)
+    with Almond Water 30 % (was 60 %); Level 52's snack machines never restock; Level 73's table feeds each player once per 12
+    game hours; Coran's kills leave no carcass; Level 23's amphorae a third of the clay, its water clean only in the Heart's
+    pool and Base Seedling (puddles tainted); green giant bark gives firewood, not planks; Level 47's moose follow the food
+    setting and class; Black Shuck hide 0.5 (was 1.5).
+  - New worlds (layout 16): the Basement's food props found stripped (0.75), its workshop tools about a thirteenth (1.45 to
+    0.11 whole tools a cell) and seed sacks a seventh; Level 52's trees a fifth (shrubs where they were) and its shelves
+    stripped at Level 4's share; the earlier-to-later shortcuts a quarter as common: Level 31's revolving doors, Level 15's
+    pane to 11, stairs to 4 and MEDICAL CENTER door, Level 14's collapse to 73, Level 6's deepest dark to 73 (at least one
+    kept), Level 36's flights to 10 and 11 (see LINKS.md "Layout 16"). Level 0's EMERGENCY EXIT to 14 was already built rare
+    and is unchanged.
+  - Headless group `--only bal` in tools/aitest/run.py checks the table, Coran, the drops, Level 14's pool, Level 23's water and
+    Level 52's machines.
+- Carpet armour's cap wears the gambeson's hood (the jerkin has no head shape); the jerkin and leggings show the carpet.
+
 ## Known gaps
 
 - Spanish strings for the new text are not written.

@@ -28,7 +28,16 @@
 		}
 	},
 	"resistance": 12,
-	"drops": [],
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:firewood",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.4
+			}
+		}
+	],
 	"sounds": {
 		"walk": "game:walk/wood*",
 		"place": "game:block/planks",

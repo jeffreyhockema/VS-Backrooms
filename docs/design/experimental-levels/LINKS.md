@@ -154,3 +154,38 @@ README. Their ways, like the others: lore first, rumours where the lore names a 
   in Level 10 beside its own ancient dead tree. One-way. (Which hollows lead out, and how often, is the builder's;
   "unstable, but more frequent than average".)
 - **Rumours:** the Ophion Occult Order's claim that the trail can be steered to any noclip point, even the Frontrooms.
+
+## Layout 16: the shortcuts a quarter as common (2026-11-13)
+
+The progression rule (docs/design/progression/decisions.md, decision 20; revision.md section B) cut the released levels'
+earlier-to-later shortcuts to a quarter in layout 12. The new levels' ways were built after it, and most at full rate. From
+layout version 16 (new worlds; worlds made with 1-15 keep what they have) the ways **from a level to a later one** are a
+quarter as common: the same kind of door, the same lore, the kept ones the same places (the lowest rolls). Ways back
+toward the Lobby, ways between levels of the same depth, and the 188/3999 flights are left alone.
+
+Depth: a new level stands where it is entered and by its class. The Basement is the Lobby's cellar (out only to Level 0);
+31 sits with Level 2 (Class 0, two-way doors in 2, 3, 6); 120 and 52 are pockets of Level 4 (two-way, back only to 4, or
+to 11 for 52's city doors); 15 sits with Level 3; 14 (Class 4, danger 0.7) with Levels 7-8; 73 (Class 5, out only to 9)
+with Level 9; 36 with Level 9 (entered from 9 and 11); 47 with Level 10 (out to 10 and 23); 23 with the Poolrooms (danger
+0.55, out to 7 and 37).
+
+| Way | Kind | Class | Layout 15 | Layout 16 (seed 12345, full size) |
+|---|---|---|---|---|
+| Level 31's Revolving Door to 9, 10, 11 | one way | 2 to 9-11: **quartered** | 1 lobby in 12; 1448 (4.4 a km2) | 1 lobby in 48; 354 (1.1 a km2: 130 / 110 / 114) |
+| Level 15's orange pane to 11 | one way | 3 to 11: **quartered** | 1 wing in 64; 16, nearest 231 blocks from the middle | 1 wing in 256; 5, nearest 856 |
+| Level 15's office stairs to 4 | one way | 3 to 4: **quartered** | 1 wing in 64; 14, nearest 467 | 1 wing in 256; 5, nearest 467 |
+| Level 15's MEDICAL CENTER door to 14 | one way | 3 to 7-8: **quartered** | 1 wing in 64; 15 (1.09 a km2), nearest 550 | 1 wing in 256; 2 (0.15 a km2), nearest 550 |
+| Level 14's floor that gives way, to 73 | one way | 7-8 to 9: **quartered** | 1 wing in 112; 36 (2.36 a km2), nearest 663 | 1 wing in 448; 5 (0.33 a km2), nearest 1362 |
+| Level 6's deepest dark, to 73 | one way | 6 to 9: **quartered** | 1 cell in 2500; about 7 in Level 6 (0.39 a km2), nearest 4.25 km | 1 cell in 10,000, and where that leaves Level 6 none, the old rate's lowest roll stays; 1 (nearest 4.59 km) |
+| Level 36's flights to 10 and 11 | one way | 9 to 10, 11: **quartered** | a sixth each; 32 and 22 of 152 gates | a 24th each; 9 and 9 of 152 (the rest fly to 9 or 37: 39 and 48) |
+| Level 0's EMERGENCY EXIT to 14 | one way | 0 to 7-8: left | 1 cell in 1000 of the outer two fifths, 16 cells apart, none within 1.5 km: 2 in the Lobby, nearest 1.68 km | the same: built at the rule's rate already (its own comment); a quarter would leave most Lobbies none |
+| Level 15's ESCAPE gateway to 3; 14's futuristic door to 15; 14's red door to Level !; 31's skates to 0; Basement climb to 0; 120's doors back to 4; 47's hollows to 10; 47's giants to 23; Coran to 9; 36's sink to 37 | one way | later to earlier, or level | | unchanged |
+| Doors into 31 (2, 3, 6), 120 and 52 (4), 52 (11), 36 (9, 11); cracks into the Basement (0, 1, 2, 4, 5); Level 3's door and Level 10's white wall into 15; the Gloom (9) into 73; 10's dead trees into 47; 37's green trees into 23; 23's well to 7 (one in the level) | both | level, or later to earlier | | unchanged |
+| Level 36's flights to 3999 and 188 | one way | the rule keeps those links | 25 and 22 of 152 | unchanged |
+
+The ten-by-ten-cell clause (keep one where a quarter would leave a level no way down) does not bite: none of these is a
+host level's way down (the ring gates and the released shortcuts are untouched), and every region keeps a way out at full
+rate (31's lobby doors, 15's ESCAPE gateways, 14's futuristic and red doors). The only way that a quarter could leave a
+whole world without is Level 6's deepest dark (about one world in six at full size, most at half size), so its kept cell
+is guaranteed. Level 15's panes, stairs and MEDICAL CENTER doors are about three each in the level now: a world may have
+none of one kind (a few in a hundred). `mapgen 12345 64 31links|14links|36links|73links`, `mapgen 12345 16000 15links`.

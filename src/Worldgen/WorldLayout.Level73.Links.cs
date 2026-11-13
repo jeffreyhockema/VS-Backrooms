@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Backrooms.Cheats;
 
 namespace Backrooms.Worldgen;
@@ -13,7 +15,7 @@ namespace Backrooms.Worldgen;
 /// its heart a black murk two blocks high (<see cref="Unders.L73Gloom"/>, its rim <see cref="Unders.L73GloomRim"/>).
 /// Whoever stays in it too long is on the island (Regions/L73System.Links.cs; one way).</item>
 /// <item><b>Level 6's deepest dark</b> (the page names Level 6 and nothing more): about one cell of Lights Out in
-/// <see cref="L73DarkCells"/> is darker than the rest. Nothing marks it in the layout; whoever lingers there a long time with no
+/// <see cref="L73DarkOneIn"/> is darker than the rest. Nothing marks it in the layout; whoever lingers there a long time with no
 /// light is taken (one way).</item>
 /// <item><b>Coran leads you out</b> (our invention: the page knows no way out): a door in the outside of the castle's north
 /// curtain wall, chained shut, behind which there is no courtyard, only the dark. Coran opens it for whoever has slept a
@@ -28,8 +30,16 @@ public sealed partial class WorldLayout
     /// <summary>One Suburbs cell in this many may hold the Gloom (where a yard or a street has room for it).</summary>
     public const int L73GloomCells = 2000;
 
-    /// <summary>One cell of Level 6 in this many is its deepest dark.</summary>
+    /// <summary>One cell of Level 6 in this many is its deepest dark (in worlds made before layout version 16).</summary>
     public const int L73DarkCells = 2500;
+
+    /// <summary>
+    /// One cell of Level 6 in this many is its deepest dark in this world: from layout version 16 one in 10,000, a quarter as
+    /// many (the progression rule, decision 20: from Level 6 onto the Class 5 island, and so by Coran to Level 9, is a
+    /// shortcut, a quarter as common; the kept cells are the same, the lowest rolls). The Gloom in Level 9 is not a way deeper
+    /// and stays.
+    /// </summary>
+    public int L73DarkOneIn => Version >= 16 ? L73DarkCells * 4 : L73DarkCells;
 
     /// <summary>How far from its middle the Gloom reaches at most (blocks), and the room round that a cell must have clear.</summary>
     private const int L73GloomReach = 4;
@@ -93,7 +103,7 @@ public sealed partial class WorldLayout
     // ================= Level 6's deepest dark =================
 
     /// <summary>
-    /// Whether a cell of Level 6 is its deepest dark: one in <see cref="L73DarkCells"/> by the cell's own hash, never in the
+    /// Whether a cell of Level 6 is its deepest dark: one in <see cref="L73DarkOneIn"/> by the cell's own hash, never in the
     /// Snackrooms, and only where the cell's north-west corner is wall (that corner stands for it in the thresholds: a pillar
     /// where two of the cell's walls meet, which none of Level 6's own thresholds starts from).
     /// </summary>
@@ -104,8 +114,43 @@ public sealed partial class WorldLayout
         return TileAt(mx * MacroSize, mz * MacroSize).Kind == TileKind.Wall;
     }
 
-    /// <summary>Whether a cell rolls Level 6's deepest dark (by its own hash alone; IsL73DarkCell says whether it is one).</summary>
-    public bool L73DarkRolls(int mx, int mz) => Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltL73DarkCell)) < 1.0 / L73DarkCells;
+    /// <summary>
+    /// Whether a cell rolls Level 6's deepest dark (by its own hash alone; IsL73DarkCell says whether it is one). From layout
+    /// version 16, where the quarter would leave the whole of Level 6 none (a small world, an unlucky seed), the cell with the
+    /// lowest roll of those the old rate gave stays (decision 20's "keep at least one"): <see cref="L73DarkFloor"/>.
+    /// </summary>
+    public bool L73DarkRolls(int mx, int mz)
+    {
+        double u = Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltL73DarkCell));
+        if (u < 1.0 / L73DarkOneIn) return true;
+        return Version >= 16 && u < 1.0 / L73DarkCells && u <= L73DarkFloor;
+    }
+
+    private StrongBox<double> l73DarkFloor;
+
+    /// <summary>
+    /// The lowest roll among the cells that are Level 6's deepest dark at the old rate (one in <see cref="L73DarkCells"/>), or
+    /// 0 if there is none: worked out once, over a square round spawn that holds the whole of Level 6.
+    /// </summary>
+    private double L73DarkFloor => LazyInitializer.EnsureInitialized(ref l73DarkFloor, () =>
+    {
+        double outer = 0;
+        for (int a = 0; a < 360; a++) outer = Math.Max(outer, RingEdges(6, a * Math.PI / 180).Outer);
+        int reach = (int)Math.Ceiling(outer * 1.1) + 8;
+        double best = 1.0 / L73DarkCells;
+        bool found = false;
+        for (int dz = -reach; dz <= reach; dz++)
+            for (int dx = -reach; dx <= reach; dx++)
+            {
+                int mx = spawnMacroX + dx, mz = spawnMacroZ + dz;
+                double u = Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltL73DarkCell));
+                if (u >= best) continue;
+                if (LevelAt(mx, mz) != 6 || IsSnackrooms(mx, mz) || TileAt(mx * MacroSize, mz * MacroSize).Kind != TileKind.Wall) continue;
+                best = u;
+                found = true;
+            }
+        return new StrongBox<double>(found ? best : 0);
+    }).Value;
 
     // ================= The north door, in the castle =================
 

@@ -80,10 +80,10 @@
 	"drops": [
 		{
 			"type": "item",
-			"code": "game:flaxtwine",
+			"code": "carpetfibre",
 			"quantity": {
-				"avg": 0.5,
-				"var": 0.3
+				"avg": 1.5,
+				"var": 1
 			}
 		}
 	],

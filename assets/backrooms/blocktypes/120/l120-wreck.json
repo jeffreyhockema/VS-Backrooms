@@ -116,8 +116,8 @@
 				"type": "item",
 				"code": "scrapwire",
 				"quantity": {
-					"avg": 0.7,
-					"var": 0.5
+					"avg": 0.35,
+					"var": 0.25
 				}
 			},
 			{
@@ -132,7 +132,7 @@
 				"type": "item",
 				"code": "l3999-circuitboard",
 				"quantity": {
-					"avg": 0.15,
+					"avg": 0.075,
 					"var": 0
 				}
 			}
@@ -142,15 +142,15 @@
 				"type": "item",
 				"code": "scrapwire",
 				"quantity": {
-					"avg": 0.5,
-					"var": 0.4
+					"avg": 0.25,
+					"var": 0.2
 				}
 			},
 			{
 				"type": "item",
 				"code": "l3999-circuitboard",
 				"quantity": {
-					"avg": 0.25,
+					"avg": 0.125,
 					"var": 0
 				}
 			},

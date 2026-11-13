@@ -181,7 +181,10 @@ public class BlockEntityDispenser : BlockEntity
 
     private bool Seep => Block?.Code?.Path.StartsWith("almondseep") == true;
 
-    private bool Restocks => Block?.Attributes?["restock"].AsBool() == true && (!ScarceDrinks || Seep);
+    private bool Restocks => Block?.Attributes?["restock"].AsBool() == true && (!ScarceDrinks || Seep) && !InLevel52;
+
+    /// <summary>Level 52's canteen machines hold one-time stock (balance fixes 2026-11): the way-in's food is not a weekly spring.</summary>
+    private bool InLevel52 => ProtectionSystem.LevelAt(Api.World, Pos.X, Pos.Z) == Worldgen.WorldLayout.Level52;
 
     private double RestockAfterDays => ScarceDrinks && Seep ? SeepRestockDays : RestockDays;
 
@@ -231,6 +234,15 @@ public class BlockEntityDispenser : BlockEntity
         if (stock > 0) return true;
         if (player is IServerPlayer sp) sp.SendIngameError("dispenserempty", Say.T(sp, "backrooms:dispenser-empty"));
         return false;
+    }
+
+    /// <summary>The rig's (balance tests, /backrooms rig bal): the machine was emptied eight days ago; does it restock?</summary>
+    internal string TestRestock()
+    {
+        stock = 0;
+        emptySinceDay = Api.World.Calendar.TotalDays - 8;
+        bool had = HasPortion(null);
+        return $"restocks {Restocks}, restocked after eight days {had} (stock {stock})";
     }
 
     public void Dispense(IPlayer player, DispenseUse use = DispenseUse.Give)

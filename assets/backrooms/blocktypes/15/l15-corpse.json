@@ -178,10 +178,10 @@
 			},
 			{
 				"type": "item",
-				"code": "game:flaxtwine",
+				"code": "carpetfibre",
 				"quantity": {
-					"avg": 0.6,
-					"var": 0.4
+					"avg": 2,
+					"var": 1.5
 				}
 			},
 			{
@@ -204,10 +204,10 @@
 			},
 			{
 				"type": "item",
-				"code": "game:flaxtwine",
+				"code": "carpetfibre",
 				"quantity": {
-					"avg": 0.6,
-					"var": 0.4
+					"avg": 2,
+					"var": 1.5
 				}
 			}
 		],
@@ -222,10 +222,10 @@
 			},
 			{
 				"type": "item",
-				"code": "game:flaxtwine",
+				"code": "carpetfibre",
 				"quantity": {
-					"avg": 0.6,
-					"var": 0.4
+					"avg": 2,
+					"var": 1.5
 				}
 			}
 		],
