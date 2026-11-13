@@ -20,6 +20,9 @@ meaning of 14 everywhere. This branch's food round (the stripped food props of L
 `WorldLayout.Loot.cs`) was first gated on 14 and moved to **15** when main was merged (0.700.0-pre.8, 2026-11-03), so
 `WorldLayout.CurrentVersion` is 15 here. A pre-release world made at the branch's old 14 generates its later chunks at
 the merged rules: the stripped-prop spots and main's v14 fixes differ from what it had, which is the price of a pre build.
+The 2026-11 player-feedback round (0.700.0-pre.10, 2026-11-13; decisions in `docs/design/feedback-2026-11/`) is
+**16** here: Level 10's barn wall in one barn in five, one city rowhouse door in four leading to Level 9, and more borax in
+Level 8. So main's next layout bump must be **17**, never 16.
 
 | Level | Internal id | Constant | Shown as | Tag (files, block codes) | Method infix | Region |
 |---|---|---|---|---|---|---|

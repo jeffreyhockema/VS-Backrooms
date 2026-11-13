@@ -34,6 +34,8 @@ public partial class PropSystem
         public double Loudness;
         /// <summary>Whom the noise gives away (the one who set it going), or -1.</summary>
         public long Who = -1;
+        /// <summary>The first code part of the block that rings (it stops when that block is broken or replaced).</summary>
+        public string Block;
     }
 
     private readonly List<Ring> rings = new();
@@ -59,6 +61,7 @@ public partial class PropSystem
         {
             Pos = pos.Copy(), Kind = kind, EndMs = now + ms, NextSoundMs = now, NextNoiseMs = now, SoundEveryMs = every, Sound = sound,
             Range = range, Volume = volume, Loudness = loud, Who = who?.EntityId ?? -1,
+            Block = sapi.World.BlockAccessor.GetBlock(pos)?.FirstCodePart(),
         });
         // Whoever set it going is heard by it too: what hunts them knows where it was done
         if (who is EntityPlayer && director != null) director.MakeNoise(who, 0.4, Centre(pos), loud, kind);
@@ -83,7 +86,8 @@ public partial class PropSystem
         for (int i = rings.Count - 1; i >= 0; i--)
         {
             Ring r = rings[i];
-            if (now >= r.EndMs)
+            // (Broken, or gone with its chunk: it stops)
+            if (now >= r.EndMs || sapi.World.BlockAccessor.GetBlock(r.Pos)?.FirstCodePart() != r.Block)
             {
                 rings.RemoveAt(i);
                 continue;
