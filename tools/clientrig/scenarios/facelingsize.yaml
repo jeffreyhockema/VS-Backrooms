@@ -1,0 +1,25 @@
+description: A Faceling child and a grown Faceling side by side (do they render at their own sizes?). Both are sent as ambient encounters, then teleported four blocks in front of the player, a block apart, and shot at once.
+steps:
+  - expect_no_startup_issues: ""
+  - bot: closeguis
+  - bot: hud off
+  - bot: wait 3000
+  - bot: ready 48
+  - cmd: /backrooms director off
+  - cmd: /backrooms goto 10 timeout=60
+  - bot: wait 4000
+  - server: /time set 12:00
+  - cmd: /backrooms encounter faceling ambient
+  - cmd: /backrooms encounter faceling-child ambient
+  - bot: wait 1500
+  - cmd: /tp e[type=backrooms:faceling] ~4 ~ ~-1
+  - cmd: /tp e[type=backrooms:faceling-child] ~4 ~ ~1
+  - bot: lookat faceling
+  - bot: wait 300
+  - shot: faceling-pair-a
+  - cmd: /tp e[type=backrooms:faceling] ~4 ~ ~-1
+  - cmd: /tp e[type=backrooms:faceling-child] ~4 ~ ~1
+  - bot: lookat faceling-child
+  - bot: wait 300
+  - shot: faceling-pair-b
+  - expect_no_log: Unhandled exception
