@@ -18,7 +18,7 @@ steps:
   - face: ceilingalt-sprinkler
   - bot: wait 500
   - shot: sprinklers-spraying
-  - expect_log: props: firealarm at
+  - expect_log: "props: firealarm at"
   # ---- Breaker: Level 1's maintenance halls have breaker panels and power boxes
   - cmd: /backrooms feature l1halls
   - bot: wait 4000
@@ -74,4 +74,4 @@ steps:
   - cmd: /backrooms prop use last
   - bot: wait 1500
   - shot: car-ringing
-  - expect_log: props: caralarm at
+  - expect_log: "props: caralarm at"
