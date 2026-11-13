@@ -32,8 +32,8 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STAGES = ["generators", "lang", "build", "boot", "mapgen", "scorecard", "oldworld", "harness", "zip"]
 FAST = ["generators", "lang", "build", "boot", "harness"]
 TAG = os.environ.get("GATE_TAG", "gate")  # (each parallel gate sets its own, so they do not share a build folder)
-HASH_VERSIONS = [1, 9, 10, 11, 12, 13]  # past layout versions, always checked; the current one is added
-RELEASED_THROUGH = 13                   # layout versions up to here are in saves: a changed hash FAILs. Bump at each release.
+HASH_VERSIONS = [1, 9, 10, 11, 12, 13, 14, 15]  # past layout versions, always checked; the current one is added
+RELEASED_THROUGH = 15                   # layout versions up to here are in saves (15: the 0.700 pre-releases, uploaded): a changed hash FAILs. Bump at each release.
 DEFAULT_CONFIG = {"oldWorldSave": "C:/Users/icebu/AppData/Roaming/VintagestoryData/GateSaves/backrooms-0610.5-seed12345.vcdbs"}
 NEVER_TOUCH = ("creepy kingdom",)       # the user's live save
 SCRATCH = os.environ.get("BACKROOMS_SCRATCH") or os.path.join(os.environ.get("TEMP", tempfile.gettempdir()), "backrooms-build")
@@ -496,6 +496,10 @@ def stage_mapgen(st, ctx):
     versions = HASH_VERSIONS + [cur_v]
     with cf.ThreadPoolExecutor(4) as ex:
         hash_f = {v: ex.submit(mg, ["1", "6", "layouthash"], {"LAYOUT_VERSION": str(v)}) for v in versions}
+        # (0.700 branch) The experimental levels' ways in are marked in levels 0 to 20 at every layout version, so the plain hash
+        # moves against main's; with them off (BACKROOMS_NO_EXP_ENTRANCES=1, which main ignores) the level grids must still be
+        # main's. layoutHashes keeps main's grids; layoutHashesExp keeps this branch's own hashes with the ways in.
+        plain_f = {v: ex.submit(mg, ["1", "6", "layouthash"], {"LAYOUT_VERSION": str(v), "BACKROOMS_NO_EXP_ENTRANCES": "1"}) for v in versions}
         val_f = {lv: ex.submit(mg, ["12345", "24", "validatelevel", str(lv)]) for lv in range(21)}
         validate_f = ex.submit(mg, ["12345", "24", "validate"])
         deep_f = ex.submit(mg, ["12345", "24", "deep"])
@@ -503,7 +507,18 @@ def stage_mapgen(st, ctx):
         short_f = ex.submit(mg, ["12345", "24", "shortcuts"])
 
         # layout hashes
-        bh = new_base.setdefault("layoutHashes", {})
+        bmain = new_base.setdefault("layoutHashes", {})
+        bh = new_base.setdefault("layoutHashesExp", {})
+        for v in versions:
+            c, o = plain_f[v].result()
+            h, _ = parse_hash(o)
+            rec = bmain.get(str(v))
+            if c != 0 or not h:
+                problems.append("layouthash v%d without the ways in did not run (exit %d)" % (v, c))
+            elif rec is not None and v <= RELEASED_THROUGH and rec.get("layout") != h:
+                problems.append("layout hash v%d without the experimental ways in CHANGED from main's: %s -> %s (the released levels must stay byte-identical)" % (v, rec.get("layout"), h))
+            elif rec is not None and v <= RELEASED_THROUGH:
+                st.note("layouthash v%d without the ways in: %s, main's" % (v, h))
         for v in versions:
             c, o = hash_f[v].result()
             h, f = parse_hash(o)
