@@ -31,8 +31,8 @@ public class BackroomsTutorial : TutorialBase
     private static string Text(int n) => "backrooms:tutorial-backrooms-" + n;
     private static string Text(string n) => "backrooms:tutorial-backrooms-" + n;
 
-    // What the bag takes (recipes/grid/carpetbag.json and twine-from-carpet.json, and the texts of steps 9 and 10)
-    private const int TwineFibres = 18, CarpetBagFibres = 5;
+    // What the bag takes (recipes/grid/carpetbag.json, and the texts of steps 8 to 10)
+    private const int BagSquares = 4, BagFibres = 2;
 
     private static bool Is(ItemStack stack, string domain, string path)
         => stack?.Collectible?.Code != null && stack.Collectible.Code.Domain == domain && stack.Collectible.Code.Path == path;
@@ -81,7 +81,6 @@ public class BackroomsTutorial : TutorialBase
     {
         steps.Clear();
         TutorialStepReceive craftShiv = TutorialStepBase.Craft(capi, "craftshiv", Text(7), s => Ours(s, "glassshiv") || Ours(s, "scraper"), 1);
-        TutorialStepReceive craftTwine = TutorialStepBase.Craft(capi, "crafttwine", Text(9), s => Is(s, "game", "flaxtwine"), 1);
         TutorialStepReceive craftBag = TutorialStepBase.Craft(capi, "craftbag", Text(10), s => Ours(s, "carpetbag"), 1);
         // 13. A torch (named: the map step after it waits on it)
         TutorialStepReceive craftTorch = new TutorialStepCarried(capi, "crafttorch", Text(13), s => s?.Collectible?.Code?.Domain == "game" && s.Collectible.Code.Path.StartsWith("torch-", System.StringComparison.Ordinal),
@@ -100,14 +99,14 @@ public class BackroomsTutorial : TutorialBase
             TutorialStepBase.Collect(capi, "cutfibre", Text(6), s => Ours(s, "carpetfibre"), 1),
             // 7. A real blade
             craftShiv,
-            // 8. More carpet, for a bag: 18 for the twine and 5 for the bag, in hand once the shiv is made (the fibre cut
-            // in step 6 went into the shiv, so it must not count). Steps run side by side, so a player who makes the
-            // twine first needs only the bag's 5, and one who has made the bag is done
-            new TutorialStepHold(capi, "cutfibres", Text(8), s => Ours(s, "carpetfibre"),
-                goal: () => craftTwine.Complete ? CarpetBagFibres : CarpetBagFibres + TwineFibres,
-                ready: () => craftShiv.Complete, done: () => craftBag.Complete),
-            // 9. Twine
-            craftTwine,
+            // 8. and 9. The bag's carpet, in hand once the shiv is made: 4 squares (cut crouched), then 2 fibres to sew it
+            // with (the fibre cut in step 6 went into the shiv, so it must not count). One who has made the bag is done.
+            // The bag took 5 fibres and a twine until 0.700.0-pre.11: "cutfibres" kept its code (a goal of 2 now), the
+            // twine step ("crafttwine") is gone, and its saved progress is simply not read
+            new TutorialStepHold(capi, "cutsquares", Text(8), s => Ours(s, "carpetsquare"),
+                goal: () => BagSquares, ready: () => craftShiv.Complete, done: () => craftBag.Complete),
+            new TutorialStepHold(capi, "cutfibres", Text(9), s => Ours(s, "carpetfibre"),
+                goal: () => BagFibres, ready: () => craftShiv.Complete, done: () => craftBag.Complete),
             // 10. The carpet bag
             craftBag,
             // 11. to 13. The rest of the Lobby's toolkit: flint is a Level 1 find (step 15 says so), so these replaced the

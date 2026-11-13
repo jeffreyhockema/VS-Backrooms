@@ -33,7 +33,8 @@ the 0.611 review), so main's next layout bump is **17**. Built in four packages 
    plate twice as far, and both clank as you walk (sneaking halves it); cloth, carpet and leather are silent.
 5. **The carpet ladder:** twine costs 18 carpet fibre; crouching with a blade cuts a whole carpet square and leaves bare floor;
    carpet armour (squares, fibre, twine) stops what a leather jerkin does (0.4 / 0.25, tier 1); bedrolls take squares; the carpet
-   bag holds 4; gambeson (linen) comes next. Wanderers no longer sell gambeson.
+   bag holds 4 and (the user, later the same day) is 4 squares + 2 fibres, no twine, so four bags cost about 20 cuts, not
+   about 46; gambeson (linen) comes next. Wanderers no longer sell gambeson.
 6. **Pleather is retired.** Its codes stay registered and hidden; every pleather stack in an old world is remapped once at load
    (`config/remaps.json`, the game's own remapper): pleather to carpet squares, each pleather piece to the same carpet piece.
    Chairs, sofas and car seats give cloth instead.
@@ -61,6 +62,11 @@ the 0.611 review), so main's next layout bump is **17**. Built in four packages 
   torn boxes.
 - Facelings stare before they shove.
 - Fire alarms and sprinklers, steam valves, breakers and fuses, car alarms, radios and alarm clocks all work.
+
+## After pre.10
+
+- The carpet bag is 4 carpet squares + 2 carpet fibres (it was 5 fibres + a twine, 23 fibres a bag). The tutorial's bag
+  steps follow: cut 4 squares, cut 2 fibres, craft the bag (its twine step is gone).
 
 ## Known gaps
 

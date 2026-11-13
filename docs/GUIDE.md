@@ -85,7 +85,7 @@ What you take is mostly salvage. The building itself can be broken (to shape a h
 | Glass shiv (a knife; cuts two a block) | glass shard + wallpaper strip + carpet fibres |
 | Improvised scraper (a tougher knife; cuts two a block) | metal bracket + wallpaper strip + 2 carpet fibres |
 | Twine | 18 carpet fibres |
-| Carpet bag (4 slots) | 5 carpet fibres + twine |
+| Carpet bag (4 slots) | 4 carpet squares + 2 carpet fibres |
 | Carpet cap / jerkin / leggings (armour like a leather jerkin: 0.4 relative, 0.25 flat, tier 1, durability 250; silent) | 4 / 6 / 6 carpet squares + 1 / 2 / 1 twine + 2 / 4 / 2 carpet fibres, in a 3 by 2 / 3 by 3 / 3 by 3 grid; mend with a square |
 | Dry grass (tinder) | 2 wallpaper strips |
 | 2 sticks | rotten wood |

@@ -81,7 +81,7 @@ For real stone tools you need [flint](item-flint), and flint is a Level 1 find: 
 Two [supply boxes](block-backrooms:supplybox) stand beside where you woke. Break them (hold {leftmouse}): a sealed box, its lid still taped down, holds a few of Almond Water, crackers, canned beans, carpet fibres, wallpaper strips, a glass shard, sticks and dry grass, and now and then a candle, a metal bracket, a wanderer's note, a seed packet, a rusty gear, a ready-made shiv or, rarely, a flint. A torn box, lid hanging open, was gone through long ago: scraps and paper, never food, and you can tell from across the room. Sealed boxes and crates show red on your map. Boxes were left in twos and threes at the inside corners of rooms, about one room in six, and over half of them were torn open before you came. Rooms papered in red and the hearts of dens hold boxes nobody dared to touch (see [What Lives Here](backrooms-entities)).
 
 **Expanding inventory**
-Your starting inventory has 10 slots, and you can carry up to 4 bags. There are no cattails here for a hand basket; the Lobby's bag is the [carpet bag](item-backrooms:carpetbag) (4 slots): 5 carpet fibres + 1 flax twine, and 18 carpet fibres make the twine (twine is hard-won here: crates, tents and wanderers give it too). Hold a blade and {rightmouse} the dry carpet for a [carpet fibre](item-backrooms:carpetfibre) per block, two with a shiv or a scraper (the block is left threadbare). Crouched ({sneak}), the same cut lifts a whole [carpet square](item-backrooms:carpetsquare) instead and leaves the bare floor under it, for good: squares are what the Lobby's first armour and its bedroll are sewn from. Later, a [linen sack](search:linen sack) (5 slots) is flax twine + linen from hotel beds and tents, and a [chest](search:chest) is 8 planks + 1 nails and strips, with planks from Level 1's crates.
+Your starting inventory has 10 slots, and you can carry up to 4 bags. There are no cattails here for a hand basket; the Lobby's bag is the [carpet bag](item-backrooms:carpetbag) (4 slots): 4 carpet squares + 2 carpet fibres. Twine is hard-won here: 18 carpet fibres make one, and crates, tents and wanderers give it too. Hold a blade and {rightmouse} the dry carpet for a [carpet fibre](item-backrooms:carpetfibre) per block, two with a shiv or a scraper (the block is left threadbare). Crouched ({sneak}), the same cut lifts a whole [carpet square](item-backrooms:carpetsquare) instead and leaves the bare floor under it, for good: squares are what the Lobby's bags, its first armour and its bedroll are sewn from. Later, a [linen sack](search:linen sack) (5 slots) is flax twine + linen from hotel beds and tents, and a [chest](search:chest) is 8 planks + 1 nails and strips, with planks from Level 1's crates.
 
 **Finding food**
 Food in the Lobby is what is in the sealed boxes, and nothing else. [Almond Water](item-backrooms:almondwater) quenches your thirst, heals 1 and steadies you, but gives no food (see [Reality Stability](gamemechanicinfo-temporalstability)); [crackers](item-backrooms:crackers) and [canned beans](item-backrooms:cannedbeans) fill you properly. You burn food and water walking, more running, and hardly at all standing still, so do not wander for the sake of it. The nearest plentiful food is Level 1's sealed crates: the first expedition out is for those. The dark, cold blackout zones of Level 0 keep food fresh (10 °C), so store it there. See [Food and Water](backrooms-food).
@@ -345,7 +345,7 @@ What you make comes back whole: break a block you crafted (an axe or bare hands 
 - [Improvised scraper](item-backrooms:scraper) (knife, 180 uses, cuts two a block) = metal bracket + wallpaper strip + 2 carpet fibres
 - 1 dry grass = 2 wallpaper strips
 - 1 flax twine = 18 carpet fibres
-- [Carpet bag](item-backrooms:carpetbag) (4 slots) = 5 carpet fibres + 1 flax twine
+- [Carpet bag](item-backrooms:carpetbag) (4 slots) = 4 carpet squares + 2 carpet fibres
 - Carpet armour (see [What lives here](backrooms-entities)): a [cap](item-backrooms:armor-carpet-head) is 4 [carpet squares](item-backrooms:carpetsquare) + 1 flax twine + 2 carpet fibres; a [jerkin](item-backrooms:armor-carpet-body) 6 squares + 2 twine + 4 fibres; [leggings](item-backrooms:armor-carpet-legs) 6 squares + 1 twine + 2 fibres. A worn piece is mended with a square.
 - 2 sticks = 1 rotten wood, or 1 plank + a knife
 - 1 firewood = 2 rotten wood, or 3 planks + an axe
@@ -1692,15 +1692,15 @@ TUTORIAL = [
     # 5 strip
     "With the shard in your hand, <icon>rightmousebutton</icon> the yellow wallpaper to cut {0} <itemstack type=\"item\">backrooms:wallpaperstrip</itemstack> <a href=\"handbook://item-backrooms:wallpaperstrip\">wallpaper strip</a>. A bare shard snaps one time in four, so cut carefully.",
     # 6 fibre
-    "Now <icon>rightmousebutton</icon> the carpet for {0} <itemstack type=\"item\">backrooms:carpetfibre</itemstack> <a href=\"handbook://item-backrooms:carpetfibre\">carpet fibre</a>. Dry carpet cuts; the soaked carpet of the dark zones does not. (Crouched, <hk>sneak</hk>, the same cut lifts a whole carpet square instead, which makes armour and bedrolls later, and leaves the bare floor.)",
+    "Now <icon>rightmousebutton</icon> the carpet for {0} <itemstack type=\"item\">backrooms:carpetfibre</itemstack> <a href=\"handbook://item-backrooms:carpetfibre\">carpet fibre</a>. Dry carpet cuts; the soaked carpet of the dark zones does not. (Crouched, <hk>sneak</hk>, the same cut lifts a whole carpet square instead, which makes bags, armour and bedrolls, and leaves the bare floor.)",
     # 7 shiv
     "Craft a <itemstack type=\"item\">backrooms:glassshiv</itemstack> <a href=\"handbook://item-backrooms:glassshiv\">glass shiv</a> in your crafting grid (open your inventory with <hk>inventorydialog</hk>): a glass shard, a wallpaper strip and a carpet fibre. It is a knife, and it does not snap.",
-    # 8 fibres
-    "Bags next. With the shiv, cut {0} more <itemstack type=\"item\">backrooms:carpetfibre</itemstack> carpet fibres from the carpet. It cuts cleanly: two fibres a block.",
-    # 9 twine
-    "Craft <itemstack type=\"item\">flaxtwine</itemstack> <a href=\"handbook://item-flaxtwine\">twine</a> from 18 carpet fibres. Twine is hard-won here: it also turns up in crates, tents and with wanderers, but this is the way you can always make it.",
+    # 8 squares
+    "Bags next. Crouch (<hk>sneak</hk>) and, with the shiv, cut {0} <itemstack type=\"item\">backrooms:carpetsquare</itemstack> <a href=\"handbook://item-backrooms:carpetsquare\">carpet squares</a> from the dry carpet. Each cut lifts a whole square and leaves the bare floor under it.",
+    # 9 fibres
+    "Stand up again and cut {0} <itemstack type=\"item\">backrooms:carpetfibre</itemstack> carpet fibres to sew it with. The shiv cuts cleanly: two fibres a block.",
     # 10 bag
-    "Craft a <itemstack type=\"item\">backrooms:carpetbag</itemstack> <a href=\"handbook://item-backrooms:carpetbag\">carpet bag</a>: 5 carpet fibres and the twine. Put it in one of the 4 bag slots on the right of your inventory. It holds 4 stacks of things, and you can wear four bags at once.",
+    "Craft a <itemstack type=\"item\">backrooms:carpetbag</itemstack> <a href=\"handbook://item-backrooms:carpetbag\">carpet bag</a>: 4 carpet squares and 2 carpet fibres. Put it in one of the 4 bag slots on the right of your inventory. It holds 4 stacks of things, and you can wear four bags at once.",
     # 11 scraper
     "Craft an <itemstack type=\"item\">backrooms:scraper</itemstack> <a href=\"handbook://item-backrooms:scraper\">improvised scraper</a>: a <itemstack type=\"item\">backrooms:metalbracket</itemstack> metal bracket, a wallpaper strip and 2 carpet fibres. Brackets fall now and then from dead lights, ceiling tiles and supply boxes. Like the shiv it cuts two strips or fibres a block, and it lasts three times as long.",
     # 12 tinder

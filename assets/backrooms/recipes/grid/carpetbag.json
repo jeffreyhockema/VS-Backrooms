@@ -1,9 +1,9 @@
-// A bag of Level 0's carpet, sewn shut round the sides with twine
+// A bag of Level 0's carpet: four squares stitched round the sides with carpet fibre (no twine: twine is hard-won)
 {
-	ingredientPattern: "FTF,FFF",
+	ingredientPattern: "SFS,SFS",
 	ingredients: {
-		"F": { type: "item", code: "carpetfibre", quantity: 1 },
-		"T": { type: "item", code: "game:flaxtwine", quantity: 1 }
+		"S": { type: "item", code: "carpetsquare", quantity: 1 },
+		"F": { type: "item", code: "carpetfibre", quantity: 1 }
 	},
 	width: 3,
 	height: 2,
