@@ -41,7 +41,7 @@ public class L31System : ModSystem
 {
     private const int StaffNear = 40, StaffGone = 96;
     /// <summary>How often the server feeds a player (in-game hours), and how long it refuses a litterer.</summary>
-    private const double ServeHours = 6, RefuseHours = 24;
+    private const double ServeHours = 12, RefuseHours = 24;
     /// <summary>How long in the level before the Coach says it is time to go, and how often after (in-game hours).</summary>
     private const double StayHours = 36, StayAgainHours = 12;
     private const string SkatesKey = "backrooms-l31skates";
@@ -319,7 +319,7 @@ public class L31System : ModSystem
         server.AnimManager?.StartAnimation("nod");
         Give(player, "backrooms:l31-food-" + Dishes[rand.Next(Dishes.Length)], server);
         Say(player, "backrooms:l31-server-serve-" + (1 + rand.Next(3)));
-        if (rand.NextDouble() < 0.6)
+        if (rand.NextDouble() < 0.3)
         {
             Give(player, "backrooms:almondwater", server);
             Say(player, "backrooms:l31-server-water");

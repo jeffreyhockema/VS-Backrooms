@@ -65,9 +65,10 @@ public static class WaterClass
                 return WaterKind.Salt;
             case WorldLayout.Basement:
                 return WaterKind.Foul;
-            // Level 23: the Garden's water all comes from the Heart of Water's reservoir
+            // Level 23: the Heart of Water's pool and Base Seedling's spring are the reservoir's own, clean; the puddles in the glow rooms and
+            // ruins are like the other levels' puddles (balance fixes 2026-11)
             case WorldLayout.Level23:
-                return WaterKind.Clean;
+                return layout.L23FromMid(pos.X, pos.Z) < WorldLayout.L23CoreRadius || InSeedling(layout, pos) ? WaterKind.Clean : WaterKind.Tainted;
             // Level 47: its streams "are generally safe for human consumption" (Wikidot)
             case WorldLayout.Level47:
                 return WaterKind.Clean;
@@ -76,6 +77,14 @@ public static class WaterClass
             default:
                 return WaterKind.Tainted;
         }
+    }
+
+    /// <summary>Whether a position lies within Base Seedling's cavern (its spring is the camp's water).</summary>
+    private static bool InSeedling(WorldLayout layout, BlockPos pos)
+    {
+        var (x, z, r) = layout.L23SeedlingAt;
+        double dx = pos.X - x, dz = pos.Z - z;
+        return dx * dx + dz * dz <= r * r;
     }
 
     /// <summary>Level 94's town fountain: its basin is five by five tiles of rim round three by three of water and a spout, so the

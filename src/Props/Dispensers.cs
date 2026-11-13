@@ -181,7 +181,10 @@ public class BlockEntityDispenser : BlockEntity
 
     private bool Seep => Block?.Code?.Path.StartsWith("almondseep") == true;
 
-    private bool Restocks => Block?.Attributes?["restock"].AsBool() == true && (!ScarceDrinks || Seep);
+    private bool Restocks => Block?.Attributes?["restock"].AsBool() == true && (!ScarceDrinks || Seep) && !InLevel52;
+
+    /// <summary>Level 52's canteen machines hold one-time stock (balance fixes 2026-11): the way-in's food is not a weekly spring.</summary>
+    private bool InLevel52 => ProtectionSystem.LevelAt(Api.World, Pos.X, Pos.Z) == Worldgen.WorldLayout.Level52;
 
     private double RestockAfterDays => ScarceDrinks && Seep ? SeepRestockDays : RestockDays;
 

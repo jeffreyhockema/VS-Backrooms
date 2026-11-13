@@ -306,8 +306,8 @@ public class L47System : ModSystem
                 }
             }
 
-            // By day the elk, far off now and then (a cow with her calf, or a bull)
-            if (night < 0.3f && rand.NextDouble() < 0.025 && Count(at, 90, "deer-moose-adult-male") + Count(at, 90, "deer-moose-adult-female") == 0)
+            // By day the elk, far off now and then (a cow with her calf, or a bull); meat, so scaled by the world's food setting and the level's class (balance fixes 2026-11)
+            if (night < 0.3f && rand.NextDouble() < 0.025 * Salvage.ScarcitySystem.FoodScale(sapi.World) * Salvage.ScarcitySystem.ClassScale(WorldLayout.Level47) && Count(at, 90, "deer-moose-adult-male") + Count(at, 90, "deer-moose-adult-female") == 0)
             {
                 var spot = Around(at, 45, 70, 3);
                 if (spot != null)

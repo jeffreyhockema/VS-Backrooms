@@ -43,6 +43,12 @@ public partial class L73System : ModSystem
     /// <summary>How long a place at the table takes to be set again (game hours).</summary>
     public const double RefillHours = 4;
 
+    /// <summary>Balance fixes 2026-11: the table feeds each wanderer once, then not again for this many game hours (the lore's one meal).</summary>
+    public const double MealEveryHours = 12;
+
+    /// <summary>The player's watched attribute holding the game hour of their last meal at the table (per player, saved with them).</summary>
+    public const string LastMealKey = "backrooms:l73lastmeal";
+
     /// <summary>What a place at the table gives: satiety (a stew of Hound meat and bread), and hydration (a glass of water).</summary>
     public const float MealSatiety = 600, MealHydration = 700;
 
@@ -453,6 +459,16 @@ public class BlockEntityL73Table : BlockEntity
             return;
         }
         EntityPlayer entity = player.Entity;
+        double now = Api.World.Calendar.TotalHours;
+        double last = entity.WatchedAttributes.GetDouble(L73System.LastMealKey, double.NegativeInfinity);
+        if (last <= now && now - last < L73System.MealEveryHours)
+        {
+            // (Already fed: the place stays set for the next guest)
+            player.SendIngameError("l73table", Say.T(player, "backrooms:l73-table-fed"));
+            return;
+        }
+        entity.WatchedAttributes.SetDouble(L73System.LastMealKey, now);
+        entity.WatchedAttributes.MarkPathDirty(L73System.LastMealKey);
         entity.ReceiveSaturation(L73System.MealSatiety, EnumFoodCategory.Protein);
         Needs.Needs.Hydrate(entity, L73System.MealHydration);
         Api.World.PlaySoundAt(new AssetLocation("game:sounds/player/eat"), entity, null, randomizePitch: true, range: 12);
@@ -736,11 +752,15 @@ public partial class AiTaskL73Coran : AiTaskBase
     {
         var hit = entity.World.GetEntitiesAround(entity.Pos.XYZ, (float)SweepBlocks, 5, e => e.Alive && e.Code != null && Prey.Contains(e.Code.Path));
         foreach (Entity e in hit)
+        {
             e.ReceiveDamage(new DamageSource
             {
                 Source = EnumDamageSource.Entity, SourceEntity = entity, CauseEntity = entity, Type = EnumDamageType.BluntAttack, KnockbackStrength = 2f,
                 SourcePos = entity.Pos.XYZ,
             }, 1000f);
+            // He leaves nothing (balance fixes 2026-11): no carcass to harvest, so following him is no meat or hide farm
+            if (!e.Alive) e.Die(EnumDespawnReason.Removed);
+        }
         entity.World.PlaySoundAt(new AssetLocation($"backrooms:sounds/entity/73/coran/strike{1 + entity.World.Rand.Next(2)}"), entity, null, randomizePitch: true, range: 48, volume: 1f);
         if (hit.Length > 0) entity.World.Logger.Notification("[backrooms] Coran #{0} struck {1} ({2})", entity.EntityId, hit.Length, string.Join(", ", hit.Select(e => e.Code.Path)));
         prey = null;

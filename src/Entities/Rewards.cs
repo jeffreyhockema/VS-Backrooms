@@ -174,6 +174,8 @@ public class Rewards : ModSystem
         int level = director.Layout.LevelAt(WorldLayout.MacroOf(pos.X), WorldLayout.MacroOf(pos.Z));
         double d = Danger.OfLevel(level);
         if (d <= 0) return;
+        // The Hospital's danger 0.7 is its Hunter's strength; its caches pay as the Level 4-6 ones do, not the deepest pool (balance fixes 2026-11)
+        if (level == WorldLayout.Level14) d = Math.Min(d, 0.5);
         // Level 7's caches pay more the deeper they lie: on the bottom of the midnight zone, as much as the city's
         if (level == 7 && pos.Y < floorY) d = Math.Min(1, d + 0.3 * Math.Clamp((floorY - pos.Y) / (double)WorldLayout.AbyssDepth, 0, 1));
         Random rand = sapi.World.Rand;

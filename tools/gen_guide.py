@@ -698,7 +698,7 @@ The keep's door is shut, and nothing gets through it. **Bang on it as hard and a
 
 **The castle**
 Three floors and an attic, gothic, fully furnished and lit. On every floor a guest room at each end with two large curtained beds and a fire of its own; the main hall, the dining hall with its great fireplace, a bathroom and the kitchen on the ground floor; a sitting room, a library and the second bathroom above; the master bedroom and Coran's study on the third. By the main door hangs a piece of needlework: *We are safe here. We are loved here.* The walls, the doors and the windows cannot be broken.
-- **The table.** At the long mahogany table in the dining hall a place is set at every seat: a plate of stew and bread and a glass of water. {rightmouse} a place to eat and drink it; it is set again some four hours later. Do not ask what the stew is (the fireplace burns Hound).
+- **The table.** At the long mahogany table in the dining hall a place is set at every seat: a plate of stew and bread and a glass of water. {rightmouse} a place to eat and drink it; it is set again some four hours later. The castle feeds each wanderer once: eat here, and you are not set a place again for half a day. Do not ask what the stew is (the fireplace burns Hound).
 - **The baths.** The barrels in the two bathrooms are always full of warm water: {rightmouse} to wash and warm through, or with an [empty bottle](item-backrooms:emptybottle) to fill it with clean water.
 - **The curtains.** Red velvet hangs over every window, and behind it the windows are boarded up. Coran says it keeps the Windows away. **Do not look outside.**
 - **The paintings** show places in the Frontrooms. None of them lead anywhere.
@@ -768,7 +768,7 @@ The temperature drifts between 10 °C and 32 °C over the hours, never the same 
 - **J. Turner Campus**: two floors round a basketball court, about a mile from Marshall David. Many of its classrooms are lodgings now, beds where the desks were.
 
 **What to scavenge**
-Little. The offices, labs and libraries were stripped long ago. Desks and filing cabinets hold the odd wanderer's note; store rooms and the warehouse hold a few supply boxes; vending machines, water coolers and the drinking fountains on the corridor walls still give Almond Water and water. The canteens' food stands are empty. There is no food growing here, and no game.
+Little. The offices, labs and libraries were stripped long ago. Desks and filing cabinets hold the odd wanderer's note; store rooms and the warehouse hold a few supply boxes; vending machines, water coolers and the drinking fountains on the corridor walls still give Almond Water and water, and none of them fills again once it is empty. The canteens' food stands are empty. There is no food growing here, and no game.
 
 **History**
 The Sanguine Festivus reached Level 52 more than once: the First Crash in 1959, the Great Crash of 1997 that began at J. Barry, and Operation Blindside in 2002. The holes and stains have been painted over, and the outposts that stood here are abandoned: on a few campuses a base's board still stands by the fence (Base Sunfire, Base Emberwatch, Base Blackcross) with what its people left behind it.
@@ -788,7 +788,7 @@ A 1990s roller rink that goes on for ever: a rink every hundred and twenty-eight
 Maple boards inside a low barrier, a short wooden gate with flaps in each gap, rough black carpet round the outside, mirrors on the walls and a star-shaped light over the middle. The DJ station is always on the south side; the Faceling at the decks chooses the songs and will not talk. Some rinks are small and low.
 
 **The Food Court**
-Square tables, orange plastic chairs, orange and green benches by the walls. Ask the Faceling behind the counter ({rightmouse}) and it serves you for free: a slice of [pizza](item-backrooms:l31-food-pizza), [wings](item-backrooms:l31-food-wings) or a [foot-long hot dog](item-backrooms:l31-food-hotdog), often with an Almond Water, once every hour and a half. The soda fountain pours Almond Water whenever you like. **Put nothing down on its floor:** whatever lies there is swept up, and whoever left it gets nothing for a day. It is the safest place in the level to camp.
+Square tables, orange plastic chairs, orange and green benches by the walls. Ask the Faceling behind the counter ({rightmouse}) and it serves you for free: a slice of [pizza](item-backrooms:l31-food-pizza), [wings](item-backrooms:l31-food-wings) or a [foot-long hot dog](item-backrooms:l31-food-hotdog), often with an Almond Water, once every three hours. The soda fountain pours Almond Water whenever you like. **Put nothing down on its floor:** whatever lies there is swept up, and whoever left it gets nothing for a day. It is the safest place in the level to camp.
 
 **Skate Rental and the Coach**
 Past the blue walls, behind the counter, stands **the Coach**, the only one here who talks ({rightmouse}). He remembers your name. He offers a free lesson, and with it [rink skates](item-backrooms:l31-skates): worn on your feet, they make you quicker on the boards, tiles and concrete of this level (never on carpet). Ask him how to get by, or the way out. Stay a day and a half and he will come and find you to say it is time to go.
@@ -926,7 +926,7 @@ Four of the deepest caverns hold ruins, and none of them is the right shape: a L
 Here and there a face looks out of the bark at head height, eyes shut, and under it shoulders and two hands pressed against the inside of the bark. They are quiet. The M.E.G. have nailed a plank by some of them. **Never say "it's only a matter of time" near one**: they scream like rusty chainsaws cutting wood, loud enough to burst your eardrums.
 
 **The Heart of Water**
-In the middle the trees open into a clearing ringed by the **Green Giants**, trunks of green bark wider than a house that hold up the lid. Leave them alone. The ground falls away to a pool, the reservoir that feeds the whole level, under the one wide hole in the lid. The Garden's water is clean, all of it: the pool, the puddles in the caverns, the spring at Base Seedling.
+In the middle the trees open into a clearing ringed by the **Green Giants**, trunks of green bark wider than a house that hold up the lid. Leave them alone. The ground falls away to a pool, the reservoir that feeds the whole level, under the one wide hole in the lid. The Garden's clean water is the reservoir's own: the pool, and the spring at Base Seedling. The puddles in the caverns and the ruins are like any puddle in the Backrooms: murky.
 
 **Base Seedling**
 In one glow room the M.E.G. keep a camp: three tents round a hollow tree with green bark, lanterns, a spring with water barrels beside it, a fire ring, a few stores, and their quartermaster at his counter, who trades. Their signs mark the tunnels down to it from the forest, and their notice board by the path lists the camp's rules (the first is the one about what not to say). Nothing hostile comes in, and resting there counts. They are short of food themselves. They say the hollow tree is the only way out that works every time.

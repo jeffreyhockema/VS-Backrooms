@@ -147,6 +147,7 @@
 	"waypoint-wokeup": "Donde desperté",
 	"dispenser-stock": "Quedan {0}",
 	"dispenser-empty": "Está vacío.",
+	"l73-table-fed": "Ya comiste en esta mesa. La cocinera recuerda quién se sentó, y te pondrá un lugar de nuevo dentro de medio día.",
 	"blockdesc-supplybox": "Dejada atrás por un vagabundo anterior. Rómpela para ver qué hay adentro.",
 	"itemdesc-almondwater": "Una bebida dulce y lechosa. Sabe ligeramente a almendra y hace que el zumbido de las luces sea un poco más silencioso. Te estabiliza cuando la realidad empieza a resbalar.",
 	"block-exitlintel-*": "Letrero de SALIDA",

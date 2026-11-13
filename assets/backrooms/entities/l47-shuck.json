@@ -175,7 +175,7 @@
 						"type": "item",
 						"code": "game:hide-raw-medium",
 						"quantity": {
-							"avg": 1.5,
+							"avg": 0.5,
 							"var": 0
 						}
 					},
