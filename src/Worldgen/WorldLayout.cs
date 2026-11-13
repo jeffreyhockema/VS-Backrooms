@@ -525,9 +525,12 @@ public sealed partial class WorldLayout
     /// <see cref="Tile.Looted"/> at the level's <see cref="PickedOverShare"/> on a hash of their own (SaltStripped), never at
     /// spawn, behind a locked door or within three tiles of a camp, and the generator draws them as their stripped blocks, which
     /// give no food (WorldGenerator.Stripped.cs). Only Levels 1 to 5 move; the experimental levels keep their props.</item>
+    /// <item><b>16</b> (feedback round 2026-11): Level 8 holds more borax ore (vanilla's flux): vanilla's own deposits, which run in
+    /// Level 8 in every world, lay it mostly in chert and conglomerate, so a quarter of a hundredth of the ore cells are now borax in
+    /// claystone, sandstone, shale, limestone and chalk (WorldGenerator.Deep.cs RockAt). The tiles, and so <c>layouthash</c>, are as in 15.</item>
     /// </list>
     /// </summary>
-    public const int CurrentVersion = 15;
+    public const int CurrentVersion = 16;
 
     /// <summary>The layout version this world was made with (see <see cref="CurrentVersion"/>).</summary>
     public readonly int Version;

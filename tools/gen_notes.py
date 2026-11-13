@@ -580,7 +580,7 @@ Animations come out at night, and they never come inside."""),
 If they find you outside, stand still. Quite still, a few seconds, and they take you for a doll. The paper ones fall
 apart in water."""),
     E("l94-3", "Iceboxes", """
-Iceboxes in every house: cheese, butter, beans. Milk vans by the plazas with Almond Milk, filled again each week.
+Iceboxes in every house: cheese, beans. Milk vans by the plazas with Almond Milk, filled again each week.
 Fountains and water towers for Almond Water.
 — Dez""", mark="cache", w="dez"),
     E("l94-4", "Clay", """

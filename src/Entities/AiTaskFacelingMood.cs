@@ -8,14 +8,14 @@ namespace Backrooms.Entities;
 
 /// <summary>
 /// A grown Faceling disturbed (see <see cref="EntityBehaviorFaceling"/>: a block broken, a fall, a blow struck close
-/// by, by someone it can see): it turns to them, throws its arms about, steps in and shoves them once (1 damage, a
+/// by, by someone it can see): it turns its blank face to them and holds it there for a second with a low sound (the tell), throws its arms about, steps in and shoves them once (1 damage, a
 /// little knockback), then goes back to its routine. It does not hunt: only being struck does that (the kin defence).
 /// A task of its own, above the greeting and the idle gestures, so nothing else walks it off mid-outburst.
 /// </summary>
 public class AiTaskOutburst : AiTaskBase
 {
     private EntityBehaviorMenace menace;
-    private enum Step { Turn, Gesture, Charge, Shove, Calm }
+    private enum Step { Turn, Stare, Gesture, Charge, Shove, Calm }
 
     private readonly float damage, knockback, walkSpeed, range;
     private readonly long cooldownMs;
@@ -26,6 +26,10 @@ public class AiTaskOutburst : AiTaskBase
     private float stepTime;
     private bool shoved, charging;
     private string playing;
+
+    /// <summary>The tell: once it has turned to face them it holds still, blank face on them, this long and with this sound before anything else.</summary>
+    public const float StareSeconds = 1.0f;
+    private static readonly AssetLocation StareSound = new("backrooms:sounds/entity/murmur");
 
 
     public AiTaskOutburst(EntityAgent entity, JsonObject taskConfig, JsonObject aiConfig) : base(entity, taskConfig, aiConfig)
@@ -90,12 +94,22 @@ public class AiTaskOutburst : AiTaskBase
         {
             case Step.Turn:
                 if (Turn(YawTo(target.Pos.XYZ), 6f, dt) > 0.15f && stepTime < 1f) return true;
+                Stop();
+                entity.AnimManager.StopAnimation("walk");
+                entity.World.PlaySoundAt(StareSound, entity.Pos.X, entity.Pos.Y + 1.4, entity.Pos.Z, null, true, 16, 0.8f);
+                Strike.Log(entity, "outburst: stares at {0} for {1} s first", target.Code.Path, StareSeconds);
+                Go(Step.Stare);
+                return true;
+            case Step.Stare:
+                // (Held still, face to them: it reads as "you annoyed it", and gives time to back off or run)
+                Turn(YawTo(target.Pos.XYZ), 2f, dt);
+                if (stepTime < StareSeconds) return true;
                 Play(gesture);
                 Go(Step.Gesture);
                 return true;
             case Step.Gesture:
                 Turn(YawTo(target.Pos.XYZ), 3f, dt);
-                if (stepTime < 2.2f) return true;
+                if (stepTime < 1.4f) return true;
                 Stop();
                 Go(Step.Charge);
                 return true;
@@ -121,6 +135,7 @@ public class AiTaskOutburst : AiTaskBase
                 if (!shoved && stepTime > 0.3f)
                 {
                     shoved = true;
+                    Strike.Log(entity, "outburst: shoves, {0:0.0} blocks off", distance);
                     if (distance <= 2.2 && !Strike.IsCreative(target))
                     {
                         if (entity.Api.ModLoader.GetModSystem<MenaceSystem>() is { } boss) boss.LastShoveMs = entity.World.ElapsedMilliseconds;

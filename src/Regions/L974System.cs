@@ -103,7 +103,7 @@ public class L974System : ModSystem
     private const double RefillHours = 2;
     private const long WatchMs = 180_000;
 
-    private static readonly string[] RealFridge = { "game:cheese-cheddar-1slice", "game:vegetable-carrot", "game:redmeat-cooked", "backrooms:l974-strawberrymilk", "game:butter-salted" };
+    private static readonly string[] RealFridge = { "game:cheese-cheddar-1slice", "game:vegetable-carrot", "game:redmeat-cooked", "backrooms:l974-strawberrymilk", "game:cheese-cheddar-1slice", "backrooms:almondmilk" };
     private static readonly string[] RealPantry = { "game:bread-spelt-perfect", "game:fruit-redapple", "backrooms:l974-marshmallow", "backrooms:l974-strawberrymilk" };
     private static readonly string[] Sugar = { "backrooms:l974-marshmallow", "backrooms:l974-candy" };
     private static readonly string[] Meals = { "pancakes", "soup", "macaroni" };

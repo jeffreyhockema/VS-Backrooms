@@ -45,6 +45,8 @@ public sealed partial class WorldGenerator
     private int[,,] gradedOreIds;
     /// <summary>Mineral blocks by stratum and mineral, 0 where vanilla has none.</summary>
     private int[,] mineralIds;
+    /// <summary>Borax by stratum (layout version 16), 0 where it is not added: chert, where vanilla's own deposits lay it, and rocks it does not form in.</summary>
+    private int[] boraxIds;
     private int gravelId, clayId, carpetSeamId, wallpaperSeamId;
     /// <summary>Vanilla sand by rock (all of them in the mortar recipe's list), for Level 7's sea floor and Level 10's ponds (layout version 10).</summary>
     private int[] sandIds = Array.Empty<int>();
@@ -170,12 +172,15 @@ public sealed partial class WorldGenerator
         string[] grades = { "poor", "medium", "rich", "bountiful" };
         gradedOreIds = new int[strata.Length, GradedOres.Length, grades.Length];
         mineralIds = new int[strata.Length, Minerals.Length];
+        boraxIds = new int[strata.Length];
         for (int r = 0; r < strata.Length; r++)
         {
             for (int o = 0; o < GradedOres.Length; o++)
                 for (int g = 0; g < grades.Length; g++)
                     gradedOreIds[r, o, g] = OptionalId($"game:ore-{grades[g]}-{GradedOres[o]}-{strata[r]}");
             for (int m = 0; m < Minerals.Length; m++) mineralIds[r, m] = OptionalId($"game:ore-{Minerals[m]}-{strata[r]}");
+            // (Vanilla's own deposits, which run in Level 8, already lay borax mostly in its chert: not there)
+            boraxIds[r] = strata[r] == "chert" ? 0 : OptionalId($"game:ore-borax-{strata[r]}");
         }
         gravelId = GameId("game:gravel-granite", "game:gravel-andesite");
         floorIds[(int)FloorKind.Gravel] = gravelId;
@@ -895,6 +900,8 @@ public sealed partial class WorldGenerator
                 : pick < 0.955 ? MineralLapis : pick < 0.97 ? MineralOlivine : pick < 0.98 ? MineralGraphite : -1;
             int m = mineral >= 0 ? mineralIds[index, mineral] : 0;
             if (m != 0) return m;
+            // From layout version 16, borax (vanilla's flux) in the rocks vanilla's own deposits leave it out of, a quarter of a hundredth of the ore cells
+            if (pick >= 0.98 && pick < 0.9825 && layout.Version >= 16 && boraxIds[index] != 0) return boraxIds[index];
             if (pick >= 0.98 && clayId != 0) return clayId;
         }
         return strataIds[index];

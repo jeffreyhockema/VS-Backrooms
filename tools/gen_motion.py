@@ -440,8 +440,8 @@ def props():
     # Inside the houses: the 1950s
     prop("icebox", "Icebox", icebox_b13(),
          box=(0.12, 0, 0.25, 0.88, 1.62, 0.94), material="Metal", sounds=METAL,
-         extra={"drops": drops(("game:cheese-cheddar-1slice", 0.8, 0.6), ("game:butter-salted", 0.5, 0.4),
-                               ("almondmilk", 0.6, 0.4), ("cannedbeans", 0.4, 0.3), ("metalbracket", 1, 0.5))})
+         extra={"drops": drops(("game:cheese-cheddar-1slice", 1.2, 0.8),
+                               ("almondmilk", 0.9, 0.4), ("cannedbeans", 0.4, 0.3), ("metalbracket", 1, 0.5))})
     prop("radiocabinet", "Radio Cabinet", radio_b13(),
          box=(0.06, 0, 0.31, 0.94, 0.94, 0.88), material="Wood", sounds=WOOD,
          extra={"drops": drops(("game:plank-aged", 2, 1), ("scrapwire", 1.5, 0.5), ("glassshard", 0.5, 0.5))})
