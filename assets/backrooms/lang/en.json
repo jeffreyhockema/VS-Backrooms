@@ -4984,9 +4984,9 @@
 	"tutorial-backrooms-resume": "Backrooms: First Steps is not finished. Find it under Tutorials in the handbook (H); .tutorial hud shows it on screen.",
 
 	"item-fuse": "Fuse",
-	"itemdesc-fuse": "A ceramic cartridge fuse, thirty amps, still in its paper. Hold it and {rightmouse} a tripped breaker box or electrical panel to bring that section's lights back on. Turns up now and then in toolboxes, tool shelves, maintenance shelving and machine cabinets.",
+	"itemdesc-fuse": "A ceramic cartridge fuse, thirty amps, still in its paper. Hold it and right-click a tripped breaker box or electrical panel to bring that section's lights back on. Turns up now and then in toolboxes, tool shelves, maintenance shelving and machine cabinets.",
 	"block-alarmclock-*": "Wind-up Alarm Clock",
-	"blockdesc-alarmclock-*": "Twin bells on top, a key in the back. Set it down and {rightmouse} to wind and set it: it rings twenty seconds later (each {rightmouse} while it ticks adds twenty, up to two minutes), loud enough to bring whatever hears it to it. The old spring holds only so many windings.",
+	"blockdesc-alarmclock-*": "Twin bells on top, a key in the back. Set it down and right-click to wind and set it: it rings twenty seconds later (each right-click while it ticks adds twenty, up to two minutes), loud enough to bring whatever hears it to it. The old spring holds only so many windings.",
 	"block-pillarlightdead": "Pillar Light",
 	"blockhelp-pullalarm": "Pull the alarm",
 	"blockhelp-testbell": "Press the test button",

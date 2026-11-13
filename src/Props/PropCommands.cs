@@ -37,8 +37,14 @@ public partial class PropSystem
         bool Pos(int at, out BlockPos pos)
         {
             pos = null;
-            // "last": the prop the caller was last taken to (find); "here": five blocks ahead of the caller, on the level they stand on
+            // "last": the prop the caller was last taken to (find) or the scene's prop; "here": five blocks ahead of the caller, on the
+            // level they stand on; "me": where the caller stands
             if (rest.Length > at && rest[at] == "last") return lastFound.TryGetValue(args.Caller.Player?.PlayerUID ?? "", out pos);
+            if (rest.Length > at && rest[at] == "me" && args.Caller.Entity is { } self)
+            {
+                pos = self.Pos.AsBlockPos;
+                return true;
+            }
             if (rest.Length > at && rest[at] == "here" && args.Caller.Entity is { } me)
             {
                 BlockFacing ahead = BlockFacing.HorizontalFromYaw(me.Pos.Yaw);

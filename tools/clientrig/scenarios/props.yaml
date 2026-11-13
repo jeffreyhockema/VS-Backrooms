@@ -20,6 +20,9 @@ steps:
   - shot: sprinklers-spraying
   - expect_log: "props: firealarm at"
   # ---- Breaker: Level 1's maintenance halls have breaker panels and power boxes
+  - cmd: /backrooms goto 1
+  - bot: wait 3000
+  - bot: ready 48
   - cmd: /backrooms feature l1halls
   - bot: wait 4000
   - bot: ready 48
@@ -58,9 +61,10 @@ steps:
   - cmd: /backrooms prop use last
   - bot: wait 1500
   - shot: steam-scene-jet
-  - note: "The player then walks into the jet: rig walk 5 puts them under the pipe"
-  - cmd: /backrooms rig walk 5
-  - bot: wait 3000
+  - note: "Then the same scene round the player's own spot: the jet comes down on them"
+  - cmd: /backrooms prop scene steam me
+  - cmd: /backrooms prop use last
+  - bot: wait 3500
   - shot: steam-on-player
   - expect_log: hurt player
   # ---- Car alarm: the city's parked cars

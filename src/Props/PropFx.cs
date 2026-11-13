@@ -27,11 +27,11 @@ public partial class PropSystem
     {
         int heads = fx.Xyz.Length / 3;
         var at = new Vec3d[heads];
-        for (int i = 0; i < heads; i++) at[i] = new Vec3d(fx.Xyz[i * 3] + 0.5, fx.Xyz[i * 3 + 1] + 0.1, fx.Xyz[i * 3 + 2] + 0.5);
+        for (int i = 0; i < heads; i++) at[i] = new Vec3d(fx.Xyz[i * 3] + 0.5, fx.Xyz[i * 3 + 1] - 0.08, fx.Xyz[i * 3 + 2] + 0.5); // (just under the head's block: inside it they would die at once)
         var drops = new SimpleParticleProperties
         {
-            MinQuantity = 2, AddQuantity = 2,
-            Color = ColorUtil.ToRgba(190, 200, 215, 235),
+            MinQuantity = 3, AddQuantity = 3,
+            Color = ColorUtil.ToRgba(220, 205, 220, 240),
             AddPos = new Vec3d(0.3, 0, 0.3),
             MinVelocity = new Vec3f(-1.6f, -1.2f, -1.6f), AddVelocity = new Vec3f(3.2f, 0.6f, 3.2f),
             LifeLength = 1.1f, GravityEffect = 0.9f,
@@ -59,7 +59,7 @@ public partial class PropSystem
             left -= dt;
             if (left <= 0) return false;
             // (About thirty a second from each head, fewer when there are many)
-            double chance = Math.Min(1, dt * 30 / Math.Max(1, heads / 8.0));
+            double chance = Math.Min(1, dt * 40 / Math.Max(1, heads / 12.0));
             foreach (Vec3d head in at)
             {
                 if (rand.NextDouble() > chance) continue;
@@ -81,18 +81,19 @@ public partial class PropSystem
         BlockFacing dir = fx.Dir >= 0 && fx.Dir < BlockFacing.ALLFACES.Length ? BlockFacing.ALLFACES[fx.Dir] : BlockFacing.DOWN;
         Vec3f n = new(dir.Normalf.X, dir.Normalf.Y, dir.Normalf.Z);
         float speed = Math.Max(4f, fx.Length * 1.6f);
-        source.Add(n.X * 0.5, n.Y * 0.5, n.Z * 0.5);
+        // (Out of the pipe's block before it starts: inside a solid box a particle dies at once)
+        source.Add(n.X * 0.75, n.Y * 0.75, n.Z * 0.75);
         var steam = new SimpleParticleProperties
         {
-            MinQuantity = 3, AddQuantity = 3,
-            Color = ColorUtil.ToRgba(170, 235, 235, 240),
+            MinQuantity = 8, AddQuantity = 6,
+            Color = ColorUtil.ToRgba(215, 240, 240, 245),
             AddPos = new Vec3d(0.3, 0.3, 0.3),
-            MinVelocity = new Vec3f(n.X * speed - 1.2f, n.Y * speed - 1.2f, n.Z * speed - 1.2f), AddVelocity = new Vec3f(2.4f, 2.4f, 2.4f),
-            LifeLength = 0.9f, GravityEffect = -0.04f,
-            MinSize = 0.5f, MaxSize = 0.9f,
+            MinVelocity = new Vec3f(n.X * speed - 1.6f, n.Y * speed - 1.6f, n.Z * speed - 1.6f), AddVelocity = new Vec3f(3.2f, 3.2f, 3.2f),
+            LifeLength = 1.1f, GravityEffect = -0.04f,
+            MinSize = 0.7f, MaxSize = 1.2f,
             ParticleModel = EnumParticleModel.Quad,
-            SizeEvolve = EvolvingNatFloat.create(EnumTransformFunction.LINEAR, 2.5f),
-            OpacityEvolve = EvolvingNatFloat.create(EnumTransformFunction.LINEAR, -160f),
+            SizeEvolve = EvolvingNatFloat.create(EnumTransformFunction.LINEAR, 3f),
+            OpacityEvolve = EvolvingNatFloat.create(EnumTransformFunction.LINEAR, -110f),
             WithTerrainCollision = true,
         };
         steam.MinPos = source.AddCopy(-0.15, -0.15, -0.15);
