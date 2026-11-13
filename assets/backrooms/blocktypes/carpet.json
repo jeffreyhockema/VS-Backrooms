@@ -6,6 +6,8 @@
 	],
 	behaviors: [{ name: "BackroomsStrippable", properties: {
 		result: "carpet-threadbare", item: "carpetfibre",
+		// Crouched, the same cut lifts one square of the pile instead and leaves the damp concrete under it
+		square: "carpetsquare", squareResult: "concretefloor-wet",
 		variant: "type", allowed: ["normal", "stained"]
 	} }],
 	creativeinventory: { "general": ["*"], "construction": ["*"] },

@@ -33,11 +33,49 @@ public class RigCommands : ModSystem
                 .WithArgs(parsers.Word("what"), parsers.OptionalWord("arg"))
                 .HandleWith(Handle)
             .EndSubCommand()
+            .BeginSubCommand("stash")
+                .WithDescription("Dev (feedback round 2026-11, the pleather conversion test; from the console too): 'put' sets a chest near the world's spawn and fills it with pleather, a worn and a fresh pleather piece; 'read' lists what is in it")
+                .WithArgs(parsers.Word("what"))
+                .HandleWith(Stash)
+            .EndSubCommand()
             .BeginSubCommand("growtree")
                 .WithDescription("Dev: plants game:sapling-<wood>-free at x y z (the air block above the ground), makes it due and runs the sapling's own growth check until it turns into a tree; reports the tree generators the world has, the ground under it and the logs and leaves that came of it (from the console too)")
                 .WithArgs(parsers.Int("x"), parsers.Int("y"), parsers.Int("z"), parsers.OptionalWord("wood"))
                 .HandleWith(GrowTree)
             .EndSubCommand();
+    }
+
+    TextCommandResult Stash(TextCommandCallingArgs args)
+    {
+        BlockPos pos = sapi.World.DefaultSpawnPosition.AsBlockPos.AddCopy(2, 0, 2);
+        IBlockAccessor blocks = sapi.World.BlockAccessor;
+        if (blocks.GetChunkAtBlockPos(pos) == null) return TextCommandResult.Error("rig-error: the spawn chunk is not loaded");
+        if (((string)args[0]).Trim() == "put")
+        {
+            Block chest = sapi.World.GetBlock(new AssetLocation("game:chest-east"));
+            blocks.SetBlock(chest.Id, pos);
+            var be = blocks.GetBlockEntity(pos) as Vintagestory.GameContent.BlockEntityGenericTypedContainer;
+            if (be == null) return TextCommandResult.Error("rig-error: no chest block entity");
+            ItemStack Stack(string code, int size, int durability = -1)
+            {
+                var s = new ItemStack(sapi.World.GetItem(new AssetLocation(code)), size);
+                if (durability >= 0) s.Attributes.SetInt("durability", durability);
+                return s;
+            }
+            ItemStack[] put =
+            {
+                Stack("backrooms:pleather", 7), Stack("backrooms:armor-pleather-body", 1, 100), Stack("backrooms:armor-pleather-head", 1),
+                Stack("backrooms:armor-pleather-legs", 1, 40), Stack("backrooms:carpetsquare", 3), Stack("game:armor-body-sewn-leather", 1, 500),
+            };
+            for (int i = 0; i < put.Length; i++) be.Inventory[i].Itemstack = put[i];
+            be.MarkDirty(true);
+            return TextCommandResult.Success($"rig-stash put at {pos.X} {pos.Y} {pos.Z}");
+        }
+        if (blocks.GetBlockEntity(pos) is not Vintagestory.GameContent.BlockEntityGenericTypedContainer chestBe) return TextCommandResult.Error("rig-error: no chest at " + pos);
+        var text = new System.Text.StringBuilder($"rig-stash read at {pos.X} {pos.Y} {pos.Z}:");
+        foreach (ItemSlot slot in chestBe.Inventory)
+            if (slot.Itemstack is { } s) text.Append($" {s.Collectible.Code} x{s.StackSize} dur {s.Attributes.GetInt("durability", -1)};");
+        return TextCommandResult.Success(text.ToString());
     }
 
     TextCommandResult GrowTree(TextCommandCallingArgs args)
@@ -128,8 +166,83 @@ public class RigCommands : ModSystem
                 return r.Status == EnumCommandStatus.Success ? TextCommandResult.Success("rig-classdrops " + r.StatusMessage) : r;
             }
             case "place": return Place(player, arg);
+            case "cut": return Cut(player, arg);
+            case "have": return Have(player);
+            case "craft": return Craft(player, arg);
             default: return TextCommandResult.Error("rig-error: equip, sleep, face, walk, hurt, classdrops or place");
         }
+    }
+
+    /// <summary>
+    /// cut [sneak]: right-clicks the block under your feet with what is in your active hand, as a player would (crouched with
+    /// <c>sneak</c>), and reports the block before and after and what the cut gave (feedback round 2026-11: carpet squares).
+    /// </summary>
+    TextCommandResult Cut(IServerPlayer player, string arg)
+    {
+        bool sneak = arg == "sneak";
+        BlockPos pos = player.Entity.Pos.AsBlockPos.DownCopy();
+        Block before = sapi.World.BlockAccessor.GetBlock(pos);
+        int Count(string code) { int n = 0; foreach (var inv in player.InventoryManager.Inventories.Values) foreach (ItemSlot s in inv) if (s?.Itemstack?.Collectible?.Code?.ToString() == code) n += s.Itemstack.StackSize; return n; }
+        int squares = Count("backrooms:carpetsquare"), fibre = Count("backrooms:carpetfibre");
+        bool was = player.Entity.Controls.ShiftKey;
+        player.Entity.Controls.ShiftKey = sneak;
+        var sel = new BlockSelection { Position = pos, Face = BlockFacing.UP, HitPosition = new Vec3d(0.5, 1, 0.5) };
+        bool handled = before.OnBlockInteractStart(sapi.World, player, sel);
+        player.Entity.Controls.ShiftKey = was;
+        Block after = sapi.World.BlockAccessor.GetBlock(pos);
+        return TextCommandResult.Success($"rig-cut {(sneak ? "crouched" : "standing")}: {before.Code} -> {after.Code}, handled {handled}, squares +{Count("backrooms:carpetsquare") - squares}, fibre +{Count("backrooms:carpetfibre") - fibre}");
+    }
+
+    /// <summary>
+    /// craft code: finds the grid recipes that make an item or block (backrooms code, or domain:code) and checks each by the game's own
+    /// matching: laid out with exactly what it asks, it matches; with one fewer of its biggest ingredient, it does not.
+    /// </summary>
+    TextCommandResult Craft(IServerPlayer player, string arg)
+    {
+        string want = arg != null && arg.Contains(':') ? arg : "backrooms:" + arg;
+        var text = new System.Text.StringBuilder("rig-craft " + want);
+        int found = 0, bad = 0;
+        foreach (GridRecipe recipe in sapi.World.GridRecipes)
+        {
+            if (recipe.Output?.Code?.ToString() != want) continue;
+            found++;
+            var ingredients = recipe.ResolvedIngredients;
+            ItemSlot[] Lay(int short1)
+            {
+                var grid = new ItemSlot[9];
+                for (int i = 0; i < 9; i++) grid[i] = new DummySlot(null);
+                int biggest = -1;
+                for (int i = 0; i < ingredients.Length; i++) if (ingredients[i] != null && (biggest < 0 || ingredients[i].Quantity > ingredients[biggest].Quantity)) biggest = i;
+                for (int i = 0; i < ingredients.Length; i++)
+                {
+                    var ing = ingredients[i];
+                    if (ing?.ResolvedItemStack == null) continue;
+                    var stack = ing.ResolvedItemStack.Clone();
+                    stack.StackSize = ing.Quantity - (i == biggest ? short1 : 0);
+                    if (stack.StackSize <= 0) continue;
+                    grid[(i / recipe.Width) * 3 + i % recipe.Width] = new DummySlot(stack);
+                }
+                return grid;
+            }
+            bool exact = recipe.Matches(player, sapi.World, Lay(0), 3), one = recipe.Matches(player, sapi.World, Lay(1), 3);
+            string asks = string.Join("+", ingredients.Where(i => i != null).GroupBy(i => i.Code.ToString()).Select(g => g.Sum(i => i.Quantity) + " " + g.Key));
+            text.Append($" [{recipe.Width}x{recipe.Height} {asks}: exact {(exact ? "matches" : "NO MATCH")}, one short {(one ? "STILL MATCHES" : "no match")}]");
+            if (!exact || one && ingredients.Any(i => i != null && i.Quantity > 1)) bad++;
+        }
+        if (found == 0) return TextCommandResult.Error("rig-error: no grid recipe makes " + want);
+        text.Append(bad == 0 ? " ok" : " PROBLEM");
+        return bad == 0 ? TextCommandResult.Success(text.ToString()) : TextCommandResult.Error(text.ToString());
+    }
+
+    /// <summary>have: every stack of ours or armour in every inventory of the player, by inventory (the conversion test reads it).</summary>
+    TextCommandResult Have(IServerPlayer player)
+    {
+        var text = new System.Text.StringBuilder("rig-have");
+        foreach (var inv in player.InventoryManager.Inventories.Values)
+            foreach (ItemSlot s in inv)
+                if (s?.Itemstack?.Collectible?.Code is { } code && (code.Path.Contains("pleather") || code.Path.Contains("carpet")))
+                    text.Append($" [{inv.ClassName}] {code.Path} x{s.Itemstack.StackSize} dur {s.Itemstack.Attributes.GetInt("durability", -1)};");
+        return TextCommandResult.Success(text.ToString());
     }
 
     /// <summary>
@@ -194,7 +307,7 @@ public class RigCommands : ModSystem
         int put = 0;
         foreach (string zone in new[] { "head", "body", "legs" })
         {
-            Item item = sapi.World.GetItem(new AssetLocation("game:armor-" + zone + "-" + set));
+            Item item = sapi.World.GetItem(new AssetLocation(set == "carpet" ? "backrooms:armor-carpet-" + zone : "game:armor-" + zone + "-" + set));
             if (item == null) continue;
             var stack = new ItemStack(item);
             foreach (ItemSlot slot in worn)

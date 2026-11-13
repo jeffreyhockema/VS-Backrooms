@@ -95,6 +95,8 @@ public class SalvageSystem : ModSystem
 /// Knives work, as does any item with the attribute <c>crudeCutter</c> (a glass shard), which may snap in use.
 /// The glass shiv and the improvised scraper were made for this: they peel the paper and lift the pile cleanly, and
 /// give two of the stripped item a cut, as does a vanilla knife of copper or better; a flint or bone knife tears off one.
+/// Optional (carpets): <c>square</c> (item) and <c>squareResult</c> (the bare floor left): crouched, the same cut lifts one
+/// whole square of the fresh carpet instead, and leaves the floor under it, which never grows back.
 /// </summary>
 public class BlockBehaviorStrippable : BlockBehavior
 {
@@ -108,6 +110,8 @@ public class BlockBehaviorStrippable : BlockBehavior
     private AssetLocation item;
     private string variant;
     private string[] allowed;
+    private string squareResult;
+    private AssetLocation square;
     private WorldInteraction[] help;
 
     public BlockBehaviorStrippable(Block block) : base(block)
@@ -121,6 +125,9 @@ public class BlockBehaviorStrippable : BlockBehavior
         item = AssetLocation.Create(properties["item"].AsString(), block.Code.Domain);
         variant = properties["variant"].AsString();
         allowed = properties["allowed"].AsArray<string>();
+        squareResult = properties["squareResult"].AsString();
+        string squareItem = properties["square"].AsString();
+        if (squareItem != null) square = AssetLocation.Create(squareItem, block.Code.Domain);
     }
 
     private bool CanStrip => variant == null || allowed == null || System.Array.IndexOf(allowed, block.Variant[variant]) >= 0;
@@ -135,9 +142,9 @@ public class BlockBehaviorStrippable : BlockBehavior
         return crude;
     }
 
-    private Block BareBlock(IWorldAccessor world)
+    private Block BareBlock(IWorldAccessor world, string pattern)
     {
-        string code = result;
+        string code = pattern;
         foreach (var pair in block.Variant) code = code.Replace("{" + pair.Key + "}", pair.Value);
         return world.GetBlock(AssetLocation.Create(code, block.Code.Domain));
     }
@@ -152,17 +159,21 @@ public class BlockBehaviorStrippable : BlockBehavior
         // Not in somebody else's claim
         if (!world.Claims.TryAccess(byPlayer, blockSel.Position, EnumBlockAccessFlags.BuildOrBreak)) return true;
 
-        Block bare = BareBlock(world);
-        Item stripped = world.GetItem(item);
+        // Crouched, on carpet that has a square to give: one whole square, and the floor under it
+        bool lift = square != null && squareResult != null && byPlayer.Entity.Controls.ShiftKey;
+        Block bare = lift ? BareBlock(world, squareResult) : BareBlock(world, result);
+        Item stripped = world.GetItem(lift ? square : item);
         if (bare == null || stripped == null) return true;
 
         BlockPos pos = blockSel.Position;
         world.BlockAccessor.ExchangeBlock(bare.BlockId, pos);
-        world.PlaySoundAt(new AssetLocation("game:sounds/effect/clothrip"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, randomizePitch: true, range: 12);
+        // (A square is lifted quietly; fibres are torn out)
+        if (lift) world.PlaySoundAt(new AssetLocation("game:sounds/block/cloth"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, randomizePitch: true, range: 6, volume: 0.5f);
+        else world.PlaySoundAt(new AssetLocation("game:sounds/effect/clothrip"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, randomizePitch: true, range: 12);
 
         // (A knife of copper or better holds an edge as well as a shiv of glass; flint and bone tear)
         CollectibleObject blade = slot.Itemstack.Collectible;
-        var stack = new ItemStack(stripped, CleanCutters.Contains(blade.Code.ToString()) || BlockBehaviorToolDrops.IsMetalKnife(blade) ? CleanCutYield : 1);
+        var stack = new ItemStack(stripped, !lift && (CleanCutters.Contains(blade.Code.ToString()) || BlockBehaviorToolDrops.IsMetalKnife(blade)) ? CleanCutYield : 1);
         // (What does not fit, all of it or the rest, falls at the player's feet)
         byPlayer.InventoryManager.TryGiveItemstack(stack, slotNotifyEffect: true);
         if (stack.StackSize > 0)
@@ -207,6 +218,18 @@ public class BlockBehaviorStrippable : BlockBehavior
                     Itemstacks = blades.ToArray(),
                 },
             };
+            if (square != null)
+                help = new[]
+                {
+                    help[0],
+                    new WorldInteraction
+                    {
+                        ActionLangCode = "backrooms:blockhelp-liftsquare",
+                        MouseButton = EnumMouseButton.Right,
+                        HotKeyCode = "shift",
+                        Itemstacks = blades.ToArray(),
+                    },
+                };
         }
         return help;
     }

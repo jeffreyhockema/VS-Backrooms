@@ -31,9 +31,7 @@
 	],
 	"attributes": {
 		"handbook": {
-			"groupBy": [
-				"armor-pleather-*"
-			]
+			"exclude": true
 		},
 		"visibleDamageEffect": true,
 		"footStepSound": "wearable/leather*",
@@ -102,17 +100,7 @@
 			]
 		}
 	},
-	"creativeinventory": {
-		"general": [
-			"*"
-		],
-		"items": [
-			"*"
-		],
-		"clothing": [
-			"*"
-		]
-	},
+	"creativeinventory": {},
 	"renderAlphaTest": 0.25,
 	"durability": 175,
 	"tpHandTransformByType": {

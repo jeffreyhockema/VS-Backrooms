@@ -247,8 +247,8 @@
 				"type": "item",
 				"code": "game:cloth-plain",
 				"quantity": {
-					"avg": 2,
-					"var": 0.5
+					"avg": 4,
+					"var": 0.7
 				}
 			},
 			{
@@ -265,14 +265,6 @@
 				"quantity": {
 					"avg": 0.3,
 					"var": 0.3
-				}
-			},
-			{
-				"type": "item",
-				"code": "pleather",
-				"quantity": {
-					"avg": 2,
-					"var": 0.5
 				}
 			}
 		],

@@ -1,6 +1,6 @@
 {
 	code: "carpetbag",
-	// Level 0's carpet, stitched into a bag with its own fibres: the first way to carry more. As big as a hand basket
+	// Level 0's carpet, stitched into a bag with its own fibres: the first way to carry more. Four slots, a little more than a hand basket
 	// (cattails, which those need, only grow in Level 10)
 	maxstacksize: 1,
 	shape: { base: "game:item/bag/linensack" },
@@ -36,7 +36,7 @@
 	},
 	attributes: {
 		backpack: {
-			quantitySlots: 3
+			quantitySlots: 4
 		}
 	}
 }
