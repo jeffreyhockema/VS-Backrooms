@@ -1,0 +1,29 @@
+description: Level 36, the gate's status line from the holdroom (scheduled, boarding, departed) and that it goes away when the player leaves the gate area.
+steps:
+  - expect_no_startup_issues: ""
+  - bot: closeguis
+  - bot: cmd /backrooms goto 36
+  - bot: movewait
+  - bot: ready 48
+  - bot: wait 3000
+  - cmd: /backrooms l36 count 300
+  - cmd: /backrooms l36 front
+  - bot: wait 3500
+  - shot: l36g-1-scheduled
+  - cmd: /backrooms l36 count 80
+  - bot: wait 3500
+  - shot: l36g-2-boarding
+  - expect_chat: Now boarding
+  - cmd: /backrooms l36 count 12
+  - bot: wait 3000
+  - shot: l36g-3-finalcall
+  - expect_chat: Final call
+  - bot: wait 12000
+  - shot: l36g-4-departed
+  - expect_chat: has left gate
+  - bot: cmd /backrooms goto 36
+  - bot: movewait
+  - bot: ready 48
+  - bot: wait 6000
+  - shot: l36g-5-away-no-hud
+  - expect_no_log: Unhandled exception

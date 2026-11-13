@@ -97,6 +97,7 @@ public partial class AtmosphereSystem
             }
             l36BedPlaying = bed;
         }
+        if (bed == "cabin") l36Bed?.SetVolume(Backrooms.Regions.L36ClientSystem.CabinVolume);
         if (bed != "hum") return;
         // The PA: a chime and a calm voice nobody can make out, from somewhere up in the ceiling
         l36PaClock -= dt;

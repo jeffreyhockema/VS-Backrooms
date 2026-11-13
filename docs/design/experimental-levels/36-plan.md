@@ -803,3 +803,49 @@ at 32 px; the cabin is shorter than the old one (the gate's bounds).
 `regions` 60/60 in Level 36; `featurecheck 3 36`: 21/21 (new `l36cabin`, `l36galley`, `l36planedoor`); headless (43157):
 `/backrooms dummy place 36 5` lands (light 10), 0 missing blocks, `blocksweep` 19031 blocks, 0 threw; no translucent texels
 in the cabin's textures; `gen_guide --check`, `gen_notes --check` clean; `GATE_TAG=36f gate.py --fast --port-base 43150`: PASS.
+## Flight status pass (2026-11-13)
+
+The user's ask: "it's not super clear when the plane is boarding, about to take off, etc." So a flight now says what it is
+doing at every step, in real minutes and seconds, three ways at once: a HUD line, a chime and a plain chat line.
+
+**Time.** The countdown is still 1200 units to a game hour; the player is shown real time, the
+units times `3600 / 1200 / (SpeedOfTime x CalendarSpeedMul)` seconds (a tenth of a second at the default calendar), so
+boarding (count 1000) opens 100 s before departure at the default speed. Gate C32's count runs at a fiftieth of the
+clock; its line reads "DELAYED, boards in about N years".
+
+**States** (`L36State`, src/Regions/L36Flight.cs; server side src/Regions/L36System.Status.cs):
+
+| state | when | HUD line (colour) | heard |
+|---|---|---|---|
+| SCHEDULED | at the gate, not yet boarding | `Flight 4821KD to Level 11 | Gate C14 | SCHEDULED | boards in 12:05` (white) | nothing |
+| BOARDING | count <= 1000 | `... BOARDING | doors close in 1:42` (green) | chime, PA babble, "Now boarding" |
+| FINAL CALL | last 20 s | `... FINAL CALL | doors close in 0:17` (amber) | chime, PA babble, "Final call ... N seconds" |
+| DOORS CLOSED | count passed 0, 0-6 s | `... DOORS CLOSED | landing in 1:04` (red-orange) | seatbelt ding; plane door closed, PSU lit |
+| PUSHBACK | 6-14 s | `PUSHBACK` | pushback rumble (new `pushback.ogg`); small lurch |
+| TAKEOFF | 14-26 s | `TAKEOFF` | engines spool up (new `takeoff.ogg`), camera shake 7 s; windows "roll", lights dim |
+| CLIMB | 26-36 s | `CLIMB` (blue) | soft chime; a lean of shake, lights up, windows "climb" |
+| CRUISE | 36-54 s | `CRUISE` | ding (seatbelt off); cabin loop louder; windows "cruise" |
+| DESCENT | 54-64 s | `DESCENT` | chime and ding; seatbelt on, lights dim, windows "descent" |
+| LANDED | 64-70 s | `LANDED | the door opens in 0:05` (green) | touchdown with a hard shake; windows "ground"; then the clunk and the threshold landing |
+| DEPARTED | 25 s after a plane leaves without you | `Gate C14 | DEPARTED | next: flight ..., boards in ...` | chat line naming both flights |
+| DELAYED | gate C32 | `... DELAYED | boards in about 15 years` | none |
+
+The flight is 70 s (was 55). Boarding walks: the jet-bridge door puts the player at the bridge's start (`L36Gate.BridgeX/Z`);
+they walk into the cabin. At departure those in the cabin fly; anyone still on the bridge is put off at the door ("the
+bridge pulls back"). Every effect is per player (packet, line, sound, shake); the cabin's blocks are per plane.
+
+**Packet.** `L36StatusPacket` on channel `backrooms-l36`, once a second, only to players inside a gate's bounds or flying
+(a clear packet when they leave; the client also drops the line after 4 s of silence). The client counts the seconds down
+between packets and draws the line (`HudL36Flight`, top centre). A client that joins mid-flight gets it at the next tick.
+
+**Cabin by name (the contract with the asset branch).** Windows `l36-cabinwindow-{apron,roll,climb,cruise,descent,ground}-{side}`
+(and today's `l36-cabinwall-window-{side}` are found and swapped), PSU `l36-psu-{off,on}-{side}`, ceiling `l36-ceiling-cabin[-dim]`,
+plane door `l36-planedoor-{open,closed}-{side}`. The cabin's blocks are scanned when the first player takes off, swapped on each
+state change, and put back at rest when nobody is aboard; a cabin a player enters that nothing is following is put back once per
+server run (a stop mid-flight). A name that is not a block is skipped silently: until the asset branch lands, only the sounds,
+HUD, chat and shake are visible. **Not done:** the gate screen's block does not change with the state (costs a block and a
+texture set; the screen's chat list shows the same words and times).
+
+**Dev:** `/backrooms l36 board | front | count <seconds> | fly [seconds] | phase <name>` (controlserver privilege).
+Rig scenarios: `l36flight.yaml` (a whole flight, survival), `l36gatehud.yaml` (the holdroom's line, DEPARTED, and the line
+gone away from the gate).

@@ -39,13 +39,12 @@ namespace Backrooms.Regions;
 /// </para>
 /// <para>Blocks marked <c>l36structure</c> (the terminal's floors, walls, windows, ceilings, doors and static) are unbreakable.</para>
 /// </summary>
-public class L36System : ModSystem
+public partial class L36System : ModSystem
 {
     /// <summary>How many countdown units to a game hour (ten to a real second at the default 30 game seconds a second).</summary>
     public const double UnitsPerHour = 1200;
     public const int Boarding = 1000;
     private const ulong SaltFlight = 0x2520;
-    private const long FlightMs = 55_000;
     /// <summary>How long a sink runs over once its tap is turned, and how long a head must be held under.</summary>
     private const long OverflowMs = 45_000;
     public const float DunkSeconds = 2.5f;
@@ -59,8 +58,8 @@ public class L36System : ModSystem
     private readonly Dictionary<string, float> heldAwake = new();
     /// <summary>The gate and flight cycle a player boarded (by uid).</summary>
     private readonly Dictionary<string, (string Gate, long Cycle)> aboard = new();
-    /// <summary>When a player in flight lands (by uid), what has been said so far, and the jet-bridge door of the gate it left.</summary>
-    private readonly Dictionary<string, (long LandMs, int Said, int DoorX, int DoorZ)> flying = new();
+    /// <summary>The flight each player aboard has taken off on (by uid): see L36System.Status.cs.</summary>
+    private readonly Dictionary<string, FlightRun> flying = new();
     /// <summary>The sinks running over (by position), and when each stops.</summary>
     private readonly Dictionary<BlockPos, long> overflowing = new();
     private readonly Dictionary<string, long> lastRefusal = new();
@@ -101,6 +100,7 @@ public class L36System : ModSystem
             geometry = BackroomsWorld.CreateGeometry(api.World);
             tick = api.Event.RegisterGameTickListener(OnTick, 1000, 500);
             api.Event.PlayerDisconnect += Forget;
+            RegisterDevCommand(api);
         });
     }
 
@@ -118,6 +118,7 @@ public class L36System : ModSystem
         heldAwake.Remove(player.PlayerUID);
         aboard.Remove(player.PlayerUID);
         flying.Remove(player.PlayerUID);
+        ForgetStatus(player.PlayerUID);
         lastRefusal.Remove(player.PlayerUID);
         BlockBehaviorL36Sink.Forget(player.PlayerUID);
     }
@@ -125,18 +126,24 @@ public class L36System : ModSystem
     // ================= The flights =================
 
     /// <summary>A gate's flight now: its countdown, which flight of the gate's it is, its number and where it goes (always the same level for the gate).</summary>
-    public readonly record struct Flight(long Count, long Cycle, string Number, int Destination, bool Boarding);
+    public readonly record struct Flight(long Count, long Cycle, string Number, int Destination, bool Boarding, long Period = 0);
 
     public Flight FlightOf(WorldLayout.L36Gate gate)
     {
         long units = (long)(sapi.World.Calendar.TotalHours * UnitsPerHour);
         if (gate.SupportGroup) return new Flight(Math.Max(1, 94_612_753 - units / 50), 0, "1784XBA8JLP", 186, false);
+        if (devShift.TryGetValue(gate.Code, out long shift)) units += shift;
         ulong h = Hashing.Hash((ulong)sapi.World.Seed, gate.DoorX, gate.DoorZ, SaltFlight);
         long period = 6000 + (long)(h % 30000), phase = (long)(h >> 20) % period;
         long cycle = (units + phase) / period, count = period - (units + phase) % period;
+        return new Flight(count, cycle, NumberOf(gate, cycle), layout.L36FlightTo(gate), count <= Boarding, period);
+    }
+
+    /// <summary>The number of a gate's flight of a given cycle.</summary>
+    private string NumberOf(WorldLayout.L36Gate gate, long cycle)
+    {
         ulong c = Hashing.Hash((ulong)sapi.World.Seed, (int)cycle, gate.DoorX ^ gate.DoorZ, SaltFlight + 1);
-        string number = (1000 + (int)(c % 9000)).ToString() + (char)('A' + (int)(c / 9000 % 26)) + (char)('A' + (int)(c / 234000 % 26));
-        return new Flight(count, cycle, number, layout.L36FlightTo(gate), count <= Boarding);
+        return (1000 + (int)(c % 9000)).ToString() + (char)('A' + (int)(c / 9000 % 26)) + (char)('A' + (int)(c / 234000 % 26));
     }
 
     private static void Tell(IServerPlayer player, string key, params object[] args) =>
@@ -173,13 +180,20 @@ public class L36System : ModSystem
         }
         if (!flight.Boarding)
         {
-            Tell(player, gate.SupportGroup ? "backrooms:l36-gate-c32" : "backrooms:l36-gate-waiting", gate.Code, flight.Number, flight.Destination, flight.Count.ToString("N0"));
+            if (gate.SupportGroup) Tell(player, "backrooms:l36-gate-c32", gate.Code, flight.Number, flight.Destination, DelayedYears(flight));
+            else Tell(player, "backrooms:l36-gate-waiting", gate.Code, flight.Number, flight.Destination, L36Timeline.Clock(Seconds(flight.Count - Boarding)));
             return;
         }
+        Board(player, gate, flight);
+    }
+
+    /// <summary>Aboard a boarding flight: the jet bridge's start, just inside the door; the walk to the cabin is theirs.</summary>
+    private void Board(IServerPlayer player, WorldLayout.L36Gate gate, Flight flight)
+    {
         aboard[player.PlayerUID] = (gate.Code, flight.Cycle);
         Play("boarding", player.Entity.Pos.X, player.Entity.Pos.Y + 1, player.Entity.Pos.Z, null, 0.8f);
-        Move(player, gate.AisleX, gate.AisleZ);
-        Tell(player, "backrooms:l36-board", flight.Number, flight.Destination, gate.Code, flight.Count.ToString("N0"));
+        Move(player, gate.BridgeX, gate.BridgeZ);
+        Tell(player, "backrooms:l36-board", flight.Number, flight.Destination, gate.Code, L36Timeline.Clock(Seconds(flight.Count)));
     }
 
     /// <summary>A flight screen used: the flights of the nearest gates.</summary>
@@ -199,8 +213,10 @@ public class L36System : ModSystem
         for (int i = 0; i < Math.Min(6, rows.Count); i++)
         {
             var (f, g) = rows[i];
-            string status = Say.T(player, f.Boarding ? "backrooms:l36-status-boarding" : f.Count < 5000 ? "backrooms:l36-status-soon" : "backrooms:l36-status-scheduled");
-            sb.Append('\n').Append(Say.T(player, "backrooms:l36-screen-row", f.Number, f.Destination, g.Code, f.Count.ToString("N0"), status));
+            string status = Say.T(player, g.SupportGroup ? "backrooms:l36-status-delayed" : f.Boarding && Seconds(f.Count) <= L36Timeline.FinalCallSeconds ? "backrooms:l36-status-finalcall"
+                : f.Boarding ? "backrooms:l36-status-boarding" : f.Count < 5000 ? "backrooms:l36-status-soon" : "backrooms:l36-status-scheduled");
+            string time = g.SupportGroup ? DelayedYears(f) : L36Timeline.Clock(Seconds(f.Count));
+            sb.Append((char)10).Append(Say.T(player, "backrooms:l36-screen-row", f.Number, f.Destination, g.Code, time, status));
         }
         player.SendMessage(GlobalConstants.GeneralChatGroup, sb.ToString(), EnumChatType.Notification);
     }
@@ -223,11 +239,14 @@ public class L36System : ModSystem
                 heldAwake.Remove(uid);
                 aboard.Remove(uid);
                 flying.Remove(uid);
+                ClearStatus(player, uid);
                 continue;
             }
             HoldTime(player, uid, now);
             Fly(player, uid, x, z, now);
+            Report(player, uid, x, z, now);
         }
+        UpdateCabins(now);
     }
 
     /// <summary>No tiring here, and no sleep: the awake hours held as they were; anyone lying down is up again at once.</summary>
@@ -249,24 +268,18 @@ public class L36System : ModSystem
         }
     }
 
-    /// <summary>Aboard a plane when its count runs out: the flight, and then the carousel.</summary>
+    /// <summary>Aboard a plane when its count runs out: the flight, and then the carousel. (What is said and shown is Report's.)</summary>
     private void Fly(IServerPlayer player, string uid, int x, int z, long now)
     {
-        if (flying.TryGetValue(uid, out var flight))
+        if (flying.TryGetValue(uid, out FlightRun run))
         {
-            int said = flight.Said;
-            long left = flight.LandMs - now;
-            if (said == 0 && left < FlightMs - 15_000) { Tell(player, "backrooms:l36-cruise"); said = 1; }
-            if (said == 1 && left < 12_000) { Tell(player, "backrooms:l36-descent"); Play("ding", player.Entity.Pos.X, player.Entity.Pos.Y + 1.5, player.Entity.Pos.Z, player); said = 2; }
-            if (said == 2 && left < 4_000) { Play("touchdown", player.Entity.Pos.X, player.Entity.Pos.Y + 1, player.Entity.Pos.Z, player); said = 3; }
-            flying[uid] = flight with { Said = said };
-            if (left > 0) return;
+            if (now - run.StartMs < L36Timeline.FlightMs) return;
             flying.Remove(uid);
             aboard.Remove(uid);
             // Off the plane, wherever the gate's flights go: one-way, through the threshold network, so every flight from
             // this gate comes down in the same place (ThresholdNetwork.L36.cs)
             Play("clunk", player.Entity.Pos.X, player.Entity.Pos.Y + 1, player.Entity.Pos.Z, player);
-            var door = new BlockPos(flight.DoorX, geometry.FloorFor(WorldLayout.Level36) + 1, flight.DoorZ);
+            var door = new BlockPos(run.DoorX, geometry.FloorFor(WorldLayout.Level36) + 1, run.DoorZ);
             sapi.ModLoader.GetModSystem<Thresholds.ThresholdSystem>()?.Use(player, door, "l36-flight");
             return;
         }
@@ -281,9 +294,18 @@ public class L36System : ModSystem
         // (Aboard with no boarding remembered, after a restart: counted as boarded on this flight)
         if (!aboard.TryGetValue(uid, out var boarded) || boarded.Gate != gate.Code) aboard[uid] = boarded = (gate.Code, f.Cycle);
         if (f.Cycle <= boarded.Cycle || gate.SupportGroup) return;
-        flying[uid] = (now + FlightMs, 0, gate.DoorX, gate.DoorZ);
-        Play("ding", player.Entity.Pos.X, player.Entity.Pos.Y + 1.5, player.Entity.Pos.Z, player);
-        Tell(player, "backrooms:l36-takeoff", f.Number);
+        if (layout.TileAt(x, z).Zone != (byte)WorldLayout.L36Zone.Cabin)
+        {
+            // Still on the bridge when the plane leaves: the bridge pulls back, and they are put off at the door
+            aboard.Remove(uid);
+            Move(player, gate.FrontX, gate.FrontZ);
+            Play("clunk", gate.FrontX + 0.5, player.Entity.Pos.Y + 1, gate.FrontZ + 0.5, player);
+            Tell(player, "backrooms:l36-bridge-back", NumberOf(gate, boarded.Cycle), gate.Code);
+            seen[uid] = (gate.Code, L36State.Departed);
+            return;
+        }
+        flying[uid] = new FlightRun { StartMs = now, Gate = gate.Code, DoorX = gate.DoorX, DoorZ = gate.DoorZ, Number = NumberOf(gate, boarded.Cycle), Destination = f.Destination };
+        GateRunFor(gate, now);
     }
 
     // ================= The restroom sinks =================
