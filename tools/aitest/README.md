@@ -50,6 +50,22 @@ In Level 0 (the Lobby, where nothing hunts), the dummy carrying a candle: a crea
 
 `iso-hound-nerve` (a dummy staring a Hound down from 10 blocks: no hunt for its nerve, then "hunts: nerve"), `iso-hound-back-turned` (the target's back turned, in sight within 16 blocks: hunted after 2 seconds), `iso-hound-runner` (a running dummy beats the stare: "hunts: ran") and `iso-hound-gives-up` (a dark dummy out of its line: its belief fades, it searches and leaves, and does not hunt again).
 
+## Ways back (`--only ways`)
+
+`ways-rowhouse-back` (feedback round 2026-11): from a Level 11 dummy's spot, `/backrooms wayback rowhouse x z` takes the nearest
+rowhouse door that opens into the Suburbs and then tries its way back as a player would, by the block standing where the way
+back is written (rel 1 and 2: the kind a right-click uses, `ThresholdSystem.UseKindOf`), and asks the pry bar whether it would
+break it. It passes when both halves of the Suburbs door lead home and the pry bar refuses. Layouts 9 to 15 left a door there
+with no threshold that a pry bar destroyed: this case fails on that.
+
+## Hound packs and encounter rates (`houndrate.py`, not a case)
+
+`python tools/aitest/houndrate.py --mods <Mods> --port <n> --minutes 40 --label <name>` puts five straw dummies down (Level 3's
+approach, Level 8 by the road and off it, Level 9's approach and threshold, seed 12345's spots from mapgen `bandspots`), has the
+director direct them (`dummies on`) with the telemetry on, and counts the Hound packs (Hounds put down to stalk or hunt) and all
+bodies (set pieces left out) per 10 real minutes for each. Headless Hounds never reach a dummy: a pack hunts until its time
+runs out and leaves. Run the old build and the new side by side on two ports to compare.
+
 ## Needs cases (`--only needs`, thirst and fatigue)
 
 `needs-boot` (no log line about the needs' player patch or behaviours failing), `needs-selftest` (`/backrooms needstest`: every

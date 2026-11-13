@@ -310,6 +310,7 @@ public partial class MenaceSystem : ModSystem
         shames.Remove(id);
         jumping.Remove(id);
         ambientNextMs.Remove(id);
+        houndClocks.Remove(id);
     }
 
     public override void Dispose()
@@ -608,6 +609,7 @@ public partial class MenaceSystem : ModSystem
         foreach (long id in shames.Keys.Where(id => !live.Contains(id)).ToList()) shames.Remove(id);
         foreach (long id in jumping.Keys.Where(id => !live.Contains(id)).ToList()) jumping.Remove(id);
         foreach (long id in ambientNextMs.Keys.Where(id => !live.Contains(id)).ToList()) ambientNextMs.Remove(id);
+        PruneHoundClocks(live);
     }
 
     private long nextPruneMs;
@@ -754,6 +756,8 @@ public partial class MenaceSystem : ModSystem
     {
         creative &= !CreativeHunted; // (/backrooms creativehunts: a creative player is directed like anyone else)
         Assessment a = watch.Now;
+        // (Every tick, so a pack's quiet starts when it went: MenaceSystem.HoundPacks.cs)
+        TickHoundClock(target);
         if (a.Trial) return; // the King's trial is his own affair
         RosterEntry[] roster = a.Snackrooms ? Roster.Snackrooms : a.Castle ? Roster.Castle : Roster.For(a.Level);
 
@@ -812,7 +816,14 @@ public partial class MenaceSystem : ModSystem
         // In a den, mostly what lives there comes
         if (Roster.DenEntry(aa.Den) is { } dweller && (dweller.Kinds & flag) != 0 && types.ContainsKey(dweller.Code) && rand.NextDouble() < DwellerChance && DwellerFits(actorRoster, dweller, aa)) options = new[] { dweller };
         RosterEntry entry = Pick(options);
-        if (entry != null && TrySpawn(actor, aa, entry, kind)) watch.LastBodyMs = nowMs;
+        // Levels 8 and 9: one Hound pack at a time, and a quiet after it (MenaceSystem.HoundPacks.cs). Held back, it is a body
+        // that did not come, like a failed spawn: the other creatures keep their own rates
+        if (entry?.Code == Roster.Hound && HoundHeldBack(actor, aa, mates)) return;
+        if (entry != null && TrySpawn(actor, aa, entry, kind))
+        {
+            watch.LastBodyMs = nowMs;
+            if (entry.Code == Roster.Hound) NoteHoundPack(actor, aa, kind, party);
+        }
     }
 
     /// <summary>Whether a den's dweller may come here: a Smiler the level's roster keeps to the lights-out places (Level 0) still is.</summary>
@@ -1062,6 +1073,14 @@ public partial class MenaceSystem : ModSystem
         if (!types.TryGetValue(entry.Code, out EntityProperties type)) return false;
         // A capped scavenger pack is silence, like any failed spawn: say so before the search for a spot, not after it
         if (Scavengers(entry, a, kind, setPiece) && RatPacksNear(target) >= MaxRatPacks) { LastTry.RatCap = 1; if (!dryRun && minDistance <= 0 && !setPiece && kind != Encounter.Ambient) NoteFailedBody(a.Level, entry.Code, LastTry, 0, 0); return false; }
+        // A full cap sends nothing (before 2026-11 a pack was clipped to one at least, so one always came even at the cap).
+        // Set pieces and tests still clip to one at least: the Flickering's Hounds, the Screaming's rats, /backrooms encounter
+        if (kind != Encounter.Ambient && !packUncapped && !setPiece && !dryRun && Roster.Cap(a.Band, a.Level) - CountMenacing(target) <= 0)
+        {
+            LastTry.CapFull = 1;
+            if (Logging) sapi.Logger.Notification("[backrooms] {0}: the cap ({1}) is full, nothing sent", entry.Code, Roster.Cap(a.Band, a.Level));
+            return false;
+        }
         (double min, double max) = kind switch
         {
             Encounter.Glimpse => (22.0, 40.0),
@@ -1239,6 +1258,7 @@ public partial class MenaceSystem : ModSystem
         // A glimpse is one thing seen and gone, except the Screaming's frenzied pack, which crosses ahead all together
         bool single = !scavengers && (kind == Encounter.Ambient || (kind == Encounter.Glimpse && !entry.Frenzy));
         int count = single ? 1 : entry.PackMin + rand.Next(packMax - entry.PackMin + 1);
+        // (Clipped to the room under the cap: TrySpawn has refused a director's body at a full cap; a set piece still sends one)
         if (kind != Encounter.Ambient && !packUncapped) count = Math.Max(1, Math.Min(count, Roster.Cap(setPiece ? MenaceBand.Threshold : a.Band, a.Level) - CountMenacing(target)));
         lastPack.Clear();
         if (Spawn(type, spot, target, kind, a.Passive, untilHours, entry.ShiftOnly, entry.Frenzy, fedChance: fedChance) is { } first) lastPack.Add(first);
@@ -1461,6 +1481,7 @@ public partial class MenaceSystem : ModSystem
         {
             text.AppendFormat("\n{0}: {1}, {2:0} blocks", e.Code.Path, e.GetBehavior<EntityBehaviorMenace>().Kind, e.Pos.DistanceTo(entity.Pos.XYZ));
         }
+        if (HoundStatusLine(entity, a.Level) is { } hounds) text.Append('\n').Append(hounds);
         text.Append('\n').Append(FailedBodiesLine(a.Level));
         text.Append('\n').Append(CostLine());
         return TextCommandResult.Success(text.ToString());
