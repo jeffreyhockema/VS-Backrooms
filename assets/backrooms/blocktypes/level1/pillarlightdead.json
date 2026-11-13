@@ -1,0 +1,30 @@
+// Level 1's pillar light with its breaker tripped (src/Props/Breakers.cs): the same pillar, its tubes dead (it breaks down as the building does). The lit pillar light has no off state of its own
+{
+	"code": "pillarlightdead",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shape": {
+		"base": "block/pillarlight"
+	},
+	"textures": {
+		"tube": {
+			"base": "block/props/tube-off"
+		}
+	},
+	"resistance": 8,
+	"requiredMiningTier": 3,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	}
+}

@@ -140,6 +140,8 @@ public class AiTaskMoth : AiTaskBase
 
         // Moth jelly set down within 24 blocks draws every male to it, whatever else is about (MothJelly.cs)
         if (!bites && BaitPull(now)) return;
+        // Sprinklers spraying (a fire alarm pulled, src/Props/FireAlarms.cs): the water scatters the females, and the males come to drink it
+        if (WaterPull(now)) return;
         // (Nothing put it down for anyone and it is not leaving: nothing to fly off from)
         if (kind == Encounter.Ambient && target == null) return;
         if (kind == Encounter.Leave || target == null || !target.Alive)
@@ -241,6 +243,43 @@ public class AiTaskMoth : AiTaskBase
         if (bait == null) return false;
         Vec3d spot = SpotBeside(bait);
         if (spot == null || PlayerNear(spot, scavengeAvoid)) return false;
+        perch = spot;
+        goal = spot;
+        double dx = entity.Pos.X - spot.X, dz = entity.Pos.Z - spot.Z, dy = entity.Pos.Y - spot.Y;
+        if (dx * dx + dz * dz < 1.0 && dy < 1.2)
+        {
+            if (settle != Settle.Feeding) entity.AnimManager.StartAnimation("feed");
+            settle = Settle.Feeding;
+            settledUntilMs = now + 4000;
+            return true;
+        }
+        if (settle is Settle.Resting or Settle.Feeding) TakeOff();
+        settle = Settle.None;
+        return true;
+    }
+
+    /// <summary>How near falling water scatters a female, and how far it draws a male (blocks).</summary>
+    private const double WaterScatter = 12, WaterDraw = 24;
+
+    /// <summary>
+    /// Sprinkler water: a female within <see cref="WaterScatter"/> flies off from it (as from smoke); a male within
+    /// <see cref="WaterDraw"/> goes to the floor under it and drinks (unless a player is near the spot). Returns whether it did either.
+    /// </summary>
+    private bool WaterPull(long now)
+    {
+        Vec3d water = Props.PropSystem.WaterNear(entity.World, entity.Pos.XYZ, bites ? WaterScatter : WaterDraw);
+        if (water == null) return false;
+        if (bites)
+        {
+            TakeOff();
+            double away = Math.Atan2(entity.Pos.Z - water.Z, entity.Pos.X - water.X);
+            goal = entity.Pos.XYZ.Add(Math.Cos(away) * 8, 0.5, Math.Sin(away) * 8);
+            return true;
+        }
+        int y = Senses.FindFloor(entity.World, (int)Math.Floor(water.X), (int)Math.Floor(water.Y), (int)Math.Floor(water.Z), 1, 9);
+        if (y == int.MinValue) return false;
+        var spot = new Vec3d(water.X + 0.3, y, water.Z + 0.3);
+        if (PlayerNear(spot, scavengeAvoid)) return false;
         perch = spot;
         goal = spot;
         double dx = entity.Pos.X - spot.X, dz = entity.Pos.Z - spot.Z, dy = entity.Pos.Y - spot.Y;
