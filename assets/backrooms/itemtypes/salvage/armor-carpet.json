@@ -12,14 +12,14 @@
 			]
 		}
 	],
-	"shape": {
-		"base": "game:entity/humanoid/seraph/armor/jerkin/{bodypart}"
-	},
 	"textures": {
 		"seraph": {
 			"base": "game:block/transparent"
 		},
 		"material": {
+			"base": "entity/humanoid/serapharmor/carpet"
+		},
+		"leather": {
 			"base": "entity/humanoid/serapharmor/carpet"
 		}
 	},
@@ -255,6 +255,14 @@
 				"z": 0.5
 			},
 			"scale": 3.1
+		}
+	},
+	"shapeByType": {
+		"*-head": {
+			"base": "game:entity/humanoid/seraph/armor/gambeson/head"
+		},
+		"*": {
+			"base": "game:entity/humanoid/seraph/armor/jerkin/{bodypart}"
 		}
 	}
 }
