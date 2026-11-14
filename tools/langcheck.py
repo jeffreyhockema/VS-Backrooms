@@ -13,7 +13,8 @@ Vintage Story shows the code itself when a lang entry is missing ("block-foo-bar
   3. code: every lang key in src (Say.T, Lang.Get/GetL/GetMatching/HasTranslation, RegisterHotKey, and any
      "backrooms:key" literal) carries the `backrooms:` domain (or is a key the game's own lang has) and exists.
   4. handbook and tutorial: every guide page's title/text key (GuideSystem.cs Added[]), and the tutorial step titles in
-     assets/game/lang/en.json.
+     assets/game/lang/en.json; every guide-* key in the Spanish files keeps the English key's [[...]] markers and
+     handbook:// links and stays within 3 times its length.
 
     python tools/langcheck.py              report; exit 1 on any finding
     python tools/langcheck.py --fix-list   also print a stub of the missing en.json keys to paste into a generator
@@ -542,6 +543,27 @@ def check_guide(en, problems, stub):
 
 # ------------------------------------------------------------------ main
 
+_MARKUP = re.compile(r"\[\[[^\]]*\]\]|handbook://[^\s)\]\"']*")
+
+
+def check_guide_translations(en, problems):
+    """Handbook texts keep their discovery markers and links in translation: a Spanish page that lacks [[level:N]],
+    [[unvisited:N]] or [[met:..]] shows what the English hides until it is found, and one that is far longer than the
+    English is usually an old essay the page has since split into generated tables."""
+    for fn in ("es-419.json", "es-es.json"):
+        tr = read_lang(os.path.join(ASSETS, "lang", fn))
+        for k, v in tr.items():
+            if not k.startswith("guide-") or k not in en or not isinstance(v, str) or not isinstance(en[k], str):
+                continue
+            want, got = set(_MARKUP.findall(en[k])), set(_MARKUP.findall(v))
+            if want != got:
+                problems.append(("guide", "assets/backrooms/lang/%s: %s markers/links differ from en.json (missing %s, extra %s)"
+                                 % (fn, k, sorted(want - got)[:3], sorted(got - want)[:3])))
+            if len(v) > 3 * len(en[k]):
+                problems.append(("guide", "assets/backrooms/lang/%s: %s is %d characters, more than 3 times the English %d"
+                                 % (fn, k, len(v), len(en[k]))))
+
+
 def main(argv):
     problems, notes = [], []
     stub = {"block/item/entity": [], "worldconfig": [], "code": [], "guide": [], "tutorial": []}
@@ -584,6 +606,7 @@ def main(argv):
     check_worldconfig(problems, stub)
     check_code(en, idx, game_en, ASSET_CODES, problems, stub)
     check_guide(en, problems, stub)
+    check_guide_translations(en, problems)
 
     if "--es" in argv:
         for f in ("es-419.json", "es-es.json"):
