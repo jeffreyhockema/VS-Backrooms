@@ -274,8 +274,10 @@ def tf(t=(0, 0, 0), r=(0, 0, 0), o=(0.5, 0, 0.5), s=1.0):
 
 # Held in the hand tipped up, as the fuse is (itemtypes/props/fuse.json, a shape lying round 8, 8 like these): the client
 # showed vanilla's letter transform holding them edge-on and the fuse's holding them where they can be seen
-TP_FLAT = tf((-0.8, -0.2, -0.6), (0, 0, -60), None, 0.7)
-TP_CHUNK = tf((-0.8, -0.2, -0.6), (0, 0, -60), None, 0.65)
+# Held in the palm as the pantry holds its flat things (a candy bar, a blister card): seen in the client from the front, the
+# earlier (-0.2 high, turned -60 about Z) hung by the forearm, clear of the hand
+TP_FLAT = tf((-0.8, -0.45, -0.6), (0, -45, -10), None, 0.7)
+TP_CHUNK = tf((-0.8, -0.45, -0.6), (0, -45, -10), None, 0.65)
 # Lying on the ground at its own size: dropped items are drawn at 0.2 x scale, ground-stored ones at 1
 GROUND = tf((0, 0, 0), (0, 0, 0), (0.5, 0, 0.5), 4.6)
 
@@ -1086,7 +1088,7 @@ ITEMS = {
 # The chalk is modelled upright (as vanilla's tools and the bone are) and laid down on the ground: a 90 degree turn
 # about X through the stick's middle, dropped so it rests on its side
 CHALK_MID = 3.7 / 16
-CHALK_TP = tf((-0.75, -0.35, -0.55), (0, -45, -10), (0.5, 0.2, 0.5), 0.7)
+CHALK_TP = tf((-0.8, -0.45, -0.6), (0, -45, -10), None, 1.0)  # as the candy bar; about (0.5, 0.2, 0.5) the stick was lost in the fist
 CHALK_GROUND = tf((0, round(0.2 * 4.6 * 0.9 / 16, 3), 0), (90, 0, 0), (0.5, CHALK_MID, 0.5), 4.6)
 CHALK_STORED = {"translation": {"x": 0, "y": round(-CHALK_MID + 0.9 / 16, 3), "z": 0}, "rotation": {"x": 90, "y": 0, "z": 0},
                 "origin": {"x": 0.5, "y": CHALK_MID, "z": 0.5}}

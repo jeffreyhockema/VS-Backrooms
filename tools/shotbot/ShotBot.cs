@@ -20,6 +20,8 @@ namespace ShotBot;
 ///   look heading pitch      heading in compass degrees (0 N, 90 E), pitch in degrees (negative = down)
 ///   ready [radius]          wait until the chunks within radius blocks (default 64) are loaded, then 2.5 s
 ///   fov degrees
+///   camyaw heading pitch [body]  turns only the camera (the overhead camera comes round the player); body: hold the body facing that heading until the next look
+///   setbool name true|false a client setting, e.g. immersiveFpMode false
 ///   vd blocks               view distance
 ///   hud off|on
 ///   closeguis               closes every open dialog (confirms the character creation dialog)
@@ -59,6 +61,7 @@ public class ShotBotSystem : ModSystem, IRenderer
     int chatLines, chatAtCmd;
     DateTime shotAt;
     bool hudHidden;
+    float? pinBodyYaw;  // camyaw <heading> <pitch> <body heading>: the body held facing this yaw (cleared by look)
     // Someone at the keyboard pressing Escape must win: stop auto-closing after a burst of repeats
     bool keepMap;  // keepmap on: the world map dialog is left open (for a map screenshot)
     DateTime recoverBurstStart = DateTime.MinValue; int recoverBurst; DateTime recoverMutedUntil = DateTime.MinValue;
@@ -148,6 +151,13 @@ public class ShotBotSystem : ModSystem, IRenderer
     {
         DateTime now = DateTime.UtcNow;
         try { Hold(now); } catch (Exception ex) { Log("hold error: " + ex.Message); }
+        if (pinBodyYaw is float pin)
+        {
+            // camyaw's pin: the overhead camera eases the body round toward its walk yaw every frame, and something resets
+            // that walk yaw to the camera's, so the body is held where it was told to face until the next look
+            var pe = capi.World.Player?.Entity;
+            if (pe != null) { pe.WalkYaw = pin; pe.Pos.Yaw = pin; pe.BodyYaw = pin; }
+        }
         if ((now - lastTick).TotalMilliseconds < 200) return;
         lastTick = now;
         try { Tick(now); }
@@ -323,6 +333,7 @@ public class ShotBotSystem : ModSystem, IRenderer
                 e.Pos.Yaw = yaw; e.Pos.Pitch = pitch;
                 e.BodyYaw = yaw; e.BodyYawServer = yaw;
                 e.Pos.HeadYaw = 0; e.Pos.HeadPitch = 0;
+                pinBodyYaw = null;
                 Wait(150);
                 break;
             }
@@ -334,6 +345,7 @@ public class ShotBotSystem : ModSystem, IRenderer
                 float yaw = GameMath.Mod((float)(Math.PI - D(p[1]) * Math.PI / 180), (float)(Math.PI * 2));
                 float pitch = (float)(Math.PI - D(p[2]) * Math.PI / 180);
                 e.WalkYaw = e.Pos.Yaw;
+                if (p.Length > 3) pinBodyYaw = GameMath.Mod((float)(Math.PI - D(p[3]) * Math.PI / 180), (float)(Math.PI * 2));
                 capi.Input.MouseYaw = yaw; capi.Input.MousePitch = pitch;
                 Wait(150);
                 break;
@@ -384,6 +396,11 @@ public class ShotBotSystem : ModSystem, IRenderer
             }
             case "fov":
                 capi.Settings.Int["fieldOfView"] = (int)D(p[1]);
+                break;
+            case "setbool":
+                // setbool <client setting> true|false, e.g. immersiveFpMode false (the classic first-person hand)
+                capi.Settings.Bool[p[1]] = p[2] == "true";
+                Log("setbool " + p[1] + " = " + capi.Settings.Bool[p[1]]);
                 break;
             case "vd":
                 capi.Settings.Int["viewDistance"] = (int)D(p[1]);

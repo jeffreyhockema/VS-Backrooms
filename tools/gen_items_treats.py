@@ -1294,20 +1294,23 @@ def transforms(models, kind, cm):
         # Seen from above at 22.6 degrees, turned 45 (the mod's bottles): the height and the diagonal of the foot
         proj = max(sy * 0.92 + foot * 0.55, foot * 1.35)
         gui = {"rotation": {"x": 157.4, "y": -45.3, "z": 0}, "origin": {"x": 0.5, "y": _r(cy / 16), "z": 0.5}, "scale": _r(24 / proj)}
-        grip = 0.35
         ground = {"rotation": {"x": 0, "y": -45, "z": 0}, "origin": {"x": 0.5, "y": 0, "z": 0.5}, "scale": _r(1.05 * cm / e)}
     else:
         # Seen from above at 35 degrees, turned 45: a plate or a slice shows its top
         diag = (sx + sz) * 0.707
         proj = max(diag, diag * 0.57 + sy * 0.82)
         gui = {"rotation": {"x": 145, "y": -45.3, "z": 0}, "origin": {"x": 0.5, "y": _r(cy / 16), "z": 0.5}, "scale": _r(25 / proj)}
-        grip = 0.5
         ground = {"rotation": {"x": 0, "y": 0, "z": 0}, "origin": {"x": 0.5, "y": 0, "z": 0.5}, "scale": _r(1.05 * cm / e)}
-    # In the hand: stood up the way vanilla holds its breadfruit (the hand's x is up), scaled about the model's foot,
-    # then lowered so the hand holds it a third of the way up (a bottle, a can) or by its middle (a plate, a tray)
-    ts = 0.3 * cm / e
-    tp = {"translation": {"x": _r(-0.4 - grip * sy * ts / 16), "y": 0, "z": -0.42}, "rotation": {"x": 0, "y": 0, "z": -90},
-          "origin": {"x": 0.5, "y": 0, "z": 0.5}, "scale": _r(ts)}
+    # In the hand: held as the pantry holds its bottles and bars, upright or flat in the palm, a little turned (the
+    # breadfruit-style hold, stood on the hand's x, was drawn inside the fist or the arm when seen in the client)
+    # (a plate or a tray at full size hung down to the shin: smaller and higher in the palm)
+    # (and a sweet or a cookie, a hand's width or less, that high was drawn inside the fist: held as the candy bar)
+    ts = 0.42 * cm / e
+    tp = ({"translation": {"x": -0.85, "y": -0.5, "z": -0.6}, "rotation": {"x": 0, "y": -45, "z": -10}, "scale": _r(min(0.85, ts))}
+          if kind == "upright" else
+          {"translation": {"x": -0.8, "y": -0.45, "z": -0.6}, "rotation": {"x": 0, "y": -45, "z": -10}, "scale": _r(min(0.75, ts))}
+          if cm <= 12 else
+          {"translation": {"x": -0.8, "y": -0.3, "z": -0.6}, "rotation": {"x": 0, "y": -45, "z": -10}, "scale": _r(min(0.7, ts))})
     # Set down on the floor (four to a block): one and a half times life size, never wider than its quadrant
     store = min(0.24 * cm / e, 7.5 / foot)
     tf = {"guiTransform": gui, "fpHandTransform": json.loads(json.dumps(tp)), "tpHandTransform": tp, "groundTransform": ground}

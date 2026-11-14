@@ -106,6 +106,7 @@ pre.13 (see below). Built in four packages (`exp/fb-late`, `exp/fb-small`, `exp/
 ## Known gaps
 
 - The Spanish is machine-made and wants a native reader's review.
-- Held items are checked in third person only (the game draws the first-person hand with the same transform; the rig's first-person shot shows no hand).
+- Held items are checked in third person only, from the front on the side of the right hand (all 105 items, 2026-11-14; the game draws the first-person hand with the same transform; the rig's first-person shot shows no hand).
+- The smallest salvage (ceramic grit, rubble, moth jelly, glass shard) and the wrapped sweet sit mostly inside the fist in third person, as vanilla's stones and fat, whose holds they copy.
 - Restart resets the props' cooldowns (in memory); tripped breakers persist.
 - A converted pleather piece keeps its remaining uses, not its share (full pleather shows as 175/250 carpet armour).

@@ -127,113 +127,83 @@
 	"fpHandTransformByType": {
 		"l974-meal-pancakes": {
 			"translation": {
-				"x": -0.493,
-				"y": 0,
-				"z": -0.42
+				"x": -0.8,
+				"y": -0.3,
+				"z": -0.6
 			},
 			"rotation": {
 				"x": 0,
-				"y": 0,
-				"z": -90
+				"y": -45,
+				"z": -10
 			},
-			"origin": {
-				"x": 0.5,
-				"y": 0,
-				"z": 0.5
-			},
-			"scale": 0.9
+			"scale": 0.7
 		},
 		"l974-meal-soup": {
 			"translation": {
-				"x": -0.472,
-				"y": 0,
-				"z": -0.42
+				"x": -0.8,
+				"y": -0.3,
+				"z": -0.6
 			},
 			"rotation": {
 				"x": 0,
-				"y": 0,
-				"z": -90
+				"y": -45,
+				"z": -10
 			},
-			"origin": {
-				"x": 0.5,
-				"y": 0,
-				"z": 0.5
-			},
-			"scale": 0.783
+			"scale": 0.7
 		},
 		"l974-meal-macaroni": {
 			"translation": {
-				"x": -0.473,
-				"y": 0,
-				"z": -0.42
+				"x": -0.8,
+				"y": -0.3,
+				"z": -0.6
 			},
 			"rotation": {
 				"x": 0,
-				"y": 0,
-				"z": -90
+				"y": -45,
+				"z": -10
 			},
-			"origin": {
-				"x": 0.5,
-				"y": 0,
-				"z": 0.5
-			},
-			"scale": 0.9
+			"scale": 0.7
 		}
 	},
 	"tpHandTransformByType": {
 		"l974-meal-pancakes": {
 			"translation": {
-				"x": -0.493,
-				"y": 0,
-				"z": -0.42
+				"x": -0.8,
+				"y": -0.3,
+				"z": -0.6
 			},
 			"rotation": {
 				"x": 0,
-				"y": 0,
-				"z": -90
+				"y": -45,
+				"z": -10
 			},
-			"origin": {
-				"x": 0.5,
-				"y": 0,
-				"z": 0.5
-			},
-			"scale": 0.9
+			"scale": 0.7
 		},
 		"l974-meal-soup": {
 			"translation": {
-				"x": -0.472,
-				"y": 0,
-				"z": -0.42
+				"x": -0.8,
+				"y": -0.3,
+				"z": -0.6
 			},
 			"rotation": {
 				"x": 0,
-				"y": 0,
-				"z": -90
+				"y": -45,
+				"z": -10
 			},
-			"origin": {
-				"x": 0.5,
-				"y": 0,
-				"z": 0.5
-			},
-			"scale": 0.783
+			"scale": 0.7
 		},
 		"l974-meal-macaroni": {
 			"translation": {
-				"x": -0.473,
-				"y": 0,
-				"z": -0.42
+				"x": -0.8,
+				"y": -0.3,
+				"z": -0.6
 			},
 			"rotation": {
 				"x": 0,
-				"y": 0,
-				"z": -90
+				"y": -45,
+				"z": -10
 			},
-			"origin": {
-				"x": 0.5,
-				"y": 0,
-				"z": 0.5
-			},
-			"scale": 0.9
+			"scale": 0.7
 		}
 	},
 	"groundTransformByType": {
