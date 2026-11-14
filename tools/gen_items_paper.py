@@ -214,7 +214,7 @@ class Model:
 
     def shape_json(self, texture):
         W, H = self.size
-        return {"textureWidth": W / PPU, "textureHeight": H / PPU, "textures": {"tex": f"backrooms:{FOLDER}/{texture}"},
+        return {"textureWidth": W // PPU, "textureHeight": H // PPU, "textures": {"tex": f"backrooms:{FOLDER}/{texture}"},
                 "elements": self.elements}
 
     def corners(self):
