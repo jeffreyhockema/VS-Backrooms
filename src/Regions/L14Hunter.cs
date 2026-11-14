@@ -151,9 +151,29 @@ public class L14HunterSystem : ModSystem
         foreach (IPlayer online in sapi.World.AllOnlinePlayers)
             if (online is IServerPlayer player && player.ConnectionState == EnumClientState.Playing && player.Entity is { Alive: true } entity
                 && (!huntableOnly || Huntable(entity)) && !Strike.IsSpectator(entity)) who.Add(entity);
-        foreach (Entity e in sapi.World.LoadedEntities.Values)
-            if (e.Alive && Senses.IsTestTarget(e)) who.Add(e);
+        foreach (Entity e in Dummies())
+            if (e.Alive) who.Add(e);
         return who;
+    }
+
+    private long dummyScanAt = long.MinValue;
+    private Entity[] dummyCache = Array.Empty<Entity>();
+
+    /// <summary>
+    /// The console tests' straw dummies. With real players online the scan of every loaded entity runs at most every 5 s
+    /// (a dummy put down for a test is found within that); with none, each call looks afresh.
+    /// </summary>
+    private Entity[] Dummies()
+    {
+        long now = sapi.World.ElapsedMilliseconds;
+        bool anyone = false;
+        foreach (IPlayer online in sapi.World.AllOnlinePlayers) { anyone = true; break; }
+        if (anyone && now >= dummyScanAt && now - dummyScanAt < 5000) return dummyCache;
+        dummyScanAt = now;
+        var found = new List<Entity>();
+        foreach (Entity e in sapi.World.LoadedEntities.Values)
+            if (e.Alive && Senses.IsTestTarget(e)) found.Add(e);
+        return dummyCache = found.ToArray();
     }
 
     private void OnTick(float dt)
@@ -501,6 +521,17 @@ public class AiTaskL14Hunter : AiTaskBase
 {
     public const string CalmUntilKey = "backrooms:l14CalmUntil", HuntNowKey = "backrooms:l14HuntNow", StateKey = "backrooms:l14State";
 
+    /// <summary>
+    /// Milliseconds of calm left. The stamp is an uptime in a saved attribute, which starts again at each server start: one
+    /// further ahead than the longest calm is from an earlier session and means nothing.
+    /// </summary>
+    private long CalmLeft(long now)
+    {
+        long left = entity.Attributes.GetLong(CalmUntilKey) - now;
+        return left > CalmMaxMs ? 0 : left;
+    }
+
+    private const long CalmMaxMs = 40_000;
     private enum State { Roam, Stalk, Shriek, Chase, Calm }
 
     private readonly float roamSpeed, stalkSpeed, burstSpeed, chaseSpeed, stalkRange, sightRange, eyeRange, eyeDegrees, loseRange,
@@ -574,7 +605,7 @@ public class AiTaskL14Hunter : AiTaskBase
         tierBonus = Danger.TierBonus(d);
         long now = entity.World.ElapsedMilliseconds;
         target = L14HunterSystem.PreyOf(entity);
-        if (entity.Attributes.GetLong(CalmUntilKey) > now) SetState(State.Calm);
+        if (CalmLeft(now) > 0) SetState(State.Calm);
         else if (entity.Attributes.GetBool(HuntNowKey) && target != null)
         {
             entity.Attributes.RemoveAttribute(HuntNowKey);
@@ -604,7 +635,7 @@ public class AiTaskL14Hunter : AiTaskBase
         switch (state)
         {
             case State.Calm:
-                if (now >= entity.Attributes.GetLong(CalmUntilKey))
+                if (CalmLeft(now) <= 0)
                 {
                     entity.Attributes.RemoveAttribute(CalmUntilKey);
                     SetState(State.Roam);

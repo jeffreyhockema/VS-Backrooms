@@ -163,6 +163,12 @@ public sealed partial class WorldGenerator
         L14Prop(Props.L14Vending, 1, _ => "l14-vending");
         L14Prop(Props.L14Locker, 4, k => $"l14-locker-{parts[k / 2]}-{(k % 2 == 0 ? "closed" : "ajar")}");
         L14Prop(Props.L14StationBack, 4, k => $"l14-stationback-{parts[k / 2]}-{(k % 2 == 0 ? "board" : "files")}");
+        l14Curtain = new int[2, 4];
+        for (int s = 0; s < 4; s++)
+        {
+            l14Curtain[0, s] = L14Block($"l14-curtain-lower-{Sides[s]}");
+            l14Curtain[1, s] = L14Block($"l14-curtain-upper-{Sides[s]}");
+        }
         InitL14Links();
     }
 
@@ -258,15 +264,6 @@ public sealed partial class WorldGenerator
 
     private int L14CurtainBlock(int rel, int f)
     {
-        if (l14Curtain == null)
-        {
-            l14Curtain = new int[2, 4];
-            for (int s = 0; s < 4; s++)
-            {
-                l14Curtain[0, s] = L14Block($"l14-curtain-lower-{Sides[s]}");
-                l14Curtain[1, s] = L14Block($"l14-curtain-upper-{Sides[s]}");
-            }
-        }
         return l14Curtain[rel - 1, f];
     }
 

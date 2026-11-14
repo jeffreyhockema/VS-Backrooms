@@ -58,6 +58,8 @@ public partial class ThresholdSystem : ModSystem
     /// </summary>
     private const string FallGraceKey = "backrooms:fallGraceUntil";
     private const int FallGraceMs = 10000;
+    /// <summary>The longest any arrival stamps (a drop with up to 20 s of chunk loading before it), so the stale check keeps those.</summary>
+    private const int FallGraceMaxMs = FallGraceMs + 20000;
     private const float FallGraceHealth = 1f;
     private const int ElevatorRideMs = 1500;
 
@@ -167,7 +169,7 @@ public partial class ThresholdSystem : ModSystem
     /// </summary>
     public static string UseKindOf(Block block)
     {
-        if (block?.GetBehavior<BlockBehaviorThreshold>() is { } threshold) return threshold.Kind;
+        if (block?.GetBehavior(typeof(BlockBehaviorThreshold), true) is BlockBehaviorThreshold threshold) return threshold.Kind;
         if (block?.Code?.Domain == "backrooms" && block.FirstCodePart() == "suburbdoor" && block.Variant["state"] == "locked") return ThresholdNetwork.SuburbDoorKind;
         return null;
     }
@@ -369,7 +371,7 @@ public partial class ThresholdSystem : ModSystem
         {
             if (source.Source != EnumDamageSource.Fall || player.Entity == null) return damage;
             long now = sapi.World.ElapsedMilliseconds, until = player.Entity.Attributes.GetLong(FallGraceKey, 0);
-            if (until <= now || until > now + FallGraceMs) return damage;
+            if (until <= now || until > now + FallGraceMaxMs) return damage;
             return Math.Min(damage, Math.Max(0f, health.Health - FallGraceHealth));
         };
     }

@@ -73,7 +73,7 @@ public class BasementSystem : ModSystem
             api.Event.RegisterGameTickListener(OnDeadTick, 1000, 500);
             thresholds = api.ModLoader.GetModSystem<Thresholds.ThresholdSystem>();
             api.Event.RegisterGameTickListener(OnLevel2Tick, 250, 100);
-            api.Event.PlayerDisconnect += p => { exposure.Remove(p.PlayerUID); lastLoopMs.Remove(p.PlayerUID); };
+            api.Event.PlayerDisconnect += p => { exposure.Remove(p.PlayerUID); lastLoopMs.Remove(p.PlayerUID); filtered.Remove(p.PlayerUID); };
         });
         // Dev test, console-safe (a console line's trailing carriage return is taken and ignored): lays down the bodies of
         // the cells round x z now, as a player coming near would, and says how many corpses lie there
@@ -140,11 +140,15 @@ public class BasementSystem : ModSystem
             if (e == null || !e.Alive || !InBasement(e.Pos)) continue;
             int x = (int)Math.Floor(e.Pos.X), z = (int)Math.Floor(e.Pos.Z);
             Tile t = layout.TileAt(x, z);
-            if (t.Variant != Worldgen.Props.BasementEscher || t.Stair != 1) continue;
-            double rel = e.Pos.Y - floor;
-            // (On the landing's step a turn up, either half of it: feet 8.5 or 9 over the floor; a turn down, -7.5 or -7)
-            int shift = rel > WorldLayout.BasementEscherRise + 0.4 && rel < WorldLayout.BasementEscherRise + 2 ? -WorldLayout.BasementEscherRise
-                : rel > WorldLayout.BasementEscherLow + 0.4 && rel < WorldLayout.BasementEscherLow + 1.5 ? WorldLayout.BasementEscherRise : 0;
+            if (t.Variant != Worldgen.Props.BasementEscher || t.Stair == 0) continue;
+            double rel = e.Pos.Y - floor, place = t.Stair - 1;
+            // (Every tile of the tower repeats each turn, so a climber who sprints past one window is caught by the next:
+            // up from a turn above this place, back up from a turn below it, never under the pit's floor)
+            int shift = 0;
+            if (rel >= place + WorldLayout.BasementEscherRise + 0.4)
+                shift = -WorldLayout.BasementEscherRise * (int)Math.Floor((rel - place - 0.4) / WorldLayout.BasementEscherRise);
+            else if (rel < place - 0.6 && rel >= WorldLayout.BasementEscherLow)
+                shift = WorldLayout.BasementEscherRise * (int)Math.Ceiling((place - 0.6 - rel) / WorldLayout.BasementEscherRise);
             if (shift == 0) continue;
             long now = sapi.World.ElapsedMilliseconds;
             if (lastLoopMs.TryGetValue(p.PlayerUID, out long last) && now - last < 1000) continue;

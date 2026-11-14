@@ -190,8 +190,28 @@ public class L14System : ModSystem
         foreach (IPlayer online in sapi.World.AllOnlinePlayers)
             if (online is IServerPlayer player && player.Entity is { Alive: true } entity && player.ConnectionState == EnumClientState.Playing
                 && player.WorldData.CurrentGameMode != EnumGameMode.Spectator) yield return entity;
+        foreach (Entity e in Dummies())
+            if (e.Alive) yield return e;
+    }
+
+    private long dummyScanAt = long.MinValue;
+    private Entity[] dummyCache = Array.Empty<Entity>();
+
+    /// <summary>
+    /// The console tests' straw dummies. With real players online the scan of every loaded entity runs at most every 5 s
+    /// (a dummy put down for a test is found within that); with none, each call looks afresh.
+    /// </summary>
+    private Entity[] Dummies()
+    {
+        long now = sapi.World.ElapsedMilliseconds;
+        bool anyone = false;
+        foreach (IPlayer online in sapi.World.AllOnlinePlayers) { anyone = true; break; }
+        if (anyone && now >= dummyScanAt && now - dummyScanAt < 5000) return dummyCache;
+        dummyScanAt = now;
+        var found = new List<Entity>();
         foreach (Entity e in sapi.World.LoadedEntities.Values)
-            if (e.Alive && Senses.IsTestTarget(e)) yield return e;
+            if (e.Alive && Senses.IsTestTarget(e)) found.Add(e);
+        return dummyCache = found.ToArray();
     }
 
     // ================= Contaminated rooms =================

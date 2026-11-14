@@ -115,7 +115,7 @@ public partial class ThresholdSystem
         if (blocks.GetBlockEntity(pos) != null) return false;
         if (sapi.World.Claims.Get(pos) is { Length: > 0 }) return false;
         if (there.BlockId == 0) return true;
-        if (there.HasBehavior<BlockBehaviorThreshold>()) return false;
+        if (there.HasBehavior<BlockBehaviorThreshold>(true)) return false;
         Tile tile = layout.TileAt(pos.X, pos.Z);
         if (sapi.ModLoader.GetModSystem<BackroomsModSystem>()?.Generator is { } generator && generator.ColumnBlock(tile, pos.X, pos.Z, pos.Y, out _) == there.BlockId) return true;
         return there.Code?.Domain == "backrooms" && there.SideSolid.All && there.Replaceable < 5000;
@@ -313,7 +313,7 @@ public partial class ThresholdSystem
                     var pos = new BlockPos(x, geometry.FloorFor(level) + rel, z);
                     Block block = sapi.World.BlockAccessor.GetBlock(pos);
                     // (A lift's header, or a cage's dial, is no threshold, as on the level's own lifts)
-                    if (block.GetBehavior<BlockBehaviorThreshold>() is not { } threshold) { results.Add($"leaf {leaf} rel {rel} ({block.Code.Path}, no threshold)"); continue; }
+                    if (block.GetBehavior(typeof(BlockBehaviorThreshold), true) is not BlockBehaviorThreshold threshold) { results.Add($"leaf {leaf} rel {rel} ({block.Code.Path}, no threshold)"); continue; }
                     Passage back = network.Used(x, z, threshold.Kind, out string refusal);
                     Link? there = back == null ? null : network.Take(back, null);
                     results.Add(there == home ? $"leaf {leaf} rel {rel} ({threshold.Kind}) leads home" : $"leaf {leaf} rel {rel} ({threshold.Kind}) leads to {there?.ToString() ?? refusal}, NOT home");

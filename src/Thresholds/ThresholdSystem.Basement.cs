@@ -35,7 +35,7 @@ public partial class ThresholdSystem
         if (!WorldLayout.BasementCrackGives(from)) return;
         drop = BasementFallDrop;
         // (The grace lasts through the loading and the fall: they land hurt but alive)
-        player.Entity.Attributes.SetLong(FallGraceKey, sapi.World.ElapsedMilliseconds + FallGraceMs + 20000);
+        player.Entity.Attributes.SetLong(FallGraceKey, sapi.World.ElapsedMilliseconds + FallGraceMaxMs);
         // The floor goes: a crumbling where they stood, and its dust
         var floor = new BlockPos(x, geometry.FloorFor(from.Level), z);
         sapi.World.PlaySoundAt(new AssetLocation("game:sounds/effect/rockslide"), pos.X, pos.Y, pos.Z, null, randomizePitch: true, range: 24);

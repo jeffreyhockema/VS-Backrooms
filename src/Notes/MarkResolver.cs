@@ -40,7 +40,7 @@ public sealed class MarkResolver
         this.layout = layout;
         this.geometry = geometry;
         foreach (Block block in sapi.World.Blocks)
-            if (block != null && block.Id != 0 && block.HasBehavior<BlockBehaviorThreshold>()) thresholdBlocks.Add(block.Id);
+            if (block != null && block.Id != 0 && block.HasBehavior<BlockBehaviorThreshold>(true)) thresholdBlocks.Add(block.Id);
     }
 
     /// <summary>

@@ -62,7 +62,7 @@ public partial class ThresholdSystem
         if (passage.Message != ThresholdNetwork.L14CollapseMessage || player.Entity == null) return null;
         EntityPos pos = player.Entity.Pos;
         // (The grace lasts through the loading and the fall: they land hurt but alive)
-        player.Entity.Attributes.SetLong(FallGraceKey, sapi.World.ElapsedMilliseconds + FallGraceMs + 20000);
+        player.Entity.Attributes.SetLong(FallGraceKey, sapi.World.ElapsedMilliseconds + FallGraceMaxMs);
         int x = (int)Math.Floor(pos.X), z = (int)Math.Floor(pos.Z);
         var floor = new BlockPos(x, geometry.FloorFor(WorldLayout.Level14), z);
         sapi.World.PlaySoundAt(new AssetLocation("game:sounds/effect/rockslide"), pos.X, pos.Y, pos.Z, null, randomizePitch: true, range: 24);
