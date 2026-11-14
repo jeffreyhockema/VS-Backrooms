@@ -1,43 +1,18 @@
 # Items still drawn flat (the game's generated sprite look); remove a line when the item gets a model; do not add lines.
 # One itemtype code per line (variants expanded as langcheck does). tools/itemcheck.py fails on a flat item not listed here
 # and on a listed item that is no longer flat.
-almondmilk
-candybar
 carpetfibre
 carpetsquare
-cashewwater
 ceramicgrit
-chalk
-chalk-blue
-chalk-green
-chalk-red
-chalk-yellow
-chips
 clumpsinew
-crownshard
-end-cataloguecard
-epsomsalt
-fun-wanderernote-altered
 glassshard
 glassshiv
-l14-antibiotics
-l188-keycard
-l31-greencard
-l3999-circuitboard
-l3999-coinmech
-l3999-glowband-cyan
-l3999-glowband-lilac
-l3999-glowband-magenta
-l3999-neontubing
-l3999-plastic
-l3999-ticket
 metalbracket
 mothjelly
 mothquill
 pleather
 potshard
 prybar
-redwater
 rottenwood
 rubble
 scraper
@@ -47,12 +22,5 @@ seedpacket-flax
 seedpacket-onion
 seedpacket-spelt
 seedpacket-turnip
-soda
 spidersilk
 wallpaperstrip
-wanderernote-cache
-wanderernote-door
-wanderernote-folded
-wanderernote-refuge
-wanderernote-way
-waterbottle

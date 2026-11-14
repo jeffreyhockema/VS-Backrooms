@@ -4,8 +4,13 @@
 	"class": "BackroomsChalk",
 	"maxstacksize": 1,
 	"durability": 48,
-	"texture": {
-		"base": "item/chalk-red"
+	"shape": {
+		"base": "item/paper/chalk"
+	},
+	"textures": {
+		"tex": {
+			"base": "item/paper/chalk-red"
+		}
 	},
 	"creativeinventory": {
 		"general": [
@@ -16,22 +21,27 @@
 		]
 	},
 	"guiTransform": {
-		"rotation": {
-			"x": 0,
-			"y": 0,
+		"translation": {
+			"x": 0.1,
+			"y": -0.38,
 			"z": 0
+		},
+		"rotation": {
+			"x": -160,
+			"y": -45,
+			"z": -40
 		},
 		"origin": {
 			"x": 0.5,
-			"y": 0.5,
-			"z": 0.5
+			"y": 0.234,
+			"z": 0.515
 		},
-		"scale": 1
+		"scale": 3.4
 	},
 	"tpHandTransform": {
 		"translation": {
 			"x": -0.75,
-			"y": -0.4,
+			"y": -0.35,
 			"z": -0.55
 		},
 		"rotation": {
@@ -39,9 +49,19 @@
 			"y": -45,
 			"z": -10
 		},
-		"scale": 0.6
+		"origin": {
+			"x": 0.5,
+			"y": 0.2,
+			"z": 0.5
+		},
+		"scale": 0.7
 	},
 	"groundTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0.052,
+			"z": 0
+		},
 		"rotation": {
 			"x": 90,
 			"y": 0,
@@ -49,10 +69,10 @@
 		},
 		"origin": {
 			"x": 0.5,
-			"y": 0,
+			"y": 0.23125,
 			"z": 0.5
 		},
-		"scale": 2
+		"scale": 4.6
 	},
 	"behaviors": [
 		{
@@ -81,12 +101,21 @@
 	],
 	"attributes": {
 		"groundStorageTransform": {
+			"translation": {
+				"x": 0,
+				"y": -0.175,
+				"z": 0
+			},
+			"rotation": {
+				"x": 90,
+				"y": 0,
+				"z": 0
+			},
 			"origin": {
 				"x": 0.5,
-				"y": 0.5,
+				"y": 0.23125,
 				"z": 0.5
-			},
-			"scale": 1.5
+			}
 		}
 	}
 }

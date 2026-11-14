@@ -3,7 +3,8 @@ Called from gen_188.py (see there for the conventions: everything modelled facin
 import os
 
 from detail_kit import ground_storable
-from gen_items_treats import dress
+from gen_items_paper import ITEMS as PAPER_ITEMS, dress  # the item pass (0.700): the keycard's model
+from gen_items_treats import dress as treats_dress  # the item pass: the breakfast's models
 from gen_188_kit import (
     ASSETS, CERAMIC, CLOTH, GLASS, LANG, METAL, PARTS, SIDES, STONE, WOOD, WRITTEN,
     bx, bxa, bxf, cube, cyl, drops, mirror_x, reg, retex, shift, split, split_boxes, vblock, vx, write_json,
@@ -501,8 +502,9 @@ def items():
              "creativeinventory": {"general": ["*"], "items": ["*"], "backrooms": ["*"]}, "materialDensity": 600}
         d.update(SPRITE_TRANSFORMS)
         d.update(data)
-        # the item model pass gives the breakfast its models (tools/gen_items_treats.py)
-        write_json(os.path.join(folder, code + ".json"), dress(code, ground_storable(d)), english)
+        if code in PAPER_ITEMS:
+            dress(d, code)
+        write_json(os.path.join(folder, code + ".json"), treats_dress(code, ground_storable(d)), english)
         WRITTEN["itemtypes"].append(code)
         LANG[f"item-{code}"] = english
         LANG[f"itemdesc-{code}"] = desc

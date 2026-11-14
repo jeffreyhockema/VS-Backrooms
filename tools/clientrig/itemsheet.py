@@ -7,7 +7,7 @@
 A code is a Backrooms item code (almondwater, wanderernote-cache) or domain:code (game:flint).
 Level 10 by day (an open field, nothing behind the camera), creative so nothing hurts. Per item: /backrooms rig itemshow puts it in the
 selected hotbar slot and on the floor 2 blocks ahead; then four shots: its handbook page (the inventory icon, large), first person
-holding it, third person seen from behind, and a close look at it on the ground. Output in <out>: <code>.jpg (the four, labelled),
+holding it (HUD on: the game hides the hand with the GUIs), third person (zoomed), and a close look at it on the ground. Output in <out>: <code>.jpg (the four, labelled),
 index.jpg (all items), and the rig's own report (itemsheet/report.md, shots, logs). The scenario is <out>/itemsheet.json.
 The client is single-instance: rig.py waits for a free one.
 """
@@ -54,11 +54,12 @@ def scenario(codes):
             # the handbook page: the icon, large
             {"bot": "hud on"}, {"bot": "handbook " + handbook_page(code)}, {"bot": "wait 1500"}, {"shot": s + "-icon"},
             {"bot": "closeguis"}, {"bot": "hud off"},
-            # first person, looking a little down so the hand and the item on the floor are both in view
-            {"bot": "fov 70"}, {"bot": "look 0 -12"}, {"bot": "wait 900"}, {"shot": s + "-fp"},
-            # third person from behind
-            {"bot": "hotkey cyclecamera"}, {"bot": "look 0 -15"}, {"bot": "wait 1200"}, {"shot": s + "-tp"},
-            {"bot": "hotkey cyclecamera"}, {"bot": "hotkey cyclecamera"}, {"bot": "wait 600"},
+            # first person, looking a little down so the hand and the item on the floor are both in view; the HUD on, because the game
+            # does not draw the first-person hand while the GUIs are hidden (EntityPlayerShapeRenderer: FirstPerson && HideGuis returns)
+            {"bot": "hud on"}, {"bot": "fov 70"}, {"bot": "look 0 -12"}, {"bot": "wait 900"}, {"shot": s + "-fp"}, {"bot": "hud off"},
+            # third person, zoomed in so the player and what is in the hand fill the frame
+            {"bot": "hotkey cyclecamera"}, {"bot": "fov 28"}, {"bot": "look 0 -15"}, {"bot": "wait 1200"}, {"shot": s + "-tp"},
+            {"bot": "hotkey cyclecamera"}, {"bot": "hotkey cyclecamera"}, {"bot": "fov 70"}, {"bot": "wait 600"},
             # on the ground, close: a narrow view down at the item 2 blocks ahead
             {"bot": "fov 30"}, {"bot": "look 0 -40"}, {"bot": "wait 900"}, {"shot": s + "-ground"},
             {"bot": "fov 70"}, {"bot": "look 0 0"},

@@ -1,0 +1,61 @@
+{
+	"textureWidth": 32,
+	"textureHeight": 16,
+	"textures": {
+		"tex": "backrooms:item/pantry/chips"
+	},
+	"elements": [
+		{
+			"name": "Puff",
+			"from": [5.0, 0, 5.2],
+			"to": [11.0, 2.4, 10.8],
+			"faces": {
+				"north": { "texture": "#tex", "uv": [0, 8, 6.0, 10.4] },
+				"east": { "texture": "#tex", "uv": [6, 8, 11.6, 10.4] },
+				"south": { "texture": "#tex", "uv": [12, 8, 18.0, 10.4] },
+				"west": { "texture": "#tex", "uv": [18, 8, 23.6, 10.4] },
+				"up": { "texture": "#tex", "uv": [16, 0, 22.0, 5.6] },
+				"down": { "texture": "#tex", "uv": [22, 0, 28.0, 5.6] }
+			}
+		},
+		{
+			"name": "Body",
+			"from": [4.3, 0.2, 4.4],
+			"to": [11.7, 1.8, 11.6],
+			"faces": {
+				"north": { "texture": "#tex", "uv": [24, 8, 31.4, 9.6] },
+				"east": { "texture": "#tex", "uv": [0, 11, 7.2, 12.6] },
+				"south": { "texture": "#tex", "uv": [8, 11, 15.4, 12.6] },
+				"west": { "texture": "#tex", "uv": [16, 11, 23.2, 12.6] },
+				"up": { "texture": "#tex", "uv": [0, 0, 7.4, 7.2] },
+				"down": { "texture": "#tex", "uv": [8, 0, 15.4, 7.2] }
+			}
+		},
+		{
+			"name": "SealN",
+			"from": [4.2, 0.7, 3.4],
+			"to": [11.8, 1.1, 4.4],
+			"faces": {
+				"north": { "texture": "#tex", "uv": [24, 11, 31.6, 11.4] },
+				"east": { "texture": "#tex", "uv": [24, 14, 25.0, 14.4] },
+				"south": { "texture": "#tex", "uv": [0, 13, 7.6, 13.4] },
+				"west": { "texture": "#tex", "uv": [25, 14, 26.0, 14.4] },
+				"up": { "texture": "#tex", "uv": [8, 13, 15.6, 14.0] },
+				"down": { "texture": "#tex", "uv": [16, 13, 23.6, 14.0] }
+			}
+		},
+		{
+			"name": "SealS",
+			"from": [4.2, 0.7, 11.6],
+			"to": [11.8, 1.1, 12.6],
+			"faces": {
+				"north": { "texture": "#tex", "uv": [24, 13, 31.6, 13.4] },
+				"east": { "texture": "#tex", "uv": [26, 14, 27.0, 14.4] },
+				"south": { "texture": "#tex", "uv": [0, 14, 7.6, 14.4] },
+				"west": { "texture": "#tex", "uv": [27, 14, 28.0, 14.4] },
+				"up": { "texture": "#tex", "uv": [8, 14, 15.6, 15.0] },
+				"down": { "texture": "#tex", "uv": [16, 14, 23.6, 15.0] }
+			}
+		}
+	]
+}

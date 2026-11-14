@@ -2357,19 +2357,19 @@ ITEMS = []
 
 
 def itm(code, data, comment):
-    from gen_items_treats import dress  # the item model pass: Memory Juice's model (tools/gen_items_treats.py)
-    data = dress(code, data)
+    from gen_items_treats import dress as treats_dress  # the item model pass: Memory Juice's model (tools/gen_items_treats.py)
+    data = treats_dress(code, data)
     write_json(os.path.join(ASSETS, "itemtypes", "end", code + ".json"), dict({"code": code}, **data), comment)
     ITEMS.append(code)
 
 
 def items():
     item_textures()
-    itm("end-cataloguecard", ground_storable(dict({
+    itm("end-cataloguecard", ground_storable(dress(dict({
         "class": "BackroomsCatalogueCard", "maxstacksize": 16, "texture": {"base": "item/end/cataloguecard"},
         "creativeinventory": {"general": ["*"], "items": ["*"]}, "materialDensity": 300,
         "combustibleProps": {"burnTemperature": 600, "burnDuration": 3},
-    }, **ITEM_TRANSFORMS)), "A card from The End's card catalogue: read it (right-click) and it marks the nearest way out on the map")
+    }, **ITEM_TRANSFORMS), "end-cataloguecard")), "A card from The End's card catalogue: read it (right-click) and it marks the nearest way out on the map")
 
     # Memory Juice: its model is tools/gen_items_treats.py's (the item model pass)
     itm("end-memoryjuice", ground_storable(dict({
@@ -2611,6 +2611,7 @@ def merge_lang():
 # (randomizeAxes xyz, B13's).
 
 import matlib as M  # noqa: E402
+from gen_items_paper import dress  # noqa: E402  (the item pass, 0.700: the catalogue card's model)
 
 OLD_MEAN = {  # main's mean colours (measured on the PNGs before B15)
     "wall-lower": (237, 234, 223), "wall-base": (212, 208, 198), "wall-ghost": (238, 235, 225),

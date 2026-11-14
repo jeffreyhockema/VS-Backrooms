@@ -22,6 +22,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 import detail_kit  # noqa: E402
 from detail_kit import ASSETS, CLOTH, GLASS, METAL, ROTATE, SIDES, STONE, WOOD, bx, seed_of, shift, turn  # noqa: E402
 import gen_textures as T  # noqa: E402
+from gen_items_paper import dress  # noqa: E402  (the item pass, 0.700: the altered note's model)
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 SRC = os.path.join(ROOT, "src")
@@ -2530,8 +2531,8 @@ def item_shapes():
 
 def write_item(code, data, comment, **ground):
     """Writes an item type, set down on the floor as `ground` says (detail_kit.ground_storable's arguments)."""
-    from gen_items_treats import dress  # the item model pass: the party food's models (tools/gen_items_treats.py)
-    write_json(os.path.join(ASSETS, "itemtypes", "fun", code + ".json"), dress(code, detail_kit.ground_storable(data, **ground)), comment)
+    from gen_items_treats import dress as treats_dress  # the item model pass: the party food's models (tools/gen_items_treats.py)
+    write_json(os.path.join(ASSETS, "itemtypes", "fun", code + ".json"), treats_dress(code, detail_kit.ground_storable(data, **ground)), comment)
     WRITTEN["itemtypes"].append(code)
 
 
@@ -2604,11 +2605,11 @@ def items():
     LANG["itemdesc-fun-partyhat-*"] = "A paper cone hat on an elastic, with a pompom. Wear it with a red balloon in hand and, beyond a few steps, they may take you for one of their own."
 
     # The lying note: a wanderer's note in an altered hand, marking a party room with guests as a refuge
-    write_item("fun-wanderernote", {
+    write_item("fun-wanderernote", dress({
         "code": "fun-wanderernote", "class": "BackroomsWandererNote", "variantgroups": [{"code": "kind", "states": ["altered"]}],
         "maxstacksize": 16, "texture": {"base": "item/wanderernote"}, "creativeinventory": {"general": ["*"], "items": ["*"]},
         "guiTransform": TRANSFORMS["guiTransform"], "tpHandTransform": TRANSFORMS["tpHandTransform"], "groundTransform": TRANSFORMS["groundTransform"],
-    }, "A wanderer's note found in Level Fun's gifts: altered. Its kind is 'altered' (Variant[\"kind\"])")
+    }, "fun-wanderernote"), "A wanderer's note found in Level Fun's gifts: altered. Its kind is 'altered' (Variant[\"kind\"])")
     LANG["item-fun-wanderernote-altered"] = "Wanderer's Note"
     LANG["itemdesc-fun-wanderernote-altered"] = "A note about somewhere safe, underlined twice, and a little smiley face in the corner. Right-click to read it."
 

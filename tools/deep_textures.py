@@ -139,31 +139,7 @@ def level61():
     d.ellipse([14, 14, 17, 17], fill=rgb(0xD82020))
     save(img, "mallmap")
 
-    # Food: snacks and drinks
-    img = sprite()
-    d = ImageDraw.Draw(img)
-    d.polygon([(7, 5), (25, 5), (27, 27), (5, 27)], fill=rgb(0xE8C020), outline=rgb(0xA08010))
-    d.rectangle([7, 12, 25, 20], fill=rgb(0xD82020))
-    text(img, "CHIPS", (7, 12, 26, 21), 0xF4F0E0, 5)
-    save_item(img, "chips")
-    img = sprite()
-    d = ImageDraw.Draw(img)
-    d.polygon([(4, 18), (24, 6), (28, 12), (8, 24)], fill=rgb(0x5A2A14), outline=rgb(0x2A1408))
-    d.polygon([(10, 16), (20, 10), (23, 14), (13, 20)], fill=rgb(0xE8C040))
-    save_item(img, "candybar")
-    img = sprite()
-    d = ImageDraw.Draw(img)
-    d.rectangle([10, 6, 21, 27], fill=rgb(0xC82020), outline=rgb(0x801010))
-    d.rectangle([10, 6, 21, 8], fill=rgb(0xC8CCD0))
-    d.line([12, 14, 19, 18], fill=rgb(0xF4F0E8), width=2)
-    save_item(img, "soda")
-    for name, liquid in (("cashewwater", 0xE8D8B0), ("waterbottle", 0xB8D8F0)):
-        img = sprite()
-        d = ImageDraw.Draw(img)
-        d.rectangle([13, 3, 18, 7], fill=rgb(0x3A6AB0 if name == "waterbottle" else 0x8A5A2A))
-        d.polygon([(11, 8), (20, 8), (22, 12), (22, 28), (9, 28), (9, 12)], fill=rgb(liquid, 220), outline=rgb(0x8A9AA8))
-        d.rectangle([9, 15, 22, 21], fill=rgb(0xF4F0E8))
-        save_item(img, name)
+    # (the Snackrooms' food and drink are modelled: tools/gen_items_pantry.py)
 
 
 # ---------------- Graphics pass B9: Levels 6 and 6.1 ----------------
