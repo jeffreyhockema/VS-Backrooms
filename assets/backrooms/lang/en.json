@@ -842,6 +842,8 @@
 	"blockdesc-cardboardflat": "Trodden flat and gone through. One box still stands, open and empty.",
 	"block-fridgeajar-*": "Emptied Refrigerator",
 	"blockdesc-fridgeajar-*": "The door hangs open on a bare, dry inside. Whatever it kept cold was eaten long ago.",
+	"block-iceboxajar-*": "Emptied Icebox",
+	"blockdesc-iceboxajar-*": "Both doors hang open on a bare, dry inside. The block of ice and whatever it kept cold are long gone.",
 	"block-kitchencabinetbare-*": "Bare Kitchen Cupboard",
 	"blockdesc-kitchencabinetbare-*": "Both doors hang open and nothing to eat is left on the shelf. What they could not eat, they left.",
 	"block-pantryshelfbare-*": "Bare Pantry Shelf",

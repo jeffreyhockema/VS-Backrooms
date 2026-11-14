@@ -39,7 +39,7 @@ public class SalvageSystem : ModSystem
         "driftwood", "buoy", "flashlight", "grill", "hayroll", "icemachine", "laundry", "laundrycart", "plough",
         "roomservicetray", "scarecrow", "toybox", "tractor", "wheeliebin", "officeceilingalt", "fridge",
         // Layout version 14: the food props found stripped (WorldGenerator.Stripped.cs)
-        "metalshelfbare", "oildrumopen", "cardboardflat", "fridgeajar", "kitchencabinetbare", "pantryshelfbare",
+        "metalshelfbare", "oildrumopen", "cardboardflat", "fridgeajar", "iceboxajar", "kitchencabinetbare", "pantryshelfbare",
         // Level 11: what the city leaves lying about
         "newsbox", "parkingmeter", "phonebooth", "clothesrack", "shoppingcart", "pew", "dumpster", "trashbags", "postbox",
         // Lore details

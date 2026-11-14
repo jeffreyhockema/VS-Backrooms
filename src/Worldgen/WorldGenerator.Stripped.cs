@@ -32,8 +32,8 @@ public sealed partial class WorldGenerator
             Pair("fridge-" + side, "fridgeajar-" + side);
             Pair("kitchencabinet-" + side, "kitchencabinetbare-" + side);
             Pair("pantryshelf-" + side, "pantryshelfbare-" + side);
-            // (Layout version 16: the Basement's icebox, found with its door ajar like a fridge; no block of its own)
-            Pair("icebox-" + side, "fridgeajar-" + side);
+            // (Layout version 16: the Basement's icebox, found with both doors open and nothing inside)
+            Pair("icebox-" + side, "iceboxajar-" + side);
         }
         Pair("oildrum", "oildrumopen");
         Pair("cardboardboxes", "cardboardflat");
