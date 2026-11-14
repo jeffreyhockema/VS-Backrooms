@@ -2,14 +2,6 @@
 {
 	"code": "l14-painkillers",
 	"maxstacksize": 8,
-	"shape": {
-		"base": "item/14/pillbottle"
-	},
-	"textures": {
-		"tex": {
-			"base": "item/14/pillbottle"
-		}
-	},
 	"creativeinventory": {
 		"general": [
 			"*"
@@ -61,6 +53,14 @@
 			}
 		}
 	],
+	"shape": {
+		"base": "item/pantry/pillbottle"
+	},
+	"textures": {
+		"tex": {
+			"base": "item/pantry/painkillers"
+		}
+	},
 	"guiTransform": {
 		"rotation": {
 			"x": 157.4,
@@ -111,6 +111,6 @@
 			"y": 0,
 			"z": 0.5
 		},
-		"scale": 3
+		"scale": 3.0
 	}
 }

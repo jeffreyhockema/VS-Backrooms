@@ -3251,42 +3251,6 @@ def level_textures():
     save(drum(0), "block/level2/oildrum-side.png")
 
 
-# ---------------- Items (16x16 atlases, layout matches the shapes) ----------------
-
-def almond_water():
-    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, 7, 15], fill=(236, 228, 205, 255))
-    d.rectangle([0, 5, 7, 10], fill=(196, 160, 104, 255))
-    d.line([0, 7, 7, 7], fill=(120, 84, 44, 255))
-    d.line([1, 0, 1, 15], fill=(250, 248, 240, 255))
-    d.rectangle([8, 0, 11, 3], fill=(225, 232, 236, 255))
-    d.rectangle([12, 0, 15, 3], fill=(60, 110, 170, 255))
-    d.rectangle([8, 8, 15, 15], fill=(236, 228, 205, 255))
-    return img
-
-
-def crackers():
-    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, 15, 11], fill=(196, 52, 40, 255))
-    d.rectangle([3, 3, 12, 8], fill=(232, 196, 120, 255))
-    for x in (5, 8, 11):
-        d.point((x, 5), fill=(170, 130, 70, 255))
-    d.rectangle([0, 12, 15, 15], fill=(170, 40, 32, 255))
-    return img
-
-
-def canned_beans():
-    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, 15, 11], fill=(176, 180, 186, 255))
-    d.rectangle([0, 3, 15, 8], fill=(214, 120, 40, 255))
-    d.rectangle([5, 4, 10, 7], fill=(150, 70, 30, 255))
-    d.rectangle([0, 12, 15, 15], fill=(150, 154, 160, 255))
-    return img
-
-
 # ---------------- Mod icon ----------------
 
 def mod_icon():
@@ -3331,8 +3295,5 @@ if __name__ == "__main__":
     for name, img in zip(("side", "end", "top"), supply_box_faces()):
         save(img, f"block/supplybox-box-{name}.png")
     level_textures()
-    save(almond_water(), "item/almondwater.png")
-    save(crackers(), "item/crackers.png")
-    save(canned_beans(), "item/cannedbeans.png")
     mod_icon().save(os.path.join(ROOT, "modicon.png"))
     print("textures written")
