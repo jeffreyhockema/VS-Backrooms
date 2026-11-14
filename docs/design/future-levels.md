@@ -4,7 +4,7 @@ Levels players have asked for, or that we have thought of, which are not built y
 
 ## Level 73: The Redlands
 
-Asked for on the mod database (October 2026).
+Asked for on the mod database (October 2026). **Built in 0.700** (id 21; its plan is [experimental-levels/73-plan.md](experimental-levels/73-plan.md)); the notes below are the idea as it was written down before.
 
 **Lore** (Wikidot, [Level 73](http://backrooms-wiki.wikidot.com/level-73), survival difficulty 5):
 - **The island:** one medium-sized island of dark red-black ground in an unexplored, dangerous ocean.
