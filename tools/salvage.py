@@ -33,11 +33,12 @@ CLOTH, LINEN, PAPER, CANDLE = "game:cloth-plain", "block:game:linen-normal-down"
 
 SALVAGE = {
     # Level 4: the office
-    "desk": d((PLANK, 2, 1), ("scrapwire", 1, 0.5), ("glassshard", 0.5, 0.5), (PAPER, 0.6, 0.6), ("wanderernote-way", 0.04, 0)),
+    "desk": d((PLANK, 2, 1), ("scrapwire", 1, 0.5), ("glassshard", 0.5, 0.5), (PAPER, 0.6, 0.6), ("wanderernote-way", 0.02, 0)),
     "conferencetable": d((PLANK, 4, 1), (NAILS, 0.5, 0.5)),
     "officechair": d(("metalbracket", 1, 0.5), (CLOTH, 1.3, 0.6)),
     "officechairtipped": d(("metalbracket", 1, 0.5), (CLOTH, 1.3, 0.6)),
-    "filingcabinet": d(("metalbracket", 2, 1), (PAPER, 1, 1), ("wanderernote-door", 0.05, 0)),
+    "filingcabinet": d(("metalbracket", 2, 1), (PAPER, 1, 1), ("wanderernote-door", 0.025, 0),
+                      ("chalk-red", 0.0375, 0), ("chalk-blue", 0.0375, 0), ("chalk-yellow", 0.0375, 0), ("chalk-green", 0.0375, 0)),
     "partition": d((CLOTH, 0.6, 0.4), ("metalbracket", 0.5, 0.5)),
     "copier": d(("glassshard", 1, 0.5), ("scrapwire", 2, 1), (PAPER, 1, 1)),
     "officebookshelf": d((PLANK, 3, 1), (PAPER, 1, 1)),
@@ -56,21 +57,21 @@ SALVAGE = {
                  ("prybar", 0.04, 0)),
     "plywood": d((PLANK, 2, 1)),
     "pallet": d((PLANK, 3, 1), (NAILS, 0.5, 0.5)),
-    "tent": d((LINEN, 1, 0.5), (STICK, 3, 1), ("game:rope", 0.5, 0.5), ("wanderernote-cache", 0.3, 0), ("wanderernote-door", 0.2, 0)),
+    "tent": d((LINEN, 1, 0.5), (STICK, 3, 1), ("game:rope", 0.5, 0.5), ("wanderernote-cache", 0.15, 0), ("wanderernote-door", 0.1, 0)),
     "bedroll": d((CLOTH, 1, 0.5), ("game:drygrass", 2, 1), ("wanderernote-door", 0.12, 0)),
     # The real-sized tent and sleeping bag (two blocks by two, and two long): the first part holds it all
-    "camptent": d((LINEN, 2, 0.5), (STICK, 4, 1), ("game:rope", 1, 0.5), (CLOTH, 1, 0.5), ("wanderernote-cache", 0.35, 0),
-                  ("wanderernote-door", 0.2, 0)),
+    "camptent": d((LINEN, 2, 0.5), (STICK, 4, 1), ("game:rope", 1, 0.5), (CLOTH, 1, 0.5), ("wanderernote-cache", 0.175, 0),
+                  ("wanderernote-door", 0.1, 0)),
     "sleepingbag": d((CLOTH, 2, 0.5), ("game:drygrass", 1, 0.5), ("wanderernote-door", 0.12, 0)),
     # Improvised camps (layout version 11): beds of cardboard, blankets and mattresses; lean-tos of a tarp and chairs or a door and cabinets
     # (Their wanderer notes are half the old gear's, as the note tuning has it: NoteSystem.Spots makes the rest back in Level 0)
     "improvbed": d((PAPER, 1.5, 1), (CLOTH, 1.5, 1), ("game:drygrass", 1, 0.5), ("wanderernote-door", 0.06, 0)),
-    "leanto": d((CLOTH, 2, 0.6), (STICK, 1, 1), ("metalbracket", 1, 0.5), ("game:rope", 0.5, 0.5), ("wanderernote-cache", 0.125, 0),
+    "leanto": d((CLOTH, 1, 0.5), (STICK, 1, 1), ("metalbracket", 1, 0.5), ("game:rope", 0.5, 0.5), ("wanderernote-cache", 0.125, 0),
                 ("wanderernote-door", 0.06, 0)),
     # What the lost left at Level 6's dead ends and on Level 7's seabed: their kit, and where they were trying to go
     "backpack": d(("almondwater", 0.8, 0.6), ("crackers", 0.4, 0.4), (CANDLE, 0.4, 0.4), ("game:rope", 0.3, 0.3),
                   ("game:knife-generic-copper", 0.1, 0), ("game:bandage-clean", 0.4, 0.4), ("chalk", 0.2, 0),
-                  ("game:fishingbait-dough", 0.5, 0.5), ("wanderernote-door", 0.3, 0), ("wanderernote-way", 0.2, 0),
+                  ("game:fishingbait-dough", 0.5, 0.5), ("wanderernote-door", 0.15, 0), ("wanderernote-way", 0.1, 0),
                   ("l974-plush-cat", 0.02, 0)),  # (Level 974: kept for luck, or for Kitty)
     "hospitalbed": d(("metalbracket", 2, 1), (CLOTH, 1, 0.5), ("game:bandage-clean", 0.3, 0.3)),
     "foldingtable": d(("metalbracket", 1, 0.5)),
@@ -108,11 +109,12 @@ SALVAGE = {
     "curiocabinet": d((PLANK, 2, 1), ("glassshard", 1, 0.5), ("game:metalbit-silver", 0.5, 0.5), ("game:gear-rusty", 0.1, 0)),
     "luggagecart": d(("game:metalbit-brass", 2, 1), ("metalbracket", 1, 0.5)),
     "servicetrolley": d(("metalbracket", 1, 0.5), ("game:metalbit-silver", 0.5, 0.5), ("crackers", 0.15, 0.15)),
-    "writingdesk": d((PLANK, 2, 1), (PAPER, 1, 0.5), (CANDLE, 0.3, 0.3), ("wanderernote-refuge", 0.05, 0)),
+    "writingdesk": d((PLANK, 2, 1), (PAPER, 1, 0.5), (CANDLE, 0.3, 0.3), ("wanderernote-refuge", 0.025, 0)),
     "hotelchair": d((PLANK, 1, 0.5), (STICK, 1, 0.5), (CLOTH, 1.3, 0.6)),
     "suitcase": d((CLOTH, 1, 0.5), ("game:clothes-upperbody-tattered-linen-shirt", 0.2, 0),
                   ("game:clothes-lowerbody-dirty-linen-trousers", 0.2, 0), (CANDLE, 0.2, 0.2), ("crackers", 0.15, 0.15),
-                  ("l974-plush-bear", 0.015, 0), ("l974-plush-bunny", 0.015, 0)),  # (Level 974: a child's plush, now and then)
+                  ("l974-plush-bear", 0.015, 0), ("l974-plush-bunny", 0.015, 0),
+                  ("chalk-red", 0.025, 0), ("chalk-blue", 0.025, 0), ("chalk-yellow", 0.025, 0), ("chalk-green", 0.025, 0)),  # (Level 974: a child's plush, now and then)
     "coffeetable": d((PLANK, 2, 1)),
     "ashtraystand": d(("game:metalbit-brass", 1, 0.5)),
     "diningtable": d((PLANK, 4, 1), (LINEN, 0.5, 0.5), ("game:metalbit-silver", 1, 0.5)),
