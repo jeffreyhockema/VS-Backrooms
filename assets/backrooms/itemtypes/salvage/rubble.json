@@ -2,7 +2,7 @@
 {
 	"code": "rubble",
 	"maxstacksize": 64,
-	"texture": {
+	"shape": {
 		"base": "item/salvage/rubble"
 	},
 	"creativeinventory": {
@@ -15,43 +15,58 @@
 	},
 	"materialDensity": 2200,
 	"guiTransform": {
+		"translation": {
+			"x": 5.429,
+			"y": -1.19,
+			"z": 0
+		},
 		"rotation": {
-			"x": 0,
-			"y": 0,
+			"x": 150,
+			"y": -35,
 			"z": 0
 		},
 		"origin": {
-			"x": 0.5,
-			"y": 0.5,
-			"z": 0.5
+			"x": 0.544,
+			"y": 0.116,
+			"z": 0.471
 		},
-		"scale": 1
+		"scale": 2.114
 	},
 	"tpHandTransform": {
 		"translation": {
-			"x": -0.75,
-			"y": -0.4,
-			"z": -0.55
+			"x": -1.4,
+			"y": -0.337,
+			"z": -1.42
+		},
+		"rotation": {
+			"x": -44,
+			"y": 7,
+			"z": -9
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.1,
+			"z": 0.5
+		},
+		"scale": 0.337
+	},
+	"groundTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0.068,
+			"z": 0
 		},
 		"rotation": {
 			"x": 0,
-			"y": -45,
-			"z": -10
-		},
-		"scale": 0.6
-	},
-	"groundTransform": {
-		"rotation": {
-			"x": 90,
 			"y": 0,
 			"z": 0
 		},
 		"origin": {
-			"x": 0.5,
-			"y": 0,
-			"z": 0.5
+			"x": 0.544,
+			"y": 0.116,
+			"z": 0.471
 		},
-		"scale": 2
+		"scale": 2.945
 	},
 	"behaviors": [
 		{
@@ -71,12 +86,22 @@
 	],
 	"attributes": {
 		"groundStorageTransform": {
-			"origin": {
-				"x": 0.5,
-				"y": 0.5,
-				"z": 0.5
+			"translation": {
+				"x": -0.044,
+				"y": -0.015,
+				"z": 0.029
 			},
-			"scale": 0.8
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.544,
+				"y": 0.116,
+				"z": 0.471
+			},
+			"scale": 0.85
 		}
 	}
 }

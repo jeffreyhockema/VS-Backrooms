@@ -2,8 +2,8 @@
 {
 	"code": "clumpsinew",
 	"maxstacksize": 32,
-	"texture": {
-		"base": "item/clumpsinew"
+	"shape": {
+		"base": "item/salvage/clumpsinew"
 	},
 	"creativeinventory": {
 		"general": [
@@ -14,43 +14,58 @@
 		]
 	},
 	"guiTransform": {
+		"translation": {
+			"x": 7.484,
+			"y": 0.078,
+			"z": 0
+		},
 		"rotation": {
-			"x": 0,
-			"y": 0,
+			"x": 150,
+			"y": -30,
 			"z": 0
 		},
 		"origin": {
-			"x": 0.5,
-			"y": 0.5,
-			"z": 0.5
+			"x": 0.581,
+			"y": 0.052,
+			"z": 0.536
 		},
-		"scale": 1
+		"scale": 3.343
 	},
 	"tpHandTransform": {
 		"translation": {
-			"x": -0.75,
-			"y": -0.4,
-			"z": -0.55
+			"x": -0.803,
+			"y": -0.42,
+			"z": -1.02
+		},
+		"rotation": {
+			"x": -78,
+			"y": 7,
+			"z": 8
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.125,
+			"z": 0.5
+		},
+		"scale": 0.559
+	},
+	"groundTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0.031,
+			"z": 0
 		},
 		"rotation": {
 			"x": 0,
-			"y": -45,
-			"z": -10
-		},
-		"scale": 0.6
-	},
-	"groundTransform": {
-		"rotation": {
-			"x": 90,
 			"y": 0,
 			"z": 0
 		},
 		"origin": {
-			"x": 0.5,
-			"y": 0,
-			"z": 0.5
+			"x": 0.581,
+			"y": 0.052,
+			"z": 0.536
 		},
-		"scale": 2
+		"scale": 2.695
 	},
 	"behaviors": [
 		{
@@ -70,12 +85,22 @@
 	],
 	"attributes": {
 		"groundStorageTransform": {
-			"origin": {
-				"x": 0.5,
-				"y": 0.5,
-				"z": 0.5
+			"translation": {
+				"x": -0.081,
+				"y": -0.009,
+				"z": -0.036
 			},
-			"scale": 1.3
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.581,
+				"y": 0.052,
+				"z": 0.536
+			},
+			"scale": 0.698
 		}
 	}
 }
