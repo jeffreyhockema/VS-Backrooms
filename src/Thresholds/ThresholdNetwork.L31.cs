@@ -51,16 +51,12 @@ public sealed partial class ThresholdNetwork
                 refusal = "locked";
                 return null;
             case "l31-revolving" when level == WorldLayout.Level31 && L31Revolving(layout.TileAt(x, z)):
-            {
-                // Round in the drum and out of the rink, to the same one of Levels 9, 10 and 11 every time
-                var door = layout.FeatureOrigin(x, z, L31Revolving);
-                var (mx, mz) = L31MiddleOf(door);
-                return new Passage
-                {
-                    Source = door, Key = KeyOf(door, SaltL31Threshold + 2), Find = In(layout.L31RevolvingTarget(mx, mz)),
-                    Message = "backrooms:l31-revolving-out", Sound = "backrooms:sounds/effect/3999/revolving",
-                };
-            }
+                return L31RevolvingOut(layout, x, z);
+            // (A world made before layout 16: a revolving door built at the pre-releases' rate, one lobby in 12, that the rate of
+            // one in 48 dropped from the layout after its chunk was made, still turns as it did: WorldLayout.PreBalance. The
+            // block used shows it is there, so no door is added)
+            case "l31-revolving" when level == WorldLayout.Level31 && layout.PreBalance is { } old && L31Revolving(old.TileAt(x, z)):
+                return L31RevolvingOut(old, x, z);
             case "l31-revolving":
                 refusal = "nowhere";
                 return null;
@@ -68,9 +64,21 @@ public sealed partial class ThresholdNetwork
         return null;
     }
 
+    /// <summary>Round in the drum and out of the rink, to the same one of Levels 9, 10 and 11 every time (the door as <paramref name="by"/> lays it out).</summary>
+    private Passage L31RevolvingOut(WorldLayout by, int x, int z)
+    {
+        var door = by.FeatureOrigin(x, z, L31Revolving);
+        var (mx, mz) = L31MiddleOf(by, door);
+        return new Passage
+        {
+            Source = door, Key = KeyOf(door, SaltL31Threshold + 2), Find = In(by.L31RevolvingTarget(mx, mz)),
+            Message = "backrooms:l31-revolving-out", Sound = "backrooms:sounds/effect/3999/revolving",
+        };
+    }
+
     /// <summary>A revolving door's middle tile, from its origin (its three tiles run along x or along z, from the origin).</summary>
-    private (int X, int Z) L31MiddleOf((int X, int Z) origin) =>
-        L31Revolving(layout.TileAt(origin.X + 1, origin.Z)) ? (origin.X + 1, origin.Z) : (origin.X, origin.Z + 1);
+    private static (int X, int Z) L31MiddleOf(WorldLayout by, (int X, int Z) origin) =>
+        L31Revolving(by.TileAt(origin.X + 1, origin.Z)) ? (origin.X + 1, origin.Z) : (origin.X, origin.Z + 1);
 
     /// <summary>
     /// Stealing skates (Fandom: "an immediate noclip to Level 0, without skates"): taken, one-way, from where the thief

@@ -51,41 +51,42 @@
   },
   "layoutHashesExp": {
     "1": {
-      "far": "3494f3de4bf51b49",
+      "far": "7cfb55607b77e3af",
       "layout": "38569d31c2f858f3"
     },
     "10": {
-      "far": "811def2d91a7ef93",
+      "far": "6b60108e4cc3759d",
       "layout": "12257fe3d703fa5c"
     },
     "11": {
-      "far": "8fde5e81fff6c978",
+      "far": "a9ce79619b0f6046",
       "layout": "a85c510906cb2381"
     },
     "12": {
-      "far": "8fde5e81fff6c978",
+      "far": "a9ce79619b0f6046",
       "layout": "52e70aef33d58a81"
     },
     "13": {
-      "far": "8fde5e81fff6c978",
+      "far": "a9ce79619b0f6046",
       "layout": "52e70aef33d58a81"
     },
     "14": {
-      "far": "9e2dc23ac817a17e",
+      "far": "b7dd7f2a9aa79fc0",
       "layout": "738e6ebf89214fc4"
     },
     "15": {
-      "far": "9e2dc23ac817a17e",
+      "far": "b7dd7f2a9aa79fc0",
       "layout": "985d82f85b4dd89c"
     },
     "16": {
-      "far": "2c15d3d2d9b6b936",
+      "far": "3cf1af0697104560",
       "layout": "a6b66cddba869d4c"
     },
     "9": {
-      "far": "811def2d91a7ef93",
+      "far": "6b60108e4cc3759d",
       "layout": "2c32820dbcd1e34d"
-    }
+    },
+    "_note": "0.700.0-pre.13 (2026-11-13) moved the far places hashes of v1-15 on purpose, by the user's decision that the ten new levels play by layout 16's balance in every world (WorldLayout.ExpVersion): only the new levels' lines (Basement 22, Level 52 23, Level 36 25) moved, levels 0-20 and the level grids did not. v16's far hash was re-recorded at the same time (the pre.12 plane pass had moved it; this change did not). Recorded at pre.10, re-recorded at pre.13."
   },
   "shortcuts": {
     "v12": {

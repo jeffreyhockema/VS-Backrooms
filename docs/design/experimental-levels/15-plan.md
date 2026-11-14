@@ -265,7 +265,7 @@ salts 0x27C1-0x27C5.
   wing (93%), between two pilasters, lit jambs either side (`L15SealedArrival`: the nearest such door to a place near the
   middle picked by the key, its hall tile lit). Used, it is locked.
 
-**Ways out** (Fandom; each one-way; one wing in about 21 has one, a third of them each kind (layout 16: the pane and the
+**Ways out** (Fandom; each one-way; one wing in about 21 has one, a third of them each kind (layout 16, every world from pre.13: the pane and the
 stairs a quarter of that, one wing in 256 each, LINKS.md "Layout 16"); none within about 200 blocks
 of the middle, where people are put down):
 - *ESCAPE* ("a control panel will occasionally contain a button labeled ESCAPE ... a nearby locked gateway available,

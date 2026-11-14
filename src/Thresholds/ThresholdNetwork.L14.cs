@@ -36,13 +36,24 @@ public sealed partial class ThresholdNetwork
 
     private static readonly Func<Tile, bool> L14Collapse = t => WorldLayout.IsL14Collapse(t);
 
-    private Passage L14Walked(int x, int z, in Tile tile, double rel) =>
-        rel < L14CollapseTripRel && WorldLayout.IsL14Collapse(tile) ? L14Fall(x, z) : null;
+    private Passage L14Walked(int x, int z, in Tile tile, double rel)
+    {
+        if (rel >= L14CollapseTripRel || tile.Level != WorldLayout.Level14) return null;
+        if (WorldLayout.IsL14Collapse(tile)) return L14Fall(layout, x, z);
+        // (A world made before layout 16: a floor that gives way laid at the pre-releases' rate, one wing in 112, and dropped
+        // by the rate of one in 448 after its chunk was made, still gives way: WorldLayout.PreBalance. ThresholdSystem.L14MayPass
+        // lets it through only where the sagging floor's block is there, so none is added where it was never built)
+        return layout.PreBalance is { } old && WorldLayout.IsL14Collapse(old.TileAt(x, z)) ? L14Fall(old, x, z) : null;
+    }
+
+    /// <summary>Whether a tile is a floor that gives way, by the layout or (a world made before layout 16) by its <see cref="WorldLayout.PreBalance"/> twin.</summary>
+    public bool L14CollapseAt(int x, int z) =>
+        WorldLayout.IsL14Collapse(layout.TileAt(x, z)) || layout.PreBalance is { } old && WorldLayout.IsL14Collapse(old.TileAt(x, z));
 
     /// <summary>The floor giving way under someone standing on a sagging tile: one way, out of the sky onto the Redlands. The patch is one threshold.</summary>
-    private Passage L14Fall(int x, int z)
+    private Passage L14Fall(WorldLayout by, int x, int z)
     {
-        var patch = layout.FeatureOrigin(x, z, L14Collapse);
+        var patch = by.FeatureOrigin(x, z, L14Collapse);
         return new Passage
         {
             Source = patch, Key = KeyOf(patch, SaltL14Threshold + 5), Message = L14CollapseMessage,
@@ -62,7 +73,10 @@ public sealed partial class ThresholdNetwork
                     Source = (x, z), Key = KeyOf((x, z), SaltL14Threshold + 1), Find = IntoL14(),
                     Message = "backrooms:l14-arrive", Sound = "game:sounds/block/metaldoor",
                 };
-            case "l14-medical" when level == WorldLayout.Level15 && WorldLayout.IsL14MedDoor(here):
+            // (In a world made before layout 16, also a door built at the pre-releases' rate, one wing in 64, that the rate of one
+            // in 256 dropped from the layout after its chunk was made: WorldLayout.PreBalance; the block used shows it is there)
+            case "l14-medical" when level == WorldLayout.Level15 && (WorldLayout.IsL14MedDoor(here)
+                || layout.PreBalance is { } old && WorldLayout.IsL14MedDoor(old.TileAt(x, z))):
                 return new Passage
                 {
                     Source = (x, z), Key = KeyOf((x, z), SaltL14Threshold + 2), Find = IntoL14(),
@@ -80,7 +94,7 @@ public sealed partial class ThresholdNetwork
                 };
             case "l14-collapse" when level == WorldLayout.Level14 && WorldLayout.IsL14Collapse(here):
                 // (No block has this kind: it is for the dev command /backrooms wayback l14-collapse x z, to go through the floor headless)
-                return L14Fall(x, z);
+                return L14Fall(layout, x, z);
         }
         // Anything else of the level's own (a door set down by hand, out of its place) leads nowhere
         refusal = "nowhere";

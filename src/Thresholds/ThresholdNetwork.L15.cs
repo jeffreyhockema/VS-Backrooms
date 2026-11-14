@@ -34,19 +34,32 @@ public sealed partial class ThresholdNetwork
                 return L15Gateway(x, z);
             // Climbing through the pane once it is broken (on its sill)
             case Unders.L15Window when rel is >= 1.9 and < 3.5:
-                return L15Window(x, z);
+                return L15Window(layout, x, z);
             // Down the office's stairs, out of sight of the room
             case Unders.L15Stairs when rel < -1.5:
-            {
-                var stairs = layout.FeatureOrigin(x, z, t => L15Part(t, Unders.L15Stairs));
-                return new Passage
-                {
-                    Source = stairs, Key = KeyOf(stairs, SaltL15Threshold + 5), Find = In(4, L4FlightUpFirst),
-                    Message = "backrooms:l15-stairs-arrive",
-                };
-            }
+                return L15Stairs(layout, x, z);
+        }
+        // (A world made before layout 16: a pane or an office's stairs built at the pre-releases' rate, one wing in 64, that the
+        // rate of one in 256 dropped from the layout after its chunk was made, still lead out: WorldLayout.PreBalance. Only where
+        // someone stands in the broken pane or down the stairs, which a wall or a floor never built that way does not let them)
+        if ((rel is >= 1.9 and < 3.5 || rel < -1.5) && tile.Under == 0 && layout.PreBalance is { } old)
+        {
+            Tile was = old.TileAt(x, z);
+            if (was.Level != WorldLayout.Level15) return null;
+            if (was.Under == Unders.L15Window && rel >= 1.9) return L15Window(old, x, z);
+            if (was.Under == Unders.L15Stairs && rel < -1.5) return L15Stairs(old, x, z);
         }
         return null;
+    }
+
+    private Passage L15Stairs(WorldLayout by, int x, int z)
+    {
+        var stairs = by.FeatureOrigin(x, z, t => L15Part(t, Unders.L15Stairs));
+        return new Passage
+        {
+            Source = stairs, Key = KeyOf(stairs, SaltL15Threshold + 5), Find = In(4, L4FlightUpFirst),
+            Message = "backrooms:l15-stairs-arrive",
+        };
     }
 
     private Passage L15Gateway(int x, int z)
@@ -58,9 +71,9 @@ public sealed partial class ThresholdNetwork
         return passage;
     }
 
-    private Passage L15Window(int x, int z)
+    private Passage L15Window(WorldLayout by, int x, int z)
     {
-        var pane = layout.FeatureOrigin(x, z, t => L15Part(t, Unders.L15Window));
+        var pane = by.FeatureOrigin(x, z, t => L15Part(t, Unders.L15Window));
         Passage passage = OneWay(pane, KeyOf(pane, SaltL15Threshold + 4), 11);
         passage.Message = "backrooms:l15-window-arrive";
         passage.Sound = "game:sounds/block/glass";
@@ -80,7 +93,10 @@ public sealed partial class ThresholdNetwork
             case "l15-gateway" when level == WorldLayout.Level15 && here.Under == Unders.L15Gateway:
                 return L15Gateway(x, z);
             case "l15-window" when level == WorldLayout.Level15 && here.Under == Unders.L15Window:
-                return L15Window(x, z);
+                return L15Window(layout, x, z);
+            // (A pane built at the pre-releases' rate and dropped by layout 16's after its chunk was made: the glass broken shows it was there)
+            case "l15-window" when level == WorldLayout.Level15 && layout.PreBalance is { } old && old.TileAt(x, z).Under == Unders.L15Window:
+                return L15Window(old, x, z);
             case "l15-sealed" or "l15-gatewayshut":
                 refusal = "locked";
                 return null;

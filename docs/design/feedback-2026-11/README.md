@@ -1,8 +1,9 @@
 # Player-feedback round, 2026-11 (0.700.0-pre.10)
 
 The mod page's comments of 3 to 10 November 2026, reviewed on 13 November. Everything here ships in the 0.700 branch
-(`experimental-levels`) only. The new-world parts take **layout version 16** on this branch (15 is its food round, main's 14 is
-the 0.611 review), so main's next layout bump is **17**. Built in four packages (`exp/fb-late`, `exp/fb-small`, `exp/fb-armour`,
+(`experimental-levels`) only. The new-world parts take **layout version 16** on this branch (15 is its food round, main's 14
+is the 0.611 review), so main's next layout bump is **17**; the new levels' balance of pre.11 reads it in every world from
+pre.13 (see below). Built in four packages (`exp/fb-late`, `exp/fb-small`, `exp/fb-armour`,
 `exp/fb-props`) and merged together for pre.10.
 
 ## What players said, and what the code showed
@@ -78,7 +79,9 @@ the 0.611 review), so main's next layout bump is **17**. Built in four packages 
     game hours; Coran's kills leave no carcass; Level 23's amphorae a third of the clay, its water clean only in the Heart's
     pool and Base Seedling (puddles tainted); green giant bark gives firewood, not planks; Level 47's moose follow the food
     setting and class; Black Shuck hide 0.5 (was 1.5).
-  - New worlds (layout 16): the Basement's food props found stripped (0.75), its workshop tools about a thirteenth (1.45 to
+  - Layout 16, and from 0.700.0-pre.13 in every world (the user's decision of 2026-11-13: older worlds get the new levels'
+    ways in, so they get these new levels' rules too; `WorldLayout.ExpVersion`, LINKS.md "Layout 16"; the released levels'
+    own layout 16 changes above, barns, rowhouse doors and borax, stay new worlds only): the Basement's food props found stripped (0.75), its workshop tools about a thirteenth (1.45 to
     0.11 whole tools a cell) and seed sacks a seventh; Level 52's trees a fifth (shrubs where they were) and its shelves
     stripped at Level 4's share; the earlier-to-later shortcuts a quarter as common: Level 31's revolving doors, Level 15's
     pane to 11, stairs to 4 and MEDICAL CENTER door, Level 14's collapse to 73, Level 6's deepest dark to 73 (at least one

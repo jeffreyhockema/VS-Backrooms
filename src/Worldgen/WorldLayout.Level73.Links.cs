@@ -30,16 +30,16 @@ public sealed partial class WorldLayout
     /// <summary>One Suburbs cell in this many may hold the Gloom (where a yard or a street has room for it).</summary>
     public const int L73GloomCells = 2000;
 
-    /// <summary>One cell of Level 6 in this many is its deepest dark (in worlds made before layout version 16).</summary>
+    /// <summary>One cell of Level 6 in this many is its deepest dark (the pre-releases' rate, before layout 16's balance, which every world now reads: ExpVersion).</summary>
     public const int L73DarkCells = 2500;
 
     /// <summary>
-    /// One cell of Level 6 in this many is its deepest dark in this world: from layout version 16 one in 10,000, a quarter as
+    /// One cell of Level 6 in this many is its deepest dark in this world: from layout 16's balance (every world: ExpVersion) one in 10,000, a quarter as
     /// many (the progression rule, decision 20: from Level 6 onto the Class 5 island, and so by Coran to Level 9, is a
     /// shortcut, a quarter as common; the kept cells are the same, the lowest rolls). The Gloom in Level 9 is not a way deeper
     /// and stays.
     /// </summary>
-    public int L73DarkOneIn => Version >= 16 ? L73DarkCells * 4 : L73DarkCells;
+    public int L73DarkOneIn => ExpVersion >= 16 ? L73DarkCells * 4 : L73DarkCells;
 
     /// <summary>How far from its middle the Gloom reaches at most (blocks), and the room round that a cell must have clear.</summary>
     private const int L73GloomReach = 4;
@@ -116,14 +116,14 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// Whether a cell rolls Level 6's deepest dark (by its own hash alone; IsL73DarkCell says whether it is one). From layout
-    /// version 16, where the quarter would leave the whole of Level 6 none (a small world, an unlucky seed), the cell with the
+    /// 16's balance (every world: ExpVersion), where the quarter would leave the whole of Level 6 none (a small world, an unlucky seed), the cell with the
     /// lowest roll of those the old rate gave stays (decision 20's "keep at least one"): <see cref="L73DarkFloor"/>.
     /// </summary>
     public bool L73DarkRolls(int mx, int mz)
     {
         double u = Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltL73DarkCell));
         if (u < 1.0 / L73DarkOneIn) return true;
-        return Version >= 16 && u < 1.0 / L73DarkCells && u <= L73DarkFloor;
+        return ExpVersion >= 16 && u < 1.0 / L73DarkCells && u <= L73DarkFloor;
     }
 
     private StrongBox<double> l73DarkFloor;

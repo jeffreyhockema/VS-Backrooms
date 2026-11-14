@@ -32,7 +32,7 @@ public sealed partial class WorldGenerator
             Pair("fridge-" + side, "fridgeajar-" + side);
             Pair("kitchencabinet-" + side, "kitchencabinetbare-" + side);
             Pair("pantryshelf-" + side, "pantryshelfbare-" + side);
-            // (Layout version 16: the Basement's icebox, found with its door ajar like a fridge; no block of its own)
+            // (Layout 16's balance, in every world (ExpVersion): the Basement's icebox, found with its door ajar like a fridge; no block of its own)
             Pair("icebox-" + side, "fridgeajar-" + side);
         }
         Pair("oildrum", "oildrumopen");
@@ -41,9 +41,9 @@ public sealed partial class WorldGenerator
 
     /// <summary>The block a tile of Levels 1 to 5 shows: its stripped prop if it was picked over (layout version 15 on), else <paramref name="block"/>.</summary>
     private int Stripped(in Tile t, int block) =>
-        block != 0 && t.Looted && (t.Level is >= 1 and <= 5 && layout.Version >= 15 || t.Level is WorldLayout.Basement or WorldLayout.Level52 && layout.Version >= 16)
+        block != 0 && t.Looted && (t.Level is >= 1 and <= 5 && layout.Version >= 15 || t.Level is WorldLayout.Basement or WorldLayout.Level52 && layout.ExpVersion >= 16)
         && strippedIds.TryGetValue(block, out int bare) ? bare : block;
 
-    /// <summary>A food prop's block as its stripped one when <paramref name="strip"/> (Level 52's upper storeys roll their own, layout version 16 on).</summary>
+    /// <summary>A food prop's block as its stripped one when <paramref name="strip"/> (Level 52's upper storeys roll their own, layout 16's balance, every world).</summary>
     private int StrippedIf(bool strip, int block) => strip && block != 0 && strippedIds.TryGetValue(block, out int bare) ? bare : block;
 }

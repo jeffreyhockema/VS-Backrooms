@@ -20,7 +20,7 @@ namespace Backrooms.Worldgen;
 /// where no door should be, cold white light under it.</item>
 /// <item><b>Where those come out</b>: in a lit main hall, beside one of the reinforced doors in the halls' walls that do not
 /// open (one in most wings: <see cref="L15Plan.HasSealed"/>).</item>
-/// <item><b>Out</b> (Fandom; all one-way, and rare: one wing in about sixty-four has each, and from layout version 16 one in
+/// <item><b>Out</b> (Fandom; all one-way, and rare: one wing in about sixty-four has each, and from layout 16's balance (every world: ExpVersion) one in
 /// 256 the pane and the stairs, the ways deeper): a control room whose ESCAPE panel works (pressed, the locked gateway in the
 /// room's side wall rolls up onto the dark, and through it is Level 3); a machine room's pane of thick glass with a street's
 /// orange light behind it (broken, or climbed through once broken: Level 11); an office out of place, Level 4's carpet and
@@ -40,7 +40,7 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// How often: a square of the fields has a wall (if one fits: about half do); a cell of Level 3 has a door to Level 15;
-    /// a wing of Level 15 has a way out (each of the three a third of it; from layout version 16 the pane and the stairs a
+    /// a wing of Level 15 has a way out (each of the three a third of it; from layout 16's balance (every world: ExpVersion) the pane and the stairs a
     /// quarter of their third: <see cref="L15PlaceExit"/>).
     /// </summary>
     private const double L15WallChance = 0.5, L15Door3Chance = 1 / 1500.0, L15ExitChance = 3 / 64.0;
@@ -298,10 +298,10 @@ public sealed partial class WorldLayout
         var (cx, cz) = plan.World(60, 60);
         if (Math.Abs(cx - L15CentreX * MacroSize) < 200 && Math.Abs(cz - L15CentreZ * MacroSize) < 200) return;
         int kind = (int)(r / L15ExitChance * 3);
-        // From layout version 16 the two ways deeper (the pane to Level 11, the office stairs to Level 4) are a quarter as
+        // From layout 16's balance (every world: ExpVersion) the two ways deeper (the pane to Level 11, the office stairs to Level 4) are a quarter as
         // common, the ESCAPE gateway back to Level 3 as it was (the progression rule, decision 20): of the wings that roll a
         // pane or stairs, only the lowest quarter of the roll keeps it, so the kept ones are the same wings
-        if (Version >= 16 && kind >= 1 && r / L15ExitChance * 3 - kind >= 0.25) return;
+        if (ExpVersion >= 16 && kind >= 1 && r / L15ExitChance * 3 - kind >= 0.25) return;
         switch (kind)
         {
             case 0: L15PlaceEscape(plan, ref rng); break;

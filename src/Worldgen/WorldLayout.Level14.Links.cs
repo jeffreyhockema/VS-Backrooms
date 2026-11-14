@@ -26,7 +26,7 @@ namespace Backrooms.Worldgen;
 /// and (our invention, LINKS.md: Wikidot 73 names Level 14 as a way in with no detail, and Fandom 14 has "certain floor tiles
 /// ... may collapse and give way unexpectedly") a patch of a corridor's floor sagging in its middle lane, cracked tiles round
 /// it as the warning ("if there are any signs of instability, the best thing to do would be to run"): stood on, it gives way
-/// and you fall out of the sky onto the Redlands, Level 73 (from layout version 16 a quarter as often: <see cref="L14CollapseShare"/>).
+/// and you fall out of the sky onto the Redlands, Level 73 (from layout 16's balance (every world: ExpVersion) a quarter as often: <see cref="L14CollapseShare"/>).
 /// All one way.</item>
 /// </list>
 /// </summary>
@@ -46,21 +46,21 @@ public sealed partial class WorldLayout
     /// <summary>How many cells apart two Lobby cells drawn for an EMERGENCY EXIT must be (else the lower roll keeps it).</summary>
     public const int L14ExitApart = 16;
 
-    /// <summary>The share of Level 15's wings with a MEDICAL CENTER door (if one of its medical bays has a wall for it), in worlds made before layout version 16.</summary>
+    /// <summary>The share of Level 15's wings with a MEDICAL CENTER door (if one of its medical bays has a wall for it), the pre-releases' rate, before layout 16's balance, which every world now reads: ExpVersion.</summary>
     public const double L14MedDoorChance = 1 / 64.0;
 
-    /// <summary>The shares of the Hospital's wings with a futuristic door, a red exit door, a floor that gives way (one in about thirty in all; the floor in worlds made before layout version 16).</summary>
+    /// <summary>The shares of the Hospital's wings with a futuristic door, a red exit door, a floor that gives way (one in about thirty in all; the floor the pre-releases' rate, before layout 16's balance, which every world now reads: ExpVersion).</summary>
     public const double L14FutureChance = 1 / 80.0, L14RedChance = 1 / 80.0, L14CollapseChance = 1 / 112.0;
 
     /// <summary>
     /// The share of Level 15's wings with a MEDICAL CENTER door in this world, and of the Hospital's wings with a floor that
-    /// gives way: from layout version 16 a quarter of each, one in 256 and one in 448 (the progression rule, decision 20: a
+    /// gives way: from layout 16's balance (every world: ExpVersion) a quarter of each, one in 256 and one in 448 (the progression rule, decision 20: a
     /// way from Level 3's side of the world into the Class 4 hospital, and from it onto the Class 5 island and so to Level 9,
     /// are shortcuts, a quarter as common; the kept ones are the same, the lowest rolls). The futuristic door back to Level 15
     /// and the red door to Level ! are not ways deeper and stay.
     /// </summary>
-    public double L14MedDoorShare => Version >= 16 ? L14MedDoorChance / 4 : L14MedDoorChance;
-    public double L14CollapseShare => Version >= 16 ? L14CollapseChance / 4 : L14CollapseChance;
+    public double L14MedDoorShare => ExpVersion >= 16 ? L14MedDoorChance / 4 : L14MedDoorChance;
+    public double L14CollapseShare => ExpVersion >= 16 ? L14CollapseChance / 4 : L14CollapseChance;
 
     /// <summary>How far from the region's middle (blocks) the nearest way out may be: the reception rooms there are where everyone arrives.</summary>
     public const int L14WayOutClear = 200;
@@ -158,7 +158,7 @@ public sealed partial class WorldLayout
         ref Tile door = ref b.At(ex, ez);
         door.Under = Unders.L14ExitDoor;
         door.Pier = f;
-        if (Version >= 12)
+        if (ExpVersion >= 12)
         {
             var (dx, dz) = FacingStep(f);
             L14PlacardBeside(b, ex, ez, dx, dz);

@@ -81,7 +81,8 @@ public partial class ThresholdSystem
         if (passage.Message != ThresholdNetwork.L14CollapseMessage) return true;
         EntityPos pos = player.Entity.Pos;
         int x = (int)Math.Floor(pos.X), z = (int)Math.Floor(pos.Z);
-        if (!WorldLayout.IsL14Collapse(layout.TileAt(x, z))) return false;
+        // (The layout's, or in a world made before layout 16 one the pre-releases' rate laid and the quarter dropped: its block decides)
+        if (!network.L14CollapseAt(x, z)) return false;
         Block on = sapi.World.BlockAccessor.GetBlock(new BlockPos(x, geometry.FloorFor(WorldLayout.Level14), z));
         return on.Code?.Domain == "backrooms" && on.Code.Path == L14SaggingCode;
     }

@@ -53,7 +53,7 @@ static partial class LevelModes
                     has = layout.TileAt(d.X + dx, d.Z + dz).Under == Unders.L120Placard;
             if (has) placards++;
         }
-        Console.WriteLine($"  with a placard beside them: {placards}/{doors.Count}" + (layout.Version >= 12 ? "" : " (layout before 12: none expected)"));
+        Console.WriteLine($"  with a placard beside them: {placards}/{doors.Count}" + (layout.ExpVersion >= 12 ? "" : " (layout before 12: none expected)"));
         if (doors.Count > 0)
         {
             var spacing = new List<double>();

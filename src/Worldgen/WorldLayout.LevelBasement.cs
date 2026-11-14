@@ -800,9 +800,9 @@ public sealed partial class WorldLayout
                     break;
                 case BasementRoomKind.Workshop:
                     // Somebody's workshop: a bench, tools on the wall, lumber, a barrel of nails
-                    // (Layout version 16: whole copper tools are rare, about three times Level 1's toolboxes a cell, not 30 times:
+                    // (Layout 16's balance, in every world (ExpVersion): whole copper tools are rare, about three times Level 1's toolboxes a cell, not 30 times:
                     // the tool shelf 13 % to 1.2 %, the rack 10 % to 0.6 %, the toolbox 8 % to 1.5 %; the rest goes to plain lumber and parts)
-                    if (Version >= 16)
+                    if (ExpVersion >= 16)
                     {
                         if (roll < 0.28) t.Variant = Props.Workbench;
                         else if (roll < 0.292) t.Variant = Props.ToolShelf;
@@ -867,9 +867,9 @@ public sealed partial class WorldLayout
                     else if (roll < 0.68) t.Variant = Props.Icebox;
                     else if (roll < 0.8) { t.Stack = 1; t.Looted = rng.Chance(0.85); }
                     else if (roll < 0.9) t.Variant = Props.CardboardBoxes;
-                    // (Layout version 16: seeds are Level 9's: a sack is rare here, 0.5 % of slots not 5 %, the rest plain shelving)
-                    else if (Version >= 16 && roll < 0.905) t.Variant = Props.SeedSacks;
-                    else if (Version >= 16 && roll < 0.95) { t.Variant = Props.BasementShelving; t.Stack = 1; }
+                    // (Layout 16's balance, in every world (ExpVersion): seeds are Level 9's: a sack is rare here, 0.5 % of slots not 5 %, the rest plain shelving)
+                    else if (ExpVersion >= 16 && roll < 0.905) t.Variant = Props.SeedSacks;
+                    else if (ExpVersion >= 16 && roll < 0.95) { t.Variant = Props.BasementShelving; t.Stack = 1; }
                     else if (roll < 0.95) t.Variant = Props.SeedSacks;
                     else t.Variant = Props.NailBarrel;
                     break;

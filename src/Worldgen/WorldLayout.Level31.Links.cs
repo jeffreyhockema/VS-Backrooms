@@ -15,7 +15,7 @@ namespace Backrooms.Worldgen;
 /// it faces); nothing else in the host moves (its own salts).</item>
 /// <item><b>The lobby's wooden door</b> (<see cref="Unders.L31LobbyDoor"/>), in every lobby's back wall: where a wooden door
 /// opens, and the way back through it.</item>
-/// <item><b>Out: the Revolving Door</b> (Fandom), in the front wall of one lobby in twelve (from layout version 16 one in 48:
+/// <item><b>Out: the Revolving Door</b> (Fandom), in the front wall of one lobby in twelve (from layout 16's balance (every world: ExpVersion) one in 48:
 /// <see cref="L31RevolvingChance"/>), beside the front doors: to Level 9, 10 or 11, each always the same one
 /// (<see cref="L31RevolvingTarget"/>).</item>
 /// </list>
@@ -27,15 +27,15 @@ public sealed partial class WorldLayout
     /// <summary>The share of the cells of Levels 2 and 3 that hold a wooden door into the rink, and of Level 6's (half as many).</summary>
     public const double L31DoorShare = 1.0 / 1200, L31DoorShareL6 = 1.0 / 2400;
 
-    /// <summary>The share of the lobbies with a revolving door (worlds made before layout version 16).</summary>
+    /// <summary>The share of the lobbies with a revolving door (the pre-releases' rate, before layout 16's balance, which every world now reads: ExpVersion).</summary>
     public const double L31RevolvingShare = 1.0 / 12;
 
     /// <summary>
-    /// The share of the lobbies with a revolving door in this world: from layout version 16 a quarter of it, one lobby in 48
+    /// The share of the lobbies with a revolving door in this world: from layout 16's balance (every world: ExpVersion) a quarter of it, one lobby in 48
     /// (the progression rule, decision 20: a way from a Level 2 door on to Level 9, 10 or 11 is a shortcut, a quarter as
     /// common; the kept ones are the same doors, the lowest rolls).
     /// </summary>
-    public double L31RevolvingChance => Version >= 16 ? L31RevolvingShare / 4 : L31RevolvingShare;
+    public double L31RevolvingChance => ExpVersion >= 16 ? L31RevolvingShare / 4 : L31RevolvingShare;
 
     /// <summary>Where in a complex's plan the lobby's wooden door is (in its back wall, onto the service corridor), and the
     /// revolving door's three tiles (in its front wall, east of the front doors; the middle one at <see cref="L31RevolvingP"/>).</summary>

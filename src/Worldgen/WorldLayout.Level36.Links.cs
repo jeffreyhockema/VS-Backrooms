@@ -12,7 +12,7 @@ namespace Backrooms.Worldgen;
 /// sign in the baggage wall, which is the way back (<see cref="L36Mat.LandDoor"/>, every 128 blocks along the wall; one that
 /// nothing has come in by is locked).</para>
 /// <para><b>Out:</b> each gate's flight lands in one level of six, always the same for that gate, named on the gate's screen
-/// (<see cref="L36FlightTo"/>; from layout version 16 few to Levels 10 and 11: <see cref="L36FlightIndex"/>); a restroom
+/// (<see cref="L36FlightTo"/>; from layout 16's balance (every world: ExpVersion) few to Levels 10 and 11: <see cref="L36FlightIndex"/>); a restroom
 /// sink, overflowed, with your head under it, to the Poolrooms (src/Regions/L36System.cs and
 /// src/Thresholds/ThresholdNetwork.L36.cs). Both one-way.</para>
 /// </summary>
@@ -43,7 +43,7 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// Which of <see cref="L36FlightLevels"/> a gate's flight lands in, by its jet-bridge door (always the same for that gate).
-    /// A sixth each in worlds made before layout version 16. From 16 the flights on past the Suburbs, to the fields of Level 10
+    /// A sixth each at the pre-releases' rate. From layout 16's balance (every world: ExpVersion) the flights on past the Suburbs, to the fields of Level 10
     /// and the city, are a quarter as many (the progression rule, decision 20: the airport is entered from Level 9, and a way
     /// from there to a later level is a shortcut, a quarter as common); the other three in four of those gates fly back to the
     /// Suburbs or to the Poolrooms, half each, by a second roll of the door. 3999 and 188 keep their share (the rule keeps
@@ -52,7 +52,7 @@ public sealed partial class WorldLayout
     public int L36FlightIndex(int doorX, int doorZ)
     {
         int i = (int)(Hashing.Hash(seed, doorX, doorZ, SaltL36FlightTo) % (ulong)L36FlightLevels.Length);
-        if (Version < 16 || L36FlightLevels[i] is not (10 or 11)) return i;
+        if (ExpVersion < 16 || L36FlightLevels[i] is not (10 or 11)) return i;
         double keep = Hashing.Unit(Hashing.Hash(seed, doorX, doorZ, SaltL36FlightKeep));
         return keep < 0.25 ? i : Array.IndexOf(L36FlightLevels, keep < 0.625 ? 9 : 37);
     }

@@ -253,10 +253,10 @@ director's roster (it is the level's only hunter, as the lore says).
 | From | Threshold | To | Way | Rarity (seed 12345, full size) |
 |---|---|---|---|---|
 | Level 0 | a grey hospital EMERGENCY EXIT door in a Lobby wall (M.E.G. placard beside it from layout 12) | Level 14, a reception room | one way | 1 Lobby cell in 1000, outer two fifths of Level 0, never two within 16 cells; nearest 0.47 km from spawn |
-| Level 15 | a white sliding door marked MEDICAL CENTER in a medical bay's wall | Level 14, a reception room | one way | 1 wing in 64 (layout 16: 1 in 256, LINKS.md "Layout 16"); nearest 550 blocks from 15's middle |
+| Level 15 | a white sliding door marked MEDICAL CENTER in a medical bay's wall | Level 14, a reception room | one way | 1 wing in 64 (layout 16, every world from pre.13: 1 in 256, LINKS.md "Layout 16"); nearest 550 blocks from 15's middle |
 | Level 14 | a rare futuristic white door in a corridor or hall wall | Level 15, a main hall beside a door that does not open | one way | 1 wing in 80; nearest 278 blocks from the middle |
 | Level 14 | a rare red EXIT door | Level !, a lane's start room | one way | 1 wing in 80; nearest 236 blocks |
-| Level 14 | a sagging patch of floor in a corridor, cracked round it (our invention) | Level 73, out of the sky (8 blocks, never lethal) | one way | 1 wing in 112 (layout 16: 1 in 448); nearest 638 blocks (layout 16: 1362) |
+| Level 14 | a sagging patch of floor in a corridor, cracked round it (our invention) | Level 73, out of the sky (8 blocks, never lethal) | one way | 1 wing in 112 (layout 16, every world from pre.13: 1 in 448); nearest 638 blocks (layout 16: 1362) |
 
 None within 200 blocks of the middle. `14links` lists them. `BACKROOMS_NO_EXP_ENTRANCES=1` layouthash (v1, v12) = main; with the
 entrances on only levels 1, 2, 6 and 11 move (other experimental levels' entrances; Level 0's sampled cells hold no door).
