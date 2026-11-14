@@ -30,7 +30,7 @@ public class RigCommands : ModSystem
         var parsers = api.ChatCommands.Parsers;
         api.ChatCommands.Get("backrooms")?
             .BeginSubCommand("rig")
-                .WithDescription("Client test rig helpers: equip <set> (wear game:armor-head/body/legs-<set>, e.g. sewn-leather), sleep (put a hotel bed beside you if there is none and lie down in it), face <text> (reports the heading and pitch to the nearest block whose code contains text, within 16 blocks), walk <blocks> (moves you that far along the way you face, one block at a time, over a floor and through free air), hurt <amount> (a blow from nothing in particular), classdrops <block> (the drops of a block such as supplybox rolled 400 times as if it stood where you do), place <code@dx,dz> (sets a block at your feet height dx, dz off, clearing the one above), use <text> (right-clicks the nearest block whose code contains text, within 16 blocks, as you would: its own behaviours run, so a door opens or takes you through), pry <text> (leans a pry bar on the nearest such block: says whether it gave, or why not), itemshow <code> [n] (the item in your selected hotbar slot and one at rest on the floor 2 blocks ahead, for item shots)")
+                .WithDescription("Client test rig helpers: equip <set> (wear game:armor-head/body/legs-<set>, e.g. sewn-leather; or a comma list of item codes with their domain, each put on in a slot that takes it; or none, to take everything off), sleep (put a hotel bed beside you if there is none and lie down in it), face <text> (reports the heading and pitch to the nearest block whose code contains text, within 16 blocks), walk <blocks> (moves you that far along the way you face, one block at a time, over a floor and through free air), hurt <amount> (a blow from nothing in particular), classdrops <block> (the drops of a block such as supplybox rolled 400 times as if it stood where you do), place <code@dx,dz> (sets a block at your feet height dx, dz off, clearing the one above), use <text> (right-clicks the nearest block whose code contains text, within 16 blocks, as you would: its own behaviours run, so a door opens or takes you through), pry <text> (leans a pry bar on the nearest such block: says whether it gave, or why not), itemshow <code> [n] (the item in your selected hotbar slot and one at rest on the floor 2 blocks ahead, for item shots), worn (what you wear, with durability, and your health, stability and thirst rate)")
                 .RequiresPlayer()
                 .WithArgs(parsers.Word("what"), parsers.OptionalWord("arg"))
                 .HandleWith(Handle)
@@ -355,7 +355,8 @@ public class RigCommands : ModSystem
             case "craft": return Craft(player, arg);
             case "tooltip": return Tooltip(player, arg);
             case "itemshow": return ItemShow(player, arg);
-            default: return TextCommandResult.Error("rig-error: equip, sleep, face, walk, hurt, classdrops, place, use, pry, cut, have, craft, tooltip or itemshow");
+            case "worn": return Worn(player);
+            default: return TextCommandResult.Error("rig-error: equip, sleep, face, walk, hurt, classdrops, place, use, pry, cut, have, craft, tooltip, itemshow or worn");
         }
     }
 
@@ -605,12 +606,59 @@ public class RigCommands : ModSystem
         return TextCommandResult.Error("rig-error: no wall within 10 blocks ahead");
     }
 
+    /// <summary>What the player wears (with each piece's durability where it has one), their health and stability: one line.</summary>
+    TextCommandResult Worn(IServerPlayer player)
+    {
+        IInventory worn = player.InventoryManager.GetOwnInventory("character");
+        var parts = new System.Collections.Generic.List<string>();
+        if (worn == null) return TextCommandResult.Error("rig-error: no character inventory");
+        foreach (ItemSlot slot in worn)
+        {
+            if (slot.Empty) continue;
+            ItemStack s = slot.Itemstack;
+            int max = s.Collectible.GetMaxDurability(s);
+            parts.Add(s.Collectible.Code.Path + (max > 0 ? $" {s.Collectible.GetRemainingDurability(s)}/{max}" : ""));
+        }
+        float health = player.Entity.WatchedAttributes.GetTreeAttribute("health")?.GetFloat("currenthealth") ?? -1;
+        return TextCommandResult.Success(string.Format(CultureInfo.InvariantCulture, "rig-worn health {0:0.00} stability {1:0.000} thirstrate {2:0.00}: {3}",
+            health, Backrooms.Entities.Senses.Stability(player.Entity), player.Entity.Stats.GetBlended("thirstrate"), parts.Count > 0 ? string.Join(", ", parts) : "nothing"));
+    }
+
     TextCommandResult Equip(IServerPlayer player, string set)
     {
         if (string.IsNullOrEmpty(set)) return TextCommandResult.Error("rig-error: equip <set>");
         IInventory worn = player.InventoryManager.GetOwnInventory("character");
         if (worn == null) return TextCommandResult.Error("rig-error: no character inventory");
         int put = 0;
+        // "none" takes everything off; a comma list of item codes (backrooms:clothes-head-baseballcap,...) puts each on
+        if (set == "none")
+        {
+            foreach (ItemSlot slot in worn)
+                if (!slot.Empty && slot.GetType().Name == "ItemSlotCharacter") { slot.Itemstack = null; slot.MarkDirty(); put++; }
+            return TextCommandResult.Success($"rig-equip none: took off {put}");
+        }
+        if (set.Contains(':'))
+        {
+            var missing = new System.Collections.Generic.List<string>();
+            foreach (string code in set.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+            {
+                Item item = sapi.World.GetItem(new AssetLocation(code));
+                if (item == null) { missing.Add(code); continue; }
+                var stack = new ItemStack(item);
+                bool on = false;
+                foreach (ItemSlot slot in worn)
+                {
+                    if (slot.GetType().Name != "ItemSlotCharacter" || !slot.CanHold(new DummySlot(stack))) continue;
+                    slot.Itemstack = stack;
+                    slot.MarkDirty();
+                    on = true;
+                    break;
+                }
+                if (on) put++; else missing.Add(code);
+            }
+            return put > 0 ? TextCommandResult.Success($"rig-equip pieces {put}" + (missing.Count > 0 ? "; not worn: " + string.Join(", ", missing) : ""))
+                : TextCommandResult.Error("rig-error: none of " + set + " could be worn");
+        }
         foreach (string zone in new[] { "head", "body", "legs" })
         {
             Item item = sapi.World.GetItem(new AssetLocation(set == "carpet" ? "backrooms:armor-carpet-" + zone : "game:armor-" + zone + "-" + set));

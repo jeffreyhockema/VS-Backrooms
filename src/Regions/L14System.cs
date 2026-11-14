@@ -22,7 +22,8 @@ namespace Backrooms.Regions;
 /// and even memory loss"). Stepping in, a line; after <see cref="ContamGraceMs"/> inside, <see cref="ContamDamage"/> every
 /// <see cref="ContamEveryMs"/> (poison) with a line now and then, and the room wears at your hold on reality
 /// (<see cref="ContamDrain"/> of your stability each time, never below <see cref="ContamStabilityFloor"/>), so the game's
-/// own distortion and whispers come on; the client makes the air swim and whisper (AtmosphereSystem.L14.cs).</item>
+/// own distortion and whispers come on; the client makes the air swim and whisper (AtmosphereSystem.L14.cs). A hazmat suit
+/// keeps most of the hurt off and its hood most of the drain (Wear/HazmatSystem.cs).</item>
 /// <item><b>Equipment springing to life</b> ("In rare cases, the old, rusty hospital equipment ... may suddenly spring to
 /// life ... flying scalpels, stethoscopes, and syringes"). Passing within 2 blocks of an instrument trolley, a crash cart, a
 /// monitor, a ventilator or an anaesthesia machine, one time in <see cref="EquipChanceIn"/> it sparks or flings something:
@@ -221,10 +222,13 @@ public class L14System : ModSystem
         track.ContamHits++;
         if (Hurts(who))
         {
-            who.ReceiveDamage(new DamageSource { Source = EnumDamageSource.Internal, Type = EnumDamageType.Poison }, ContamDamage);
+            // A hazmat suit keeps most of it off the skin, its hood most of the air out; each wears a little (Wear/HazmatSystem.cs)
+            float skin = Backrooms.Wear.HazmatSystem.Through(who, "suit", Backrooms.Wear.HazmatSystem.SuitBlocks);
+            float air = Backrooms.Wear.HazmatSystem.Through(who, "hood", Backrooms.Wear.HazmatSystem.HoodBlocks);
+            who.ReceiveDamage(new DamageSource { Source = EnumDamageSource.Internal, Type = EnumDamageType.Poison }, ContamDamage * skin);
             // It wears at your hold on reality: the game's distortion and whispers come on as it falls
             double s = Senses.Stability(who);
-            if (s > ContamStabilityFloor) who.WatchedAttributes.SetDouble("temporalStability", Math.Max(ContamStabilityFloor, s - ContamDrain));
+            if (s > ContamStabilityFloor) who.WatchedAttributes.SetDouble("temporalStability", Math.Max(ContamStabilityFloor, s - ContamDrain * air));
         }
         if (now >= track.ContamNextSickMs)
         {

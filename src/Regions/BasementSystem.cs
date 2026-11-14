@@ -25,7 +25,8 @@ namespace Backrooms.Regions;
 /// of what they had; emptied, they crumble, as every body does (<see cref="CorpseSystem"/>).</item>
 /// <item><b>The smell</b> (Fandom: "the smell of the corpses … can suffocate one if it is inhaled for long enough"):
 /// with two or more of the dead within four blocks, it builds; a warning at a quarter of a minute, then from three
-/// quarters of a minute a little suffocation every few seconds until you get away. It eases twice as fast as it builds.</item>
+/// quarters of a minute a little suffocation every few seconds until you get away. It eases twice as fast as it builds.
+/// A hazmat hood's filter lets it build at a quarter of the pace (Wear/HazmatSystem.cs).</item>
 /// <item><b>The cracked floor of Level 2</b>: the walked thresholds leave Level 2 alone, so whoever is there is looked at
 /// here, and stepping onto the middle of one of the Basement's cracked patches drops them in as anywhere else
 /// (ThresholdSystem.Basement.cs).</item>
@@ -45,6 +46,8 @@ public class BasementSystem : ModSystem
     private Thresholds.ThresholdSystem thresholds;
     private readonly HashSet<long> bodiesDone = new();
     private readonly Dictionary<string, float> exposure = new();
+    /// <summary>Seconds of filtering not yet worn off the hood (a hazmat hood wears 1 for every few seconds it filters).</summary>
+    private readonly Dictionary<string, float> filtered = new();
     private readonly Dictionary<string, long> lastLoopMs = new();
     private readonly Random rand = new();
     private bool dirty;
@@ -264,7 +267,17 @@ public class BasementSystem : ModSystem
                 if (t.Level == WorldLayout.Basement && t.Variant is Worldgen.Props.BasementBody or Worldgen.Props.BonePile or Worldgen.Props.Ribcage or Worldgen.Props.JawSkeleton) dead++;
             }
         exposure.TryGetValue(player.PlayerUID, out float was);
-        float now = dead >= 2 ? was + dt : Math.Max(0, was - 2 * dt);
+        // A hazmat hood's filter slows it, and wears for it (Wear/HazmatSystem.cs)
+        float filter = 1f;
+        if (dead >= 2 && Backrooms.Wear.HazmatSystem.Worn(player.Entity, "hood") != null)
+        {
+            filtered.TryGetValue(player.PlayerUID, out float since);
+            since += dt;
+            int wear = (int)(since / Backrooms.Wear.HazmatSystem.SmellWearSeconds);
+            filtered[player.PlayerUID] = since - wear * Backrooms.Wear.HazmatSystem.SmellWearSeconds;
+            filter = Backrooms.Wear.HazmatSystem.Through(player.Entity, "hood", 1f - Backrooms.Wear.HazmatSystem.HoodSmell, wear);
+        }
+        float now = dead >= 2 ? was + dt * filter : Math.Max(0, was - 2 * dt);
         exposure[player.PlayerUID] = now;
         if (was < WarnAfter && now >= WarnAfter)
             player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:basement-smell"), EnumChatType.Notification);

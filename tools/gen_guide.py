@@ -731,7 +731,7 @@ Two accounts describe it, and both came in the same way: through the floor. Very
 A basement, like a house's, only far larger than any house: rooms of cinder block, concrete or old pine panelling, dusty carpet over the floors of the finished ones, bare joists overhead, and wooden doors between them ({rightmouse} to open or shut one). Now and then a door is swollen shut in its frame: a [pry bar](item-backrooms:prybar) in hand forces it. Many of the rooms are still a house's, over and over: a furnace room with its old furnace and water heater, a laundry with the washing left on the line, a workshop, a rec room with a pool table, root cellars, store rooms of boxes nobody came back for, and long unfinished hallways between them. Some of the swollen doors have DO NOT ENTER written on a board nailed across them. Cold (8 °C) and dark, a bare bulb in about every other room, yet nowhere is quite black: a faint light comes from no source anyone has found.
 - **Behind a shut door** you may hear a baby crying, someone walking up and down, a knock. Open the door and it stops, and the room is empty.
 - **Brick stairwells** stand in some rooms. Climb a turn of the stairs, or go down one, and you are back on the landing by the door you came in.
-- **The dead** lie about, heaped in a few rooms. Stay among them and the smell builds until it chokes you; get away and it passes. They have little left on them.
+- **The dead** lie about, heaped in a few rooms. Stay among them and the smell builds until it chokes you; get away and it passes. A [hazmat hood](item-backrooms:clothes-head-hazmathood)'s filter slows it to a quarter. They have little left on them.
 - Little else: most boxes were gone through long ago. A coil of [rope](item-rope), an [empty bottle](item-backrooms:emptybottle), a jar gone bad, now and then an old crowbar (a [pry bar](item-backrooms:prybar)) lie where somebody dropped them, and break loose with a blow.
 
 **The Flood**
@@ -962,7 +962,7 @@ Everyone arrives in one: an oval desk, a few chairs, a lamp, crumpled magazines 
 - Rarely, a **torture chamber** (see below).
 
 **Hazards**
-- **Contaminated rooms.** A steel door with a trefoil and a square window, green light through the glass: the room behind is full of something toxic and radioactive. Those doors do not open, but such a room may have an ordinary door on another corridor. Breathing its air makes you sick. **Look through a door's window before you go in.**
+- **Contaminated rooms.** A steel door with a trefoil and a square window, green light through the glass: the room behind is full of something toxic and radioactive. Those doors do not open, but such a room may have an ordinary door on another corridor. Breathing its air makes you sick. **Look through a door's window before you go in.** A [hazmat suit](item-backrooms:clothes-upperbodyover-hazmatsuit) keeps most of the sickness off and its [hood](item-backrooms:clothes-head-hazmathood) most of the air out, and both wear a little in there.
 - **Equipment.** Now and then the old equipment springs to life: a scalpel flies off a trolley, a syringe comes at you, a monitor shrieks and throws sparks, a stethoscope whips. Keep your distance from the trolleys.
 - **The floor.** Some of the floor is cracked, and some of it sags. When the floor creaks and gives a little under you, do not stop to look: **run**. It is about to go.
 - **The dark.** Stretches of hall and whole wings have no light. Carry your own.
