@@ -3,9 +3,6 @@
 	"code": "end-cataloguecard",
 	"class": "BackroomsCatalogueCard",
 	"maxstacksize": 16,
-	"texture": {
-		"base": "item/end/cataloguecard"
-	},
 	"creativeinventory": {
 		"general": [
 			"*"
@@ -19,35 +16,58 @@
 		"burnTemperature": 600,
 		"burnDuration": 3
 	},
+	"shape": {
+		"base": "item/paper/cataloguecard"
+	},
+	"textures": {
+		"tex": {
+			"base": "item/paper/cataloguecard"
+		}
+	},
 	"guiTransform": {
+		"translation": {
+			"x": 0.0,
+			"y": -0.07,
+			"z": 0
+		},
 		"rotation": {
-			"x": 0,
-			"y": 0,
+			"x": 125,
+			"y": 150,
 			"z": 0
 		},
 		"origin": {
 			"x": 0.5,
-			"y": 0.5,
-			"z": 0.5
+			"y": 0.015,
+			"z": 0.47
 		},
-		"scale": 1
+		"scale": 2.09
 	},
 	"tpHandTransform": {
 		"translation": {
 			"x": -0.75,
-			"y": -0.4,
-			"z": -0.55
+			"y": -0.16,
+			"z": -0.73
+		},
+		"rotation": {
+			"x": -81,
+			"y": -92,
+			"z": -2
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.51
+		},
+		"scale": 0.5
+	},
+	"groundTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
 		},
 		"rotation": {
 			"x": 0,
-			"y": -45,
-			"z": -10
-		},
-		"scale": 0.6
-	},
-	"groundTransform": {
-		"rotation": {
-			"x": 90,
 			"y": 0,
 			"z": 0
 		},
@@ -56,7 +76,7 @@
 			"y": 0,
 			"z": 0.5
 		},
-		"scale": 2
+		"scale": 4.6
 	},
 	"behaviors": [
 		{
@@ -73,15 +93,5 @@
 				}
 			}
 		}
-	],
-	"attributes": {
-		"groundStorageTransform": {
-			"origin": {
-				"x": 0.5,
-				"y": 0.5,
-				"z": 0.5
-			},
-			"scale": 1.3
-		}
-	}
+	]
 }

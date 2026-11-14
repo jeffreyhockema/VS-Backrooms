@@ -14,48 +14,6 @@
 		]
 	},
 	"materialDensity": 400,
-	"texture": {
-		"base": "item/3999/coinmech"
-	},
-	"guiTransform": {
-		"rotation": {
-			"x": 0,
-			"y": 0,
-			"z": 0
-		},
-		"origin": {
-			"x": 0.5,
-			"y": 0.5,
-			"z": 0.5
-		},
-		"scale": 1
-	},
-	"tpHandTransform": {
-		"translation": {
-			"x": -0.75,
-			"y": -0.4,
-			"z": -0.55
-		},
-		"rotation": {
-			"x": 0,
-			"y": -45,
-			"z": -10
-		},
-		"scale": 0.6
-	},
-	"groundTransform": {
-		"rotation": {
-			"x": 90,
-			"y": 0,
-			"z": 0
-		},
-		"origin": {
-			"x": 0.5,
-			"y": 0,
-			"z": 0.5
-		},
-		"scale": 2
-	},
 	"storageFlags": 5,
 	"size": {
 		"width": 0.125,
@@ -70,6 +28,68 @@
 			"type": "item",
 			"code": "game:ingot-brass"
 		}
+	},
+	"shape": {
+		"base": "item/paper/coinmech"
+	},
+	"textures": {
+		"tex": {
+			"base": "item/paper/coinmech"
+		}
+	},
+	"guiTransform": {
+		"translation": {
+			"x": -1.39,
+			"y": 1.07,
+			"z": 0
+		},
+		"rotation": {
+			"x": 130,
+			"y": 145,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.54,
+			"y": 0.113,
+			"z": 0.5
+		},
+		"scale": 1.66
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.8,
+			"y": -0.2,
+			"z": -0.6
+		},
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": -60
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.05,
+			"z": 0.5
+		},
+		"scale": 0.6
+	},
+	"groundTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 4.6
 	},
 	"behaviors": [
 		{
@@ -86,15 +106,5 @@
 				}
 			}
 		}
-	],
-	"attributes": {
-		"groundStorageTransform": {
-			"origin": {
-				"x": 0.5,
-				"y": 0.5,
-				"z": 0.5
-			},
-			"scale": 0.8
-		}
-	}
+	]
 }

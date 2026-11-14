@@ -17,6 +17,7 @@ from detail_textures import S, noise, rgb, save, text
 from gen_deep import TRANSFORMS, door_block, drops, threshold
 from gen_detail import cube_block
 from detail_kit import T, seed_of
+from gen_items_paper import dress  # the item pass (0.700): the crown shard's model
 
 
 def grain(img, amount, key, prints=True):
@@ -565,7 +566,7 @@ def items():
     data = {"code": "crownshard", "maxstacksize": 1, "texture": {"base": "item/crownshard"},
             "creativeinventory": {"general": ["*"], "items": ["*"]}, "materialDensity": 2000}
     data.update(TRANSFORMS)
-    ground_storable(data)
+    ground_storable(dress(data, "crownshard"))
     write_json(os.path.join(ASSETS, "itemtypes", "motion", "crownshard.json"), data, "A shard of the King's crown")
     LANG["item-crownshard"] = "Machination's Crown Shard"
     LANG["itemdesc-crownshard"] = "A gilt shard of the King's crown, left when he burst into light. While you carry it, the Animations of Level 94 take you for one of their own."

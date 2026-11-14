@@ -2,9 +2,6 @@
 {
 	"code": "crownshard",
 	"maxstacksize": 1,
-	"texture": {
-		"base": "item/crownshard"
-	},
 	"creativeinventory": {
 		"general": [
 			"*"
@@ -14,35 +11,58 @@
 		]
 	},
 	"materialDensity": 2000,
+	"shape": {
+		"base": "item/paper/crownshard"
+	},
+	"textures": {
+		"tex": {
+			"base": "item/paper/crownshard"
+		}
+	},
 	"guiTransform": {
+		"translation": {
+			"x": -1.76,
+			"y": -1.19,
+			"z": 0
+		},
 		"rotation": {
-			"x": 0,
-			"y": 0,
+			"x": 125,
+			"y": 150,
 			"z": 0
 		},
 		"origin": {
-			"x": 0.5,
-			"y": 0.5,
-			"z": 0.5
+			"x": 0.49,
+			"y": 0.056,
+			"z": 0.485
 		},
-		"scale": 1
+		"scale": 1.95
 	},
 	"tpHandTransform": {
 		"translation": {
 			"x": -0.75,
-			"y": -0.4,
-			"z": -0.55
+			"y": -0.16,
+			"z": -0.73
+		},
+		"rotation": {
+			"x": -81,
+			"y": -92,
+			"z": -2
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.51
+		},
+		"scale": 0.5
+	},
+	"groundTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
 		},
 		"rotation": {
 			"x": 0,
-			"y": -45,
-			"z": -10
-		},
-		"scale": 0.6
-	},
-	"groundTransform": {
-		"rotation": {
-			"x": 90,
 			"y": 0,
 			"z": 0
 		},
@@ -51,7 +71,7 @@
 			"y": 0,
 			"z": 0.5
 		},
-		"scale": 2
+		"scale": 4.6
 	},
 	"behaviors": [
 		{
@@ -68,15 +88,5 @@
 				}
 			}
 		}
-	],
-	"attributes": {
-		"groundStorageTransform": {
-			"origin": {
-				"x": 0.5,
-				"y": 0.5,
-				"z": 0.5
-			},
-			"scale": 1.3
-		}
-	}
+	]
 }

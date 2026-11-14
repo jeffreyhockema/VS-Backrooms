@@ -14,9 +14,6 @@
 		}
 	],
 	"maxstacksize": 16,
-	"texture": {
-		"base": "item/wanderernote"
-	},
 	"creativeinventory": {
 		"general": [
 			"*"
@@ -24,45 +21,6 @@
 		"items": [
 			"*"
 		]
-	},
-	"guiTransform": {
-		"rotation": {
-			"x": 0,
-			"y": 0,
-			"z": 0
-		},
-		"origin": {
-			"x": 0.5,
-			"y": 0.5,
-			"z": 0.5
-		},
-		"scale": 1
-	},
-	"tpHandTransform": {
-		"translation": {
-			"x": -0.75,
-			"y": -0.4,
-			"z": -0.55
-		},
-		"rotation": {
-			"x": 0,
-			"y": -45,
-			"z": -10
-		},
-		"scale": 0.6
-	},
-	"groundTransform": {
-		"rotation": {
-			"x": 90,
-			"y": 0,
-			"z": 0
-		},
-		"origin": {
-			"x": 0.5,
-			"y": 0,
-			"z": 0.5
-		},
-		"scale": 2
 	},
 	"materialDensity": 300,
 	"combustibleProps": {
@@ -85,14 +43,83 @@
 			}
 		}
 	],
-	"attributes": {
-		"groundStorageTransform": {
-			"origin": {
-				"x": 0.5,
-				"y": 0.5,
-				"z": 0.5
-			},
-			"scale": 1.3
+	"shape": {
+		"base": "item/paper/wanderernote"
+	},
+	"texturesByType": {
+		"wanderernote-door": {
+			"tex": {
+				"base": "item/paper/wanderernote-door"
+			}
+		},
+		"wanderernote-way": {
+			"tex": {
+				"base": "item/paper/wanderernote-way"
+			}
+		},
+		"wanderernote-cache": {
+			"tex": {
+				"base": "item/paper/wanderernote-cache"
+			}
+		},
+		"wanderernote-refuge": {
+			"tex": {
+				"base": "item/paper/wanderernote-refuge"
+			}
 		}
+	},
+	"guiTransform": {
+		"translation": {
+			"x": 0.29,
+			"y": -1.22,
+			"z": 0
+		},
+		"rotation": {
+			"x": 125,
+			"y": 150,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.484,
+			"y": 0.035,
+			"z": 0.475
+		},
+		"scale": 1.8
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.75,
+			"y": -0.16,
+			"z": -0.73
+		},
+		"rotation": {
+			"x": -81,
+			"y": -92,
+			"z": -2
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.51
+		},
+		"scale": 0.5
+	},
+	"groundTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 4.6
 	}
 }

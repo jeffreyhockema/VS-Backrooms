@@ -14,48 +14,6 @@
 		]
 	},
 	"materialDensity": 400,
-	"texture": {
-		"base": "item/3999/circuitboard"
-	},
-	"guiTransform": {
-		"rotation": {
-			"x": 0,
-			"y": 0,
-			"z": 0
-		},
-		"origin": {
-			"x": 0.5,
-			"y": 0.5,
-			"z": 0.5
-		},
-		"scale": 1
-	},
-	"tpHandTransform": {
-		"translation": {
-			"x": -0.75,
-			"y": -0.4,
-			"z": -0.55
-		},
-		"rotation": {
-			"x": 0,
-			"y": -45,
-			"z": -10
-		},
-		"scale": 0.6
-	},
-	"groundTransform": {
-		"rotation": {
-			"x": 90,
-			"y": 0,
-			"z": 0
-		},
-		"origin": {
-			"x": 0.5,
-			"y": 0,
-			"z": 0.5
-		},
-		"scale": 2
-	},
 	"storageFlags": 5,
 	"size": {
 		"width": 0.125,
@@ -70,6 +28,68 @@
 			"type": "item",
 			"code": "game:ingot-copper"
 		}
+	},
+	"shape": {
+		"base": "item/paper/circuitboard"
+	},
+	"textures": {
+		"tex": {
+			"base": "item/paper/circuitboard"
+		}
+	},
+	"guiTransform": {
+		"translation": {
+			"x": -1.82,
+			"y": -0.56,
+			"z": 0
+		},
+		"rotation": {
+			"x": 130,
+			"y": 145,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.553,
+			"y": 0.072,
+			"z": 0.5
+		},
+		"scale": 1.68
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.75,
+			"y": -0.16,
+			"z": -0.73
+		},
+		"rotation": {
+			"x": -81,
+			"y": -92,
+			"z": -2
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.51
+		},
+		"scale": 0.5
+	},
+	"groundTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 4.6
 	},
 	"behaviors": [
 		{
@@ -86,15 +106,5 @@
 				}
 			}
 		}
-	],
-	"attributes": {
-		"groundStorageTransform": {
-			"origin": {
-				"x": 0.5,
-				"y": 0.5,
-				"z": 0.5
-			},
-			"scale": 0.8
-		}
-	}
+	]
 }

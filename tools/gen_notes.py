@@ -32,6 +32,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 from PIL import Image, ImageDraw  # noqa: E402
 
 from detail_kit import ground_storable  # noqa: E402
+from gen_items_paper import dress  # noqa: E402  (the item pass, 0.700: the folded note's model)
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 ASSETS = os.path.join(ROOT, "assets", "backrooms")
@@ -1793,7 +1794,7 @@ def write_assets():
         "groundTransform": {"rotation": {"x": 90, "y": 0, "z": 0}, "origin": {"x": 0.5, "y": 0, "z": 0.5}, "scale": 2},
         "materialDensity": 300, "combustibleProps": {"burnTemperature": 600, "burnDuration": 3},
     }
-    ground_storable(item)
+    ground_storable(dress(item, "wanderernote-folded"))
     write_json(item, "itemtypes", "wanderernote-folded.json", "A rare note (gen_notes.py): read it for one of the folded notes.")
 
     shape = {

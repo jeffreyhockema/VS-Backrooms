@@ -24,17 +24,6 @@
 		]
 	},
 	"materialDensity": 300,
-	"textureByType": {
-		"l3999-glowband-magenta": {
-			"base": "item/3999/glowband-magenta"
-		},
-		"l3999-glowband-cyan": {
-			"base": "item/3999/glowband-cyan"
-		},
-		"l3999-glowband-lilac": {
-			"base": "item/3999/glowband-lilac"
-		}
-	},
 	"lightHsvByType": {
 		"l3999-glowband-magenta": [
 			51,
@@ -57,45 +46,72 @@
 			"groupBy": [
 				"l3999-glowband-*"
 			]
+		}
+	},
+	"shape": {
+		"base": "item/paper/glowband"
+	},
+	"texturesByType": {
+		"l3999-glowband-magenta": {
+			"tex": {
+				"base": "item/paper/glowband-magenta"
+			}
 		},
-		"groundStorageTransform": {
-			"origin": {
-				"x": 0.5,
-				"y": 0.5,
-				"z": 0.5
-			},
-			"scale": 1.3
+		"l3999-glowband-cyan": {
+			"tex": {
+				"base": "item/paper/glowband-cyan"
+			}
+		},
+		"l3999-glowband-lilac": {
+			"tex": {
+				"base": "item/paper/glowband-lilac"
+			}
 		}
 	},
 	"guiTransform": {
+		"translation": {
+			"x": 0.07,
+			"y": 0.05,
+			"z": 0
+		},
 		"rotation": {
-			"x": 0,
-			"y": 0,
+			"x": 125,
+			"y": 150,
 			"z": 0
 		},
 		"origin": {
 			"x": 0.5,
-			"y": 0.5,
-			"z": 0.5
+			"y": 0.025,
+			"z": 0.502
 		},
-		"scale": 1
+		"scale": 2.45
 	},
 	"tpHandTransform": {
 		"translation": {
 			"x": -0.75,
-			"y": -0.4,
-			"z": -0.55
+			"y": -0.16,
+			"z": -0.73
+		},
+		"rotation": {
+			"x": -81,
+			"y": -92,
+			"z": -2
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.51
+		},
+		"scale": 0.5
+	},
+	"groundTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
 		},
 		"rotation": {
 			"x": 0,
-			"y": -45,
-			"z": -10
-		},
-		"scale": 0.6
-	},
-	"groundTransform": {
-		"rotation": {
-			"x": 90,
 			"y": 0,
 			"z": 0
 		},
@@ -104,7 +120,7 @@
 			"y": 0,
 			"z": 0.5
 		},
-		"scale": 2
+		"scale": 4.6
 	},
 	"behaviors": [
 		{
