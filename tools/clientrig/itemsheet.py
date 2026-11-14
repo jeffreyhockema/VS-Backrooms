@@ -57,8 +57,8 @@ def scenario(codes):
             # first person, looking a little down so the hand and the item on the floor are both in view; the HUD on, because the game
             # does not draw the first-person hand while the GUIs are hidden (EntityPlayerShapeRenderer: FirstPerson && HideGuis returns)
             {"bot": "hud on"}, {"bot": "fov 70"}, {"bot": "look 0 -12"}, {"bot": "wait 900"}, {"shot": s + "-fp"}, {"bot": "hud off"},
-            # third person, zoomed in so the player and what is in the hand fill the frame
-            {"bot": "hotkey cyclecamera"}, {"bot": "fov 28"}, {"bot": "look 0 -15"}, {"bot": "wait 1200"}, {"shot": s + "-tp"},
+            # third person, a little zoomed: head to knees, so the hands and what is in them are in the frame (fov 28 cut them off)
+            {"bot": "hotkey cyclecamera"}, {"bot": "fov 48"}, {"bot": "look 0 -15"}, {"bot": "wait 1200"}, {"shot": s + "-tp"},
             {"bot": "hotkey cyclecamera"}, {"bot": "hotkey cyclecamera"}, {"bot": "fov 70"}, {"bot": "wait 600"},
             # on the ground, close: a narrow view down at the item 2 blocks ahead
             {"bot": "fov 30"}, {"bot": "look 0 -40"}, {"bot": "wait 900"}, {"shot": s + "-ground"},
