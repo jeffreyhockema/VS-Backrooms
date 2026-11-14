@@ -1242,24 +1242,25 @@ def l_end_memoryjuice():
 
 # code: (models, kind, real size in cm). models: a builder, or {variant state: builder} for shapeByType, or
 # ("shared", builder, [states]) for one shape with a texture per state. kind: "upright" (stands: bottles, cans, cartons,
-# buckets), "flat" (lies: plates, slices, trays). cm: the thing's largest real dimension, which sizes it in the world.
+# buckets), "flat" (lies: plates, slices, trays). cm: the thing's largest real dimension, which sizes it in the world
+# (small things a little over: candy, a cookie), or {state: cm} for a family of different sizes.
 LOOKS = {
     "l188-cereal": (l188_cereal, "upright", 11),
-    "l188-juicebox": (l188_juicebox, "upright", 13),
-    "l974-candy": (l974_candy, "flat", 7),
+    "l188-juicebox": (l188_juicebox, "upright", 15),
+    "l974-candy": (l974_candy, "flat", 10),
     "l974-marshmallow": (l974_marshmallow, "upright", 15),
     "l974-strawberrymilk": (l974_strawberrymilk, "upright", 13),
     "l974-meal": ({m: (lambda m=m: l974_meal(m)) for m in ("pancakes", "soup", "macaroni")}, "flat", 24),
     "l3999-cottoncandy": (cottoncandy, "upright", 30),
     "l3999-popcorn": (popcorn, "upright", 20),
     "l3999-soda": (("shared", soda, ["cherry", "lime", "grape"]), "upright", 12),
-    "l3999-traymeal": ({m: (lambda m=m: traymeal(m)) for m in ("burger", "pizza", "noodles", "taco", "icecream", "pretzel")}, "flat", 40),
+    "l3999-traymeal": ({m: (lambda m=m: traymeal(m)) for m in ("burger", "pizza", "noodles", "taco", "icecream", "pretzel")}, "flat", 32),
     "fun-cakeslice-birthday": (lambda: fun_cakeslice("birthday"), "flat", 18),
     "fun-cakeslice-velvet": (lambda: fun_cakeslice("velvet"), "flat", 18),
-    "fun-cookie": (fun_cookie, "flat", 9),
-    "fun-lucatears": (fun_lucatears, "upright", 10),
+    "fun-cookie": (fun_cookie, "flat", 11),
+    "fun-lucatears": (fun_lucatears, "upright", 12),
     "l31-food": ({"pizza": lambda: l31_pizza("pizza"), "pepperoni": lambda: l31_pizza("pepperoni"), "wings": l31_wings,
-                  "hotdog": l31_hotdog}, "flat", 28),
+                  "hotdog": l31_hotdog}, "flat", {"pizza": 22, "pepperoni": 22, "wings": 17, "hotdog": 30}),
     "end-memoryjuice": (l_end_memoryjuice, "upright", 18),
 }
 
@@ -1293,16 +1294,20 @@ def transforms(models, kind, cm):
         # Seen from above at 22.6 degrees, turned 45 (the mod's bottles): the height and the diagonal of the foot
         proj = max(sy * 0.92 + foot * 0.55, foot * 1.35)
         gui = {"rotation": {"x": 157.4, "y": -45.3, "z": 0}, "origin": {"x": 0.5, "y": _r(cy / 16), "z": 0.5}, "scale": _r(24 / proj)}
-        tp = {"translation": {"x": -0.85, "y": -0.5, "z": -0.6}, "rotation": {"x": 0, "y": -45, "z": -10}, "scale": _r(0.3 * cm / e)}
+        grip = 0.35
         ground = {"rotation": {"x": 0, "y": -45, "z": 0}, "origin": {"x": 0.5, "y": 0, "z": 0.5}, "scale": _r(1.05 * cm / e)}
     else:
         # Seen from above at 35 degrees, turned 45: a plate or a slice shows its top
         diag = (sx + sz) * 0.707
         proj = max(diag, diag * 0.57 + sy * 0.82)
         gui = {"rotation": {"x": 145, "y": -45.3, "z": 0}, "origin": {"x": 0.5, "y": _r(cy / 16), "z": 0.5}, "scale": _r(25 / proj)}
-        tp = {"translation": {"x": -0.77, "y": -0.15, "z": -0.64}, "rotation": {"x": 0, "y": -21, "z": 18},
-              "origin": {"x": 0.5, "y": 0.1, "z": 0.5}, "scale": _r(0.3 * cm / e)}
+        grip = 0.5
         ground = {"rotation": {"x": 0, "y": 0, "z": 0}, "origin": {"x": 0.5, "y": 0, "z": 0.5}, "scale": _r(1.05 * cm / e)}
+    # In the hand: stood up the way vanilla holds its breadfruit (the hand's x is up), scaled about the model's foot,
+    # then lowered so the hand holds it a third of the way up (a bottle, a can) or by its middle (a plate, a tray)
+    ts = 0.3 * cm / e
+    tp = {"translation": {"x": _r(-0.4 - grip * sy * ts / 16), "y": 0, "z": -0.42}, "rotation": {"x": 0, "y": 0, "z": -90},
+          "origin": {"x": 0.5, "y": 0, "z": 0.5}, "scale": _r(ts)}
     # Set down on the floor (four to a block): one and a half times life size, never wider than its quadrant
     store = min(0.24 * cm / e, 7.5 / foot)
     tf = {"guiTransform": gui, "fpHandTransform": json.loads(json.dumps(tp)), "tpHandTransform": tp, "groundTransform": ground}
@@ -1325,8 +1330,14 @@ def dress(code, data):
         data["shape"] = {"base": tex_path(models[0][1].name)}
         if isinstance(spec, tuple):
             data["texturesByType"] = {f"{code}-{s}": {"tex": {"base": tex_path(f"{models[0][1].name}-{s}")}} for s in spec[2]}
-    tf, store, height = transforms([m for _, m in models], kind, cm)
+    sizes = cm if isinstance(cm, dict) else {s: cm for s, _ in models}
+    tf, store, height = transforms([m for _, m in models], kind, max(sizes.values()))
     data.update(tf)
+    if isinstance(spec, dict):
+        # each variant its own transforms (a hot dog is twice a wing's length)
+        for k in tf:
+            data.pop(k, None)
+            data[k + "ByType"] = {f"{code}-{s}": transforms([m], kind, sizes[s])[0][k] for s, m in models}
     gs = [b for b in data.get("behaviors", []) if b.get("name") == "GroundStorable"]
     if gs:
         data.setdefault("attributes", {})["groundStorageTransform"] = {"origin": {"x": 0.5, "y": 0, "z": 0.5}, "scale": _r(store)}

@@ -72,50 +72,6 @@
 			]
 		}
 	},
-	"guiTransform": {
-		"rotation": {
-			"x": 145,
-			"y": -45.3,
-			"z": 0
-		},
-		"origin": {
-			"x": 0.5,
-			"y": 0.069,
-			"z": 0.5
-		},
-		"scale": 1.804
-	},
-	"tpHandTransform": {
-		"translation": {
-			"x": -0.77,
-			"y": -0.15,
-			"z": -0.64
-		},
-		"rotation": {
-			"x": 0,
-			"y": -21,
-			"z": 18
-		},
-		"origin": {
-			"x": 0.5,
-			"y": 0.1,
-			"z": 0.5
-		},
-		"scale": 0.724
-	},
-	"groundTransform": {
-		"rotation": {
-			"x": 0,
-			"y": 0,
-			"z": 0
-		},
-		"origin": {
-			"x": 0.5,
-			"y": 0,
-			"z": 0.5
-		},
-		"scale": 2.534
-	},
 	"shapeByType": {
 		"l31-food-pizza": {
 			"base": "item/treats/l31-pizza"
@@ -130,22 +86,260 @@
 			"base": "item/treats/l31-hotdog"
 		}
 	},
-	"fpHandTransform": {
-		"translation": {
-			"x": -0.77,
-			"y": -0.15,
-			"z": -0.64
+	"guiTransformByType": {
+		"l31-food-pizza": {
+			"rotation": {
+				"x": 145,
+				"y": -45.3,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0.033,
+				"z": 0.5
+			},
+			"scale": 2.21
 		},
-		"rotation": {
-			"x": 0,
-			"y": -21,
-			"z": 18
+		"l31-food-pepperoni": {
+			"rotation": {
+				"x": 145,
+				"y": -45.3,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0.033,
+				"z": 0.5
+			},
+			"scale": 2.21
 		},
-		"origin": {
-			"x": 0.5,
-			"y": 0.1,
-			"z": 0.5
+		"l31-food-wings": {
+			"rotation": {
+				"x": 145,
+				"y": -45.3,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0.069,
+				"z": 0.5
+			},
+			"scale": 2.997
 		},
-		"scale": 0.724
+		"l31-food-hotdog": {
+			"rotation": {
+				"x": 145,
+				"y": -45.3,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0.066,
+				"z": 0.5
+			},
+			"scale": 2.326
+		}
+	},
+	"fpHandTransformByType": {
+		"l31-food-pizza": {
+			"translation": {
+				"x": -0.432,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.825
+		},
+		"l31-food-pepperoni": {
+			"translation": {
+				"x": -0.432,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.825
+		},
+		"l31-food-wings": {
+			"translation": {
+				"x": -0.453,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.773
+		},
+		"l31-food-hotdog": {
+			"translation": {
+				"x": -0.451,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.776
+		}
+	},
+	"tpHandTransformByType": {
+		"l31-food-pizza": {
+			"translation": {
+				"x": -0.432,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.825
+		},
+		"l31-food-pepperoni": {
+			"translation": {
+				"x": -0.432,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.825
+		},
+		"l31-food-wings": {
+			"translation": {
+				"x": -0.453,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.773
+		},
+		"l31-food-hotdog": {
+			"translation": {
+				"x": -0.451,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.776
+		}
+	},
+	"groundTransformByType": {
+		"l31-food-pizza": {
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 2.888
+		},
+		"l31-food-pepperoni": {
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 2.888
+		},
+		"l31-food-wings": {
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 2.705
+		},
+		"l31-food-hotdog": {
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 2.716
+		}
 	}
 }

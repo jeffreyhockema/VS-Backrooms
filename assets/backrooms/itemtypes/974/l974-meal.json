@@ -38,50 +38,6 @@
 		}
 	},
 	"materialDensity": 600,
-	"guiTransform": {
-		"rotation": {
-			"x": 145,
-			"y": -45.3,
-			"z": 0
-		},
-		"origin": {
-			"x": 0.5,
-			"y": 0.103,
-			"z": 0.5
-		},
-		"scale": 2.056
-	},
-	"tpHandTransform": {
-		"translation": {
-			"x": -0.77,
-			"y": -0.15,
-			"z": -0.64
-		},
-		"rotation": {
-			"x": 0,
-			"y": -21,
-			"z": 18
-		},
-		"origin": {
-			"x": 0.5,
-			"y": 0.1,
-			"z": 0.5
-		},
-		"scale": 0.783
-	},
-	"groundTransform": {
-		"rotation": {
-			"x": 0,
-			"y": 0,
-			"z": 0
-		},
-		"origin": {
-			"x": 0.5,
-			"y": 0,
-			"z": 0.5
-		},
-		"scale": 2.739
-	},
 	"behaviors": [
 		{
 			"name": "GroundStorable",
@@ -127,22 +83,198 @@
 			"base": "item/treats/l974-meal-macaroni"
 		}
 	},
-	"fpHandTransform": {
-		"translation": {
-			"x": -0.77,
-			"y": -0.15,
-			"z": -0.64
+	"guiTransformByType": {
+		"l974-meal-pancakes": {
+			"rotation": {
+				"x": 145,
+				"y": -45.3,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0.103,
+				"z": 0.5
+			},
+			"scale": 2.21
 		},
-		"rotation": {
-			"x": 0,
-			"y": -21,
-			"z": 18
+		"l974-meal-soup": {
+			"rotation": {
+				"x": 145,
+				"y": -45.3,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0.092,
+				"z": 0.5
+			},
+			"scale": 2.056
 		},
-		"origin": {
-			"x": 0.5,
-			"y": 0.1,
-			"z": 0.5
+		"l974-meal-macaroni": {
+			"rotation": {
+				"x": 145,
+				"y": -45.3,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0.081,
+				"z": 0.5
+			},
+			"scale": 2.21
+		}
+	},
+	"fpHandTransformByType": {
+		"l974-meal-pancakes": {
+			"translation": {
+				"x": -0.493,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.9
 		},
-		"scale": 0.783
+		"l974-meal-soup": {
+			"translation": {
+				"x": -0.472,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.783
+		},
+		"l974-meal-macaroni": {
+			"translation": {
+				"x": -0.473,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.9
+		}
+	},
+	"tpHandTransformByType": {
+		"l974-meal-pancakes": {
+			"translation": {
+				"x": -0.493,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.9
+		},
+		"l974-meal-soup": {
+			"translation": {
+				"x": -0.472,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.783
+		},
+		"l974-meal-macaroni": {
+			"translation": {
+				"x": -0.473,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.9
+		}
+	},
+	"groundTransformByType": {
+		"l974-meal-pancakes": {
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 3.15
+		},
+		"l974-meal-soup": {
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 2.739
+		},
+		"l974-meal-macaroni": {
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 3.15
+		}
 	}
 }
