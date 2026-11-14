@@ -349,8 +349,9 @@ def dock_shape(part, lit):
                 f = e["faces"]
                 faces = {k: dict(v) for k, v in {"east": f.get("north"), "south": f.get("east"), "west": f.get("south"),
                                                   "north": f.get("west"), "up": f.get("up"), "down": f.get("down")}.items() if v}
-                if lit and (e["name"].startswith("Eye") or e["name"] == "Bulb"):
-                    for v in faces.values():
+                for v in faces.values():
+                    v.pop("glow", None)             # powered down: nothing of the creature's own glow (its eyes)
+                    if lit and (e["name"].startswith("Eye") or e["name"] == "Bulb"):
                         v["glow"] = 160
                 flat.append({"name": "Robot" + e["name"], "from": [16 - (oz + z2), ay + 0.75, ax], "to": [16 - az, oy + y2 + 0.75, ox + x2],
                              "faces": faces})

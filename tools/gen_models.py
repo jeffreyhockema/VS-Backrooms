@@ -5255,174 +5255,389 @@ def animation_paper():
 
 
 # ---------------------------------------------------------------- Robo-Man
-# The castle's guards: 1930s tin wind-up toy robots. A boxy body of lithographed tin, crimson with yellow trim and a
-# blue panel of dials, rivets everywhere, a riveted silver head with a slotted grill for a mouth and two round yellow
-# lenses for eyes, an antenna with a red bulb, accordion arms ending in pincers, block feet, and a big brass key in its
-# back that turns as it walks.
+# The castle's guards (and the powered-down hulks of Level 15's docks): 1930s tin wind-up toy robots, built as a toy
+# maker would. A crimson lithographed tin body pressed in plates: the panel lines show as dark seams with a lit lip,
+# rivets at the plates' corners, yellow litho trim along every edge, the red worn through to bare tin where hands would
+# hold it. A riveted chest plate stands off the body with a blue instrument panel on it: three dials and two lamps,
+# all geometry. A silver head with a brow over a smoked visor and two round amber lenses glowing a little behind it,
+# a slotted grill for a mouth, brass ear discs and an antenna with a red bulb. Accordion arms and legs between disc
+# joints (shoulders, elbows, hips, knees, each with a brass hub), pincer hands, block feet on rubber soles, and a big
+# brass key in its back, its bow open in two loops, that turns as it walks.
 
-RB_RED = (200, 34, 30)
-RB_RED_DARK = (138, 22, 24)
-RB_BLUE = (32, 70, 170)
-RB_YELLOW = (244, 196, 36)
-RB_TIN = (184, 190, 198)
-RB_TIN_DARK = (106, 112, 124)
-RB_TIN_LIGHT = (232, 236, 240)
-RB_BRASS = (212, 164, 58)
-RB_BLACK = (24, 22, 28)
-RB_EYE = (255, 216, 70)
-
-
-def rivets(ctx, every=4):
-    """Rivet heads along the edges: a light point, its shadow below."""
-    if ctx.w < 5 or ctx.h < 5:
-        return
-    pts = set()
-    for tx in range(1, ctx.w - 1, every):
-        pts.add((tx, 1))
-        pts.add((tx, ctx.h - 3))
-    for ty in range(1, ctx.h - 2, every):
-        pts.add((1, ty))
-        pts.add((ctx.w - 2, ty))
-    for tx, ty in pts:
-        texel(ctx, tx, ty, RB_TIN_LIGHT)
-        texel(ctx, tx, ty + 1, RB_TIN_DARK, 0.7)
+RB_RED = (184, 44, 36)
+RB_RED_DARK = (124, 30, 28)
+RB_BLUE = (44, 74, 150)
+RB_YELLOW = (226, 184, 56)
+RB_TIN = (176, 182, 190)
+RB_TIN_DARK = (96, 102, 112)
+RB_TIN_LIGHT = (226, 230, 234)
+RB_BRASS = (196, 152, 64)
+RB_BLACK = (26, 24, 30)
+RB_RUBBER = (40, 38, 40)
+RB_GLASS = (30, 36, 48)
+RB_EYE = (255, 206, 84)
 
 
-def rb_tin(ctx, base, trim=None, rv=True, scratches=2):
+def rb_rivet(ctx, tx, ty, base=RB_TIN):
+    """A rivet head painted over with the plate: a lit point, its shadow below and to the right."""
+    texel(ctx, tx, ty, mix(base, (255, 250, 240), 0.45))
+    texel(ctx, tx + 1, ty + 1, shade(base, 0.55), 0.7)
+
+
+def rb_seam(ctx, base, pos, axis="v"):
+    """A pressed panel line across the face at texel `pos`: a dark groove with a lit lip on its far side."""
+    n = ctx.h if axis == "v" else ctx.w
+    for i in range(n):
+        tx, ty = (pos, i) if axis == "v" else (i, pos)
+        texel(ctx, tx, ty, shade(base, 0.5), 0.85)
+        texel(ctx, tx + (1 if axis == "v" else 0), ty + (0 if axis == "v" else 1), shade(base, 1.22), 0.6)
+
+
+def rb_wear(ctx, base, count):
+    """The litho worn through to bare tin, mostly along the edges where it was handled."""
+    bare = RB_TIN_LIGHT if base != RB_TIN else RB_TIN_DARK
+    for _ in range(count):
+        if ctx.rng.random() < 0.7:
+            tx = ctx.rng.choice((0, ctx.w - 1)) if ctx.rng.random() < 0.5 else ctx.rng.randrange(ctx.w)
+            ty = ctx.rng.randrange(ctx.h) if tx in (0, ctx.w - 1) else ctx.rng.choice((0, ctx.h - 1))
+        else:
+            tx, ty = ctx.rng.randrange(ctx.w), ctx.rng.randrange(ctx.h)
+        texel(ctx, tx, ty, mix(base, bare, 0.6), 0.5)
+
+
+def rb_plate(ctx, base, trim=None, seams_v=(), seams_h=(), corners=True, wear=2):
+    """A pressed tin plate: the base, litho trim along the top and bottom of the side faces, panel lines (fractions of
+    the face), rivets at the corners and where the lines meet the edges, a little wear."""
     fill(ctx, base, 0.03)
-    if trim and ctx.face not in ("up", "down"):
+    side = ctx.face not in ("up", "down")
+    if trim and side and ctx.h >= 4:
         texrow(ctx, 0, 0, -1, trim)
-        texrow(ctx, -1, 0, -1, trim)
-    for _ in range(scratches):                                          # bare tin where the litho has worn
-        u, v = ctx.rng.random(), ctx.rng.random()
-        line(ctx, u, v, u + ctx.rng.uniform(-0.2, 0.2), v + ctx.rng.uniform(-0.1, 0.1), RB_TIN_LIGHT if base != RB_TIN else RB_TIN_DARK, 0.45)
-    if rv:
-        rivets(ctx)
-    grain(ctx, 6)
+        texrow(ctx, ctx.h - 1, 0, ctx.w - 1, trim)
+    for f in seams_v:
+        if ctx.w >= 8:
+            rb_seam(ctx, base, int(f * ctx.w), "v")
+    for f in seams_h:
+        if ctx.h >= 8:
+            rb_seam(ctx, base, int(f * ctx.h), "h")
+    if corners and ctx.w >= 6 and ctx.h >= 6:
+        top = 2 if trim and side else 1
+        for tx, ty in ((1, top), (ctx.w - 3, top), (1, ctx.h - 3 - (1 if trim and side else 0)), (ctx.w - 3, ctx.h - 3 - (1 if trim and side else 0))):
+            rb_rivet(ctx, tx, ty, base)
+    rb_wear(ctx, base, wear)  # (a few: a toy handled, not a wreck)
+    grain(ctx, 4)
 
 
 def rb_torso(ctx):
-    rb_tin(ctx, RB_RED, RB_YELLOW)
+    """The body: plates seamed down the flanks and across the back, a yellow litho stripe round it at the chest."""
     if ctx.face in ("north", "south"):
-        rect(ctx, 0.4, 0.1, 0.6, 0.9, RB_BLUE)                           # a blue stripe down each side
-        rect(ctx, 0.44, 0.1, 0.48, 0.9, RB_YELLOW)
+        rb_plate(ctx, RB_RED, RB_YELLOW, seams_v=(0.5,), wear=4)
+        for ty in range(2, ctx.h - 2, 4):                               # a rivet row down each seam
+            rb_rivet(ctx, int(0.5 * ctx.w) - 2, ty, RB_RED)
+        texrow(ctx, int(ctx.h * 0.3), 0, ctx.w - 1, RB_YELLOW)
+        texrow(ctx, int(ctx.h * 0.3) + 1, 0, ctx.w - 1, RB_BLUE)
     elif ctx.face == "east":
-        rect(ctx, 0.42, 0.42, 0.58, 0.58, RB_BLACK)                      # where the key goes in
-    elif ctx.face == "west":
-        for v in (0.12, 0.88):
-            rect(ctx, 0.1, v - 0.03, 0.9, v + 0.03, RB_YELLOW)
+        rb_plate(ctx, RB_RED, RB_YELLOW, seams_v=(0.18, 0.82), wear=3)
+    elif ctx.face == "up":
+        rb_plate(ctx, RB_TIN, seams_h=(0.5,), corners=False)
+    else:
+        rb_plate(ctx, RB_RED, RB_YELLOW, wear=2)
+
+
+def rb_chest(ctx):
+    """The chest plate: red, a yellow litho border one texel in, rivets inside the border."""
+    rb_plate(ctx, RB_RED, corners=False, wear=3)
+    if ctx.face == "west":
+        for tx in range(1, ctx.w - 1):
+            texel(ctx, tx, 1, RB_YELLOW)
+            texel(ctx, tx, ctx.h - 2, RB_YELLOW)
+        for ty in range(1, ctx.h - 1):
+            texel(ctx, 1, ty, RB_YELLOW)
+            texel(ctx, ctx.w - 2, ty, RB_YELLOW)
+        for tx, ty in ((0, 0), (ctx.w - 1, 0), (0, ctx.h - 1), (ctx.w - 1, ctx.h - 1)):
+            texel(ctx, tx, ty, RB_RED_DARK)
+        for tx in (3, ctx.w - 4):
+            for ty in (3, ctx.h - 4):
+                rb_rivet(ctx, tx, ty, RB_RED)
 
 
 def rb_panel(ctx):
-    rb_tin(ctx, RB_BLUE, RB_YELLOW, rv=False, scratches=1)
-    if ctx.face == "west":                                               # 11 x 9: three dials and two lamps
-        for cx in (2, 5, 8):
-            for dx, dy in ((0, 0), (1, 0), (0, 1), (1, 1), (-1, 0), (0, -1), (2, 0), (1, -1), (-1, 1), (0, 2), (2, 1), (1, 2)):
-                texel(ctx, cx + dx, 3 + dy, PAINT_WHITE)
-            texel(ctx, cx, 3, RB_BLACK)
-            texel(ctx, cx + (1 if cx != 5 else 0), 2 + (cx == 5), RB_BLACK)
-        texel(ctx, 3, 7, (240, 40, 30))
-        texel(ctx, 7, 7, (60, 220, 80))
-
-
-def rb_head(ctx):
-    rb_tin(ctx, RB_TIN, RB_BLUE)
-    if ctx.face == "west":                                               # 12 x 10: a slotted grill for a mouth
-        for tx in range(3, 9):
-            for ty in (6, 7):
-                texel(ctx, tx, ty, RB_BLACK if tx % 2 else RB_TIN_DARK)
-        texrow(ctx, 5, 2, 9, RB_RED)
-        texrow(ctx, 8, 2, 9, RB_RED)
-        texel(ctx, 6, 3, RB_TIN_LIGHT)                                   # a rivet for a nose
-        texel(ctx, 6, 4, RB_TIN_DARK)
-
-
-def rb_eye(ctx):
-    fill(ctx, RB_TIN_DARK, 0.05)
+    fill(ctx, RB_BLUE, 0.03)
     if ctx.face == "west":
-        rect(ctx, 0.0, 0.0, 1.0, 1.0, RB_EYE)
-        texel(ctx, 0, 0, RB_TIN_DARK)
-        texel(ctx, -1, 0, RB_TIN_DARK)
-        texel(ctx, 0, -1, RB_TIN_DARK)
-        texel(ctx, -1, -1, RB_TIN_DARK)
-        texel(ctx, ctx.w // 2, ctx.h // 2, RB_BLACK)
-        texel(ctx, ctx.w // 2 - 1, ctx.h // 2 - 1, (255, 250, 220))
+        texrow(ctx, 0, 0, -1, RB_YELLOW)
+        texrow(ctx, ctx.h - 1, 0, ctx.w - 1, RB_YELLOW)
+        for tx in range(2, ctx.w - 2, 2):                               # a ruled scale under the dials
+            texel(ctx, tx, ctx.h - 3, PAINT_WHITE, 0.55)
+    grain(ctx, 3)
+
+
+def rb_dial(ctx):
+    """A dial: a white face in a dark bezel, a black needle from the pin up to the right."""
+    fill(ctx, RB_TIN_DARK, 0.03)
+    if ctx.face == "west":
+        rect(ctx, 0.0, 0.0, 1.0, 1.0, PAINT_WHITE)
+        for tx, ty in ((0, 0), (-1, 0), (0, -1), (-1, -1)):
+            texel(ctx, tx, ty, RB_TIN_DARK)
+        texel(ctx, ctx.w // 2, ctx.h // 2, RB_BLACK)                           # the needle, from the pin up and to the right
+        texel(ctx, ctx.w // 2 + 1, ctx.h // 2 - 1, RB_BLACK)
+        if ctx.w >= 6:
+            texel(ctx, ctx.w // 2 + 2, ctx.h // 2 - 2, RB_BLACK, 0.8)
+        texel(ctx, ctx.w - 2, 1, (210, 50, 40), 0.8)                         # the red end of the scale
+
+
+def rb_lamp(colour):
+    def paint(ctx):
+        fill(ctx, colour, 0.03, face_shade=False)
+        texel(ctx, 0, 0, mix(colour, (255, 255, 255), 0.6))
+    return paint
 
 
 def rb_tube(ctx):
-    """Accordion tin tubing: ridges every other texel."""
+    """Accordion tin tubing: each ridge lit on top, shadowed under."""
     fill(ctx, RB_TIN, 0.03)
     if ctx.face not in ("up", "down"):
-        hlines(ctx, RB_TIN_DARK, 2, start=1, alpha=0.7)
-        hlines(ctx, RB_TIN_LIGHT, 2, start=0, alpha=0.3)
-    grain(ctx, 5)
+        for ty in range(ctx.h):
+            k = (1.16, 1.0, 0.7)[ty % 3]
+            for tx in range(ctx.w):
+                texel(ctx, tx, ty, shade(RB_TIN, k), 0.75)
+    else:
+        fill(ctx, RB_TIN_DARK, 0.03)
+    grain(ctx, 3)
+
+
+def rb_joint(ctx):
+    """A disc joint: dark tin, a darker rim, a pressed ring."""
+    fill(ctx, RB_TIN_DARK, 0.03)
+    if ctx.face in ("north", "south", "west", "east") and ctx.w >= 4 and ctx.h >= 4:
+        for tx in range(ctx.w):
+            texel(ctx, tx, 0, shade(RB_TIN_DARK, 1.3), 0.7)
+            texel(ctx, tx, ctx.h - 1, shade(RB_TIN_DARK, 0.6), 0.7)
+    grain(ctx, 3)
+
+
+def rb_hub(ctx):
+    """A brass hub with its bolt."""
+    fill(ctx, RB_BRASS, 0.04)
+    if ctx.face in ("north", "south") and ctx.w >= 2 and ctx.h >= 2:
+        texel(ctx, ctx.w // 2, ctx.h // 2, shade(RB_BRASS, 0.55))
+        texel(ctx, ctx.w // 2 - 1, ctx.h // 2 - 1, (250, 226, 150))
+    grain(ctx, 3)
 
 
 def rb_brass(ctx):
-    fill(ctx, RB_BRASS, 0.06)
-    if ctx.face in ("west", "east"):
-        line(ctx, 0.2, 0.2, 0.8, 0.2, (250, 220, 140), 0.6)
-    grain(ctx, 6)
+    fill(ctx, RB_BRASS, 0.04)
+    if ctx.face not in ("up", "down"):
+        texrow(ctx, 0, 0, -1, (246, 214, 140), 0.6)
+        if ctx.h >= 3:
+            texrow(ctx, ctx.h - 1, 0, ctx.w - 1, shade(RB_BRASS, 0.7), 0.6)
+    grain(ctx, 4)
+
+
+def rb_trim(ctx):
+    """A yellow litho band (belt, skirt, cuff, shin plate): a dark pressed line along its middle."""
+    fill(ctx, RB_YELLOW, 0.03)
+    if ctx.face not in ("up", "down") and ctx.h >= 3:
+        texrow(ctx, ctx.h // 2, 0, ctx.w - 1, shade(RB_YELLOW, 0.72), 0.7)
+    rb_wear(ctx, RB_YELLOW, max(1, ctx.w // 8))
+    grain(ctx, 4)
+
+
+def rb_pelvis(ctx):
+    rb_plate(ctx, RB_BLUE, seams_v=(0.5,) if ctx.face in ("west", "east") else (), corners=False, wear=2)
+
+
+def rb_shoulder(ctx):
+    rb_plate(ctx, RB_RED, RB_YELLOW if ctx.face != "south" else None, corners=False, wear=2)
+    if ctx.face == "south" and ctx.w >= 5 and ctx.h >= 5:                # the outer face: rivets round a ring
+        for tx, ty in ((1, 1), (ctx.w - 2, 1), (1, ctx.h - 2), (ctx.w - 2, ctx.h - 2)):
+            rb_rivet(ctx, tx, ty, RB_RED)
+
+
+def rb_head(ctx):
+    """The head: silver tin, a seam down each side with rivets on it, a hatch on the back of the skull."""
+    if ctx.face in ("north", "south"):
+        rb_plate(ctx, RB_TIN, RB_BLUE, seams_v=(0.62,), wear=2)
+        for ty in range(3, ctx.h - 2, 3):
+            rb_rivet(ctx, int(0.62 * ctx.w) - 2, ty)
+    elif ctx.face == "east":
+        rb_plate(ctx, RB_TIN, RB_BLUE, wear=2)
+        for tx in range(2, ctx.w - 2):                                   # the hatch outline
+            texel(ctx, tx, 2, shade(RB_TIN, 0.55))
+            texel(ctx, tx, ctx.h - 4, shade(RB_TIN, 1.2))
+        for ty in range(2, ctx.h - 3):
+            texel(ctx, 2, ty, shade(RB_TIN, 0.55))
+            texel(ctx, ctx.w - 3, ty, shade(RB_TIN, 1.2))
+    elif ctx.face == "up":
+        rb_plate(ctx, RB_TIN, seams_v=(0.5,), corners=False)
+    else:
+        rb_plate(ctx, RB_TIN, RB_BLUE, corners=False, wear=1)
+
+
+def rb_visor(ctx):
+    """Smoked glass: near black and blue, a lit rim along the top, a diagonal glint."""
+    fill(ctx, RB_GLASS, 0.03, face_shade=False)
+    if ctx.face == "west":
+        texrow(ctx, 0, 0, -1, (90, 100, 120), 0.8)
+        line(ctx, 0.08, 0.95, 0.3, 0.05, (120, 134, 160), 0.45)
+        line(ctx, 0.85, 0.95, 0.95, 0.4, (120, 134, 160), 0.3)
+
+
+def rb_eye(ctx):
+    """A round amber lens: hot white in the middle, amber, a dark bezel at the corners (the eye faces glow a little)."""
+    fill(ctx, RB_EYE, 0.02, face_shade=False)
+    if ctx.face == "west":
+        cx, cy = (ctx.w - 1) / 2, (ctx.h - 1) / 2
+        for ty in range(ctx.h):
+            for tx in range(ctx.w):
+                d = math.hypot(tx - cx, ty - cy) / max(1.0, cx)
+                if d > 1.15:
+                    texel(ctx, tx, ty, RB_TIN_DARK)
+                elif d > 0.75:
+                    texel(ctx, tx, ty, (214, 132, 36))
+                elif d < 0.4:
+                    texel(ctx, tx, ty, (255, 246, 206))
+    else:
+        fill(ctx, RB_TIN_DARK, 0.03, face_shade=False)
+
+
+def rb_mouth(ctx):
+    """The grill: dark slots between tin bars, a red frame at its ends."""
+    fill(ctx, RB_RED, 0.03)
+    if ctx.face == "west":
+        for tx in range(1, ctx.w - 1):
+            for ty in range(ctx.h):
+                texel(ctx, tx, ty, RB_BLACK if tx % 2 else (RB_TIN_LIGHT if ty == 0 else RB_TIN))
 
 
 def rb_bulb(ctx):
-    fill(ctx, (236, 40, 32), 0.05, face_shade=False)
+    fill(ctx, (214, 44, 36), 0.04, face_shade=False)
     texel(ctx, 0, 0, (255, 190, 170))
+
+
+def rb_foot(ctx):
+    rb_plate(ctx, RB_RED, RB_YELLOW if ctx.face != "up" else None, corners=False, wear=3)
+    if ctx.face == "up" and ctx.w >= 6:
+        rb_seam(ctx, RB_RED, int(ctx.w * 0.5), "v")
+
+
+def rb_sole(ctx):
+    fill(ctx, RB_RUBBER, 0.04)
+    if ctx.face == "down":
+        for tx in range(0, ctx.w, 2):
+            for ty in range(ctx.h):
+                texel(ctx, tx, ty, shade(RB_RUBBER, 0.6))
+
+
+def rb_disc(m, name, centre, r, z0, thick, parent, paint=None, hub=True):
+    """A disc joint facing out along +z: a cross of two boxes (so it reads round), its inner face at z0."""
+    cx, cy = centre
+    d = m.part(name, (cx - r, cy - r * 0.6, z0), (2 * r, 1.2 * r, thick), parent=parent, paint=paint or rb_joint)
+    m.part(name[:-1] + "VL", (cx - r * 0.6, cy - r, z0 + 0.02), (1.2 * r, 2 * r, thick - 0.04), parent=d, paint=paint or rb_joint)
+    if hub:
+        m.part(name[:-1] + "HubL", (cx - r * 0.38, cy - r * 0.38, z0 + thick), (0.76 * r, 0.76 * r, 0.25), parent=d, paint=rb_hub)
+    return d
 
 
 @lit()
 def roboman():
     m = Model("roboman", atlas_width=64, seed=97)
-    hips = m.part("Hips", (-2.5, 7.5, -3.75), (5, 2.25, 7.5), pivot=(0, 8.5, 0), paint=lambda c: rb_tin(c, RB_BLUE, RB_YELLOW))
-    torso = m.part("Torso", (-3, 9.5, -4.5), (6, 9, 9), pivot=(0, 9.5, 0), parent=hips, paint=rb_torso)
-    m.part("Panel", (-3.45, 12, -2.75), (0.5, 4.5, 5.5), parent=torso, paint=rb_panel)
-    m.part("Collar", (-1.75, 18.5, -1.75), (3.5, 1, 3.5), parent=torso, paint=lambda c: rb_tin(c, RB_TIN_DARK, rv=False))
-    head = m.part("Head", (-2.75, 19.5, -3), (5.5, 5, 6), pivot=(0, 19.5, 0), parent=torso, paint=rb_head)
-    m.part("EyeL", (-3.3, 21.6, 0.35), (0.6, 1.9, 1.9), parent=head, paint=rb_eye, glow=60)
-    m.part("EarL", (-1, 21, 2.9), (2, 2, 0.7), parent=head, paint=rb_brass)
-    antenna = m.part("Antenna", (-0.25, 24.5, -0.25), (0.5, 2.75, 0.5), pivot=(0, 24.5, 0), parent=head, paint=lambda c: fill(c, RB_TIN_DARK, 0.05))
-    m.part("Bulb", (-0.6, 27.1, -0.6), (1.2, 1.2, 1.2), parent=antenna, paint=rb_bulb, glow=120)
-    # The wind-up key: a shaft out of the back and a two-lobed bow, turning about the shaft (X)
-    key = m.part("Key", (3, 13.6, -0.4), (1.8, 0.8, 0.8), pivot=(3, 14, 0), parent=torso, paint=rb_brass)
-    m.part("KeyBar", (4.8, 13.4, -2.6), (0.5, 1.2, 5.2), pivot=(3, 14, 0), parent=key, paint=rb_brass)
-    m.part("KeyLobeL", (4.8, 12.5, 1.1), (0.5, 3, 1.7), pivot=(3, 14, 0), parent=key, paint=rb_brass)
-    m.part("KeyLobeR", (4.8, 12.5, -2.8), (0.5, 3, 1.7), pivot=(3, 14, 0), parent=key, paint=rb_brass)
-    arm = m.part("ArmL", (-1, 13.5, 4.5), (2, 4.5, 2), pivot=(0, 17, 5.5), parent=torso, rest=(-4, 0, 0), paint=rb_tube)
-    m.part("ShoulderL", (-1.25, 16.25, 4.4), (2.5, 2.25, 2.2), parent=arm, paint=lambda c: rb_tin(c, RB_RED, rv=False))
-    fore = m.part("ForearmL", (-0.85, 10, 4.65), (1.7, 4, 1.7), pivot=(0, 13.75, 5.5), parent=arm, paint=rb_tube)
-    hand = m.part("HandL", (-1.25, 8, 4.25), (2.5, 2.25, 2.5), pivot=(0, 10, 5.5), parent=fore, paint=lambda c: rb_tin(c, RB_TIN_DARK, rv=False))
-    m.part("PincerAL", (-1.3, 6.2, 4.6), (0.8, 1.9, 1.8), pivot=(-0.9, 8, 5.5), parent=hand, paint=lambda c: rb_tin(c, RB_TIN_DARK, rv=False))
-    m.part("PincerBL", (0.5, 6.2, 4.6), (0.8, 1.9, 1.8), pivot=(0.9, 8, 5.5), parent=hand, paint=lambda c: rb_tin(c, RB_TIN_DARK, rv=False))
-    leg = m.part("LegL", (-1.5, 2, 0.6), (3, 6, 3), pivot=(0, 8, 2.1), parent=hips, paint=rb_tube)
-    m.part("FootL", (-3.6, 0, 0.25), (5.6, 2, 3.7), pivot=(0, 2, 2.1), parent=leg, paint=lambda c: rb_tin(c, RB_RED, RB_YELLOW, rv=False))
+    # ---- Body. The root (Hips) pivots at 9.5; the waist bellows between the pelvis and the body
+    hips = m.part("Hips", (-2.5, 8.5, -3.5), (5, 2.25, 7), pivot=(0, 9.5, 0), paint=rb_pelvis)
+    m.part("Skirt", (-2.85, 8.25, -3.85), (5.7, 0.75, 7.7), parent=hips, paint=rb_trim)
+    m.part("Waist", (-2, 10.75, -2.75), (4, 1.0, 5.5), parent=hips, paint=rb_tube)
+    torso = m.part("Torso", (-3, 11.75, -4.5), (6, 7.25, 9), pivot=(0, 11.5, 0), parent=hips, paint=rb_torso)
+    m.part("Belt", (-3.3, 11.65, -4.8), (6.6, 0.75, 9.6), parent=torso, paint=rb_trim)
+    m.part("Yoke", (-2.75, 19, -4.25), (5.5, 0.5, 8.5), parent=torso, paint=lambda c: rb_plate(c, RB_TIN, corners=False, wear=1))
+    m.part("ChestPlate", (-3.6, 12.75, -3.25), (0.6, 5.25, 6.5), parent=torso, paint=rb_chest)
+    m.part("Panel", (-3.9, 13.5, -2.25), (0.3, 3.5, 4.5), parent=torso, paint=rb_panel)
+    # One dial and a column of three lamps (two dials side by side read as a second face)
+    m.part("DialA", (-4.15, 14.6, -1.85), (0.25, 1.75, 1.75), parent=torso, paint=rb_dial)
+    for name, y, colour in (("LampA", 15.75, (210, 50, 40)), ("LampB", 14.85, (226, 168, 48)), ("LampC", 13.95, (70, 190, 90))):
+        m.part(name, (-4.1, y, 0.65), (0.2, 0.7, 0.7), parent=torso, paint=rb_lamp(colour))
+    m.part("BackPlate", (3, 12.5, -3.25), (0.5, 5.25, 6.5), parent=torso, paint=lambda c: rb_plate(c, RB_RED, RB_YELLOW, wear=3))
+    m.part("KeyBoss", (3.5, 13.1, -0.9), (0.4, 1.8, 1.8), parent=torso, paint=rb_brass)
+    # The wind-up key: a shaft out of the back and a bow of two open loops, turning about the shaft (X)
+    key = m.part("Key", (3.9, 13.6, -0.4), (1.3, 0.8, 0.8), pivot=(3.9, 14, 0), parent=torso, paint=rb_brass)
+    m.part("KeyHub", (5.2, 12.4, -0.7), (0.6, 3.2, 1.4), parent=key, paint=rb_brass)
+    m.part("KeyTopL", (5.2, 15.0, 0.7), (0.6, 0.6, 2.4), parent=key, paint=rb_brass)
+    m.part("KeyBotL", (5.2, 12.4, 0.7), (0.6, 0.6, 2.4), parent=key, paint=rb_brass)
+    m.part("KeyEndL", (5.2, 13.0, 2.5), (0.6, 2.0, 0.6), parent=key, paint=rb_brass)
+    rb_disc(m, "ShoulderDiscL", (0, 17.1), 1.6, 4.5, 0.4, torso, hub=False)   # (its hub would be inside the shoulder cap)
+    m.part("Collar", (-1.75, 19.5, -1.75), (3.5, 0.75, 3.5), parent=torso, paint=rb_tube)
+
+    # ---- Head
+    head = m.part("Head", (-2.75, 20.25, -3), (5.5, 4.75, 6), pivot=(0, 20.25, 0), parent=torso, paint=rb_head)
+    m.part("Visor", (-3.2, 21.9, -2.6), (0.45, 1.9, 5.2), parent=head, paint=rb_visor)
+    m.part("EyeL", (-3.45, 22.1, 0.3), (0.25, 1.6, 1.6), parent=head, paint=rb_eye, glow=60)
+    m.part("Brow", (-3.55, 23.8, -2.95), (0.8, 0.45, 5.9), parent=head, paint=lambda c: rb_plate(c, RB_TIN, corners=False, wear=1))
+    m.part("Mouth", (-3.0, 20.5, -1.75), (0.25, 1.25, 3.5), parent=head, paint=rb_mouth)
+    ear = m.part("EarL", (-1.1, 21.35, 3.0), (2.2, 2.2, 0.5), parent=head, paint=rb_brass)
+    m.part("EarCapL", (-0.7, 21.75, 3.5), (1.4, 1.4, 0.35), parent=ear, paint=rb_hub)
+    m.part("Crown", (-2.25, 25, -2.5), (4.5, 0.5, 5), parent=head, paint=lambda c: rb_plate(c, RB_TIN, corners=False, wear=1))
+    antenna = m.part("Antenna", (-0.25, 25.5, -0.25), (0.5, 2.0, 0.5), pivot=(0, 25.5, 0), parent=head, paint=lambda c: fill(c, RB_TIN_DARK, 0.05))
+    m.part("AntennaRing", (-0.55, 25.5, -0.55), (1.1, 0.4, 1.1), parent=antenna, paint=rb_brass)
+    m.part("Bulb", (-0.6, 27.3, -0.6), (1.2, 1.2, 1.2), parent=antenna, paint=rb_bulb)
+
+    # ---- Arm: shoulder cap, accordion upper arm, elbow joint, forearm, cuff, wrist, two pincers
+    arm = m.part("ArmL", (-0.9, 12.25, 5.05), (1.8, 3.6, 1.8), pivot=(0, 17.1, 5.9), parent=torso, paint=rb_tube)
+    m.part("ShoulderL", (-1.6, 15.6, 4.9), (3.2, 3.0, 2.1), parent=arm, paint=rb_shoulder)
+    m.part("ShoulderTopL", (-1.1, 18.6, 5.15), (2.2, 0.4, 1.6), parent=arm, paint=rb_shoulder)
+    elbow = m.part("ElbowL", (-1.1, 11.0, 4.85), (2.2, 1.5, 2.2), parent=arm, paint=rb_joint)
+    m.part("ElbowHubL", (-0.6, 11.15, 7.05), (1.2, 1.2, 0.3), parent=elbow, paint=rb_hub)
+    fore = m.part("ForearmL", (-0.85, 8.25, 5.1), (1.7, 2.9, 1.7), pivot=(0, 11.75, 5.95), parent=arm, paint=rb_tube)
+    m.part("CuffL", (-1.15, 7.75, 4.8), (2.3, 1.0, 2.3), parent=fore, paint=lambda c: rb_plate(c, RB_RED, RB_YELLOW, corners=False, wear=1))
+    hand = m.part("HandL", (-0.9, 6.75, 5.05), (1.8, 1.0, 1.8), pivot=(0, 7.75, 5.95), parent=fore, paint=rb_joint)
+    pa = m.part("PincerAL", (-1.1, 4.75, 5.3), (0.7, 2.0, 1.3), pivot=(-0.75, 6.75, 5.95), parent=hand, paint=lambda c: rb_plate(c, RB_TIN_DARK, corners=False, wear=1))
+    m.part("PincerTipAL", (-0.4, 4.75, 5.4), (0.38, 0.6, 1.1), parent=pa, paint=lambda c: fill(c, RB_TIN, 0.04))
+    pb = m.part("PincerBL", (0.4, 4.75, 5.3), (0.7, 2.0, 1.3), pivot=(0.75, 6.75, 5.95), parent=hand, paint=lambda c: rb_plate(c, RB_TIN_DARK, corners=False, wear=1))
+    m.part("PincerTipBL", (0.02, 4.75, 5.4), (0.38, 0.6, 1.1), parent=pb, paint=lambda c: fill(c, RB_TIN, 0.04))
+
+    # ---- Leg: hip disc, accordion thigh, knee joint, plated shin, block foot on a rubber sole with a toecap
+    leg = m.part("LegL", (-1.15, 5.5, 0.85), (2.3, 3.25, 2.3), pivot=(0, 8.75, 2.0), parent=hips, paint=rb_tube)
+    rb_disc(m, "HipDiscL", (0, 9.45), 1.15, 3.5, 0.42, leg)
+    knee = m.part("KneeL", (-1.45, 4.5, 0.6), (2.8, 1.5, 2.8), parent=leg, paint=rb_joint)
+    m.part("KneeHubL", (-0.6, 4.65, 3.4), (1.2, 1.2, 0.3), parent=knee, paint=rb_hub)
+    shin = m.part("ShinL", (-1.25, 1.75, 0.75), (2.5, 3.0, 2.5), pivot=(0, 5.25, 2.0), parent=leg, paint=lambda c: rb_plate(c, RB_RED, corners=False, wear=2))
+    m.part("ShinPlateL", (-1.55, 2.25, 1.05), (0.3, 2.25, 1.9), parent=shin, paint=lambda c: rb_plate(c, RB_TIN, RB_YELLOW, corners=False, wear=1))
+    foot = m.part("FootL", (-2.5, 0.4, 0.4), (4.75, 1.6, 3.2), pivot=(0, 1.75, 2.0), parent=shin, paint=rb_foot)
+    m.part("SoleL", (-3.6, 0, 0.3), (5.95, 0.4, 3.4), parent=foot, paint=rb_sole)
+    m.part("ToeL", (-3.6, 0.4, 0.55), (1.1, 1.1, 2.9), parent=foot, paint=lambda c: rb_plate(c, RB_TIN, corners=False, wear=1))
+
     m.mirror("ArmL", "ArmR")
     m.mirror("LegL", "LegR")
     m.mirror("EyeL", "EyeR")
     m.mirror("EarL", "EarR")
+    m.mirror("ShoulderDiscL", "ShoulderDiscR")
+    for n in ("KeyTop", "KeyBot", "KeyEnd"):
+        m.mirror(n + "L", n + "R")
 
-    # ---- Animations (all stop-motion) ----
+    # ---- Animations (all stop-motion). Negative Z swings a limb forward; the knee bends with positive Z.
     # The key is symmetric under half a turn, so it is wound 180 degrees per cycle, in steps
-    def walk(p, i, n, amp, lean, arm):
+    def walk(p, i, n, amp, lean, arm, knee):
         a = amp * math.sin(TAU * p)
+        kl, kr = knee * max(0.0, math.cos(TAU * p)), knee * max(0.0, -math.cos(TAU * p))   # the leg swinging through bends
         return {
-            "LegL": pose((0, 0, -a)), "LegR": pose((0, 0, a)),               # no knees: stiff tin legs
-            "FootL": pose((0, 0, a * 0.5)), "FootR": pose((0, 0, -a * 0.5)),
-            "Hips": pose((s(p, 7), 0, 0), (0, 0.6 * abs(math.sin(TAU * p)), 0)),   # a waddle, rocking foot to foot
+            "LegL": pose((0, 0, -a)), "LegR": pose((0, 0, a)),
+            "ShinL": pose((0, 0, kl)), "ShinR": pose((0, 0, kr)),
+            "FootL": pose((0, 0, a - kl)), "FootR": pose((0, 0, -a - kr)),
+            "Hips": pose((s(p, 6), 0, 0), (0, -0.5 * abs(math.sin(TAU * p)), 0)),   # a waddle, rocking foot to foot
             "Torso": pose((-s(p, 3), s(p, 6), lean)),
             "Head": pose((0, -s(p, 6), -lean)),
             "ArmL": pose((0, 0, s(p, arm))), "ArmR": pose((0, 0, -s(p, arm))),
+            "ForearmL": pose((0, 0, -10 + min(0.0, s(p, arm * 0.5)))), "ForearmR": pose((0, 0, -10 + min(0.0, -s(p, arm * 0.5)))),
             "Key": pose((-180 * i / n, 0, 0)),
             "Antenna": pose((s(p, 10, 0.2), 0, s(p * 2, 6))),
         }
 
     jitter = ("Torso", "Head", "Antenna")
-    held(m, "walk", boil([walk(i / 8, i, 8, 16, 2, 26) for i in range(8)], jitter, 0.8, 9701))
-    held(m, "run", boil([walk(i / 6, i, 6, 24, 10, 40) for i in range(6)], jitter, 1.2, 9702))
+    held(m, "walk", boil([walk(i / 8, i, 8, 16, 2, 26, 22) for i in range(8)], jitter, 0.8, 9701))
+    held(m, "run", boil([walk(i / 6, i, 6, 24, 10, 40, 34) for i in range(6)], jitter, 1.2, 9702))
 
     def idle(i):
         look = (0, 0, 0, 30, 30, 30, 0, 0, -30, -30, -30, 0)[i]          # the head clicks round, scanning the hall
+        snap = 14 if i in (4, 10) else 0                                   # the pincers snap now and then
         return {"Head": pose((0, look, 0)), "Key": pose((-15 * i, 0, 0)), "Antenna": pose((0, 0, (-4, 4)[i % 2])),
-                "Torso": pose((0, look * 0.1, 0))}
+                "Torso": pose((0, look * 0.1, 0)), "ForearmL": pose((0, 0, -8)), "ForearmR": pose((0, 0, -8)),
+                "PincerAL": pose((0, 0, -snap)), "PincerBL": pose((0, 0, snap))}
 
     held(m, "idle", boil([idle(i) for i in range(12)], ("Torso",), 0.6, 9703))
 
@@ -5434,28 +5649,30 @@ def roboman():
         {"ArmR": pose((0, 0, -90)), "ForearmR": pose((0, 0, 0), (0, 2.5, 0)), "Torso": pose((0, -26, -4)), "Head": pose((0, 18, 0)),
          "PincerAR": pose((0, 0, -30)), "PincerBR": pose((0, 0, 30))},
         {"ArmR": pose((0, 0, -92)), "ForearmR": pose((0, 0, 0), (0, -3.5, 0)), "Torso": pose((0, 22, 8)), "Head": pose((0, -14, -6)),
-         "Hips": pose((0, 0, 0), (-0.8, 0, 0)), "LegL": pose((0, 0, -10)), "LegR": pose((0, 0, 8))},
+         "Hips": pose((0, 0, 0), (-0.8, 0, 0)), "LegL": pose((0, 0, -10)), "LegR": pose((0, 0, 8)), "ShinL": pose((0, 0, 8))},
         {"ArmR": pose((0, 0, -90)), "ForearmR": pose((0, 0, 0), (0, -3.0, 0)), "Torso": pose((0, 26, 6)), "Head": pose((0, -16, -6)),
-         "Hips": pose((0, 0, 0), (-0.8, 0, 0)), "LegL": pose((0, 0, -10)), "LegR": pose((0, 0, 8))},
+         "Hips": pose((0, 0, 0), (-0.8, 0, 0)), "LegL": pose((0, 0, -10)), "LegR": pose((0, 0, 8)), "ShinL": pose((0, 0, 8))},
         {"ArmR": pose((0, 0, -80)), "Torso": pose((0, 8, 2))},
         {"ArmR": pose((0, 0, -36))},
     ], end="Stop")
 
     held(m, "hurt", [
         {},
-        {"Torso": pose((8, 0, -12)), "Head": pose((14, 0, -10)), "Antenna": pose((20, 0, -20)), "ArmL": pose((-24, 0, 0)), "ArmR": pose((24, 0, 0))},
+        {"Torso": pose((8, 0, -12)), "Head": pose((14, 0, -10)), "Antenna": pose((20, 0, -20)), "ArmL": pose((-24, 0, 0)), "ArmR": pose((24, 0, 0)),
+         "ShinL": pose((0, 0, 10)), "ShinR": pose((0, 0, 10))},
         {"Torso": pose((3, 0, -4)), "Head": pose((4, 0, -4)), "Antenna": pose((-10, 0, 10))},
         {},
     ], end="Stop")
 
-    # Death: it runs down. The key turns slower and slower, the head droops, it leans further and further forward
-    # and falls flat on its face, one arm still twitching.
-    def wind_down(theta, key, head, arms):
-        return {"Hips": pose((0, 0, theta), toppled(theta, 8.5, 3.4)), "Key": pose((-key, 0, 0)), "Head": pose((0, 0, head)),
-                "ArmL": pose((0, 0, -arms)), "ArmR": pose((0, 0, -arms * 0.96)), "Antenna": pose((0, 0, theta * 0.2))}
+    # Death: it runs down. The key turns slower and slower, the head droops, the knees give a little, it leans further
+    # and further forward and falls flat on its face, one arm still twitching.
+    def wind_down(theta, key, head, arms, knees=0):
+        return {"Hips": pose((0, 0, theta), toppled(theta, 9.5, 3.9)), "Key": pose((-key, 0, 0)), "Head": pose((0, 0, head)),
+                "ArmL": pose((0, 0, -arms)), "ArmR": pose((0, 0, -arms * 0.96)), "Antenna": pose((0, 0, theta * 0.2)),
+                "ShinL": pose((0, 0, knees)), "ShinR": pose((0, 0, knees))}
 
     held(m, "die", [
-        {}, wind_down(4, 20, 6, 0), wind_down(8, 34, 14, 6), wind_down(14, 42, 22, 12), wind_down(30, 46, 26, 30),
+        {}, wind_down(4, 20, 6, 0, 4), wind_down(8, 34, 14, 6, 8), wind_down(14, 42, 22, 12, 10), wind_down(30, 46, 26, 30, 6),
         wind_down(62, 48, 20, 110), wind_down(90, 48, 10, 186), wind_down(86, 48, 10, 178), wind_down(90, 48, 10, 186),
     ], end="Hold", stopped="Stop")
     return m
