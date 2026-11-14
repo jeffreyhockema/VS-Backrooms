@@ -1186,11 +1186,13 @@ def structure():
     }, "The End: grey-green low-pile carpet; dusty, worn flat, stained, or half under the Snowfield's powder snow",
         material="Cloth", sounds=CARPET_SOUNDS,
         extra={"resistance": 1.5, "behaviors": [{"name": "BackroomsStrippable", "properties": {
-            "result": "end-carpet-worn", "item": "carpetfibre", "variant": "kind", "allowed": ["plain", "dusty", "stained"]}}]})
+            "result": "end-carpet-worn", "item": "carpetfibre", "square": "carpetsquare", "squareResult": "end-concrete-plain",
+            "variant": "kind", "allowed": ["plain", "dusty", "stained"]}}]})
     cube_kinds("end-runway", {"plain": ("Patterned Carpet", {"all": ver("runway", True)})},
                "The End: the navy patterned carpet of the racetrack aisle", material="Cloth", sounds=CARPET_SOUNDS,
                extra={"resistance": 1.5, "behaviors": [{"name": "BackroomsStrippable", "properties": {
-                   "result": "end-carpet-worn", "item": "carpetfibre"}}]})
+                   "result": "end-carpet-worn", "item": "carpetfibre", "square": "carpetsquare",
+                   "squareResult": "end-concrete-plain"}}]})
     cube_kinds("end-concrete", {
         "plain": ("Stockroom Concrete", {"all": ver("concrete", True)}),
         "line-ns": ("Stockroom Concrete", {"up": flat_("concrete-linens"), "horizontals": flat_("concrete"), "down": flat_("concrete")}),
