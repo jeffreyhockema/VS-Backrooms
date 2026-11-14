@@ -367,28 +367,34 @@ MEET_PLACES = 47   # the lore's "at least 47 distinct positions": the Meeting Pl
 
 
 def meetplacard():
-    """The placard on the meeting-point sign's post: 47 faces (128 x 64) reading MEETING PLACE n OF 47. Each of the post's
-    four faces carries one, split across the two blocks that hold the post's corner (the left or right half of the picture)."""
+    """The placard on the meeting-point sign's post: 47 faces (128 x 80) reading MEETING PLACE n OF 47. Each of the post's
+    four faces carries one, split across the two blocks that hold the post's corner (the left or right half of the picture).
+    The plates sit flush with the post's 8-wide faces and a bare corner strip joins them, so no plate crosses in front of
+    another's picture (an overhang hid the outer digits)."""
     quads = ["nw", "ne", "sw", "se"]
     for n in range(1, MEET_PLACES + 1):
-        img = _ground((236, 236, 230), 128, 64, T.seed_of("meetplacard" + str(n)), 4)
-        _text(img, "MEETING PLACE", G.DIN_COND, (8, 6, 120, 24), 13, (92, 44, 142))
-        _text(img, f"{n} OF {MEET_PLACES}", G.DIN, (8, 26, 120, 58), 26, (40, 42, 47))
+        img = _ground((236, 236, 230), 128, 80, T.seed_of("meetplacard" + str(n)), 4)
+        _text(img, "MEETING PLACE", G.DIN_COND, (8, 8, 120, 30), 16, (92, 44, 142))
+        _text(img, f"{n} OF {MEET_PLACES}", G.DIN, (8, 32, 120, 72), 32, (40, 42, 47))
         T.save(_frame(img, (60, 62, 68), 2), f"l36-meetplacard-{n}")
     # Per quarter (the block's corner nearest the post's middle): the two outward plates, as (box, face, half of the picture
-    # seen from outside). Plates 6 wide in this block, 1 thick on the post's face, six high at eye height.
-    plates = {"se": [((0, 4, 6, 5), "south", "r"), ((4, 0, 5, 6), "east", "l")],
-              "sw": [((10, 4, 16, 5), "south", "l"), ((11, 0, 12, 6), "west", "r")],
-              "ne": [((0, 11, 6, 12), "north", "l"), ((4, 10, 5, 16), "east", "r")],
-              "nw": [((10, 11, 16, 12), "north", "r"), ((11, 10, 12, 16), "west", "l")]}
+    # seen from outside). Plates 4 wide in this block (8 across the post's face), 1 thick on the post's face, five high at
+    # eye height; the corner strip is the bare 1 x 1 post between them.
+    plates = {"se": [((0, 4, 4, 5), "south", "r"), ((4, 0, 5, 4), "east", "l")],
+              "sw": [((12, 4, 16, 5), "south", "l"), ((11, 0, 12, 4), "west", "r")],
+              "ne": [((0, 11, 4, 12), "north", "l"), ((4, 12, 5, 16), "east", "r")],
+              "nw": [((12, 11, 16, 12), "north", "r"), ((11, 12, 12, 16), "west", "l")]}
+    corners = {"se": (4, 4), "sw": (11, 4), "ne": (4, 11), "nw": (11, 11)}
     shapes_, textures = {}, {}
     for q in quads:
         x0, z0, x1, z1 = _corner_box(q, 4)
         els = [GS.box("Post", (x0, 0, z0), (x1, 16, z1), "dark", faces=("north", "east", "south", "west", "up"))]
         for i, ((a, b, c, d), face, half) in enumerate(plates[q]):
-            el = GS.box(f"Plate{i}", (a, 6, b), (c, 12, d), "alu")
+            el = GS.box(f"Plate{i}", (a, 6, b), (c, 11, d), "alu")
             el["faces"][face] = {"texture": "#plate", "uv": [0, 0, 8, 16] if half == "l" else [8, 0, 16, 16], "glow": 60}
             els.append(el)
+        cx, cz = corners[q]
+        els.append(GS.box("Corner", (cx, 6, cz), (cx + 1, 11, cz + 1), "alu"))
         shapes_[f"*-{q}-*"] = {"base": GS.shape("l36-meetplacard-" + q, els, {"dark": "props/r3-dark"})}
     for q in quads:
         for n in range(1, MEET_PLACES + 1):
