@@ -35,6 +35,7 @@ os.environ.setdefault("VINTAGE_STORY", r"G:\Games\Vintagestory")
 import gen_entities as E  # noqa: E402
 from oggutil import write_ogg  # noqa: E402
 from gen_entity_sounds import RATE  # noqa: E402
+from gen_items_paper import dress  # noqa: E402  (the item pass, 0.700: the card's model)
 
 ROOT = os.path.join(HERE, "..")
 ASSETS = os.path.join(ROOT, "assets", "backrooms")
@@ -413,6 +414,7 @@ def items():
                                    "but familiar in a strangely welcoming way.")
     card = {"code": "l31-greencard", "maxstacksize": 1, "creativeinventory": INV, "materialDensity": 400, "texture": {"base": "item/31/greencard"}}
     card.update(SPRITE)
+    dress(card, "l31-greencard")
     write_json(os.path.join(ITEMS, "l31-greencard.json"), card, "Level 31's green arcade card, from the dispenser at the arcade's door")
     LANG["item-l31-greencard"] = "Green Arcade Card"
     LANG["itemdesc-l31-greencard"] = ("From the machine at the door of Level 31's arcade: \"Please press the button to get a card.\" "

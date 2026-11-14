@@ -1,0 +1,88 @@
+{
+	"textureWidth": 32,
+	"textureHeight": 32,
+	"textures": {
+		"tex": "backrooms:item/pantry/crackers"
+	},
+	"elements": [
+		{
+			"name": "Box",
+			"from": [4.5, 0, 6.7],
+			"to": [11.5, 8.6, 9.3],
+			"faces": {
+				"north": { "texture": "#tex", "uv": [0, 0, 7.0, 8.6] },
+				"east": { "texture": "#tex", "uv": [14, 0, 16.6, 8.6] },
+				"south": { "texture": "#tex", "uv": [7, 0, 14.0, 8.6] },
+				"west": { "texture": "#tex", "uv": [17, 0, 19.6, 8.6] },
+				"down": { "texture": "#tex", "uv": [20, 0, 27.0, 2.6] }
+			}
+		},
+		{
+			"name": "Rim",
+			"from": [4.5, 8.6, 6.7],
+			"to": [11.5, 8.8, 9.3],
+			"faces": {
+				"north": { "texture": "#tex", "uv": [6, 14, 13.0, 14.2] },
+				"east": { "texture": "#tex", "uv": [0, 17, 2.6, 17.2] },
+				"south": { "texture": "#tex", "uv": [13, 14, 20.0, 14.2] },
+				"west": { "texture": "#tex", "uv": [3, 17, 5.6, 17.2] },
+				"up": { "texture": "#tex", "uv": [0, 9, 7.0, 11.6] }
+			}
+		},
+		{
+			"name": "Flap",
+			"from": [4.5, 8.8, 9.3],
+			"to": [11.5, 9.0, 11.8],
+			"rotationOrigin": [8, 8.8, 9.3],
+			"rotationX": 28,
+			"faces": {
+				"north": { "texture": "#tex", "uv": [20, 14, 27.0, 14.2] },
+				"east": { "texture": "#tex", "uv": [6, 17, 8.5, 17.2] },
+				"south": { "texture": "#tex", "uv": [0, 16, 7.0, 16.2] },
+				"west": { "texture": "#tex", "uv": [9, 17, 11.5, 17.2] },
+				"up": { "texture": "#tex", "uv": [7, 9, 14.0, 11.5] },
+				"down": { "texture": "#tex", "uv": [14, 9, 21.0, 11.5] }
+			}
+		},
+		{
+			"name": "Tuck",
+			"from": [4.7, 8.8, 6.7],
+			"to": [11.3, 9.9, 6.9],
+			"rotationOrigin": [8, 8.8, 6.8],
+			"rotationX": -14,
+			"faces": {
+				"north": { "texture": "#tex", "uv": [21, 9, 27.6, 10.1] },
+				"east": { "texture": "#tex", "uv": [4, 14, 4.2, 15.1] },
+				"south": { "texture": "#tex", "uv": [0, 12, 6.6, 13.1] },
+				"west": { "texture": "#tex", "uv": [5, 14, 5.2, 15.1] },
+				"up": { "texture": "#tex", "uv": [7, 16, 13.6, 16.2] },
+				"down": { "texture": "#tex", "uv": [14, 16, 20.6, 16.2] }
+			}
+		},
+		{
+			"name": "Sleeve",
+			"from": [5.6, 7.8, 7.1],
+			"to": [10.4, 9.8, 8.9],
+			"faces": {
+				"north": { "texture": "#tex", "uv": [7, 12, 11.8, 14.0] },
+				"east": { "texture": "#tex", "uv": [0, 14, 1.8, 16.0] },
+				"south": { "texture": "#tex", "uv": [12, 12, 16.8, 14.0] },
+				"west": { "texture": "#tex", "uv": [2, 14, 3.8, 16.0] },
+				"up": { "texture": "#tex", "uv": [17, 12, 21.8, 13.8] },
+				"down": { "texture": "#tex", "uv": [22, 12, 26.8, 13.8] }
+			}
+		},
+		{
+			"name": "Cracker",
+			"from": [5.9, 9.8, 7.3],
+			"to": [10.1, 10.2, 8.7],
+			"faces": {
+				"up": { "texture": "#tex", "uv": [27, 12, 31.2, 13.4] },
+				"north": { "texture": "#tex", "uv": [21, 16, 25.2, 16.4] },
+				"south": { "texture": "#tex", "uv": [26, 16, 30.2, 16.4] },
+				"east": { "texture": "#tex", "uv": [12, 17, 13.4, 17.4] },
+				"west": { "texture": "#tex", "uv": [14, 17, 15.4, 17.4] }
+			}
+		}
+	]
+}

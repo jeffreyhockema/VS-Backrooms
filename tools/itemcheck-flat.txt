@@ -1,45 +1,21 @@
 # Items still drawn flat (the game's generated sprite look); remove a line when the item gets a model; do not add lines.
 # One itemtype code per line (variants expanded as langcheck does). tools/itemcheck.py fails on a flat item not listed here
 # and on a listed item that is no longer flat.
-almondmilk
-candybar
-cashewwater
-chalk
-chalk-blue
-chalk-green
-chalk-red
-chalk-yellow
-chips
-crownshard
-end-cataloguecard
-epsomsalt
 fun-cakeslice-birthday
 fun-cakeslice-velvet
 fun-cookie
 fun-lucatears
-fun-wanderernote-altered
-l14-antibiotics
 l188-cereal
 l188-juicebox
-l188-keycard
 l31-food-hotdog
 l31-food-pepperoni
 l31-food-pizza
 l31-food-wings
-l31-greencard
-l3999-circuitboard
-l3999-coinmech
 l3999-cottoncandy
-l3999-glowband-cyan
-l3999-glowband-lilac
-l3999-glowband-magenta
-l3999-neontubing
-l3999-plastic
 l3999-popcorn
 l3999-soda-cherry
 l3999-soda-grape
 l3999-soda-lime
-l3999-ticket
 l3999-traymeal-burger
 l3999-traymeal-icecream
 l3999-traymeal-noodles
@@ -53,11 +29,3 @@ l974-meal-pancakes
 l974-meal-soup
 l974-strawberrymilk
 pleather
-redwater
-soda
-wanderernote-cache
-wanderernote-door
-wanderernote-folded
-wanderernote-refuge
-wanderernote-way
-waterbottle

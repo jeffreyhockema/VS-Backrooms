@@ -1,9 +1,6 @@
 // Housekeeping Keycard
 {
 	"code": "l188-keycard",
-	"texture": {
-		"base": "backrooms:item/188/keycard"
-	},
 	"creativeinventory": {
 		"general": [
 			"*"
@@ -16,35 +13,57 @@
 		]
 	},
 	"materialDensity": 600,
+	"maxstacksize": 1,
+	"attributes": {
+		"l188keycard": true
+	},
+	"shape": {
+		"base": "item/paper/keycard"
+	},
+	"textures": {
+		"tex": {
+			"base": "item/paper/keycard"
+		}
+	},
 	"guiTransform": {
+		"translation": {
+			"x": -1.57,
+			"y": -0.88,
+			"z": 0
+		},
 		"rotation": {
-			"x": 0,
-			"y": 0,
+			"x": 125,
+			"y": 150,
 			"z": 0
 		},
 		"origin": {
 			"x": 0.5,
-			"y": 0.5,
-			"z": 0.5
+			"y": 0.03,
+			"z": 0.409
 		},
-		"scale": 1
+		"scale": 1.8
 	},
 	"tpHandTransform": {
 		"translation": {
-			"x": -0.75,
-			"y": -0.4,
-			"z": -0.55
+			"x": -0.8,
+			"y": -0.2,
+			"z": -0.6
 		},
 		"rotation": {
 			"x": 0,
-			"y": -45,
-			"z": -10
+			"y": 0,
+			"z": -60
 		},
-		"scale": 0.6
+		"scale": 0.7
 	},
 	"groundTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
 		"rotation": {
-			"x": 90,
+			"x": 0,
 			"y": 0,
 			"z": 0
 		},
@@ -53,19 +72,7 @@
 			"y": 0,
 			"z": 0.5
 		},
-		"scale": 2
-	},
-	"maxstacksize": 1,
-	"attributes": {
-		"l188keycard": true,
-		"groundStorageTransform": {
-			"origin": {
-				"x": 0.5,
-				"y": 0.5,
-				"z": 0.5
-			},
-			"scale": 1.3
-		}
+		"scale": 4.6
 	},
 	"behaviors": [
 		{

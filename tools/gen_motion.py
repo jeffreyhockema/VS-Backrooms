@@ -17,6 +17,8 @@ from detail_textures import S, noise, rgb, save, text
 from gen_deep import TRANSFORMS, door_block, drops, threshold
 from gen_detail import cube_block
 from detail_kit import T, seed_of
+import gen_items_pantry
+from gen_items_paper import dress  # the item pass (0.700): the crown shard's model
 
 
 def grain(img, amount, key, prints=True):
@@ -546,26 +548,20 @@ def props():
 
 
 def items():
-    data = {"code": "almondmilk", "class": "BackroomsAlmondWater", "maxstacksize": 8, "texture": {"base": "item/almondmilk"},
+    # Almond Milk's look (a 1950s glass milk bottle) is tools/gen_items_pantry.py's
+    data = {"code": "almondmilk", "class": "BackroomsAlmondWater", "maxstacksize": 8,
             "creativeinventory": {"general": ["*"], "items": ["*"]},
             "nutritionProps": {"satiety": 300, "foodcategory": "Dairy"}, "materialDensity": 1000,
             "attributes": {"stabilityRestored": 0.1, "hydration": 500}}
-    data.update(TRANSFORMS)
-    ground_storable(data)
+    height = gen_items_pantry.apply_look(data, "almondmilk")
+    ground_storable(data, height=height)
     write_json(os.path.join(ASSETS, "itemtypes", "motion", "almondmilk.json"), data, "Almond Milk, from the milk vans of Level 94")
     LANG["item-almondmilk"] = "Almond Milk"
     LANG["itemdesc-almondmilk"] = "From the crates of a milk van in Level 94. Creamy, sweet, and it pours like it's being animated a frame at a time. Steadies you a little, like Almond Water."
-    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
-    d.rectangle([12, 2, 19, 6], fill=(220, 60, 60, 255))
-    d.rectangle([13, 6, 18, 9], fill=(232, 236, 236, 230))
-    d.rounded_rectangle([9, 9, 22, 29], 3, fill=(250, 248, 240, 255), outline=(200, 204, 206, 255))
-    d.rectangle([10, 15, 21, 22], fill=(70, 120, 190, 255))
-    T.save(img, "item/almondmilk.png")
     data = {"code": "crownshard", "maxstacksize": 1, "texture": {"base": "item/crownshard"},
             "creativeinventory": {"general": ["*"], "items": ["*"]}, "materialDensity": 2000}
     data.update(TRANSFORMS)
-    ground_storable(data)
+    ground_storable(dress(data, "crownshard"))
     write_json(os.path.join(ASSETS, "itemtypes", "motion", "crownshard.json"), data, "A shard of the King's crown")
     LANG["item-crownshard"] = "Machination's Crown Shard"
     LANG["itemdesc-crownshard"] = "A gilt shard of the King's crown, left when he burst into light. While you carry it, the Animations of Level 94 take you for one of their own."

@@ -14,38 +14,53 @@
 		]
 	},
 	"materialDensity": 400,
-	"texture": {
-		"base": "item/3999/neontubing"
+	"shape": {
+		"base": "item/paper/neontubing"
+	},
+	"textures": {
+		"tex": {
+			"base": "item/paper/neontubing"
+		}
 	},
 	"guiTransform": {
+		"translation": {
+			"x": 2.09,
+			"y": 0.77,
+			"z": 0
+		},
 		"rotation": {
-			"x": 0,
-			"y": 0,
+			"x": 125,
+			"y": 150,
 			"z": 0
 		},
 		"origin": {
-			"x": 0.5,
-			"y": 0.5,
-			"z": 0.5
+			"x": 0.438,
+			"y": 0.025,
+			"z": 0.492
 		},
-		"scale": 1
+		"scale": 1.78
 	},
 	"tpHandTransform": {
 		"translation": {
-			"x": -0.75,
-			"y": -0.4,
-			"z": -0.55
+			"x": -0.8,
+			"y": -0.2,
+			"z": -0.6
 		},
 		"rotation": {
 			"x": 0,
-			"y": -45,
-			"z": -10
+			"y": 0,
+			"z": -60
 		},
-		"scale": 0.6
+		"scale": 0.7
 	},
 	"groundTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
 		"rotation": {
-			"x": 90,
+			"x": 0,
 			"y": 0,
 			"z": 0
 		},
@@ -54,7 +69,7 @@
 			"y": 0,
 			"z": 0.5
 		},
-		"scale": 2
+		"scale": 4.6
 	},
 	"behaviors": [
 		{
@@ -71,15 +86,5 @@
 				}
 			}
 		}
-	],
-	"attributes": {
-		"groundStorageTransform": {
-			"origin": {
-				"x": 0.5,
-				"y": 0.5,
-				"z": 0.5
-			},
-			"scale": 1.3
-		}
-	}
+	]
 }
