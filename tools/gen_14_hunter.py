@@ -35,9 +35,17 @@ rig.TEXEL = 4
 HUNTER = "14/l14-hunter"
 AGENT = "14/l14-agent"
 
-SKIN = (13, 14, 19)            # near-black, a little blue
-SHEEN = (44, 50, 64)           # a wet streak
-SPEC = (104, 114, 136)         # where it catches the light
+SKIN = (24, 25, 31)            # very dark grey, a little blue: black in the dark, with some form in torchlight
+SHEEN = (44, 50, 64)           # a wet streak (the Agent's)
+SPEC = (104, 114, 136)         # where it catches the light (the Agent's)
+# The Hunter's wet look, painted (the game has no specular maps): brighter streaks and beads, a cold catch-light along the
+# uppermost edges of its parts and down its tentacles, a wet rim round the red of its mouths. Nothing on the body glows:
+# the lore's skin absorbs light, so it only ever shows what a torch puts on it
+H_SHEEN = (58, 66, 84)
+H_SPEC = (150, 164, 190)
+WET_HI = (178, 192, 216)
+LIP_HI = (214, 190, 194)
+TOOTH_WET = (250, 247, 236)
 FLESH_DARK, FLESH, GUM = (34, 4, 6), (92, 12, 15), (128, 22, 24)
 TOOTH, TOOTH_DIM = (228, 218, 192), (176, 164, 140)
 EYE_RED, EYE_HOT, EYE_VEIN = (120, 22, 18), (176, 58, 44), (70, 8, 8)
@@ -59,7 +67,7 @@ def _noise(ctx, cell):
     return lambda x, y: rig._sample(lat, x, y, cell)
 
 
-def wet_skin(ctx, base=SKIN, streaks=1.0, spec=1.0):
+def wet_skin(ctx, base=SKIN, streaks=1.0, spec=1.0, sheen=SHEEN, specc=SPEC):
     """Moist black: a slow mottle, wet streaks running down the side faces (blots on the top ones), a few bright texels
     where the wet catches the light, dark veins. Down the face is down the part, as the side faces are painted."""
     px = ctx.img.load()
@@ -79,22 +87,22 @@ def wet_skin(ctx, base=SKIN, streaks=1.0, spec=1.0):
                 t = i / max(1, ln - 1)
                 x = int(round(x0 + wob))
                 wob += ctx.rng.uniform(-0.35, 0.35)
-                c = rig.mix(SHEEN, base, 0.25 + 0.6 * t)
+                c = rig.mix(sheen, base, 0.25 + 0.6 * t)
                 _put(ctx, px, x, y0 + i, c)
                 if i == 0 and ctx.rng.random() < 0.7 * spec:
-                    _put(ctx, px, x, y0, SPEC)
+                    _put(ctx, px, x, y0, specc)
             # a bead at the bottom of the run
             if ctx.rng.random() < 0.5 * spec:
-                _put(ctx, px, int(round(x0 + wob)), y0 + ln, rig.mix(SPEC, SHEEN, 0.4))
+                _put(ctx, px, int(round(x0 + wob)), y0 + ln, rig.mix(specc, sheen, 0.4))
         else:
             r = ctx.rng.uniform(0.8, 2.2)
             for yy in range(int(y0 - r) - 1, int(y0 + r) + 2):
                 for xx in range(int(x0 - r) - 1, int(x0 + r) + 2):
                     d = math.hypot(xx - x0, yy - y0) / r
                     if d < 1:
-                        _put(ctx, px, xx, yy, rig.mix(_get(ctx, px, xx, yy), SHEEN, 0.75 * (1 - d)))
+                        _put(ctx, px, xx, yy, rig.mix(_get(ctx, px, xx, yy), sheen, 0.75 * (1 - d)))
             if ctx.rng.random() < 0.6 * spec:
-                _put(ctx, px, x0, y0, SPEC)
+                _put(ctx, px, x0, y0, specc)
     # veins: dark lines wandering across
     for _ in range(int(area * 0.002) + (1 if ctx.rng.random() < 0.3 else 0)):
         x, y = ctx.rng.uniform(0, ctx.w), ctx.rng.uniform(0, ctx.h)
@@ -103,6 +111,92 @@ def wet_skin(ctx, base=SKIN, streaks=1.0, spec=1.0):
             _put(ctx, px, int(x), int(y), tuple(v * 0.45 for v in base))
             a += ctx.rng.uniform(-0.6, 0.6)
             x, y = x + math.cos(a), y + math.sin(a)
+
+
+def hunter_skin(ctx, base=SKIN, streaks=1.0, spec=1.0):
+    wet_skin(ctx, base, streaks, spec, sheen=H_SHEEN, specc=H_SPEC)
+
+
+_REST = {}
+
+
+def _unit(v):
+    ln = float(np.linalg.norm(v))
+    return v / ln if ln > 1e-9 else v
+
+
+def _face_axes(ctx):
+    """The face's normal and the directions of its texture's x and y in the model at rest (as rig.bake places them)."""
+    m = ctx.part.model
+    if id(m) not in _REST:
+        _REST[id(m)] = rig.part_matrices(m)
+    R = _REST[id(m)][id(ctx.part)][:3, :3]
+    C = np.array(rig._CORNERS[ctx.face], dtype=float) * np.array(ctx.part.size)
+    return R @ np.array(rig._NORMALS[ctx.face], dtype=float), _unit(R @ (C[2] - C[3])), _unit(R @ (C[0] - C[3]))
+
+
+def _film(ctx, n):
+    """How strongly a wet film shows along `n` texels: a slow wobble, with runs where it breaks (0)."""
+    lat = [ctx.rng.uniform(0.3, 1.0) for _ in range(n // 3 + 3)]
+    out = []
+    for i in range(n):
+        j, t = divmod(i / 3.0, 1.0)
+        v = lat[int(j)] * (1 - t) + lat[int(j) + 1] * t
+        out.append(0.0 if v < 0.42 else v)
+    return out
+
+
+def catch_light(ctx, tube=False, k=1.0):
+    """Wet skin catching a light: a narrow cold line just inside the edge that is uppermost at rest (on a face that
+    looks up, along its two long edges, and a pool or two of sheen on it), broken where the film is thin; on a tentacle
+    (`tube`) also a line down its length, so it reads wet from any side. A face that looks down gets none."""
+    px = ctx.img.load()
+    n, du, dv = _face_axes(ctx)
+    w, h = ctx.w, ctx.h
+    prof = (0.5, 1.0, 0.38, 0.12)   # texels in from the edge: the edge itself, the line, its halo
+
+    def lay(xx, yy, a):
+        if a > 0.01:
+            _put(ctx, px, xx, yy, rig.mix(_get(ctx, px, xx, yy), WET_HI, min(1.0, a)))
+
+    def edge(side, weight, depth=4):
+        along = w if side in ("top", "bottom") else h
+        across = h if side in ("top", "bottom") else w
+        film = _film(ctx, along)
+        for i in range(along):
+            for d in range(min(depth, len(prof), max(1, across // 2))):
+                xx, yy = {"top": (i, d), "bottom": (i, h - 1 - d), "left": (d, i), "right": (w - 1 - d, i)}[side]
+                lay(xx, yy, prof[d] * film[i] * weight * k)
+
+    if n[1] < -0.35:
+        return
+    if n[1] > 0.7:
+        for side in (("top", "bottom") if w >= h else ("left", "right")):
+            edge(side, 0.55, depth=2)
+        for _ in range(1 + (w * h) // 400):
+            cx, cy = ctx.rng.uniform(0.2, 0.8) * w, ctx.rng.uniform(0.2, 0.8) * h
+            rx, ry = ctx.rng.uniform(1.5, 0.3 * w + 1.5), ctx.rng.uniform(0.8, 1.6)
+            for yy in range(int(cy - ry) - 1, int(cy + ry) + 2):
+                for xx in range(int(cx - rx) - 1, int(cx + rx) + 2):
+                    q = ((xx + 0.5 - cx) / rx) ** 2 + ((yy + 0.5 - cy) / ry) ** 2
+                    if q < 1:
+                        _put(ctx, px, xx, yy, rig.mix(_get(ctx, px, xx, yy), H_SPEC, 0.45 * (1 - q) * k))
+            _put(ctx, px, int(cx), int(cy), rig.mix(_get(ctx, px, int(cx), int(cy)), WET_HI, 0.8 * k))
+        return
+    # a side face: its uppermost edge, as steep as the face lets it be
+    weight = 1.0 - 0.6 * max(0.0, -n[1]) / 0.35
+    if abs(dv[1]) >= abs(du[1]):
+        side, tilt = ("top" if dv[1] < 0 else "bottom"), abs(dv[1])
+    else:
+        side, tilt = ("left" if du[1] < 0 else "right"), abs(du[1])
+    edge(side, weight * min(1.0, 0.35 + tilt))
+    if tube and w >= 4:
+        x0 = int(round(w * ctx.rng.uniform(0.25, 0.42)))
+        film = _film(ctx, h)
+        for yy in range(h):
+            lay(x0, yy, 0.7 * film[yy] * weight * k)
+            lay(x0 + 1, yy, 0.22 * film[yy] * weight * k)
+            lay(x0 - 1, yy, 0.12 * film[yy] * weight * k)
 
 
 def small_mouth(ctx, px, u, v, rx, ry):
@@ -118,14 +212,19 @@ def small_mouth(ctx, px, u, v, rx, ry):
                 _put(ctx, px, xx, yy, TOOTH if tooth else GUM)
             elif d < 1.2:
                 _put(ctx, px, xx, yy, rig.mix(_get(ctx, px, xx, yy), FLESH, 0.6))
+            elif d < 1.75:
+                # the wet rim of the lips, catching the light on the upper one
+                _put(ctx, px, xx, yy, rig.mix(_get(ctx, px, xx, yy), LIP_HI, 0.55 if yy + 0.5 < cy else 0.2))
 
 
 def tentacle_paint(mouths=()):
     """A tentacle segment: wet skin, creases across it, and on the faces named in `mouths` a small toothed mouth."""
     def paint(ctx):
-        wet_skin(ctx, streaks=0.7)
+        hunter_skin(ctx, streaks=0.7)
         if ctx.face not in ("up", "down"):
             rig.folds(ctx, [0.3, 0.7], depth=0.6, light=1.25, wobble=0.6)
+        catch_light(ctx, tube=True)
+        if ctx.face not in ("up", "down"):
             if ctx.face in mouths:
                 px = ctx.img.load()
                 small_mouth(ctx, px, 0.5, 0.55, max(1.4, ctx.w * 0.28), max(1.6, ctx.h * 0.16))
@@ -140,6 +239,7 @@ def mouth_tip(ctx):
         cx, cy = ctx.w / 2, ctx.h / 2
         r = min(ctx.w, ctx.h) / 2
         n_teeth = 9
+        a0 = ctx.rng.random()
         for yy in range(ctx.h):
             for xx in range(ctx.w):
                 dx, dy = xx + 0.5 - cx, yy + 0.5 - cy
@@ -150,13 +250,20 @@ def mouth_tip(ctx):
                 elif d < 0.62:
                     tooth = ((a * n_teeth) % 1.0) < 0.55 and d > 0.36
                     c = rig.mix(TOOTH, TOOTH_DIM, (d - 0.36) * 2) if tooth else rig.mix(FLESH_DARK, GUM, (d - 0.3) * 3)
+                    if tooth and d < 0.46 and ctx.rng.random() < 0.3:
+                        c = TOOTH_WET  # a wet tooth tip
                 elif d < 0.88:
                     c = rig.mix(GUM, FLESH, ctx.rng.random() * 0.5)
                 else:
                     c = rig.mix(FLESH, SKIN, 0.5)
+                # the lips' wet rim: a texel in from the edge of the round, brightest on two arcs where it catches a light
+                if 0.4 <= r - d * r < 1.5:
+                    glint = 0.3 + 0.6 * max(0.0, math.cos(TAU * (a - a0))) ** 4 + 0.5 * max(0.0, math.cos(TAU * (a - a0 - 0.45))) ** 8
+                    c = rig.mix(c, LIP_HI, min(0.9, glint))
                 _put(ctx, px, xx, yy, c)
         return
-    wet_skin(ctx, streaks=0.5)
+    hunter_skin(ctx, streaks=0.5)
+    catch_light(ctx, tube=True)
     if ctx.face != "up":
         for yy in range(ctx.h):
             t = yy / max(1, ctx.h - 1)
@@ -165,11 +272,16 @@ def mouth_tip(ctx):
                 for xx in range(ctx.w):
                     c = _get(ctx, px, xx, yy)
                     _put(ctx, px, xx, yy, rig.mix(c, FLESH if k < 0.8 else GUM, 0.25 + 0.6 * k))
+        # the lip's edge, wet, where the side meets the mouth
+        film = _film(ctx, ctx.w)
+        for xx in range(ctx.w):
+            _put(ctx, px, xx, ctx.h - 1, rig.mix(_get(ctx, px, xx, ctx.h - 1), LIP_HI, 0.25 + 0.4 * film[xx]))
 
 
 def head_paint(ctx):
     """The head: wet black; the face (west) sunken round the eyes, a slack dark mouth below them, the skin cracked."""
-    wet_skin(ctx, base=(15, 15, 20), streaks=0.8)
+    hunter_skin(ctx, base=(26, 26, 32), streaks=0.8)
+    catch_light(ctx, k=0.8)
     px = ctx.img.load()
     if ctx.face == "west":
         # sockets: darker hollows round where the eyes sit (the eye parts stand in them), u along z from -z
@@ -195,7 +307,8 @@ def head_paint(ctx):
 
 
 def jaw_paint(ctx):
-    wet_skin(ctx, base=(15, 15, 20), streaks=0.5)
+    hunter_skin(ctx, base=(26, 26, 32), streaks=0.5)
+    catch_light(ctx, k=0.8)
     if ctx.face == "up":
         px = ctx.img.load()
         for yy in range(ctx.h):
@@ -220,24 +333,27 @@ def eye_paint(ctx):
 
 
 def body_paint(ctx):
-    wet_skin(ctx, streaks=1.0)
+    hunter_skin(ctx, streaks=1.0)
+    catch_light(ctx)
 
 
 def arm_paint(ctx):
     """The human arm left on it: the same black, thinner, with the creases of a wrist and an elbow."""
-    wet_skin(ctx, base=(16, 16, 21), streaks=0.8)
+    hunter_skin(ctx, base=(27, 27, 33), streaks=0.8)
     if ctx.face not in ("up", "down"):
         rig.folds(ctx, [0.15, 0.85], depth=0.65, light=1.2, wobble=0.4)
+    catch_light(ctx, tube=True, k=0.8)
 
 
 def hand_paint(ctx):
-    wet_skin(ctx, base=(17, 16, 21), streaks=0.4)
+    hunter_skin(ctx, base=(28, 27, 33), streaks=0.4)
+    catch_light(ctx, k=0.7)
     if ctx.face not in ("up", "down"):
         px = ctx.img.load()
         # fingers: dark lines down the lower half
         for xx in range(1, ctx.w - 1, 2):
             for yy in range(int(ctx.h * 0.45), ctx.h):
-                _put(ctx, px, xx, yy, (7, 7, 9))
+                _put(ctx, px, xx, yy, (10, 10, 13))
 
 
 # ================= The Hunter =================
