@@ -281,7 +281,10 @@ Single lines or arms in this review's files; each builds, and nothing in Levels 
 
 ## Proposed (user decision)
 
-Each with the file it lives in and the number; none applied.
+Each with the file it lives in and the number. Status on 2026-11-14 (decisions in `OPEN-QUESTIONS.md`): P1 applied (12 h,
+Almond Water 30 %) and kept; P2 applied as x0.35 (the 2026-11-13 call); P3 decided: one crack in three gets a ladder or rope to
+the top plus a note (to do, layout 16); P4 applied (3); P5 applied (Clean at Seedling and the Heart, Tainted elsewhere); P6
+applied and kept; P7 decided: the doors stay unsigned and keep their targets.
 
 | # | Change | Where | Before | After | Why |
 |---|---|---|---|---|---|
