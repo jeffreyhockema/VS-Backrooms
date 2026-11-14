@@ -1,0 +1,93 @@
+{
+	"textureWidth": 32,
+	"textureHeight": 16,
+	"textures": {
+		"tex": "backrooms:item/pantry/soda"
+	},
+	"elements": [
+		{
+			"name": "BaseA",
+			"from": [6.3, 0, 6.9],
+			"to": [9.7, 0.6, 9.1],
+			"faces": {
+				"north": { "texture": "#tex", "uv": [22, 6, 25.4, 6.6] },
+				"east": { "texture": "#tex", "uv": [24, 10, 26.2, 10.6] },
+				"south": { "texture": "#tex", "uv": [26, 6, 29.4, 6.6] },
+				"west": { "texture": "#tex", "uv": [27, 10, 29.2, 10.6] },
+				"up": { "texture": "#tex", "uv": [9, 6, 12.4, 8.2] },
+				"down": { "texture": "#tex", "uv": [13, 6, 16.4, 8.2] }
+			}
+		},
+		{
+			"name": "BaseB",
+			"from": [6.9, 0.02, 6.3],
+			"to": [9.1, 0.58, 9.7],
+			"faces": {
+				"north": { "texture": "#tex", "uv": [0, 11, 2.2, 11.56] },
+				"east": { "texture": "#tex", "uv": [0, 10, 3.4, 10.56] },
+				"south": { "texture": "#tex", "uv": [3, 11, 5.2, 11.56] },
+				"west": { "texture": "#tex", "uv": [4, 10, 7.4, 10.56] },
+				"up": { "texture": "#tex", "uv": [0, 6, 2.2, 9.4] },
+				"down": { "texture": "#tex", "uv": [3, 6, 5.2, 9.4] }
+			}
+		},
+		{
+			"name": "CanA",
+			"from": [5.9, 0.6, 6.6],
+			"to": [10.1, 6.2, 9.4],
+			"faces": {
+				"north": { "texture": "#tex", "uv": [0, 0, 4.2, 5.6] },
+				"east": { "texture": "#tex", "uv": [20, 0, 22.8, 5.6] },
+				"south": { "texture": "#tex", "uv": [5, 0, 9.2, 5.6] },
+				"west": { "texture": "#tex", "uv": [23, 0, 25.8, 5.6] }
+			}
+		},
+		{
+			"name": "CanB",
+			"from": [6.6, 0.6, 5.9],
+			"to": [9.4, 6.2, 10.1],
+			"faces": {
+				"north": { "texture": "#tex", "uv": [26, 0, 28.8, 5.6] },
+				"east": { "texture": "#tex", "uv": [10, 0, 14.2, 5.6] },
+				"south": { "texture": "#tex", "uv": [29, 0, 31.8, 5.6] },
+				"west": { "texture": "#tex", "uv": [15, 0, 19.2, 5.6] }
+			}
+		},
+		{
+			"name": "NeckA",
+			"from": [6.2, 6.2, 6.8],
+			"to": [9.8, 6.9, 9.2],
+			"faces": {
+				"north": { "texture": "#tex", "uv": [8, 10, 11.6, 10.7] },
+				"east": { "texture": "#tex", "uv": [6, 11, 8.4, 11.7] },
+				"south": { "texture": "#tex", "uv": [12, 10, 15.6, 10.7] },
+				"west": { "texture": "#tex", "uv": [9, 11, 11.4, 11.7] },
+				"up": { "texture": "#tex", "uv": [17, 6, 20.6, 8.4] }
+			}
+		},
+		{
+			"name": "NeckB",
+			"from": [6.8, 6.2, 6.2],
+			"to": [9.2, 6.88, 9.8],
+			"faces": {
+				"north": { "texture": "#tex", "uv": [12, 11, 14.4, 11.68] },
+				"east": { "texture": "#tex", "uv": [16, 10, 19.6, 10.68] },
+				"south": { "texture": "#tex", "uv": [15, 11, 17.4, 11.68] },
+				"west": { "texture": "#tex", "uv": [20, 10, 23.6, 10.68] },
+				"up": { "texture": "#tex", "uv": [6, 6, 8.4, 9.6] }
+			}
+		},
+		{
+			"name": "Tab",
+			"from": [7.5, 6.9, 6.8],
+			"to": [8.5, 7.05, 8.3],
+			"faces": {
+				"up": { "texture": "#tex", "uv": [21, 6, 22.0, 7.5] },
+				"north": { "texture": "#tex", "uv": [22, 11, 23.0, 11.15] },
+				"east": { "texture": "#tex", "uv": [18, 11, 19.5, 11.15] },
+				"south": { "texture": "#tex", "uv": [23, 11, 24.0, 11.15] },
+				"west": { "texture": "#tex", "uv": [20, 11, 21.5, 11.15] }
+			}
+		}
+	]
+}

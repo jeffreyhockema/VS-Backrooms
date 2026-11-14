@@ -1,0 +1,68 @@
+{
+	"textureWidth": 32,
+	"textureHeight": 16,
+	"textures": {
+		"tex": "backrooms:item/pantry/painkillers"
+	},
+	"elements": [
+		{
+			"name": "BodyA",
+			"from": [6.2, 0, 6.7],
+			"to": [9.8, 4.4, 9.3],
+			"faces": {
+				"north": { "texture": "#tex", "uv": [0, 0, 3.6, 4.4] },
+				"east": { "texture": "#tex", "uv": [16, 0, 18.6, 4.4] },
+				"south": { "texture": "#tex", "uv": [4, 0, 7.6, 4.4] },
+				"west": { "texture": "#tex", "uv": [19, 0, 21.6, 4.4] },
+				"down": { "texture": "#tex", "uv": [8, 5, 11.6, 7.6] }
+			}
+		},
+		{
+			"name": "BodyB",
+			"from": [6.7, 0.02, 6.2],
+			"to": [9.3, 4.4, 9.8],
+			"faces": {
+				"north": { "texture": "#tex", "uv": [22, 0, 24.6, 4.38] },
+				"east": { "texture": "#tex", "uv": [8, 0, 11.6, 4.38] },
+				"south": { "texture": "#tex", "uv": [25, 0, 27.6, 4.38] },
+				"west": { "texture": "#tex", "uv": [12, 0, 15.6, 4.38] },
+				"down": { "texture": "#tex", "uv": [0, 5, 2.6, 8.6] }
+			}
+		},
+		{
+			"name": "Neck",
+			"from": [6.6, 4.4, 6.6],
+			"to": [9.4, 4.8, 9.4],
+			"faces": {
+				"north": { "texture": "#tex", "uv": [12, 9, 14.8, 9.4] },
+				"east": { "texture": "#tex", "uv": [15, 9, 17.8, 9.4] },
+				"south": { "texture": "#tex", "uv": [18, 9, 20.8, 9.4] },
+				"west": { "texture": "#tex", "uv": [21, 9, 23.8, 9.4] }
+			}
+		},
+		{
+			"name": "CapA",
+			"from": [5.9, 4.8, 6.5],
+			"to": [10.1, 6.3, 9.5],
+			"faces": {
+				"north": { "texture": "#tex", "uv": [12, 5, 16.2, 6.5] },
+				"east": { "texture": "#tex", "uv": [0, 9, 3.0, 10.5] },
+				"south": { "texture": "#tex", "uv": [17, 5, 21.2, 6.5] },
+				"west": { "texture": "#tex", "uv": [3, 9, 6.0, 10.5] },
+				"up": { "texture": "#tex", "uv": [3, 5, 7.2, 8.0] }
+			}
+		},
+		{
+			"name": "CapB",
+			"from": [6.5, 4.8, 5.9],
+			"to": [9.5, 6.28, 10.1],
+			"faces": {
+				"north": { "texture": "#tex", "uv": [6, 9, 9.0, 10.48] },
+				"east": { "texture": "#tex", "uv": [22, 5, 26.2, 6.48] },
+				"south": { "texture": "#tex", "uv": [9, 9, 12.0, 10.48] },
+				"west": { "texture": "#tex", "uv": [27, 5, 31.2, 6.48] },
+				"up": { "texture": "#tex", "uv": [28, 0, 31.0, 4.2] }
+			}
+		}
+	]
+}
