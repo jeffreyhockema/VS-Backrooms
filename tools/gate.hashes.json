@@ -79,7 +79,7 @@
       "layout": "985d82f85b4dd89c"
     },
     "16": {
-      "far": "3cf1af0697104560",
+      "far": "a676cb6bc3243ef4",
       "layout": "a6b66cddba869d4c"
     },
     "9": {
@@ -329,6 +329,87 @@
       "unreachable": 0,
       "walkable": 6994
     },
+    "L21": {
+      "badElevators": 0,
+      "decorFacingWalls": 0,
+      "doorsBlocked": 0,
+      "doorsToNowhere": 0,
+      "noArrival": 0,
+      "unreachable": 0,
+      "walkable": 910032
+    },
+    "L22": {
+      "badElevators": 0,
+      "decorFacingWalls": 0,
+      "doorsBlocked": 100,
+      "doorsToNowhere": 0,
+      "noArrival": 0,
+      "unreachable": 229,
+      "walkable": 520944
+    },
+    "L23": {
+      "badElevators": 0,
+      "decorFacingWalls": 0,
+      "doorsBlocked": 0,
+      "doorsToNowhere": 0,
+      "noArrival": 0,
+      "unreachable": 20,
+      "walkable": 917927
+    },
+    "L24": {
+      "badElevators": 0,
+      "decorFacingWalls": 0,
+      "doorsBlocked": 1,
+      "doorsToNowhere": 0,
+      "noArrival": 0,
+      "unreachable": 215754,
+      "walkable": 789363
+    },
+    "L25": {
+      "badElevators": 0,
+      "decorFacingWalls": 0,
+      "doorsBlocked": 0,
+      "doorsToNowhere": 0,
+      "noArrival": 0,
+      "unreachable": 9279,
+      "walkable": 224903
+    },
+    "L26": {
+      "badElevators": 0,
+      "decorFacingWalls": 7,
+      "doorsBlocked": 13,
+      "doorsToNowhere": 0,
+      "noArrival": 0,
+      "unreachable": 22843,
+      "walkable": 579062
+    },
+    "L27": {
+      "badElevators": 0,
+      "decorFacingWalls": 0,
+      "doorsBlocked": 0,
+      "doorsToNowhere": 0,
+      "noArrival": 0,
+      "unreachable": 3649,
+      "walkable": 657064
+    },
+    "L28": {
+      "badElevators": 0,
+      "decorFacingWalls": 0,
+      "doorsBlocked": 0,
+      "doorsToNowhere": 0,
+      "noArrival": 0,
+      "unreachable": 789,
+      "walkable": 390580
+    },
+    "L29": {
+      "badElevators": 0,
+      "decorFacingWalls": 0,
+      "doorsBlocked": 31,
+      "doorsToNowhere": 0,
+      "noArrival": 0,
+      "unreachable": 5022,
+      "walkable": 642703
+    },
     "L3": {
       "badElevators": 0,
       "decorFacingWalls": 0,
@@ -337,6 +418,15 @@
       "noArrival": 0,
       "unreachable": 0,
       "walkable": 285375
+    },
+    "L30": {
+      "badElevators": 0,
+      "decorFacingWalls": 0,
+      "doorsBlocked": 0,
+      "doorsToNowhere": 0,
+      "noArrival": 0,
+      "unreachable": 36,
+      "walkable": 876116
     },
     "L4": {
       "badElevators": 0,
