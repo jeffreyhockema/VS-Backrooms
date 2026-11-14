@@ -292,8 +292,10 @@ public sealed partial class WorldGenerator
                 if (b[i] == 0) b[i] = rel >= denseFrom ? l23LeavesDense : l23Leaves;
             }
         // Round 4: shafts of light under the holes in the lid, a slice a block from high up down to a few over the ground, in
-        // a scatter of the hole's columns (the lore's star never moves: they stand still)
-        if (hole && (L23Mod(gx * 7 + gz * 13, 5) == 0) && l23Sunbeam != 0)
+        // a scatter of the hole's columns (the lore's star never moves: they stand still). Layout 16 on: only over the glades
+        // and the Heart of Water, as landmarks, not under every small hole
+        if (hole && (L23Mod(gx * 7 + gz * 13, 5) == 0) && l23Sunbeam != 0
+            && (layout.Version < 16 || fromMid < 7 || layout.L23InGlade(gx + 0.5, gz + 0.5, 0)))
             for (int rel = Math.Max(ground, WorldLayout.L23PoolSurface) + 4; rel <= WorldLayout.L23Top - 4; rel++)
                 if (b[rel - L23Low] == 0 && !c.Water[rel - L23Low]) b[rel - L23Low] = l23Sunbeam;
         // Lichen hanging from the lid, now and then; long roots from the vault over the pool

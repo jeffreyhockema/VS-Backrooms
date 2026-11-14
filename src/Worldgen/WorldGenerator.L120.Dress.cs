@@ -110,10 +110,10 @@ public sealed partial class WorldGenerator
         return l120Deco[DecoConduit, west ? 3 : 0];
     }
 
-    /// <summary>The EXIT sign over a door back to the offices, facing the floor in front of it: lit (on its battery) over one door in two.</summary>
+    /// <summary>The EXIT sign over a door back to the offices, facing the floor in front of it: lit (on its battery) over one door in two (one in four from layout 16).</summary>
     private int L120ExitOverDoor(int gx, int gz)
     {
-        bool lit = (Hashing.Hash(seed, gx, gz, 0x2623) & 1) == 0;
+        bool lit = (Hashing.Hash(seed, gx, gz, 0x2623) & (layout.Version >= 16 ? 3UL : 1UL)) == 0;
         (int Dx, int Dz, int Facing)[] ways = { (0, -1, 0), (1, 0, 1), (0, 1, 2), (-1, 0, 3) };
         foreach (var (dx, dz, f) in ways)
         {

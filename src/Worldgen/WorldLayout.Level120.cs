@@ -93,6 +93,8 @@ public sealed partial class WorldLayout
         public int Rooms, Racks, Lit, Wrecked, Terminals, Windows, Boxes;
         /// <summary>How many doors back to the offices the hall has (WorldLayout.Level120.Links.cs).</summary>
         public int Exits;
+        /// <summary>Layout 16 on: more banks are storage arrays (doorless racks): 40 % of standing banks, not 22 %.</summary>
+        public bool MoreDoorless;
         /// <summary>Where a whole terminal stands, and the tile in front of it (world blocks).</summary>
         public readonly List<(int X, int Z, int FrontX, int FrontZ)> Boots = new();
         /// <summary>A pocket's arrival tile (world blocks).</summary>
@@ -280,7 +282,7 @@ public sealed partial class WorldLayout
 
     private L120Plan MakeL120Plan(int hx, int hz)
     {
-        var plan = new L120Plan { Hx = hx, Hz = hz, Kind = L120KindOf(hx, hz) };
+        var plan = new L120Plan { Hx = hx, Hz = hz, Kind = L120KindOf(hx, hz), MoreDoorless = Version >= 16 };
         ulong h = Hashing.Hash(seed, hx, hz, SaltL120Hall);
         var rng = new Rng(Hashing.Mix(h));
         bool pocket = plan.Kind != L120HallKind.Cluster;
@@ -565,7 +567,7 @@ public sealed partial class WorldLayout
                             }
                     // (Round 4) The bank's kind: servers (most), a storage array, or network racks
                     double kind = rng.NextDouble();
-                    if (kind >= 0.6)
+                    if (kind >= (plan.MoreDoorless ? 0.42 : 0.6))
                         for (int k = l; k < l + len; k++)
                             foreach (int side in new[] { s, s + 1 })
                             {

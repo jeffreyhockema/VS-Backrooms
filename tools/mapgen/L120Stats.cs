@@ -78,7 +78,7 @@ static partial class LevelModes
         var fromPassages = Flood(starts);
 
         var kinds = new SortedDictionary<string, int>();
-        int halls = 0, clipped = 0, cutOff = 0, worstHall = 0, minRooms = 99, maxRooms = 0, rooms = 0, racks = 0, lit = 0, wrecked = 0, terminals = 0, boots = 0, boxes = 0;
+        int halls = 0, clipped = 0, cutOff = 0, worstHall = 0, minRooms = 99, maxRooms = 0, rooms = 0, racks = 0, rackDoor = 0, rackStore = 0, rackNet = 0, lit = 0, wrecked = 0, terminals = 0, boots = 0, boxes = 0;
         int pockets = 0, pocketLeaks = 0, pocketHoles = 0, noWindow = 0, bootsNowhere = 0;
         var bootInto = new SortedDictionary<string, int>();
         int pocketTiles = 0;
@@ -109,6 +109,15 @@ static partial class LevelModes
                     minRooms = Math.Min(minRooms, plan.Rooms);
                     maxRooms = Math.Max(maxRooms, plan.Rooms);
                     racks += plan.Racks;
+                    for (int q = -1; q < WorldLayout.L120Grid - 1; q++)
+                        for (int p = -1; p < WorldLayout.L120Grid - 1; p++)
+                        {
+                            Tile rt = plan.At(p, q);
+                            if (rt.Variant != WorldLayout.L120Rack) continue;
+                            if (rt.Detail <= WorldLayout.L120RackBoth) rackDoor++;
+                            else if (rt.Detail is WorldLayout.L120RackStore or WorldLayout.L120RackStoreLit) rackStore++;
+                            else if (rt.Detail is WorldLayout.L120RackNet or WorldLayout.L120RackNetLit) rackNet++;
+                        }
                     lit += plan.Lit;
                     wrecked += plan.Wrecked;
                     terminals += plan.Terminals;
@@ -146,6 +155,7 @@ static partial class LevelModes
         Console.WriteLine($"halls wholly inside: {halls} (clipped by the rim: {clipped}): " + string.Join(", ", kinds.Select(p => $"{p.Key} {p.Value} ({100.0 * p.Value / Math.Max(1, halls):0}%)")));
         int clusters = kinds.GetValueOrDefault("Cluster");
         Console.WriteLine($"  clusters: rooms {rooms} ({(double)rooms / Math.Max(1, clusters):0.0} each, {minRooms}-{maxRooms}); racks standing {racks} ({racks / Math.Max(1, clusters)} a cluster), lit {lit} ({100.0 * lit / Math.Max(1, racks):0.0}%), wrecked places {wrecked}, terminals {terminals}, supply boxes {boxes} ({(double)boxes / Math.Max(1, clusters):0.0} a cluster)");
+        Console.WriteLine($"  rack tiles: behind perforated doors {rackDoor} ({100.0 * rackDoor / Math.Max(1, rackDoor + rackStore + rackNet):0.0}%), doorless storage arrays {rackStore} ({100.0 * rackStore / Math.Max(1, rackDoor + rackStore + rackNet):0.0}%), network {rackNet} ({100.0 * rackNet / Math.Max(1, rackDoor + rackStore + rackNet):0.0}%)");
         Console.WriteLine($"  whole terminals {boots} ({100.0 * boots / Math.Max(1, clusters):0}% of clusters); pockets near them: " + string.Join(", ", bootInto.Select(p => $"{p.Key} {p.Value}")) + $", none {bootsNowhere}");
         Console.WriteLine($"  pockets {pockets}: {pocketTiles} open tiles; reached from the passages {pocketLeaks}, with tiles their arrival does not reach {pocketHoles}, without a window {noWindow}");
         Console.WriteLine("zones (tiles): " + string.Join(", ", Enum.GetValues<Zone>().Select(zn => $"{zn} {zones[(int)zn]}")));

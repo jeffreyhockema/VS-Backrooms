@@ -42,7 +42,7 @@ static partial class LevelModes
 
         // Complexes
         var kinds = new SortedDictionary<string, int>();
-        int complexes = 0;
+        int complexes = 0, storeRooms = 0, backRooms = 0;
         for (int wz = wcz - n; wz <= wcz + n; wz++)
             for (int wx = wcx - n; wx <= wcx + n; wx++)
             {
@@ -52,7 +52,17 @@ static partial class LevelModes
                 complexes++;
                 string k = plan.Kind == WorldLayout.L31Kind.Empty ? "Empty" : plan.Tiny ? "TinyRink" : "Rink";
                 kinds[k] = kinds.GetValueOrDefault(k) + 1;
+                foreach (var room in plan.Rooms.Where(r => r.Kind == Zone.Store))
+                {
+                    storeRooms++;
+                    bool covered = false;
+                    for (int q = room.Q0; q <= room.Q1 && !covered; q++)
+                        for (int p = room.P0; p <= room.P1; p++)
+                            if (plan.At(p, q).Variant == WorldLayout.L31Props.Covered) { covered = true; break; }
+                    if (covered) { backRooms++; }
+                }
             }
+        Console.WriteLine($"store rooms {storeRooms}, back arcades (covered machines) {backRooms} ({100.0 * backRooms / Math.Max(1, storeRooms):0}% of store rooms, {(double)backRooms / Math.Max(1, complexes):0.00} a complex)");
         Console.WriteLine($"complexes wholly inside: {complexes}: " + string.Join(", ", kinds.Select(p => $"{p.Key} {p.Value} ({100.0 * p.Value / Math.Max(1, complexes):0}%)")));
 
         // Walk from every hall tile

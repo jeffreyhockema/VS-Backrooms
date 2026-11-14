@@ -254,6 +254,8 @@ public sealed partial class WorldLayout
         public int Wx, Wz;
         public L31Kind Kind;
         public bool Flip, Mirror, Tiny;
+        /// <summary>Whether this complex's one back arcade (layout 16 on) has been laid: the first store room in the plan's own order.</summary>
+        public bool BackLaid;
         public readonly Tile[] Tiles = new Tile[L31Grid * L31Grid];
         public readonly List<L31Room> Rooms = new();
 
@@ -1081,10 +1083,14 @@ public sealed partial class WorldLayout
                 for (int k = rng.Range(1, 3); k > 0; k--) L31Put(plan, rng.Range(p0 + 3, p1 - 3), rng.Range(q0 + 3, q1 - 3), Props.CardboardBoxes, ArchPier.North);
                 // What the rink's staff kept back: a supply box or two
                 for (int k = rng.Range(0, 2); k > 0; k--) Box(rng.Range(2, across - 3), rng.Range(2, len - 3));
-                // (round 4) Half of them are the back arcade (Wikidot: "a back arcade area with covered machines"): the old
+                // (round 4) Half of them were the back arcade (Wikidot: "a back arcade area with covered machines"): the old
                 // machines in rows under dust sheets, an aisle down the middle (clear of the supply boxes); the rest keep
                 // round 3's skate-repair bench in the middle, its toolbox beside it
-                if (Hashing.Unit(Hashing.Hash(seed, wx0, wz0, SaltL31Back)) < 0.5)
+                // (layout 16: one room per complex, the first store room laid, not half of them)
+                bool back;
+                if (Version >= 16) { back = !plan.BackLaid; plan.BackLaid = true; }
+                else back = Hashing.Unit(Hashing.Hash(seed, wx0, wz0, SaltL31Back)) < 0.5;
+                if (back)
                 {
                     for (int v = 3; v <= len - 4; v += 3)
                         for (int u = 2; u <= across - 3; u++)
