@@ -623,6 +623,8 @@ moves, so they stand still); the brazier on the Lighthouse (shared from Level 47
 
 ### Questions for the user (round 4)
 
+Answered 2026-11-14: see OPEN-QUESTIONS.md (this list and the earlier ones). Light shafts only over the glades and the Heart of Water (done, layout 16); keep the architect statues, nine-block bark relief, water classes and arrivals.
+
 1. The shafts of light under the holes in the lid are an invention (translucent planes that glow; they give no light):
    keep them, keep them only over the glades and the Heart of Water, or drop them?
 2. The statues of Architects at the ruins' ways in (a robed figure with a sapling and green stones for eyes) are an

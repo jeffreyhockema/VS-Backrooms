@@ -1,6 +1,6 @@
 # The experimental levels: balance review (2026-11-01)
 
-(Updated 2026-11-14, the review: the figures that later rounds changed are corrected in place and say so; Levels 14 and 47 were added after this review and are not in it.)
+(Updated 2026-11-14, the review: the figures that later rounds changed are corrected in place and say so; Levels 14 and 47 were added after this review; their rows and sections below are from code, not measured: the gate's scorecard has no felt rows for them yet.)
 
 The eight experimental levels (73, the Basement, 52, 31, 36, 120, 15, 23) as they stand at 0.700.0-pre.3 (`e3950fc3`), read
 against the released game's progression rules: **lethality and armour by depth, ore only in Level 8, scarcity by survival
@@ -32,6 +32,8 @@ need is under "Proposed" and "For the lead" below.
 | 120 Broken Servos | 2 | 2 (x1) | 0.3 | 1.0 | nowhere: Misglitches where players died, the voids' Smilers | Misglitch 6.3 at tier 2 | 4 (SERVER ROOM); two-way | 4; one-way | fine; a quiet copper mine |
 | 15 Futuristic Halls | 1 | 1 (x1) | 0.3 | 3.0 | the dark wings (Approach) | Robo-Man 7.6 (2 blows) | 10 (white wall), 3 (door); one-way | 3, 4, 11; one-way | fine |
 | 23 Petrified Garden | 4 | 4 (x0.5) | 0.55 | 0.9 | forest heart, glow rooms approach, ruins edge; Seedling safe | Hound 10.4 (1.4 blows) | 37 (hollow trees); one-way (Seedling's tree two-way) | 7 (the well); one-way | fine; water too easy for Class 4 (user) |
+| 14 Hospital | 4 | 4 (x0.5) | 0.7 | 1.0 (default) | only the Hunter and its Infecting Agents, put down per player by `L14HunterSystem`; the director puts nothing down | Hunter about 7 a lash at tier 3 (base 4.2, tier 2, +1 at 0.7) | 0 (EMERGENCY EXIT door, rare), 15 (MEDICAL CENTER door); one-way | 15 (futuristic door), ! (red door), 73 (collapsing floor); one-way | from code, not measured; the gate's scorecard has no felt rows for it yet |
+| 47 Adderwood | 3 | 3 (x0.7) | 0.45 | 1.0 (default) | nowhere: Shucks, the Order and the Great Adder are the level's own (`L47System`); the director puts nothing down | Great Adder strike 12 at tier 5 (cap 14); Shuck about 7 at tier 3 | 10 (dead tree's hollow); one-way | 23 (green hollow tree), 10 (dead hollows); one-way | from code, not measured; the gate's scorecard has no felt rows for it yet |
 
 Released levels for comparison (same measurements): Level 9's approach 103 and edge 334 bodies an hour, Hound 15.8 (0.9
 blows); Level Fun's approach 79, Smiler 14.7; Level 3999's Blackout 122, Smiler 12.5; Level 3's approach 69, Smiler 7.6 (2.0
@@ -225,6 +227,20 @@ blows); Level 1's heartland 8.6 and approach 23.5; Level 4's approach 21; Level 
   37 to 23 to 7 is two steps, each a class up or level: no skip worth the name at that distance.
 - **Verdict.** Fine. **Proposed** (user decision): water Clean only at Base Seedling's spring and the Heart of Water, Tainted
   elsewhere; for the 23 agent: the tunnel lanterns as a level block that drops nothing (or glass), as the other levels' lights do.
+
+## Level 14, the Hospital (from code, not measured)
+
+- **Class and danger.** Fandom's Class 4 (food x0.5); danger 0.7 (`Danger.OfLevel`), solitude the default 1.0. The director's roster for the level is empty: the only menace is the Hunter and its Infecting Agents (`Regions/L14Hunter.cs`), one Hunter per player in the level.
+- **The Hunter.** Health 46 base, about 91 at danger 0.7; a lash of 4.2 base at tier 2, about 7 at the level's danger and tier 3; it infects through its Agents (3.5 health each). Its skin got a painted sheen in the decisions round (no change to the numbers).
+- **Ways.** In: a rare EMERGENCY EXIT door in Level 0 and a MEDICAL CENTER door in Level 15 (`LINKS.md`), both one-way. Out: a futuristic door (15), a rare red door (Level !), and a collapsing floor patch (73), all one-way.
+- **Verdict.** From code, not measured; no felt-rate rows in the gate's scorecard yet.
+
+## Level 47, the Adderwood (from code, not measured)
+
+- **Class and danger.** Wikidot's Survival Difficulty 3 (food x0.7); danger 0.45, solitude the default 1.0. The director puts nothing down; the Shucks, the Order and the Great Adder belong to `Regions/L47System.cs` and `L47Creatures.cs`.
+- **Creatures.** Great Adder: 600 health, strike `min(14, 9 x Danger.Damage(danger))`, 12 at the default (was a flat 16, a one-hit kill), tier 5, so armour and the Danger setting both count. Shuck: 30 health, bite 5.5 x the danger multiplier (about 7), tier 3, stalks and growls. Ophion (the Order): 24 health, 4.5 x multiplier (about 6), tier 2. Snake: 3 health.
+- **Ways.** In: a hollow dead tree in Level 10, one-way. Out: a green hollow tree to Level 23 and some dead hollows to Level 10, one-way; the trail only leads inward.
+- **Verdict.** From code, not measured; no felt-rate rows in the gate's scorecard yet.
 
 ## The eight together
 

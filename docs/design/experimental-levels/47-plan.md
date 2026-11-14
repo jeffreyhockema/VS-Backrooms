@@ -314,6 +314,8 @@ same zone shares, the trail walked with 0 in a wall); headless dummy in 47 (port
 
 ### Questions for the user (round 4)
 
+Answered 2026-11-14: see OPEN-QUESTIONS.md (this list and the earlier ones). Manor windows stay opaque. Camp fires cold by default, alight in one camp in four (done, layout 16). Great Adder strike scaled by Danger, capped at 14 (done: 12 at the default).
+
 1. The manor's windows are now opaque old glass (dark green-grey diamonds), since the translucent pass drew the stone
    round them as ghosts: keep them so, or would you rather have open leaded lattices (no glass, see-through)?
 2. The wanderer's camp keeps its fire alight with nobody at it (the lore's things that "revert" or vanish, not yet): one

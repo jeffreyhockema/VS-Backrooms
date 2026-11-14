@@ -25,7 +25,7 @@ the merged rules: the stripped-prop spots and main's v14 fixes differ from what 
 The 2026-11 player-feedback round (0.700.0-pre.10, 2026-11-13; decisions in `docs/design/feedback-2026-11/`) is
 **16**, and `WorldLayout.CurrentVersion` is 16 here: Level 10's barn wall in one barn in five, one city rowhouse door in
 four leading to Level 9, more borax in Level 8, Level 36's cabins, Level 52's chalkboard ends and Level 47's open-ground
-arrivals. The ten levels' own balance reads `WorldLayout.ExpVersion` (never below 16), so a world made at any version gets it in
+arrivals, and the 2026-11-14 decisions round (Level 73's one-deep ditch, the Basement's bar, boards and long ladder, Level 31's back arcades, Level 120's racks and EXIT signs, Level 23's sunbeams and Level 47's cold camp fires). The ten levels' own balance reads `WorldLayout.ExpVersion` (never below 16), so a world made at any version gets it in
 its unexplored parts. So main's next layout bump must be **17**, never 16.
 
 | Level | Internal id | Constant | Shown as | Tag (files, block codes) | Method infix | Region |

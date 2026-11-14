@@ -453,8 +453,12 @@ All new models are in `tools/gen_14_r4.py` (called from `gen_14_props.py` and `g
   in the client (`/backrooms feature l14hall`), not a layout fault as far as the harness can tell.
 
 ### Questions for the user
+
+Answered 2026-11-14: see OPEN-QUESTIONS.md (this list and the earlier ones). Keep the lift and the directory board. Keep 42 % dead troffers; client-check the hall showcase shot once before ruling out a lighting fault. The Hunter: painted wet sheen and mouth glint, no emitted light (done 2026-11-14).
 1. The lift (out of order, taped) and the hospital directory board are ours, not the lore's: keep them?
 2. The main halls are dark in long stretches (42% of their troffers dead, for the lore's "shadowy hallways"): keep, or
    light them a little more?
+   Rig note (2026-11-14): Level 14's hall lighting arrives late or unevenly in the client rig; the "dark hall" showcase spot came out lit and the "lit hall" spot black without a torch. Check once with a settled client before ruling out a lighting fault.
 3. The Hunter stays pure black (the lore's light-absorbing skin) with its red mouths; it has fifteen tentacles now. Want a
    faint rim of light on it so it reads in the dark, or keep it a hole in the picture?
+   Answered (2026-11-14): painted wet sheen and mouth glint, no emitted light (`gen_14_hunter.py`: `hunter_skin`, `catch_light`; base SKIN 24,25,31); the eyes keep their glow 70.

@@ -739,6 +739,8 @@ cup holders are on the bench backs), the DJ still on the south, the star at the 
 
 ### Questions for the user (round 4)
 
+Answered 2026-11-14: see OPEN-QUESTIONS.md (this list and the earlier ones). Barrier stays one block; back arcade one room per complex (done, layout 16); litter light; keep STARDUST ROLLER RINK, no projector, restocking fridges; revolving doors unsigned.
+
 1. The rink's barrier is a block high, as the old one was, so a player can hop over it anywhere; real rinks are like
    that. Keep, or make it a block and a half so the boards are reached through the gates only?
 2. Wikidot's "back arcade area with covered machines" is now half of the store rooms (rows of machines under dust

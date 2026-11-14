@@ -49,7 +49,7 @@ the 0.700 release except where marked.
 - P2: food x0.35 stands (the user's 2026-11-13 call).
 
 ## Level 15 "Futuristic Halls" ([15-plan.md](15-plan.md))
-- Robo-Man: **rebuild the one shared model** (joints, plates, emissive eyes, a wind-up key) for Level 15 and Level 73's castle alike; no second creature.
+- Robo-Man: **rebuild the one shared model** (joints, plates, emissive eyes, a wind-up key) for Level 15 and the castle of Level 94 (Motion) alike; no second creature. (An earlier draft of this line said Level 73's castle: the Robo-Man guards Level 94's, `Roster.Castle`.)
 - Bulkheads stay every 32 blocks.
 - Keep the battery lamp and the DO NOT RESET breaker at the edge of each dark square (lore silent on the transition; it reads as a power fault).
 - Medical bays stay sleepable; hydroponics bays, robot docks and the "DO NOT ENTER THE STAR ROOM" slide stay.
@@ -77,25 +77,25 @@ the 0.700 release except where marked.
 - Level 36 gate boards baked in pre-pre.11 tester worlds: accepted; the HUD and chat are authoritative; a changelog line.
 - Container water class: single containers filled from a block carry the class since the 2026-11 review; poured water and bowls filled from a stack stay clean (documented in `docs/design/needs/decisions.md`).
 - Spanish handbook index pages: **retranslate** the level and ways pages plus the marker-bearing bridge keys from the current English, with a langcheck test that fails on a page key whose Spanish text lacks the discovery markers. Main has the same problem; the fix carries to the 0.700 merge.
-- BALANCE.md gets rows for Levels 14 and 47 (class, danger, solitude, the Hunter, the Adder and the Shucks) from a measured pass.
+- BALANCE.md gets rows for Levels 14 and 47 (class, danger, solitude, the Hunter, the Adder and the Shucks); done from code, not measured.
 - Infinite IKEA: not for this mod; the mod page's "added soon" line gets a reply.
 
 ## To do (from the decisions above)
 
-| # | Work | Where | Cost | Layout version |
-|---|---|---|---|---|
-| D1 | Ditch one block deep | `WorldLayout.Level73*.cs` (`L73Ditch`) | trivial | 16 |
-| D2 | Scene brightness up a shade (0.44 to about 0.48) | `AtmosphereSystem.L73.cs` | trivial | no |
-| D3 | Home bar 70 % to 25-30 %; DO NOT ENTER one door in three | `WorldLayout.LevelBasement.cs` | trivial | 16 |
-| D4 | One crack in three: a ladder or rope to the top; one note | `WorldLayout.LevelBasement.cs`, `tools/gen_notes.py` | small | 16 |
-| D5 | Back arcade one room per complex | `WorldLayout.Level31.cs` | trivial | 16 |
-| D6 | More doorless racks; lit EXIT one in four | `WorldLayout.Level120.cs` | trivial | 16 |
-| D7 | MEETING PLACE n OF 47 placard | `WorldGenerator.L36.cs`, `tools/gen_36*.py`, lang | prop + lang | no (decor on the existing marker) |
-| D8 | Light shafts over glades and the Heart only | `WorldLayout.Level23.cs` / `WorldGenerator.L23.cs` | trivial | 16 |
-| D9 | Camp fires cold by default, alight one in four | `WorldLayout.Level47.cs` | trivial | 16 |
-| D10 | Great Adder strike scaled by Danger, cap 12-14 | `src/Regions/L47Creatures.cs` | one line | no |
-| D11 | Hunter wet sheen and mouth glint | `assets/backrooms/shapes/entity/l14-hunter*`, textures | model/texture | no |
-| D12 | Robo-Man model rebuilt (shared) | `assets/backrooms/shapes/entity/roboman*`, textures | entity model | no |
-| D13 | Spanish index pages retranslated + langcheck test | `assets/backrooms/lang/es-*.json`, `tools/langcheck.py` | lang pass | no |
-| D14 | Basement props into Levels 4 and 11 | shared shapes | shape edits | no; after 0.700 |
-| D15 | BALANCE.md rows for 14 and 47; P-table statuses; DEVELOPING and changelog lines; Danger comment | docs, `Roster.cs` | docs | no |
+| # | Work | Where | Cost | Layout version | Status |
+|---|---|---|---|---|---|
+| D1 | Ditch one block deep | `WorldLayout.Level73*.cs` (`L73Ditch`) | trivial | 16 | done 2026-11-14 (4573deff) |
+| D2 | Scene brightness up a shade (0.44 to about 0.48) | `AtmosphereSystem.L73.cs` | trivial | no | done 2026-11-14 (4573deff) |
+| D3 | Home bar 70 % to 25-30 %; DO NOT ENTER one door in three | `WorldLayout.LevelBasement.cs` | trivial | 16 | done 2026-11-14 (34c53078); measured: bar 32 %, DO NOT ENTER 40 % (target one in three) |
+| D4 | One crack in three: a ladder or rope to the top; one note | `WorldLayout.LevelBasement.cs`, `tools/gen_notes.py` | small | 16 | done 2026-11-14 (34c53078); known: the ladder stands free of any wall for its first four blocks where the room is open |
+| D5 | Back arcade one room per complex | `WorldLayout.Level31.cs` | trivial | 16 | done 2026-11-14 (b9047905) |
+| D6 | More doorless racks; lit EXIT one in four | `WorldLayout.Level120.cs` | trivial | 16 | done 2026-11-14 (b9047905) |
+| D7 | MEETING PLACE n OF 47 placard | `WorldGenerator.L36.cs`, `tools/gen_36*.py`, lang | prop + lang | no (decor on the existing marker) | done 2026-11-14 (6173d7ae) |
+| D8 | Light shafts over glades and the Heart only | `WorldLayout.Level23.cs` / `WorldGenerator.L23.cs` | trivial | 16 | done 2026-11-14 (b9047905) |
+| D9 | Camp fires cold by default, alight one in four | `WorldLayout.Level47.cs` | trivial | 16 | done 2026-11-14 (4573deff) |
+| D10 | Great Adder strike scaled by Danger, cap 12-14 | `src/Regions/L47Creatures.cs` | one line | no | done 2026-11-14 (4573deff) |
+| D11 | Hunter wet sheen and mouth glint | `assets/backrooms/shapes/entity/l14-hunter*`, textures | model/texture | no | done 2026-11-14 (b359180f) |
+| D12 | Robo-Man model rebuilt (shared with Level 94's castle, not Level 73's) | `assets/backrooms/shapes/entity/roboman*`, textures | entity model | no | done 2026-11-14 (Robo-Man fixer commit) |
+| D13 | Spanish index pages retranslated + langcheck test | `assets/backrooms/lang/es-*.json`, `tools/langcheck.py` | lang pass | no | done 2026-11-14 (76cd9a04) |
+| D14 | Basement props into Levels 4 and 11 | shared shapes | shape edits | no; after 0.700 | after 0.700 |
+| D15 | BALANCE.md rows for 14 and 47; P-table statuses; DEVELOPING and changelog lines; Danger comment | docs, `Roster.cs` | docs | no | done 2026-11-14 (docs commit of this round) |

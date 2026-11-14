@@ -690,6 +690,8 @@ L52LunchSeat 1110).
 - `GATE_TAG=52g python tools/gate.py --fast --port-base 43120`: PASS at 90db15a3 (generators, lang, build, boot, harness).
 
 ### Questions for the user
+
+Answered 2026-11-14: see OPEN-QUESTIONS.md (this list and the earlier ones). Clouds stay off; arrivals stay on paths and corridors; libraries stay bare; no names over doors; lifts closed.
 1. **Clouds.** Level 52's few white clouds are off: the game's cloud layer met the blue sky sphere as white slabs over every
    open view. The lore asks for "few clouds"; would you rather have them back (and the seam) or keep a clear sky?
 2. **Arrivals** now land on paths and in ground-floor corridors only (never on a lawn, where one stood inside a tree's

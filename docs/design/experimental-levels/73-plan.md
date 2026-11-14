@@ -728,6 +728,8 @@ the dead on the hill's flanks; Coran's mantle.
 
 ### Questions for the user (round 4)
 
+Answered 2026-11-14: see OPEN-QUESTIONS.md (this list and the earlier ones). Coran: no lantern, no hood; the tattered mantle stays. Ditch one block deep everywhere (done 2026-11-14, layout 16). Keep the shared castle bed, kitchen, pantry, cellar and solar. Scene brightness a shade up (done: 0.48/0.44).
+
 - The lead asked for Coran with "a hooded cloak and a lantern, lit". The page makes him blind and armless (chains to
   gauntlets), and forbids light outside; he got a tattered mantle and no lantern or hood. Should he carry a light anyway?
 - The dry ditch before the gate (two deep, one at its ends) makes missing the bridge costly on the run: keep it, or make

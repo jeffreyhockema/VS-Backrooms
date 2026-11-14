@@ -662,12 +662,14 @@ blackout and the service maze were not touched this round.
 
 ### Questions for the user (round 4)
 
+Answered 2026-11-14: see OPEN-QUESTIONS.md (this list and the earlier ones). One space-frame ceiling through the airside: keep; the gallery's upper level stays a sight. Placard MEETING PLACE n OF 47 (done 2026-11-14); keep customs; sinks stay as they are; food x0.35 stands.
+
 1. The space frame now roofs the claim hall, the concourses, the piers, the holdrooms, the streets and the food courts
    (check-in and the junctions keep their coffers). Is one structural language through the airside right, or should
    some halls keep a different ceiling for variety?
 2. The gallery shows an upper level behind dark glass that nobody can reach. Keep it as a sight only, or should a later
    round open some of it (a mezzanine lounge, a viewing deck)?
-3. Round 3's question 3 is still open: a "MEETING PLACE n OF 47" placard at the marker?
+3. Round 3's question 3: a "MEETING PLACE n OF 47" placard at the marker? Answered yes and built 2026-11-14: block `l36-meetplacard-{quad}-{n}` replaces the pole block at eye height; no layout change.
 
 ### Checks (round 4)
 

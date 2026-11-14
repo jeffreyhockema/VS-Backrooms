@@ -637,6 +637,7 @@ surround of Level 14's door, the lift indicator's B3, the dead's ID cards and la
   asked for joints, panels and a lit eye. Rebuilding it would change the Castle's guard too, so it is left alone here;
   what I would do: disc joints at shoulders, elbows, hips and knees, a riveted chest plate standing off the torso, the
   key turning on its back, the eyes as emissive lenses (glow) with a visor, the antenna bulb glowing.
+  Done 2026-11-14: rebuilt in `gen_models.roboman`; the docks' copy follows it through `gen_15_r4.dock_shape`. The castle it guards is Level 94's (Motion).
 - **Hospital bed, drip stand, crash cart, bedside cabinet** (`hospitalbed`, `run-ivstand`, `run-crashcart`,
   `run-bedside`): they read well enough beside 15's new monitors and curtains; the bed's bedding is plain slabs (a
   folded blanket and a dented pillow would lift it) and the drip stand's bag is small at a distance.
@@ -680,6 +681,8 @@ Three client-rig runs, no torch (the halls' own white): `%TEMP%/backrooms-shots/
 read heavy close up; the side corridors between the halls are plainer than the halls; the Robo-Man itself (shared).
 
 ### Questions for the user
+
+Answered 2026-11-14: see OPEN-QUESTIONS.md (this list and the earlier ones). Robo-Man rebuilt once for Level 15 and Level 94's castle (done 2026-11-14); bulkheads every 32 blocks; keep the battery lamp and DO NOT RESET breaker; medical bays sleepable.
 
 - The Robo-Man is shared with the Castle: rebuild the one model for both (joints, panels, lit eyes), or give Level 15 a
   service-robot look of its own and leave the Castle's toy robot as it is?

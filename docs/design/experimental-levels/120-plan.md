@@ -693,6 +693,8 @@ glow-in-the-dark plates. All from real data halls; the lore says only "massive b
   trays; the cardboard boxes on the shelving were flat orange fills up close.
 
 ### Questions for the user (round 4)
+
+Answered 2026-11-14: see OPEN-QUESTIONS.md (this list and the earlier ones). More doorless racks (done: 22 % to 40 %, layout 16); keep the galvanised duct and the marked inventions; hall letters stay; lit EXIT one door in four (done, layout 16); Misglitch cap of 3 stands.
 1. Most server racks now stand behind perforated doors (as real ones do), so a row reads as a dark mesh wall with its LEDs
    through it; one bank in five is a doorless storage array and one in five a network rack with its cords. More doorless
    racks (more to see by torchlight), or keep the doors?

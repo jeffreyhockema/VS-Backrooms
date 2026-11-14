@@ -117,9 +117,9 @@ public static class Danger
         // The experimental levels (ids 21-30)
         Backrooms.Worldgen.WorldLayout.Level73 => 0.9, // the Redlands: Survival Difficulty 5, "extremely hostile" hordes everywhere outside the Silver Castle
         Backrooms.Worldgen.WorldLayout.Basement => 0.3, // Fandom's class 2: decent amount of entities, all of them visitors from above
-        Backrooms.Worldgen.WorldLayout.Level52 => 0,
+        Backrooms.Worldgen.WorldLayout.Level52 => 0, // Class 0: no cache bonus and no director hunters, by design (decision 2026-11-14)
         // Batch 2 (ids 24-30)
-        Backrooms.Worldgen.WorldLayout.Level31 => 0,
+        Backrooms.Worldgen.WorldLayout.Level31 => 0, // Class 0: no cache bonus and no director hunters, by design (decision 2026-11-14)
         Backrooms.Worldgen.WorldLayout.Level120 => 0.3, // Survival Difficulty 2: its Misglitches and the voids' Smilers (Regions/L120System.cs; the director puts nothing down)
         Backrooms.Worldgen.WorldLayout.Level36 => 0.35, // (only its blackouts have anything in them: Class 1)
         Backrooms.Worldgen.WorldLayout.Level15 => 0.3, // Level 15: Class 1 (Fandom); only its few Robo-Men in the dark

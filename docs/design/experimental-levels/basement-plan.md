@@ -502,6 +502,10 @@ labels, the calendar's January 1951 (the clipping's muddled date), DO NOT ENTER 
 wording, the rec room, the root cellars, the hallways of studs, the fallen joist, the sodden boxes in the Flood. The
 room functions follow a real house basement (the lead's notes), not either wiki.
 
+### Decisions round (2026-11-14)
+
+- Bar in about 28 in 100 rec rooms (measured 32 %); DO NOT ENTER on about one swollen door in three, the rest bare (new `bare` upper-half part of `basement-door`, Stack bit 3; measured 40 %); a vanilla aged wood ladder at one crack in three (hash `SaltBasementClimb` 0x2211, prop `BasementLadder`) that climbs out into Level 0 by the existing threshold; those cracks lose the short wall ladder; note `lbasement-7`. Known: the long ladder stands free of any wall for its first four blocks where the room is open.
+
 ### Balance notes for the lead
 
 No new food, water, beds or safe rooms. New drops (all small): wine racks 0-1 empty bottle each (a water container, in
@@ -717,6 +721,8 @@ repeat block to block round the crack; the shared stools, rug and floor textures
 still long and alike between the scum and the floating things.
 
 ### Questions for the user (round 4)
+
+Answered 2026-11-14: see OPEN-QUESTIONS.md (this list and the earlier ones). COLD BEER bar in about 25-30 % of rec rooms (done, layout 16; measured 32 %). DO NOT ENTER on about one swollen door in three, the rest bare (done, layout 16; measured 40 % in the check, target one in three). Long ladder at one crack in three plus note `lbasement-7` (done, layout 16). Keep the laptop on the bed, bare-stud hallways, the Cincinnati plate and the 1951 calendar. Level 4 and 11 props: after 0.700.
 
 1. The home bar with its lit COLD BEER neon in about 70% of rec rooms: keep, or rarer (it is the brightest spot in the
    Cellar)?
