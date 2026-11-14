@@ -95,7 +95,7 @@ the 0.700 release except where marked.
 | D9 | Camp fires cold by default, alight one in four | `WorldLayout.Level47.cs` | trivial | 16 | done 2026-11-14 (4573deff) |
 | D10 | Great Adder strike scaled by Danger, cap 12-14 | `src/Regions/L47Creatures.cs` | one line | no | done 2026-11-14 (4573deff) |
 | D11 | Hunter wet sheen and mouth glint | `assets/backrooms/shapes/entity/l14-hunter*`, textures | model/texture | no | done 2026-11-14 (b359180f) |
-| D12 | Robo-Man model rebuilt (shared with Level 94's castle, not Level 73's) | `assets/backrooms/shapes/entity/roboman*`, textures | entity model | no | done 2026-11-14 (Robo-Man fixer commit) |
+| D12 | Robo-Man model rebuilt (shared with Level 94's castle, not Level 73's) | `assets/backrooms/shapes/entity/roboman*`, textures | entity model | no | done 2026-11-14 (f2f05778) |
 | D13 | Spanish index pages retranslated + langcheck test | `assets/backrooms/lang/es-*.json`, `tools/langcheck.py` | lang pass | no | done 2026-11-14 (76cd9a04) |
 | D14 | Basement props into Levels 4 and 11 | shared shapes | shape edits | no; after 0.700 | after 0.700 |
 | D15 | BALANCE.md rows for 14 and 47; P-table statuses; DEVELOPING and changelog lines; Danger comment | docs, `Roster.cs` | docs | no | done 2026-11-14 (docs commit of this round) |
