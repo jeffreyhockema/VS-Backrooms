@@ -1,6 +1,6 @@
 {
-	"textureWidth": 8.0,
-	"textureHeight": 16.0,
+	"textureWidth": 8,
+	"textureHeight": 16,
 	"textures": {
 		"tex": "backrooms:item/treats/l974-candy"
 	},

@@ -304,7 +304,7 @@ class Model:
                 el["rotationOrigin"] = list(b.origin) if b.origin else [round((b.frm[k] + b.to[k]) / 2, 4) for k in range(3)]
                 el["rotation" + axis.upper()] = deg
             els.append(el)
-        return {"textureWidth": W / P, "textureHeight": H / P, "textures": {"tex": "backrooms:" + texture}, "elements": els}
+        return {"textureWidth": W // P, "textureHeight": H // P, "textures": {"tex": "backrooms:" + texture}, "elements": els}
 
     def extent(self):
         lo, hi = [99.0] * 3, [-99.0] * 3

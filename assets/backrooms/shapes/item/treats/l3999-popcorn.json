@@ -1,6 +1,6 @@
 {
-	"textureWidth": 16.0,
-	"textureHeight": 32.0,
+	"textureWidth": 16,
+	"textureHeight": 32,
 	"textures": {
 		"tex": "backrooms:item/treats/l3999-popcorn"
 	},

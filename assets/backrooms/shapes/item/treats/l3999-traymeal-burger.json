@@ -1,6 +1,6 @@
 {
-	"textureWidth": 32.0,
-	"textureHeight": 16.0,
+	"textureWidth": 32,
+	"textureHeight": 16,
 	"textures": {
 		"tex": "backrooms:item/treats/l3999-traymeal-burger"
 	},
