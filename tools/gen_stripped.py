@@ -7,6 +7,7 @@ blocktypes, writes only new files, and prints the lang lines, which are also in 
     oildrum          -> oildrumopen         (Level 2: lid, bung and vent gone, an open dark mouth)
     cardboardboxes   -> cardboardflat       (the stack flattened, one box left open)
     fridge           -> fridgeajar          (the door swung open, the inside bare)
+    icebox           -> iceboxajar          (the Basement's icebox: both doors swung open, the inside bare)
     kitchencabinet   -> kitchencabinetbare  (doors open, bare inside)
     pantryshelf      -> pantryshelfbare     (picked clean, one tipped tin)
 
@@ -35,6 +36,8 @@ LANG = {
     "blockdesc-cardboardflat": "Trodden flat and gone through. One box still stands, open and empty.",
     "block-fridgeajar-*": "Emptied Refrigerator",
     "blockdesc-fridgeajar-*": "The door hangs open on a bare, dry inside. Whatever it kept cold was eaten long ago.",
+    "block-iceboxajar-*": "Emptied Icebox",
+    "blockdesc-iceboxajar-*": "Both doors hang open on a bare, dry inside. The block of ice and whatever it kept cold are long gone.",
     "block-kitchencabinetbare-*": "Bare Kitchen Cupboard",
     "blockdesc-kitchencabinetbare-*": "Both doors hang open and nothing to eat is left on the shelf. What they could not eat, they left.",
     "block-pantryshelfbare-*": "Bare Pantry Shelf",
@@ -259,6 +262,21 @@ def opentop_texture():
     return img
 
 
+def icebox_inside_texture():
+    """The icebox's inside: its enamel a good deal duller, with a dusty grain and a few rust flecks."""
+    img = Image.open(tex_path("block/detail/iceboxenamel")).convert("RGB")
+    img = ImageEnhance.Brightness(img).enhance(0.72)
+    rng = random.Random(7122)
+    px = img.load()
+    for _ in range(36):
+        x, y = rng.randrange(img.width), rng.randrange(img.height)
+        px[x, y] = tuple(min(255, v + 9) for v in px[x, y])
+    for _ in range(9):
+        x, y = rng.randrange(img.width), rng.randrange(img.height)
+        px[x, y] = (112, 78, 52)
+    return img.convert("RGBA")
+
+
 def cabinet_inside_texture():
     """The cupboard's inside: dresserwood a little darker, with a grain of dust."""
     img = Image.open(tex_path("block/detail/dresserwood")).convert("RGB")
@@ -379,6 +397,37 @@ def fridge(base):
     return keep_only_used(shape_file(tex, els + door, base))
 
 
+def icebox(base):
+    """The icebox with both doors swung open and nothing inside: the solid body becomes a hollow shell (enamel outside,
+    a duller enamel inside), a wire rack in each compartment, the doors and their latches and hinges turned on the west
+    hinge edge (the lower one wide, the upper one part way)."""
+    tex = dict(base["textures"])
+    tex["inside"] = "backrooms:block/detail/iceboxinside"
+    E, I = "iceboxenamel", "inside"
+    by = {e["name"]: e for e in base["elements"]}
+    x1, x2, z1, z2, y0, y1 = 2, 14, 4, 15, 1.5, 25.5
+    els = [by["Plinth"], by["Top"], by["Badge"],
+           box("Floor", (x1, y0, z1), (x2, y0 + 1, z2), E, up=I),
+           box("Back", (x1, y0 + 1, z2 - 1), (x2, y1, z2), E, sides={"north": I, "south": E, "east": E, "west": E}),
+           box("SideW", (x1, y0 + 1, z1), (x1 + 1, y1, z2 - 1), E, sides={"east": I, "west": E, "north": E, "south": E}),
+           box("SideE", (x2 - 1, y0 + 1, z1), (x2, y1, z2 - 1), E, sides={"west": I, "east": E, "north": E, "south": E}),
+           box("Ceiling", (x1 + 1, y1 - 1, z1), (x2 - 1, y1, z2 - 1), E, down=I),
+           box("Divider", (x1 + 1, 14.8, z1), (x2 - 1, 15.6, z2 - 1), E, up=I, down=I),
+           box("RackL", (3, 8.4, 4.8), (13, 8.7, 13.8), "chrome"),
+           box("RackU", (3, 20.4, 4.8), (13, 20.7, 13.8), "chrome")]
+    for e in els[-2:]:  # a rack is a thin sheet: leave only its two big faces
+        for f in ("north", "south", "east", "west"):
+            e["faces"].pop(f, None)
+    org = [2.5, 0, 3.7]
+    for nm, ang in (("L", 72), ("U", 38)):
+        for k in ("Door" + nm, "Latch" + nm, "LatchGrip" + nm, "Hinge" + nm + "1", "Hinge" + nm + "2"):
+            e = copy.deepcopy(by[k])
+            e["rotationOrigin"] = org
+            e["rotationY"] = ang
+            els.append(e)
+    return keep_only_used(shape_file(tex, els, base))
+
+
 def kitchencabinet(base):
     tex = dict(base["textures"])
     tex["inside"] = "backrooms:block/detail/cabinetbare-inside"
@@ -427,6 +476,7 @@ def pantryshelf(base):
 
 def main():
     save_png(opentop_texture(), ("block", "level2", "oildrum-opentop.png"))
+    save_png(icebox_inside_texture(), ("block", "detail", "iceboxinside.png"))
     save_png(cabinet_inside_texture(), ("block", "detail", "cabinetbare-inside.png"))
 
     # (original blocktype path, original shape path, new code, build, keep drops, blocktype rel dir, shape rel, what)
@@ -442,6 +492,9 @@ def main():
         (("blocktypes", "detail", "fridge.json"), "shapes/block/detail/fridge.json", "fridgeajar", fridge,
          ["metalbracket", "scrapwire"], ("blocktypes", "detail"), ("shapes", "block", "detail"),
          "block/detail/fridgeajar", "The refrigerator with its door open and the inside bare."),
+        (("blocktypes", "detail", "icebox.json"), "shapes/block/detail/icebox.json", "iceboxajar", icebox,
+         ["metalbracket"], ("blocktypes", "detail"), ("shapes", "block", "detail"),
+         "block/detail/iceboxajar", "The icebox with both doors open and the inside bare."),
         (("blocktypes", "detail", "kitchencabinet.json"), "shapes/block/detail/kitchencabinet.json", "kitchencabinetbare", kitchencabinet,
          ["game:salt", "game:knife-generic-copper", "game:fat", "game:candle", "seedpacket-onion"], ("blocktypes", "detail"),
          ("shapes", "block", "detail"), "block/detail/kitchencabinetbare", "The kitchen cupboard with its doors open and nothing on the shelf."),
@@ -456,6 +509,9 @@ def main():
         write_json(shape, shape_dir + (shape_rel.split("/")[-1] + ".json",), None)
         drops = keep_drops(orig["drops"], keep) if keep else []
         boxes = None
+        if code == "iceboxajar":  # the doors stand out in front: the boxes reach to meet them
+            b = {"x1": 0.12, "y1": 0, "z1": 0.1, "x2": 0.88, "y2": 1.62, "z2": 0.94}
+            boxes = {"collisionboxByType": boxes_by_side(b), "selectionboxByType": boxes_by_side(b)}
         if code == "cardboardflat":
             b = {"x1": 0.06, "y1": 0, "z1": 0.06, "x2": 0.94, "y2": 0.4, "z2": 0.94}
             boxes = {"collisionbox": b, "selectionbox": dict(b)}
