@@ -2,13 +2,13 @@
 	code: "glassshard",
 	// From a dead light fixture. Sharp enough to cut wallpaper and carpet, but it may snap each time.
 	maxstacksize: 64,
-	texture: { base: "item/salvage/glassshard" },
+	shape: { base: "item/salvage/glassshard" },
 	behaviors: [
 		{ name: "GroundStorable", properties: { layout: "Messy12", collisionBox: { x1: 0, y1: 0, z1: 0, x2: 1, y2: 0.125, z2: 1 } } }
 	],
 	creativeinventory: { "general": ["*"], "items": ["*"] },
-	attributes: { crudeCutter: true, groundStorageTransform: { origin: { x: 0.5, y: 0.5, z: 0.5 }, scale: 0.8 } },
-	guiTransform: { rotation: { x: 0, y: 0, z: 0 }, origin: { x: 0.5, y: 0.5, z: 0.5 }, scale: 1 },
-	tpHandTransform: { translation: { x: -0.75, y: -0.4, z: -0.55 }, rotation: { x: 0, y: -45, z: -10 }, scale: 0.6 },
-	groundTransform: { rotation: { x: 90, y: 0, z: 0 }, origin: { x: 0.5, y: 0, z: 0.5 }, scale: 2 }
+	attributes: { crudeCutter: true, groundStorageTransform: { translation: { x: -0.062, y: -0.001, z: 0.009 }, rotation: { x: 0, y: 0, z: 0 }, origin: { x: 0.562, y: 0.019, z: 0.491 }, scale: 0.85 } },
+	guiTransform: { translation: { x: 4.291, y: 0.26, z: 0 }, rotation: { x: 150, y: -40, z: 0 }, origin: { x: 0.562, y: 0.019, z: 0.491 }, scale: 2.483 },
+	tpHandTransform: { translation: { x: -1.386, y: -1.2, z: -1.668 }, rotation: { x: -80, y: 0, z: 0 }, origin: { x: 0.5, y: 0.5, z: 0.5 }, scale: 0.423 },
+	groundTransform: { translation: { x: 0, y: 0.012, z: 0 }, rotation: { x: 0, y: 0, z: 0 }, origin: { x: 0.562, y: 0.019, z: 0.491 }, scale: 3.136 }
 }

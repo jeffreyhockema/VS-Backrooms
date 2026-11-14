@@ -1,26 +1,4 @@
 # Items still drawn flat (the game's generated sprite look); remove a line when the item gets a model; do not add lines.
 # One itemtype code per line (variants expanded as langcheck does). tools/itemcheck.py fails on a flat item not listed here
 # and on a listed item that is no longer flat.
-carpetfibre
-carpetsquare
-ceramicgrit
-clumpsinew
-glassshard
-glassshiv
-metalbracket
-mothjelly
-mothquill
 pleather
-potshard
-prybar
-rottenwood
-rubble
-scraper
-scrapwire
-seedpacket-carrot
-seedpacket-flax
-seedpacket-onion
-seedpacket-spelt
-seedpacket-turnip
-spidersilk
-wallpaperstrip

@@ -16,12 +16,12 @@
 	],
 	attributes: {
 		knifeHitBlockAnimation: "knifecut", knifeHitEntityAnimation: "knifestab",
-		groundStorageTransform: { origin: { x: 0.5, y: 0.5, z: 0.5 }, scale: 1.5 }
+		groundStorageTransform: { translation: { x: -0.064, y: 0.011, z: 0 }, rotation: { x: -90, y: 0, z: 90 }, origin: { x: 0.564, y: 0.047, z: 0.5 }, scale: 1 }
 	},
 	heldTpHitAnimation: "knifestab",
-	texture: { base: "item/salvage/scraper" },
+	shape: { base: "item/salvage/scraper" },
 	creativeinventory: { "general": ["*"], "items": ["*"], "tools": ["*"] },
-	guiTransform: { rotation: { x: 0, y: 0, z: 0 }, origin: { x: 0.5, y: 0.5, z: 0.5 }, scale: 1 },
-	tpHandTransform: { translation: { x: -0.75, y: -0.4, z: -0.55 }, rotation: { x: 0, y: -45, z: -10 }, scale: 0.6 },
-	groundTransform: { rotation: { x: 90, y: 0, z: 0 }, origin: { x: 0.5, y: 0, z: 0.5 }, scale: 2 }
+	guiTransform: { translation: { x: 3.275, y: 0.287, z: 0 }, rotation: { x: -158, y: 0, z: 48 }, origin: { x: 0.564, y: 0.047, z: 0.5 }, scale: 2.417 },
+	tpHandTransform: { translation: { x: -0.84, y: -0.11, z: -0.48 }, rotation: { x: 0, y: 0, z: -15 }, origin: { x: 0.5, y: 0.5, z: 0.5 }, scale: 1 },
+	groundTransform: { translation: { x: 0, y: 0.037, z: 0 }, rotation: { x: -90, y: 0, z: 0 }, origin: { x: 0.564, y: 0.047, z: 0.5 }, scale: 3.248 }
 }

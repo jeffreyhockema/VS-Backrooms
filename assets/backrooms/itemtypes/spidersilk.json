@@ -2,8 +2,8 @@
 {
 	"code": "spidersilk",
 	"maxstacksize": 32,
-	"texture": {
-		"base": "item/spidersilk"
+	"shape": {
+		"base": "item/salvage/spidersilk"
 	},
 	"creativeinventory": {
 		"general": [
@@ -14,43 +14,58 @@
 		]
 	},
 	"guiTransform": {
+		"translation": {
+			"x": 1.546,
+			"y": -1.177,
+			"z": 0
+		},
 		"rotation": {
-			"x": 0,
-			"y": 0,
+			"x": 150,
+			"y": -30,
 			"z": 0
 		},
 		"origin": {
-			"x": 0.5,
-			"y": 0.5,
-			"z": 0.5
+			"x": 0.494,
+			"y": 0.056,
+			"z": 0.555
 		},
-		"scale": 1
+		"scale": 2.465
 	},
 	"tpHandTransform": {
 		"translation": {
-			"x": -0.75,
-			"y": -0.4,
-			"z": -0.55
+			"x": -0.806,
+			"y": -0.022,
+			"z": -0.762
 		},
 		"rotation": {
-			"x": 0,
-			"y": -45,
-			"z": -10
-		},
-		"scale": 0.6
-	},
-	"groundTransform": {
-		"rotation": {
-			"x": 90,
-			"y": 0,
-			"z": 0
+			"x": 70,
+			"y": 5,
+			"z": -5
 		},
 		"origin": {
 			"x": 0.5,
 			"y": 0,
 			"z": 0.5
 		},
-		"scale": 2
+		"scale": 0.657
+	},
+	"groundTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0.037,
+			"z": 0
+		},
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.494,
+			"y": 0.056,
+			"z": 0.555
+		},
+		"scale": 2.997
 	},
 	"behaviors": [
 		{
@@ -70,12 +85,22 @@
 	],
 	"attributes": {
 		"groundStorageTransform": {
-			"origin": {
-				"x": 0.5,
-				"y": 0.5,
-				"z": 0.5
+			"translation": {
+				"x": 0.006,
+				"y": -0.013,
+				"z": -0.055
 			},
-			"scale": 1.3
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.494,
+				"y": 0.056,
+				"z": 0.555
+			},
+			"scale": 0.659
 		}
 	}
 }

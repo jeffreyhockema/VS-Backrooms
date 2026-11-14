@@ -2,7 +2,7 @@
 {
 	"code": "carpetsquare",
 	"maxstacksize": 32,
-	"texture": {
+	"shape": {
 		"base": "item/salvage/carpetsquare"
 	},
 	"creativeinventory": {
@@ -15,43 +15,58 @@
 	},
 	"materialDensity": 500,
 	"guiTransform": {
-		"rotation": {
-			"x": 0,
-			"y": 0,
+		"translation": {
+			"x": 3.0,
+			"y": 0.608,
 			"z": 0
+		},
+		"rotation": {
+			"x": 145,
+			"y": -40,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.087,
+			"z": 0.5
+		},
+		"scale": 1.479
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -1.117,
+			"y": -1.341,
+			"z": -1.492
+		},
+		"rotation": {
+			"x": 92,
+			"y": -180,
+			"z": 180
 		},
 		"origin": {
 			"x": 0.5,
 			"y": 0.5,
 			"z": 0.5
 		},
-		"scale": 1
+		"scale": 0.446
 	},
-	"tpHandTransform": {
+	"groundTransform": {
 		"translation": {
-			"x": -0.75,
-			"y": -0.4,
-			"z": -0.55
+			"x": 0,
+			"y": 0.066,
+			"z": 0
 		},
 		"rotation": {
 			"x": 0,
-			"y": -45,
-			"z": -10
-		},
-		"scale": 0.6
-	},
-	"groundTransform": {
-		"rotation": {
-			"x": 90,
 			"y": 0,
 			"z": 0
 		},
 		"origin": {
 			"x": 0.5,
-			"y": 0,
+			"y": 0.087,
 			"z": 0.5
 		},
-		"scale": 2
+		"scale": 3.815
 	},
 	"behaviors": [
 		{
@@ -71,12 +86,22 @@
 	],
 	"attributes": {
 		"groundStorageTransform": {
+			"translation": {
+				"x": 0.0,
+				"y": -0.019,
+				"z": 0.0
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
 			"origin": {
 				"x": 0.5,
-				"y": 0.5,
+				"y": 0.087,
 				"z": 0.5
 			},
-			"scale": 0.8
+			"scale": 0.763
 		}
 	}
 }
