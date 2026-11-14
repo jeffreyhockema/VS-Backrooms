@@ -41,7 +41,7 @@ OWN = {
     "blockhelp-l36-screen": "Read the departures",
     "l36-gate-waiting": "Gate {0}: flight {1} to Level {2}. Not boarding yet: boarding opens in {3}.",
     "l36-gate-c32": "Gate {0}: flight {1} to Level {2}. DELAYED. Boarding in about {3} years.",
-    "l36-board": "You board flight {0} to Level {1} at gate {2}. Walk the bridge to the cabin and find a seat. The doors close in {3}.",
+    "l36-board": "You board flight {0} to Level {1} at gate {2}. Walk the bridge into the cabin. The doors close in {3}.",
     "l36-deplane": "You step back off the plane at gate {0}.",
     "l36-door-inflight": "The door is sealed. The plane is in the air.",
     "l36-bridge-back": "Flight {0} is leaving. The bridge pulls back from the plane, and the gate staff put you off at gate {1}.",

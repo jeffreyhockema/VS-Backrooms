@@ -898,7 +898,7 @@ time and still does. He gave me skates, quick on the boards and the concrete and
 spin. He says don't stay too long. I don't know why he says it so often.
 — J."""),
     E("l31-5", "Shadows", """
-M.E.G. FIELD NOTICE. Level 31: Class 1, safe. No Hounds confirmed. Black figures reported standing still in the dark
+M.E.G. FIELD NOTICE. Level 31: Class 0, safe. No Hounds confirmed. Black figures reported standing still in the dark
 rooms, the cinema and the cold HVAC rooms; all vanish on approach and none has ever moved. Treat as paranoia. The
 staff Facelings are docile and cannot be harmed. Do not take the rental skates out of the level.
 — Field Team 9""", w="meg"),
@@ -919,7 +919,7 @@ that could happen, and look.
 — Dez""", w="dez")),
     ("l3", E("l31-in3", "A door in the brick", """
 M.E.G. FIELD NOTICE. A plain wooden door has been reported in the brick walls of Level 3, pop music audible through it.
-It opens on Level 31, a roller rink: Class 1, safe, food served free. The door leads back. Sightings are rare. Mark it if
+It opens on Level 31, a roller rink: Class 0, safe, food served free. The door leads back. Sightings are rare. Mark it if
 you find one. Out of 31: the revolving doors, one way, to the Suburbs, the fields or the city.
 — Field Team 9""", w="meg")),
     ("l6", E("l31-in6", "Something to dance to", """

@@ -44,8 +44,8 @@ L36_LINES = {
     "creaturessite": "In the lit terminal? Nothing at all. Deeper in, where the lights have gone, a Smiler now and then, a Hound, a moth. Turn back at an empty sign.",
     "watersite": "The machines and fountains in the concourses are free and perfectly safe. The food court's tables are not: some of that has been there a very long time.",
     "sleepsite": "Not here, I'm afraid. Nobody sleeps in the airport, and nobody tires. Do remember to eat.",
-    "exitssite": "Watch the screens. When your gate's number drops under a thousand it's boarding: use the jet-bridge door by the window and stay aboard until it reaches nothing. Read the gate's own screen first: each gate flies to one place, every time.",
-    "rumours": "Gate C32 has a support group waiting on a flight to Level 186. Their count has nine digits. Very patient people. Lovely soup.",
+    "exitssite": "Watch the screens. When your gate's number drops under a thousand it's boarding: use the jet-bridge door by the window and stay aboard until the doors close and the plane lands. Read the gate's own screen first: each gate flies to one place, every time.",
+    "rumours": "Gate C32 has a support group waiting on a flight to Level 186. Their count has eight digits. Very patient people. Lovely soup.",
     "home": "If you came in by a door under an airplane sign, it lets you back out from the baggage wall. Otherwise, the Agency recommends a flight. None of them fly back, I'm afraid. Have you tried one of our lounges?",
 }
 
@@ -250,7 +250,7 @@ def build():
     }, "sleepreply")
     player("sleepreply", [line("p-bedroll", "And without a bed?", jump="bedroll"),
                           line("p-thanks", "Thanks.", jump="main")])
-    trader("bedroll", [line("bedroll", "Make a bedroll: carpet fibres, twine and wallpaper strips. Poor sleep, but it's sleep.")], "sleepreply")
+    trader("bedroll", [line("bedroll", "Make a bedroll: carpet squares, twine and wallpaper strips. Poor sleep, but it's sleep.")], "sleepreply")
 
     # (The gates are the rings' own: the city, The End, the Hub and Level 3999 have none)
     trader("exits", [line("exits", "Every level ends in a wall, and the wall has gates. Chalk arrows point the way.",
