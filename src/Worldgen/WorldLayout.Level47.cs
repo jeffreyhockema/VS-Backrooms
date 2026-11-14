@@ -775,6 +775,9 @@ public sealed partial class WorldLayout
         return Hashing.Unit(h) < 1 / 16.0;
     }
 
+    /// <summary>Whether a camp's fire is still alight: one camp in four from layout 16 (the rest are cold ash), all of them before.</summary>
+    public bool L47CampLit(int mx, int mz) => Version < 16 || Hashing.Unit(Hashing.Hash(seed, mx, mz, 0x3011)) < 0.25;
+
     /// <summary>Whether a camp fits round its fire: open forest floor three either side, no box, no hollow, away from the arrival spots.</summary>
     public bool L47CampFits(int ax, int az)
     {

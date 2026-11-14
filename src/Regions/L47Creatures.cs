@@ -255,7 +255,9 @@ public class AiTaskL47Adder : AiTaskL47Base
     {
         if (!entity.Alive) return false;
         if (Showing("rear")) return true;
-        if (ContinueAttack("strike", 380, 850, 2.8f, 16f, 5, 0.6f, "backrooms:sounds/creature/47/adderstrike")) return true;
+        // (Scaled by the level's danger like the other attacks, but capped: 16 flat was a one-hit kill, now 12 to 14 at the default)
+        float strike = Math.Min(14f, 9f * Danger.Damage(Danger.Of(entity)));
+        if (ContinueAttack("strike", 380, 850, 2.8f, strike, 5, 0.6f, "backrooms:sounds/creature/47/adderstrike")) return true;
         think -= dt;
         if (think > 0) return true;
         think = 0.25f;

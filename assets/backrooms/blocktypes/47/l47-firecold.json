@@ -1,0 +1,41 @@
+// Level 47: a wanderer's fire ring gone cold (Level 23's ring, its embers ash: no light)
+{
+	"code": "l47-firecold",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"shape": {
+		"base": "block/47/firecold"
+	},
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 0.2,
+		"z2": 1
+	}
+}

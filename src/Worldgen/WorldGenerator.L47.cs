@@ -45,7 +45,7 @@ public sealed partial class WorldGenerator
     private readonly int[,,] l47Bookcase = new int[2, 2, 4];
     private readonly int[] l47Mush = new int[3], l47Fire = new int[4], l47Trestle = new int[3], l47Bench = new int[2], l47Sconce = new int[4];
     private readonly int[,] l47Spray = new int[3, 2];
-    private int l47SarsenTop, l47FireRing23;
+    private int l47SarsenTop, l47FireRing23, l47FireCold;
     private readonly int[] l47Bedroll23 = new int[4];
     private readonly int[] l47Offering = new int[3], l47PorchPost = new int[3];
     private readonly int[,] l47LampPost = new int[2, 4];
@@ -147,6 +147,7 @@ public sealed partial class WorldGenerator
         l47SarsenTop = OptionalId("backrooms:l47-sarsentop");
         // (A wanderer's camp: the Petrified Garden's fire ring and bedroll)
         l47FireRing23 = OptionalId("backrooms:l23-firering");
+        l47FireCold = OptionalId("backrooms:l47-firecold");
         for (int f = 0; f < 4; f++) l47Bedroll23[f] = OptionalId("backrooms:l23-bedroll-" + Sides[f]);
         string[] porch = { "base", "shaft", "head" };
         for (int k = 0; k < 3; k++) l47PorchPost[k] = OptionalId("backrooms:l47-porchpost-" + porch[k]);
@@ -346,7 +347,7 @@ public sealed partial class WorldGenerator
 
     /// <summary>
     /// A wanderer's camp in a cell, if it has one (round 4; Wikidot: "campfires or improvised tools and weapons will often
-    /// (though not always) vanish or revert" -- this one has not, yet): the fire ring alight with nobody at it, a bedroll
+    /// (though not always) vanish or revert" -- this one has not, yet): the fire ring with nobody at it (alight in one camp in four from layout 16, else cold), a bedroll
     /// two blocks east of it with its head to the fire, a stub of log to sit on two blocks west; only on open forest floor
     /// away from the arrival spots.
     /// </summary>
@@ -361,7 +362,8 @@ public sealed partial class WorldGenerator
         if (Array.IndexOf(l47Ferns, b[at]) >= 0 || b[at] == l47ShortGrass || b[at] == l47TallGrass || Array.IndexOf(l47Flowers, b[at]) >= 0
             || Array.IndexOf(l47Mushrooms, b[at]) >= 0 || Array.IndexOf(l47Toadstools, b[at]) >= 0 || b[at] == l47Stick) b[at] = 0;
         if (dz != 0 || dx is not (0 or 2 or -2)) return;
-        b[at] = dx == 0 ? l47FireRing23 : dx == 2 ? l47Bedroll23[3] : l47Kind[W.L47LogOakZ];
+        int ring = l47FireCold != 0 && !layout.L47CampLit(Hashing.FloorDiv(ax, W.MacroSize), Hashing.FloorDiv(az, W.MacroSize)) ? l47FireCold : l47FireRing23;
+        b[at] = dx == 0 ? ring : dx == 2 ? l47Bedroll23[3] : l47Kind[W.L47LogOakZ];
     }
 
     /// <summary>Whether a bark block of a column is its mossy one: a block or three up from the foot, in patches higher (dead wood only at the foot).</summary>

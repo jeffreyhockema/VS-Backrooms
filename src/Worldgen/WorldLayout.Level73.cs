@@ -521,7 +521,7 @@ public sealed partial class WorldLayout
     private volatile Tuple<int, int, int> l73Hound;
 
     /// <summary>The dry ditch before the south wall (round 4, inv.): how deep at a castle-local position (0 none): rows v 50-53
-    /// from u 14 to 41, but the bridge (u 25-30); two deep, one at its two ends.</summary>
+    /// from u 14 to 41, but the bridge (u 25-30); two deep, one at its two ends (the tiles draw it one deep from layout 16).</summary>
     public static int L73Ditch(int u, int v)
     {
         if (v < L73CastleD + 2 || v > L73CastleD + 5 || u < 14 || u > 41 || u is >= 25 and <= 30) return 0;
@@ -1131,11 +1131,11 @@ public sealed partial class WorldLayout
             t.Floor = FloorKind.L73Path;
             return t;
         }
-        // Round 4 (inv.): a dry ditch before the walls either side of the gate, two deep (one at its ends, to climb out),
+        // Round 4 (inv.): a dry ditch before the walls either side of the gate, two deep (one at its ends, to climb out; from layout 16 one deep all along),
         // and the stone bridge that carries the path over it, its parapets at u 25 and 30
         if (L73Ditch(u, v) is int ditch and > 0 && g == L73Plateau)
         {
-            t.Height = (byte)(g - ditch);
+            t.Height = (byte)(g - (Version >= 16 ? 1 : ditch));
             t.Floor = FloorKind.L73Burnt;
             t.Sealed = true;
             return t;
