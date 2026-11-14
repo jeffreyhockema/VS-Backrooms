@@ -12,6 +12,7 @@ import argparse
 import os
 import subprocess
 import sys
+import threading
 import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -39,6 +40,15 @@ def take_lock():
                 print(f"[shots] waiting for the rig lock ({waited}s)...", flush=True)
 
 
+def keep_lock(stop):
+    """Touches the lock now and then, so that a long run is never taken for a dead one's."""
+    while not stop.wait(60):
+        try:
+            os.utime(LOCK, None)
+        except OSError:
+            pass
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("level")
@@ -51,10 +61,10 @@ def main():
     stamp = time.strftime("%Y%m%d-%H%M%S")
     out = a.out or os.path.join(os.environ.get("TEMP", "/tmp"), "backrooms-shots", f"{a.level}-{stamp}")
     os.makedirs(out, exist_ok=True)
-    steps = ['  - expect_no_startup_issues: ""', "  - bot: closeguis", "  - server: /gamemode eXception386 creative",
+    steps = ['  - expect_no_startup_issues: ""', "  - bot: closeguis", "  - bot: cmd /gamemode creative",
              "  - bot: wait 1500", "  - bot: hud off"]
     if a.torch:
-        steps += ["  - server: /giveblock torch-basic-lit-up 1 eXception386", "  - bot: wait 1000", "  - bot: slot 1"]  # (slot 0 holds the starting note)
+        steps += ["  - bot: cmd /giveblock torch-basic-lit-up 1", "  - bot: wait 1000", "  - bot: slot 1"]  # (slot 0 holds the starting note)
     steps.append(f"  - showcase: {a.level}")
     for r in range(a.arrivals):
         h = (r * 113) % 360
@@ -66,10 +76,14 @@ def main():
     with open(scen, "w", encoding="utf-8") as f:
         f.write(f"description: Review shots of Level {a.level}\nsteps:\n" + "\n".join(steps) + "\n")
     take_lock()
+    r = None
+    stop = threading.Event()
+    threading.Thread(target=keep_lock, args=(stop,), daemon=True).start()
     try:
         r = subprocess.run([sys.executable, os.path.join(HERE, "rig.py"), "--mods", a.mods, "--scenario", scen,
                             "--port", str(a.port), "--out", out], cwd=REPO)
     finally:
+        stop.set()
         try:
             os.rmdir(LOCK)
         except OSError:
@@ -90,7 +104,7 @@ def main():
             sheet.save(os.path.join(out, "sheet.jpg"), quality=80)
     except Exception as e:  # noqa: BLE001
         print("[shots] no contact sheet:", e)
-    print(f"[shots] {len(pngs)} shots in {shots_dir}; sheet {os.path.join(out, 'sheet.jpg')}; rig exit {r.returncode}")
+    print(f"[shots] {len(pngs)} shots in {shots_dir}; sheet {os.path.join(out, 'sheet.jpg')}; rig exit {r.returncode if r else 'none'}")
 
 
 if __name__ == "__main__":

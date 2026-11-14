@@ -16,7 +16,7 @@ static partial class LevelModes
     static bool L47Modes(WorldLayout layout, string mode, string[] args)
     {
         if (mode == "47map") { L47Map(layout, args.Length > 0 && int.TryParse(args[^1], out int r) ? r : 160); return true; }
-        if (mode == "47links") { L47Links(layout); return true; }
+        if (mode == "47links") { L47Links(layout, long.Parse(args[0])); return true; }
         if (mode == "47prof") { layout.L47Profile(); return true; }
         if (mode != "47stats") return false;
         int bad = 0;
@@ -125,10 +125,26 @@ static partial class LevelModes
     /// nearest few to spawn, each laid out with its hollow; in the level: the hollow dead trees near the glade (those that lead
     /// out), the green giants (to Level 23); and that every arrival finder finds somewhere.
     /// </summary>
-    static void L47Links(WorldLayout layout)
+    static void L47Links(WorldLayout layout, long seed)
     {
         int bad = 0;
         void Bad(string what) { bad++; Console.WriteLine("  BAD: " + what); }
+        var net = new Backrooms.Thresholds.ThresholdNetwork(layout, new WorldGeometry(256), seed);
+        // Walks into a hollow's middle as the game does, and checks where it lands: the right level, on a floor tile
+        void Walk(string what, int x, int z, int wantLevel)
+        {
+            Tile t = layout.TileAt(x, z);
+            var p = net.Walked(x, z, t, t.Level == WorldLayout.Level47 ? t.Height : 0.0);
+            if (p == null) { Bad($"{what} at {x},{z}: walking in leads nowhere"); return; }
+            if (p.TwoWay) Bad($"{what} at {x},{z} is two-way");
+            if (net.Take(p, null) is not { } to) { Bad($"{what} at {x},{z}: no arrival"); return; }
+            int ax = (int)Math.Floor(to.X), az = (int)Math.Floor(to.Z);
+            Tile at = layout.TileAt(ax, az);
+            if (at.Level != wantLevel) Bad($"{what} at {x},{z} -> L{at.Level} {ax} {az}: not in level {wantLevel}");
+            else if (at.Kind != TileKind.Floor) Bad($"{what} at {x},{z} -> {ax} {az}: the arrival tile is {at.Kind}, not floor");
+            else if (net.Take(p, null) != to) Bad($"{what} at {x},{z}: not the same place again");
+            else Console.WriteLine($"  {what} {x},{z} -> L{at.Level} {ax} {az}");
+        }
         static double Dist(double ax, double az, double bx, double bz) => Math.Sqrt((ax - bx) * (ax - bx) + (az - bz) * (az - bz));
         var spawn = layout.FindSpawn();
         int side = WorldLayout.L47Tree10Square;
@@ -150,6 +166,7 @@ static partial class LevelModes
             Tile mid = layout.TileAt(t.X, t.Z);
             if (mid.Level != 10 || mid.Under != Unders.L47Tree10Hollow) Bad($"tree at {t.X},{t.Z}: middle tile level {mid.Level} Under {mid.Under}");
             Console.WriteLine($"  near spawn: Level 10, ancient dead tree (in, one-way), {t.X},{t.Z}, {Dist(t.X, t.Z, spawn.X, spawn.Z) / 1000:0.0} km from spawn");
+            Walk("ancient dead tree (in)", t.X, t.Z, WorldLayout.Level47);
         }
         if (trees.Count == 0) Bad("no ancient dead trees in Level 10");
         if (trees.Count > 1)
@@ -161,9 +178,15 @@ static partial class LevelModes
         int leads = hollows.Count(h => h.Leads);
         Console.WriteLine($"in 47: {hollows.Count} hollow dead trees within 520 of the glade, {leads} leading out to Level 10");
         foreach (var h in hollows.Where(h => h.Leads).OrderBy(h => layout.L47FromMid(h.X, h.Z)).Take(3))
+        {
             Console.WriteLine($"  Level 47, dead tree's hollow (out to 10, one-way), {h.X},{h.Z}, {layout.L47FromMid(h.X, h.Z):0} from the glade");
+            Walk("dead hollow (out to 10)", h.X, h.Z, 10);
+        }
         foreach (var g in layout.L47GreenGiants().Take(3))
+        {
             Console.WriteLine($"  Level 47, green giant (out to 23, one-way), {g.X},{g.Z}, {layout.L47FromMid(g.X, g.Z):0} from the glade");
+            Walk("green giant (out to 23)", g.X, g.Z, WorldLayout.Level23);
+        }
         if (leads == 0) Bad("no hollow leads out");
         // The finders
         for (ulong key = 1; key <= 6; key++)
@@ -175,7 +198,8 @@ static partial class LevelModes
             else if (key == 1) Console.WriteLine($"  arrival in 10 for key 1: {b.Value.X},{b.Value.Z} (level {layout.TileAt(b.Value.X, b.Value.Z).Level})");
             if (a != null && key == 1) Console.WriteLine($"  arrival in 47 for key 1: {a.Value.X},{a.Value.Z}");
         }
-        Console.WriteLine(bad == 0 ? "47links: ok" : $"47links: {bad} problems");
+        if (layout.L47GreenGiants().Count == 0) Bad("no green giants");
+        Console.WriteLine(bad == 0 ? "47links: OK" : $"47links: {bad} problem(s)");
     }
 
     static string L47LinkLabel(Tile t) => t.Under switch

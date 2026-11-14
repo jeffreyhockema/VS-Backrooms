@@ -167,6 +167,8 @@ static partial class LevelModes
     static bool L31Links(WorldLayout layout, string[] args)
     {
         int reach = args.Length > 3 && int.TryParse(args[3], out int r0) ? r0 : 1600;
+        int linkBad = 0;
+        void LinkBad(string what) { linkBad++; Console.WriteLine("  BAD: " + what); }
         var (sx, sz) = layout.FindSpawn();
         int smx = WorldLayout.MacroOf(sx), smz = WorldLayout.MacroOf(sz);
         int[] hosts = { 2, 3, 6 };
@@ -227,7 +229,7 @@ static partial class LevelModes
                 }
                 if (layout.L31RevolvingOf(wx, wz) is not { } d) continue;
                 Tile t = layout.TileAt(d.X, d.Z);
-                if (!WorldLayout.IsL31Revolving(t) || t.Stack != 1) { Console.WriteLine($"  BAD: revolving door at {d.X},{d.Z} not laid"); continue; }
+                if (!WorldLayout.IsL31Revolving(t) || t.Stack != 1) { LinkBad($"revolving door at {d.X},{d.Z} not laid"); continue; }
                 int target = layout.L31RevolvingTarget(d.X, d.Z);
                 to[target]++;
                 revolving.Add((d.X, d.Z, target, Math.Sqrt((double)(d.X - cx) * (d.X - cx) + (double)(d.Z - cz) * (d.Z - cz))));
@@ -237,6 +239,51 @@ static partial class LevelModes
             + $"({revolving.Count / area:0.0} per km2; to Level 9: {to[9]}, 10: {to[10]}, 11: {to[11]})");
         foreach (var d in revolving.OrderBy(d => d.D).Take(5))
             Console.WriteLine($"    revolving door at {d.X},{d.Z} to Level {d.To}, {d.D:0} blocks from the region's centre");
+
+        // Through the doors, in the threshold network as the game has it
+        var net = new Backrooms.Thresholds.ThresholdNetwork(layout, new WorldGeometry(256), long.Parse(args[0]));
+        foreach (int h in hosts)
+        {
+            if (doors[h].Count == 0) { LinkBad($"no wooden door in Level {h} within {reach} cells"); continue; }
+            foreach (var d in doors[h].OrderBy(d => d.D).Take(2))
+            {
+                Backrooms.Thresholds.Passage p = net.Used(d.X, d.Z, "l31-door", out string refusal);
+                if (p == null) { LinkBad($"wooden door at {d.X},{d.Z} in Level {h} leads nowhere ({refusal})"); continue; }
+                var home = new Backrooms.Thresholds.Link(d.X + 0.5, 1000, d.Z + 0.5, false);
+                if (net.Take(p, home) is not { } land) { LinkBad($"wooden door at {d.X},{d.Z}: no arrival"); continue; }
+                int ax = (int)Math.Floor(land.X), az = (int)Math.Floor(land.Z);
+                Tile at = layout.TileAt(ax, az);
+                string line = $"  Level {h} wooden door {d.X},{d.Z} -> L{at.Level} {ax} {az}";
+                if (at.Level != WorldLayout.Level31) { LinkBad(line + ": not in Level 31"); continue; }
+                if (at.Kind != TileKind.Floor) { LinkBad(line + $": the arrival tile is {at.Kind}, not floor"); continue; }
+                if (layout.FeatureBeside(ax, az, WorldLayout.IsL31LobbyDoor) is not { } bd) { LinkBad(line + ": no lobby door beside the arrival"); continue; }
+                Backrooms.Thresholds.Passage q = net.Used(bd.X, bd.Z, "l31-door", out _);
+                var again = q == null ? (Backrooms.Thresholds.Link?)null : net.Take(q, null);
+                if (again != home) { LinkBad(line + $": the lobby door {bd.X},{bd.Z} does not lead back"); continue; }
+                if (net.Take(p, home) != land) { LinkBad(line + ": not the same place again"); continue; }
+                Console.WriteLine(line + $", back through {bd.X},{bd.Z}");
+            }
+        }
+        var tried = new Dictionary<int, int> { [9] = 0, [10] = 0, [11] = 0 };
+        foreach (var d in revolving.OrderBy(d => d.D))
+        {
+            if (tried[d.To] >= 2) continue;
+            tried[d.To]++;
+            Backrooms.Thresholds.Passage p = net.Used(d.X, d.Z, "l31-revolving", out string refusal);
+            if (p == null) { LinkBad($"revolving door at {d.X},{d.Z} leads nowhere ({refusal})"); continue; }
+            if (p.TwoWay) LinkBad($"revolving door at {d.X},{d.Z} is two-way");
+            if (net.Take(p, null) is not { } land) { LinkBad($"revolving door at {d.X},{d.Z}: no arrival"); continue; }
+            int ax = (int)Math.Floor(land.X), az = (int)Math.Floor(land.Z);
+            Tile at = layout.TileAt(ax, az);
+            string line = $"  revolving door {d.X},{d.Z} -> L{at.Level} {ax} {az}";
+            if (at.Level != d.To) LinkBad(line + $": not in Level {d.To}");
+            else if (at.Kind != TileKind.Floor) LinkBad(line + $": the arrival tile is {at.Kind}, not floor");
+            else if (net.Take(p, null) != land) LinkBad(line + ": not the same place again");
+            else Console.WriteLine(line);
+        }
+        foreach (int t in new[] { 9, 10, 11 })
+            if (tried[t] == 0) LinkBad($"no revolving door to Level {t}");
+        Console.WriteLine(linkBad == 0 ? "31links: OK" : $"31links: {linkBad} problem(s)");
         return true;
     }
 

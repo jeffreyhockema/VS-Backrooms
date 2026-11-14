@@ -487,6 +487,51 @@ def compare_metrics(kind, cur, base, problems, notes, update=False):
             notes.append("%s %s improved: %s (baseline %s)" % (kind, k, v, b))
 
 
+# The ten experimental levels' own links modes: each prints one line when everything held (the older modes kept their own
+# wording), and BAD / WRONG / "problem(s)" for what did not
+NEW_LINKS = [
+    ("73links", r"^73links: OK$"),
+    ("basementlinks", r"^thresholds: \d+ falls and \d+ climbs out checked, 0 bad$"),
+    ("52links", r"^52links: OK$"),
+    ("31links", r"^31links: OK$"),
+    ("120links", r"^120links: OK$"),
+    ("36links", r"^36links: OK$"),
+    ("15links", r"^15links: trips OK$"),
+    ("23links", r"^23links: ok$"),
+    ("14links", r"^14links OK$"),
+    ("47links", r"^47links: OK$"),
+]
+LINK_BAD = re.compile(r"\bBAD\b|\bWRONG\b|\bproblems?\b|\d+ problem")
+VALIDATE_LEVELS = 31  # ids 0-30: the released levels, then the ten experimental ones (21-30)
+
+
+def check_new_links(name, ok_re, code, out):
+    """What is wrong with one new level's links mode output: [] if it is clean."""
+    why = []
+    if code != 0:
+        why.append("exit %d" % code)
+    bad = [l.strip()[:150] for l in out.splitlines() if LINK_BAD.search(l)]
+    if bad:
+        why.append(bad[0])
+    if not re.search(ok_re, out, re.M):
+        why.append("no OK line (output format changed, or the mode did not finish)")
+    return why
+
+
+def check_regions(code, out):
+    why = []
+    if code != 0:
+        why.append("exit %d" % code)
+    arrivals = re.findall(r"arrivals: found (\d+)/(\d+), wrong level (\d+)", out)
+    if not arrivals:
+        why.append("no 'arrivals: found' lines (output format changed?)")
+    for a, b, w in arrivals:
+        if a != b or w != "0":
+            why.append("arrivals found %s/%s, wrong level %s" % (a, b, w))
+    bad = [l.strip()[:150] for l in out.splitlines() if LINK_BAD.search(l)]
+    return why + bad[:1]
+
+
 def stage_mapgen(st, ctx):
     code, out = run([bash(), "tools/locked.sh", "mapgen", TAG], timeout=1800)
     if code != 0 or not os.path.exists(MAPGEN):
@@ -506,7 +551,9 @@ def stage_mapgen(st, ctx):
         # places hashes of v1-15 were moved on purpose at 0.700.0-pre.13, by the user's decision that the new levels play by
         # layout 16's balance in every world, WorldLayout.ExpVersion: see its "_note", which the checks below never read.)
         plain_f = {v: ex.submit(mg, ["1", "6", "layouthash"], {"LAYOUT_VERSION": str(v), "BACKROOMS_NO_EXP_ENTRANCES": "1"}) for v in versions}
-        val_f = {lv: ex.submit(mg, ["12345", "24", "validatelevel", str(lv)]) for lv in range(21)}
+        val_f = {lv: ex.submit(mg, ["12345", "24", "validatelevel", str(lv)]) for lv in range(VALIDATE_LEVELS)}
+        newlinks_f = {m: ex.submit(mg, ["12345", "24", m]) for m, _ in NEW_LINKS}
+        regions_f = ex.submit(mg, ["12345", "24", "regions"])
         validate_f = ex.submit(mg, ["12345", "24", "validate"])
         deep_f = ex.submit(mg, ["12345", "24", "deep"])
         links_f = ex.submit(mg, ["12345", "24", "links"])
@@ -525,6 +572,8 @@ def stage_mapgen(st, ctx):
                 problems.append("layout hash v%d without the experimental ways in CHANGED from main's: %s -> %s (the released levels must stay byte-identical)" % (v, rec.get("layout"), h))
             elif rec is not None and v <= RELEASED_THROUGH:
                 st.note("layouthash v%d without the ways in: %s, main's" % (v, h))
+            else:
+                st.note("layouthash v%d without the ways in: %s, not compared (main has no baseline for this version)" % (v, h))
         for v in versions:
             c, o = hash_f[v].result()
             h, f = parse_hash(o)
@@ -550,7 +599,7 @@ def stage_mapgen(st, ctx):
         # validate by level
         bv = new_base.setdefault("validate", {})
         tot = {}
-        for lv in range(21):
+        for lv in range(VALIDATE_LEVELS):
             c, o = val_f[lv].result()
             if c != 0:
                 problems.append("validatelevel %d exit %d" % (lv, c))
@@ -569,7 +618,7 @@ def stage_mapgen(st, ctx):
                 compare_metrics("validatelevel %d" % lv, m, bv[key], problems, notes, ctx["update"])
                 if ctx["update"]:
                     bv[key] = m
-        st.note("validatelevel 0-20 (24 cells, SPAWN=16000, 2 arrivals): unreachable %d, doorways to nowhere %d, blocked %d, bad elevators %d, decor %d, no-arrival %d" % (
+        st.note("validatelevel 0-30 (24 cells, SPAWN=16000, 2 arrivals): unreachable %d, doorways to nowhere %d, blocked %d, bad elevators %d, decor %d, no-arrival %d" % (
             tot.get("unreachable", 0), tot.get("doorsToNowhere", 0), tot.get("doorsBlocked", 0), tot.get("badElevators", 0), tot.get("decorFacingWalls", 0), tot.get("noArrival", 0)))
         c, o = validate_f.result()
         m = parse_validate(o, 0)
@@ -619,6 +668,21 @@ def stage_mapgen(st, ctx):
         if lbad:
             problems.append("links: " + lbad[0])
         st.note("links: " + ("clean" if not lbad else "; ".join(lbad[:3])))
+
+        # the ten new levels' links modes, and every level's arrivals
+        flagged = []
+        for m, ok_re in NEW_LINKS:
+            c, o = newlinks_f[m].result()
+            why = check_new_links(m, ok_re, c, o)
+            if why:
+                flagged.append("%s: %s" % (m, why[0]))
+        c, o = regions_f.result()
+        why = check_regions(c, o)
+        if why:
+            flagged.append("regions: %s" % why[0])
+        for f in flagged:
+            problems.append(f)
+        st.note("new levels' links modes (%d) and regions: %s" % (len(NEW_LINKS), "clean" if not flagged else "; ".join(flagged[:3])))
 
         # shortcuts
         c, o = short_f.result()

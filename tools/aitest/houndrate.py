@@ -8,6 +8,10 @@ stalk or hunt). Headless entities never walk, so a pack never reaches its dummy:
 leaves, as a pack that loses its quarry would (the Hound's hunt is 180 s, its whole encounter 300 s).
 
     python tools/aitest/houndrate.py --mods <Mods dir> [--data DIR] [--port 43252] [--minutes 40] [--label new]
+        [--max-packs-per-10 N] [--one-pack-at-a-time]
+
+Exits 1 when a spot's Hound packs per 10 minutes exceed --max-packs-per-10, or (with --one-pack-at-a-time) when a second pack
+was put down at a dummy within 300 s of the first (a pack's whole encounter), as the feedback round's decision says one at a time.
 
 Prints one line per spot and writes <data>/houndrate.json. Run the old build and the new one side by side (two ports) to
 compare. The spots are those of seed 12345; another seed needs `mapgen <seed> 16000 bandspots <level>`.
@@ -58,6 +62,8 @@ def main():
     ap.add_argument("--port", type=int, default=43252)
     ap.add_argument("--minutes", type=float, default=40)
     ap.add_argument("--label", default="")
+    ap.add_argument("--max-packs-per-10", type=float, default=None, help="exit 1 if any spot gets more Hound packs per 10 minutes than this")
+    ap.add_argument("--one-pack-at-a-time", action="store_true", help="exit 1 if a dummy is given a second pack while the first one's encounter (300 s) is still running")
     a = ap.parse_args()
     data = a.data or tempfile.mkdtemp(prefix="houndrate-")
     os.makedirs(data, exist_ok=True)
@@ -104,8 +110,9 @@ def main():
                     events.append(json.loads(line))
                 except ValueError:
                     pass
-    # Bodies: one per (dummy, code, kind) burst of spawn events within 2 s (a pack is put down at once)
-    per = defaultdict(lambda: dict(bodies=0, packs=0, codes=defaultdict(int)))
+    # Bodies: one per (dummy, code, kind) burst of spawn events within 2 s of the burst's first (a pack is put down at once, and
+    # the window is not stretched by each new spawn, so two packs close together stay two)
+    per = defaultdict(lambda: dict(bodies=0, packs=0, overlaps=0, starts=[], codes=defaultdict(int)))
     last = {}
     for e in events:
         if e.get("ev") != "spawn" or e.get("setpiece") in (True, "True", "true") or e.get("kind") == "Ambient":
@@ -117,7 +124,6 @@ def main():
         t = datetime.strptime(e["t"], "%Y-%m-%dT%H:%M:%S.%fZ").timestamp()
         key = (did, e.get("code"), e.get("kind"))
         if key in last and t - last[key] < 2.0:
-            last[key] = t
             continue
         last[key] = t
         rec = per[did]
@@ -125,18 +131,32 @@ def main():
         rec["codes"][e.get("code")] += 1
         if e.get("code") == "hound" and e.get("kind") in ("Stalk", "Hunt"):
             rec["packs"] += 1
+            if any(t - s0 < 300 for s0 in rec["starts"]):
+                rec["overlaps"] += 1
+            rec["starts"].append(t)
     rows = []
     for did, d in sorted(dummies.items(), key=lambda kv: kv[1]["spot"]):
         rec = per[did]
         rows.append(dict(spot=d["spot"], level=d["level"], band=d["band"], minutes=round(minutes, 1),
                          hound_packs_per_10=round(rec["packs"] * 10 / minutes, 2), bodies_per_10=round(rec["bodies"] * 10 / minutes, 2),
-                         packs=rec["packs"], bodies=rec["bodies"], codes=dict(rec["codes"])))
+                         packs=rec["packs"], overlapping_packs=rec["overlaps"], bodies=rec["bodies"], codes=dict(rec["codes"])))
         print("%-13s %s Level %s %-9s: %5.2f Hound packs / 10 min, %5.2f bodies / 10 min (%d packs, %d bodies in %.0f min; %s)" % (
             a.label, d["spot"], d["level"], d["band"], rows[-1]["hound_packs_per_10"], rows[-1]["bodies_per_10"], rec["packs"], rec["bodies"], minutes,
-            ", ".join("%s %d" % kv for kv in sorted(rec["codes"].items()))), flush=True)
+            ", ".join("%s %d" % kv for kv in sorted(rec["codes"].items()))) + (" [%d overlapping pack(s)]" % rec["overlaps"] if rec["overlaps"] else ""), flush=True)
     with open(os.path.join(data, "houndrate.json"), "w", encoding="utf-8") as f:
         json.dump(dict(label=a.label, minutes=minutes, rows=rows), f, indent=1)
+    fails = []
+    if a.max_packs_per_10 is not None:
+        fails += ["%s: %.2f Hound packs / 10 min, over %.2f" % (r["spot"], r["hound_packs_per_10"], a.max_packs_per_10)
+                  for r in rows if r["hound_packs_per_10"] > a.max_packs_per_10]
+    if a.one_pack_at_a_time:
+        fails += ["%s: %d overlapping pack(s)" % (r["spot"], r["overlapping_packs"]) for r in rows if r["overlapping_packs"]]
+    if not rows and (a.max_packs_per_10 is not None or a.one_pack_at_a_time):
+        fails.append("no dummies were listed, nothing was checked")
+    for f in fails:
+        print("FAIL:", f)
+    return 1 if fails else 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

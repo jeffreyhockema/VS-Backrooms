@@ -36,7 +36,7 @@ static class Links {
     // Barns with a wall that isn't there are rare: walk the fields for a few
     { int barns = 0; for (int rr = 0; rr < 1600 && barns < 6; rr += 37) { if (layout.LevelAt(smx + rr, smz) != 10) continue;
         for (int dz = -12; dz <= 12; dz++) { var t = layout.BuildMacro(smx + rr, smz + dz); if (t.Any(q => q.Under == Unders.Noclip)) { barns++; AddCells(smx + rr, smz + dz, 0); } } } }
-    // The five kept as 14-18 (after everything else, so the rest of the sample is as it was)
+    // The levels kept as 14-27, and the ten experimental ones (after everything else, so the rest of the sample is as it was)
     foreach (int level in new[] { WorldLayout.RunLevel, WorldLayout.FunLevel, WorldLayout.TheEnd, WorldLayout.Hub, WorldLayout.Level974,
         WorldLayout.Level3999, WorldLayout.Level188, WorldLayout.Level73, WorldLayout.Basement, WorldLayout.Level52,
         WorldLayout.Level31, WorldLayout.Level120,

@@ -35,8 +35,9 @@ ASSETS = os.path.join(REPO, "assets", "backrooms")
 # ------------------------------------------------------------------ a tolerant JSON reader (comments, bare keys, trailing commas)
 
 class _P:
-    def __init__(self, s):
+    def __init__(self, s, dups=None):
         self.s, self.i = s, 0
+        self.dups = dups  # if a list: every object key given twice is appended to it (the later one wins in the game)
 
     def ws(self):
         s = self.s
@@ -69,6 +70,8 @@ class _P:
                 if self.s[self.i] != ":":
                     raise ValueError("expected : at %d" % self.i)
                 self.i += 1
+                if k in o and self.dups is not None:
+                    self.dups.append(k)
                 o[k] = self.value()
                 self.ws()
                 if self.s[self.i] == ",":
@@ -136,10 +139,10 @@ class _P:
         return "".join(out)
 
 
-def read_json(path):
+def read_json(path, dups=None):
     with open(path, encoding="utf-8-sig") as f:
         text = f.read()
-    return _P(text).value()
+    return _P(text, dups).value()
 
 
 def read_lang(path):
@@ -562,6 +565,19 @@ def main(argv):
         for k, v in read_lang(os.path.join(ASSETS, "lang", fn)).items():
             if not isinstance(v, str) or not v.strip():
                 problems.append(("empty", "assets/backrooms/lang/%s: %s has an empty value" % (fn, k)))
+    # A key twice in one lang file: the game keeps the last, a generator that appends can leave the first stale
+    lang_dir = os.path.join(ASSETS, "lang")
+    for fn in sorted(os.listdir(lang_dir)):
+        if not fn.endswith(".json"):
+            continue
+        dups = []
+        try:
+            read_json(os.path.join(lang_dir, fn), dups)
+        except (ValueError, IndexError) as e:
+            problems.append(("parse", "assets/backrooms/lang/%s: %s" % (fn, e)))
+            continue
+        for k in sorted(set(dups)):
+            problems.append(("duplicate", "assets/backrooms/lang/%s: key %s appears more than once (%d times)" % (fn, k, dups.count(k) + 1)))
     missing = check_assets(en, idx, problems, notes)
     check_json_keys(idx, problems, stub)
     stub["block/item/entity"] = sorted(missing)
@@ -578,7 +594,7 @@ def main(argv):
     by = {}
     for kind, msg in problems:
         by.setdefault(kind, []).append(msg)
-    for kind in ("unnamed", "codey", "empty", "worldconfig", "code", "guide", "parse"):
+    for kind in ("unnamed", "codey", "empty", "duplicate", "worldconfig", "code", "guide", "parse"):
         for msg in by.get(kind, []):
             print("[%s] %s" % (kind, msg))
     for n in notes:

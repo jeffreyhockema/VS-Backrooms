@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Backrooms.Worldgen;
 using Zone = Backrooms.Worldgen.WorldLayout.L36Zone;
 
@@ -21,7 +22,7 @@ static partial class LevelModes
     {
         if (mode == "36stats") { L36Stats(layout, args.Length > 3 ? int.Parse(args[3]) : 3); return true; }
         if (mode == "36shots") { L36Shots(layout); return true; }
-        if (mode == "36links") { L36Links(layout, args.Length > 3 ? int.Parse(args[3]) : 400); return true; }
+        if (mode == "36links") { L36Links(layout, args.Length > 3 ? int.Parse(args[3]) : 400, long.Parse(args[0])); return true; }
         if (mode == "36map")
         {
             L36Map(layout, args.Length > 3 ? int.Parse(args[3]) : 1100, args.Length > 4 ? int.Parse(args[4]) : 1100,
@@ -56,8 +57,19 @@ static partial class LevelModes
         WorldLayout.IsL36AirportDoor(t) || WorldLayout.IsL36LandDoor(t) ? "l36-airport" : t.Level == WorldLayout.Level36 && t.Kind == TileKind.Floor && t.Variant == Props.L36Sink ? "l36-sink" : null;
 
     /// <summary>36links: where the ways in and out are, and how common the ways in.</summary>
-    static void L36Links(WorldLayout layout, int rings)
+    static void L36Links(WorldLayout layout, int rings, long seed)
     {
+        int bad = 0;
+        void Bad(string what) { bad++; Console.WriteLine("  BAD: " + what); }
+        var net = new Backrooms.Thresholds.ThresholdNetwork(layout, new WorldGeometry(256), seed);
+        // The arrival is in the level asked for, on a floor tile
+        bool Lands(Backrooms.Thresholds.Link l, int level, string line)
+        {
+            Tile at = layout.TileAt((int)Math.Floor(l.X), (int)Math.Floor(l.Z));
+            if (at.Level != level) { Bad(line + $": lands in level {at.Level}, not {level}"); return false; }
+            if (at.Kind != TileKind.Floor) { Bad(line + $": the arrival tile is {at.Kind}, not floor"); return false; }
+            return true;
+        }
         int smx = 16000, smz = 16000;
         if (int.TryParse(Environment.GetEnvironmentVariable("SPAWN"), out int sp)) smx = smz = sp;
         double Km(int x, int z, int ox, int oz) => Math.Sqrt((double)(x - ox) * (x - ox) + (double)(z - oz) * (z - oz)) / 1000;
@@ -95,6 +107,22 @@ static partial class LevelModes
             var fromSpawn = layout.L36HostDoorsNear(smx, smz, 6000, 3, host);
             foreach (var d in fromSpawn)
                 Console.WriteLine($"  nearest the spawn: {d.X},{d.Z} facing {d.Facing}, {Km(d.X, d.Z, smx * 32, smz * 32):0.00} km from the spawn");
+            if (near.Count == 0) Bad($"no door into the airport in Level {host}'s window");
+            foreach (var (x, z, _) in near.Take(2))
+            {
+                var p = net.Used(x, z, "l36-airport", out string refusal);
+                if (p == null) { Bad($"airport door {x},{z} in Level {host} leads nowhere ({refusal})"); continue; }
+                var home = new Backrooms.Thresholds.Link(x + 0.5, 1000, z + 0.5, false);
+                if (net.Take(p, home) is not { } arr) { Bad($"airport door {x},{z}: no arrival"); continue; }
+                int ax = (int)Math.Floor(arr.X), az = (int)Math.Floor(arr.Z);
+                string line = $"  Level {host} airport door {x},{z} -> {ax} {az}";
+                if (!Lands(arr, WorldLayout.Level36, line)) continue;
+                if (layout.FeatureBeside(ax, az, WorldLayout.IsL36LandDoor) is not { } bd) { Bad(line + ": no baggage-wall door beside the arrival"); continue; }
+                var q = net.Used(bd.X, bd.Z, "l36-airport", out _);
+                var again = q == null ? (Backrooms.Thresholds.Link?)null : net.Take(q, null);
+                if (again != home) { Bad(line + $": the baggage-wall door {bd.X},{bd.Z} does not lead back"); continue; }
+                Console.WriteLine(line + $", back through {bd.X},{bd.Z}");
+            }
         }
         // Inside: the doors in the baggage wall, the gates' flights, the sinks, near the centre line
         int wx = layout.L36WallX, lz = layout.L36LineZ;
@@ -113,6 +141,13 @@ static partial class LevelModes
                 {
                     if (g.SupportGroup) continue;
                     gates++;
+                    {
+                        var fp = net.Used(g.DoorX, g.DoorZ, "l36-flight", out string fref);
+                        int want = WorldLayout.L36LevelOf(layout.L36FlightTo(g));
+                        if (fp == null) Bad($"gate {g.Code} flight leads nowhere ({fref})");
+                        else if (net.Take(fp, null) is not { } fl) Bad($"gate {g.Code} flight: no arrival");
+                        else Lands(fl, want, $"  gate {g.Code} ({g.DoorX},{g.DoorZ}) flight");
+                    }
                     count[layout.L36FlightIndex(g.DoorX, g.DoorZ)]++;
                     if (firstTo[layout.L36FlightIndex(g.DoorX, g.DoorZ)]++ > 0) continue;
                     string board = "none";
@@ -132,7 +167,23 @@ static partial class LevelModes
         for (int i = 0; i < count.Length; i++) Console.Write($" {WorldLayout.L36FlightLevels[i]}: {count[i]}");
         Console.WriteLine($"; {sinks} restroom sinks, the first at {firstSink}");
         for (int z = lz; z < lz + 256; z++)
-            if (WorldLayout.IsL36LandDoor(layout.TileAt(wx, z))) { Console.WriteLine($"  the first door in the baggage wall south of the centre line: {wx},{z}"); break; }
+            if (WorldLayout.IsL36LandDoor(layout.TileAt(wx, z)))
+            {
+                Console.WriteLine($"  the first door in the baggage wall south of the centre line: {wx},{z}");
+                if (net.Used(wx, z, "l36-airport", out string wref) != null || wref != "locked") Bad($"baggage-wall door {wx},{z} that nobody came in by is not locked");
+                break;
+            }
+        if (land == 0) Bad("no baggage-wall doors on the centre line");
+        if (gates == 0) Bad("no gates");
+        if (firstSink is { } fs)
+        {
+            var sinkp = net.Used(fs.X, fs.Z, "l36-sink", out string sref);
+            if (sinkp == null) Bad($"restroom sink {fs.X},{fs.Z} leads nowhere ({sref})");
+            else if (net.Take(sinkp, null) is not { } sl) Bad("restroom sink: no arrival");
+            else Lands(sl, WorldLayout.Poolrooms, $"  restroom sink {fs.X},{fs.Z}");
+        }
+        else Bad("no restroom sinks");
+        Console.WriteLine(bad == 0 ? "36links: OK" : $"36links: {bad} problem(s)");
     }
 
     static void L36Map(WorldLayout layout, int w, int h, int dx, int dz)

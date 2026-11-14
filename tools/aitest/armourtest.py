@@ -1,10 +1,9 @@
 """Headless tests for the early armour ladder (feedback round 2026-11, branch exp/fb-armour).
 
-    python tools/aitest/armourtest.py --mods <Mods dir with backroomsss> [--port 43260] [--work DIR] [--only tables,conversion,recipes]
+    python tools/aitest/armourtest.py --mods <Mods dir with backroomsss> [--port 43260] [--work DIR] [--only tables,conversion]
 
-- tables: no startup errors; /backrooms armourtest for carpet vs gambeson (sewn-linen) vs leather vs none; /backrooms clanktest
+- tables: no startup errors or recipe/remap warnings in the log (so recipes that fail to load show here); /backrooms armourtest for carpet vs gambeson (sewn-linen) vs leather vs none; /backrooms clanktest
   (how far a Hound hears a runner, jumper and walker in no armour, chain, lamellar and plate).
-- recipes: /backrooms rig craft needs a player, so this only checks the log has no recipe errors and the item types loaded.
 - conversion: a world made WITHOUT config/remaps.json holds pleather and pleather armour in a chest (/backrooms stash put);
   the same world is then loaded WITH it, and the chest must hold carpet squares and the same pieces of carpet armour, nothing lost.
 """
@@ -45,8 +44,7 @@ def say(srv, cmd, secs=8):
 
 
 def errors(srv):
-    return [l for l in srv.since(0) if re.search(r"\[(Server )?Error\]|\[Warning\].*(recipe|Recipe|remap|Remap)", l)
-            and "Missing" not in l[:0]]
+    return [l for l in srv.since(0) if re.search(r"\[(Server )?Error\]|\[Warning\].*(recipe|Recipe|remap|Remap)", l)]
 
 
 def tables(mods, work, port):
@@ -120,7 +118,10 @@ def main():
     ap.add_argument("--only", default="tables,conversion")
     args = ap.parse_args()
     os.makedirs(args.work, exist_ok=True)
-    only = args.only.split(",")
+    only = [n for n in args.only.split(",") if n]
+    unknown = [n for n in only if n not in ("tables", "conversion")]
+    if unknown or not only:
+        ap.error("--only takes tables and conversion, not %s" % (", ".join(unknown) or "nothing"))
     if "tables" in only:
         shutil.rmtree(os.path.join(args.work, "tables"), ignore_errors=True)
         tables(args.mods, args.work, args.port)

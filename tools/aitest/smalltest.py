@@ -44,7 +44,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--mods", required=True)
     ap.add_argument("--port", type=int, default=43280)
-    ap.add_argument("--layout", type=int, default=0, help="(the server keeps its own layout version: a new world gets the build's CurrentVersion; build with 15 to see a version 15 world)")
+    ap.add_argument("--layout", type=int, default=0, help="layout version of the new world (passed as backroomsLayoutVersion; 0 = the build's CurrentVersion): 15 for a world without borax ore, 16 for one with")
     ap.add_argument("--washers", type=int, default=600)
     ap.add_argument("--skip-ore", action="store_true")
     ap.add_argument("--only-ore", action="store_true")
@@ -61,15 +61,31 @@ def main():
         for block in () if a.only_ore or a.only_faceling else ("icebox-north", "laundry-washer-north", "laundry-dryer-north", "supplybox-torn", "crate-open"):
             line = ask(srv, "/backrooms classdrops %s 0 0 %d" % (block, n), r"average per roll|No such block", 60)
             print((line or "no answer for " + block).split("] ", 1)[-1])
+        fails = []
         if not a.skip_ore and not a.only_faceling:
+            ore = None
             for _ in range(40):
                 line = ask(srv, "/backrooms smalltest ore 8 4 48", r"smalltest ore: (Level|\d+ of)|Found nowhere|no such", 240)
                 print((line or "no answer").split("] ", 1)[-1])
                 if line and "Level 8" in line:
+                    ore = line
                     break
                 time.sleep(8)
+            # Borax ore in Level 8 comes with layout 16 and not before
+            m = re.search(r"layout version (\d+).*?borax (\d+)", ore or "")
+            v = re.search(r"layout version (\d+)", ore or "")
+            if not v:
+                fails.append("ore: no Level 8 answer to check")
+            else:
+                borax = int(m.group(2)) if m else 0
+                if int(v.group(1)) >= 16 and borax == 0:
+                    fails.append("ore: no borax in Level 8 of a layout %s world" % v.group(1))
+                elif int(v.group(1)) < 16 and borax > 0:
+                    fails.append("ore: %d borax in Level 8 of a layout %s world" % (borax, v.group(1)))
         if a.only_ore:
-            return 0
+            for f in fails:
+                print("FAIL:", f)
+            return 1 if fails else 0
         # A dummy to drink with (the first try may only load chunks)
         for _ in range(20):
             line = ask(srv, "/backrooms dummy place 0", r"Dummy #|Found nowhere|loading|try again", 60)
@@ -103,11 +119,18 @@ def main():
             outburst = [l for l in srv.since(mark) if "outburst" in l]
             for l in outburst:
                 print("FACELING:", l)
-            print("faceling tell: " + ("PASS" if any("stares" in l for l in outburst) and any("shoves" in l for l in outburst) else "FAIL (no stare and shove lines)"))
+            tell = any("stares" in l for l in outburst) and any("shoves" in l for l in outburst)
+            print("faceling tell: " + ("PASS" if tell else "FAIL (no stare and shove lines)"))
+            if not tell:
+                fails.append("faceling tell: no stare and shove lines")
+        else:
+            fails.append("faceling tell: no dummy placed")
         bad = [l for l in srv.since(0) if re.search(r"\[backrooms\].*(error|exception)|\[Server Error\]|vanilla drinks:", l, re.I)]
         for l in bad[:10]:
             print("LOG:", l)
-        return 1 if bad else 0
+        for f in fails:
+            print("FAIL:", f)
+        return 1 if bad or fails else 0
     finally:
         srv.stop()
 
