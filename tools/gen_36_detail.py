@@ -363,6 +363,53 @@ def meetbox():
     T.save(_ground((60, 62, 68), 32, 32, T.seed_of("meetinner"), 0), "l36-meet-inner")
 
 
+MEET_PLACES = 47   # the lore's "at least 47 distinct positions": the Meeting Place's placard says which one this is
+
+
+def meetplacard():
+    """The placard on the meeting-point sign's post: 47 faces (128 x 64) reading MEETING PLACE n OF 47. Each of the post's
+    four faces carries one, split across the two blocks that hold the post's corner (the left or right half of the picture)."""
+    quads = ["nw", "ne", "sw", "se"]
+    for n in range(1, MEET_PLACES + 1):
+        img = _ground((236, 236, 230), 128, 64, T.seed_of("meetplacard" + str(n)), 4)
+        _text(img, "MEETING PLACE", G.DIN_COND, (8, 6, 120, 24), 13, (92, 44, 142))
+        _text(img, f"{n} OF {MEET_PLACES}", G.DIN, (8, 26, 120, 58), 26, (40, 42, 47))
+        T.save(_frame(img, (60, 62, 68), 2), f"l36-meetplacard-{n}")
+    # Per quarter (the block's corner nearest the post's middle): the two outward plates, as (box, face, half of the picture
+    # seen from outside). Plates 6 wide in this block, 1 thick on the post's face, six high at eye height.
+    plates = {"se": [((0, 4, 6, 5), "south", "r"), ((4, 0, 5, 6), "east", "l")],
+              "sw": [((10, 4, 16, 5), "south", "l"), ((11, 0, 12, 6), "west", "r")],
+              "ne": [((0, 11, 6, 12), "north", "l"), ((4, 10, 5, 16), "east", "r")],
+              "nw": [((10, 11, 16, 12), "north", "r"), ((11, 10, 12, 16), "west", "l")]}
+    shapes_, textures = {}, {}
+    for q in quads:
+        x0, z0, x1, z1 = _corner_box(q, 4)
+        els = [GS.box("Post", (x0, 0, z0), (x1, 16, z1), "dark", faces=("north", "east", "south", "west", "up"))]
+        for i, ((a, b, c, d), face, half) in enumerate(plates[q]):
+            el = GS.box(f"Plate{i}", (a, 6, b), (c, 12, d), "alu")
+            el["faces"][face] = {"texture": "#plate", "uv": [0, 0, 8, 16] if half == "l" else [8, 0, 16, 16], "glow": 60}
+            els.append(el)
+        shapes_[f"*-{q}-*"] = {"base": GS.shape("l36-meetplacard-" + q, els, {"dark": "props/r3-dark"})}
+    for q in quads:
+        for n in range(1, MEET_PLACES + 1):
+            textures[f"*-{q}-{n}"] = {"plate": GS.tex(f"l36-meetplacard-{n}")}
+    sizes = {"nw": (12, 12, 16, 16), "ne": (0, 12, 4, 16), "sw": (12, 0, 16, 4), "se": (0, 0, 4, 4)}
+    boxes = {f"l36-meetplacard-{q}-{n}": cuboid_(sizes[q]) for q in quads for n in range(1, MEET_PLACES + 1)}
+    GS.block("l36-meetplacard", "Level 36 (round 5): the meeting-point sign's post with a placard on each face, MEETING PLACE n OF "
+             "47 (n 1-47, from the Meeting Place's position; quad: the block's corner of the post). Replaces l36-meetpost-pole at "
+             "eye height",
+             {"variantgroups": [{"code": "quad", "states": quads}, {"code": "n", "states": [str(n) for n in range(1, MEET_PLACES + 1)]}],
+              "shapeByType": {f"*-{q}-{n}": shapes_[f"*-{q}-*"] for q in quads for n in range(1, MEET_PLACES + 1)},
+              "texturesByType": textures, "blockmaterial": "Metal", "drawtype": "json",
+              "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 0, "resistance": 6,
+              "collisionboxByType": boxes, "selectionboxByType": boxes, "sounds": GS.METAL, "attributes": dict(GS.STRUCT)})
+
+
+def cuboid_(b):
+    x0, z0, x1, z1 = (v / 16 for v in b)
+    return {"x1": x0, "y1": 0, "z1": z0, "x2": x1, "y2": 1, "z2": z1}
+
+
 def finishes():
     s = T.seed_of("finish")
     S = T.S
@@ -808,6 +855,7 @@ NAMES = {
     "block-l36-kioskposter-*": "Travel Agency Poster",
     "block-l36-meetbox-*": "Meeting Point Sign",
     "block-l36-meetpost-*": "Meeting Point Sign Post",
+    "block-l36-meetplacard-*": "Meeting Place Placard",
     "block-l36-finish-coffer": "Coffered Ceiling",
     "block-l36-finish-wood": "Oak Slat Ceiling",
     "block-l36-finish-stone": "Travertine Cladding",
@@ -830,6 +878,7 @@ def main():
     art_pictures()
     apron()
     meetbox()
+    meetplacard()
     finishes()
     surface_blocks()
     _tex_props()

@@ -35,7 +35,7 @@ public sealed partial class WorldGenerator
     // (round 3) the wall pictures, the plane at the gate, the column posters, the meeting-point sign, finishes, new props
     private readonly int[,,,] l36Art = new int[L36.L36ArtKinds.Length, 4, 2, 4];
     private readonly int[,,] l36Apron = new int[9, 5, 4];
-    private readonly int[,] l36ColPoster = new int[4, 2], l36MeetBox = new int[4, 2], l36MeetPost = new int[2, 4], l36Stall = new int[2, 4];
+    private readonly int[,] l36ColPoster = new int[4, 2], l36MeetBox = new int[4, 2], l36MeetPost = new int[2, 4], l36MeetPlacard = new int[4, 47], l36Stall = new int[2, 4];
     private readonly int[] l36Gondola = new int[4], l36Phone = new int[4], l36Atm = new int[4], l36Fountain = new int[4], l36ShoeShine = new int[4];
     private int l36Coffer, l36Wood, l36Stone, l36StoneTop, l36Skylight, l36Charger;
     // (round 4) the space frame, the columns' plinths and capitals, the carousel island's rim, the jet bridge, new props
@@ -124,6 +124,7 @@ public sealed partial class WorldGenerator
             for (int r = 0; r < 2; r++) l36MeetBox[q, r] = L36Block("l36-meetbox-" + quads[q] + "-" + boxRows[r], l36Purple);
             l36MeetPost[0, q] = L36Block("l36-meetpost-base-" + quads[q]);
             l36MeetPost[1, q] = L36Block("l36-meetpost-pole-" + quads[q]);
+            for (int n = 0; n < 47; n++) l36MeetPlacard[q, n] = L36Block($"l36-meetplacard-{quads[q]}-{n + 1}", l36MeetPost[1, q]);
             for (int r = 0; r < 2; r++) l36ColPoster[q, r] = L36Block("l36-colposter-" + colPosters[q] + "-" + r, l36Panel);
         }
         string[] meals = { "tray", "cups", "plate", "clean" }, meeting = { "base", "mid", "top" }, belts = { "none", "north", "east", "south", "west" };
@@ -344,7 +345,7 @@ public sealed partial class WorldGenerator
             }
         }
         if (t.Variant == Props.L36CarouselIsland) return rel == 1 ? L36IslandAt(gx, gz) : 0;
-        return t.Variant == 0 ? 0 : L36Prop(t, rel);
+        return t.Variant == 0 ? 0 : L36Prop(t, rel, gx, gz);
     }
 
     /// <summary>(round 4) The floor, with the jet bridge's rubber and, across the claim hall and check-in, a charcoal inlay band on
@@ -540,7 +541,11 @@ public sealed partial class WorldGenerator
         };
     }
 
-    private int L36Prop(in Tile t, int rel)
+    /// <summary>Which of the lore's 47 Meeting Places this world's is (0-46), from the marker's position and the world seed: the same forever.</summary>
+    private int L36MeetingNumber(int gx, int gz, in Tile t) =>
+        Hashing.Mod((int)(Hashing.Hash(seed, gx - (t.Stack & 1), gz - (t.Stack >> 1), 0x2542) & 0x7fffffff), 47);
+
+    private int L36Prop(in Tile t, int rel, int gx, int gz)
     {
         int f = Facing(t.Pier);
         switch (t.Variant)
@@ -548,6 +553,8 @@ public sealed partial class WorldGenerator
             case Props.L36Scanner: return rel <= 2 ? l36Scanner[(rel - 1) * 4 + f] : 0;
             // (round 3: the meeting-point sign, a lit cube on a post, a quarter of it in each of four blocks)
             // (round 4: the post up to seven, the cube at eight and nine, so it reads across the 14-high atrium)
+            // (round 5: a placard MEETING PLACE n OF 47 on the post at eye height, n by L36MeetingNumber)
+            case Props.L36MeetingPoint when rel == 2: return l36MeetPlacard[t.Stack & 3, L36MeetingNumber(gx, gz, t)];
             case Props.L36MeetingPoint: return rel == 1 ? l36MeetPost[0, t.Stack & 3] : rel <= 7 ? l36MeetPost[1, t.Stack & 3] : rel <= 9 ? l36MeetBox[t.Stack & 3, rel - 8] : 0;
             case Props.L36KioskWall:
                 if (rel > 5) return 0;

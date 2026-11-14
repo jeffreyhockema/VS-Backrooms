@@ -1,0 +1,4615 @@
+// Level 36 (round 5): the meeting-point sign's post with a placard on each face, MEETING PLACE n OF 47 (n 1-47, from the Meeting Place's position; quad: the block's corner of the post). Replaces l36-meetpost-pole at eye height
+{
+	"code": "l36-meetplacard",
+	"variantgroups": [
+		{
+			"code": "quad",
+			"states": [
+				"nw",
+				"ne",
+				"sw",
+				"se"
+			]
+		},
+		{
+			"code": "n",
+			"states": [
+				"1",
+				"2",
+				"3",
+				"4",
+				"5",
+				"6",
+				"7",
+				"8",
+				"9",
+				"10",
+				"11",
+				"12",
+				"13",
+				"14",
+				"15",
+				"16",
+				"17",
+				"18",
+				"19",
+				"20",
+				"21",
+				"22",
+				"23",
+				"24",
+				"25",
+				"26",
+				"27",
+				"28",
+				"29",
+				"30",
+				"31",
+				"32",
+				"33",
+				"34",
+				"35",
+				"36",
+				"37",
+				"38",
+				"39",
+				"40",
+				"41",
+				"42",
+				"43",
+				"44",
+				"45",
+				"46",
+				"47"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-nw-1": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-2": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-3": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-4": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-5": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-6": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-7": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-8": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-9": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-10": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-11": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-12": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-13": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-14": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-15": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-16": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-17": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-18": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-19": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-20": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-21": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-22": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-23": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-24": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-25": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-26": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-27": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-28": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-29": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-30": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-31": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-32": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-33": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-34": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-35": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-36": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-37": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-38": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-39": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-40": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-41": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-42": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-43": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-44": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-45": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-46": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-nw-47": {
+			"base": "backrooms:block/36/l36-meetplacard-nw"
+		},
+		"*-ne-1": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-2": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-3": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-4": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-5": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-6": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-7": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-8": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-9": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-10": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-11": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-12": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-13": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-14": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-15": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-16": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-17": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-18": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-19": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-20": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-21": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-22": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-23": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-24": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-25": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-26": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-27": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-28": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-29": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-30": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-31": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-32": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-33": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-34": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-35": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-36": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-37": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-38": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-39": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-40": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-41": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-42": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-43": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-44": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-45": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-46": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-ne-47": {
+			"base": "backrooms:block/36/l36-meetplacard-ne"
+		},
+		"*-sw-1": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-2": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-3": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-4": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-5": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-6": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-7": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-8": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-9": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-10": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-11": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-12": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-13": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-14": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-15": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-16": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-17": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-18": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-19": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-20": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-21": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-22": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-23": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-24": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-25": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-26": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-27": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-28": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-29": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-30": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-31": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-32": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-33": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-34": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-35": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-36": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-37": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-38": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-39": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-40": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-41": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-42": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-43": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-44": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-45": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-46": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-sw-47": {
+			"base": "backrooms:block/36/l36-meetplacard-sw"
+		},
+		"*-se-1": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-2": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-3": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-4": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-5": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-6": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-7": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-8": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-9": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-10": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-11": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-12": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-13": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-14": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-15": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-16": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-17": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-18": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-19": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-20": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-21": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-22": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-23": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-24": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-25": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-26": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-27": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-28": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-29": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-30": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-31": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-32": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-33": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-34": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-35": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-36": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-37": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-38": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-39": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-40": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-41": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-42": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-43": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-44": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-45": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-46": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		},
+		"*-se-47": {
+			"base": "backrooms:block/36/l36-meetplacard-se"
+		}
+	},
+	"texturesByType": {
+		"*-nw-1": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-1"
+			}
+		},
+		"*-nw-2": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-2"
+			}
+		},
+		"*-nw-3": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-3"
+			}
+		},
+		"*-nw-4": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-4"
+			}
+		},
+		"*-nw-5": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-5"
+			}
+		},
+		"*-nw-6": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-6"
+			}
+		},
+		"*-nw-7": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-7"
+			}
+		},
+		"*-nw-8": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-8"
+			}
+		},
+		"*-nw-9": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-9"
+			}
+		},
+		"*-nw-10": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-10"
+			}
+		},
+		"*-nw-11": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-11"
+			}
+		},
+		"*-nw-12": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-12"
+			}
+		},
+		"*-nw-13": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-13"
+			}
+		},
+		"*-nw-14": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-14"
+			}
+		},
+		"*-nw-15": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-15"
+			}
+		},
+		"*-nw-16": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-16"
+			}
+		},
+		"*-nw-17": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-17"
+			}
+		},
+		"*-nw-18": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-18"
+			}
+		},
+		"*-nw-19": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-19"
+			}
+		},
+		"*-nw-20": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-20"
+			}
+		},
+		"*-nw-21": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-21"
+			}
+		},
+		"*-nw-22": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-22"
+			}
+		},
+		"*-nw-23": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-23"
+			}
+		},
+		"*-nw-24": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-24"
+			}
+		},
+		"*-nw-25": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-25"
+			}
+		},
+		"*-nw-26": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-26"
+			}
+		},
+		"*-nw-27": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-27"
+			}
+		},
+		"*-nw-28": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-28"
+			}
+		},
+		"*-nw-29": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-29"
+			}
+		},
+		"*-nw-30": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-30"
+			}
+		},
+		"*-nw-31": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-31"
+			}
+		},
+		"*-nw-32": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-32"
+			}
+		},
+		"*-nw-33": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-33"
+			}
+		},
+		"*-nw-34": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-34"
+			}
+		},
+		"*-nw-35": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-35"
+			}
+		},
+		"*-nw-36": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-36"
+			}
+		},
+		"*-nw-37": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-37"
+			}
+		},
+		"*-nw-38": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-38"
+			}
+		},
+		"*-nw-39": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-39"
+			}
+		},
+		"*-nw-40": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-40"
+			}
+		},
+		"*-nw-41": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-41"
+			}
+		},
+		"*-nw-42": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-42"
+			}
+		},
+		"*-nw-43": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-43"
+			}
+		},
+		"*-nw-44": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-44"
+			}
+		},
+		"*-nw-45": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-45"
+			}
+		},
+		"*-nw-46": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-46"
+			}
+		},
+		"*-nw-47": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-47"
+			}
+		},
+		"*-ne-1": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-1"
+			}
+		},
+		"*-ne-2": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-2"
+			}
+		},
+		"*-ne-3": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-3"
+			}
+		},
+		"*-ne-4": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-4"
+			}
+		},
+		"*-ne-5": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-5"
+			}
+		},
+		"*-ne-6": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-6"
+			}
+		},
+		"*-ne-7": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-7"
+			}
+		},
+		"*-ne-8": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-8"
+			}
+		},
+		"*-ne-9": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-9"
+			}
+		},
+		"*-ne-10": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-10"
+			}
+		},
+		"*-ne-11": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-11"
+			}
+		},
+		"*-ne-12": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-12"
+			}
+		},
+		"*-ne-13": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-13"
+			}
+		},
+		"*-ne-14": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-14"
+			}
+		},
+		"*-ne-15": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-15"
+			}
+		},
+		"*-ne-16": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-16"
+			}
+		},
+		"*-ne-17": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-17"
+			}
+		},
+		"*-ne-18": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-18"
+			}
+		},
+		"*-ne-19": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-19"
+			}
+		},
+		"*-ne-20": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-20"
+			}
+		},
+		"*-ne-21": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-21"
+			}
+		},
+		"*-ne-22": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-22"
+			}
+		},
+		"*-ne-23": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-23"
+			}
+		},
+		"*-ne-24": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-24"
+			}
+		},
+		"*-ne-25": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-25"
+			}
+		},
+		"*-ne-26": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-26"
+			}
+		},
+		"*-ne-27": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-27"
+			}
+		},
+		"*-ne-28": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-28"
+			}
+		},
+		"*-ne-29": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-29"
+			}
+		},
+		"*-ne-30": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-30"
+			}
+		},
+		"*-ne-31": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-31"
+			}
+		},
+		"*-ne-32": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-32"
+			}
+		},
+		"*-ne-33": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-33"
+			}
+		},
+		"*-ne-34": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-34"
+			}
+		},
+		"*-ne-35": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-35"
+			}
+		},
+		"*-ne-36": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-36"
+			}
+		},
+		"*-ne-37": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-37"
+			}
+		},
+		"*-ne-38": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-38"
+			}
+		},
+		"*-ne-39": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-39"
+			}
+		},
+		"*-ne-40": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-40"
+			}
+		},
+		"*-ne-41": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-41"
+			}
+		},
+		"*-ne-42": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-42"
+			}
+		},
+		"*-ne-43": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-43"
+			}
+		},
+		"*-ne-44": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-44"
+			}
+		},
+		"*-ne-45": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-45"
+			}
+		},
+		"*-ne-46": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-46"
+			}
+		},
+		"*-ne-47": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-47"
+			}
+		},
+		"*-sw-1": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-1"
+			}
+		},
+		"*-sw-2": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-2"
+			}
+		},
+		"*-sw-3": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-3"
+			}
+		},
+		"*-sw-4": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-4"
+			}
+		},
+		"*-sw-5": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-5"
+			}
+		},
+		"*-sw-6": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-6"
+			}
+		},
+		"*-sw-7": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-7"
+			}
+		},
+		"*-sw-8": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-8"
+			}
+		},
+		"*-sw-9": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-9"
+			}
+		},
+		"*-sw-10": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-10"
+			}
+		},
+		"*-sw-11": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-11"
+			}
+		},
+		"*-sw-12": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-12"
+			}
+		},
+		"*-sw-13": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-13"
+			}
+		},
+		"*-sw-14": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-14"
+			}
+		},
+		"*-sw-15": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-15"
+			}
+		},
+		"*-sw-16": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-16"
+			}
+		},
+		"*-sw-17": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-17"
+			}
+		},
+		"*-sw-18": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-18"
+			}
+		},
+		"*-sw-19": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-19"
+			}
+		},
+		"*-sw-20": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-20"
+			}
+		},
+		"*-sw-21": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-21"
+			}
+		},
+		"*-sw-22": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-22"
+			}
+		},
+		"*-sw-23": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-23"
+			}
+		},
+		"*-sw-24": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-24"
+			}
+		},
+		"*-sw-25": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-25"
+			}
+		},
+		"*-sw-26": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-26"
+			}
+		},
+		"*-sw-27": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-27"
+			}
+		},
+		"*-sw-28": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-28"
+			}
+		},
+		"*-sw-29": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-29"
+			}
+		},
+		"*-sw-30": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-30"
+			}
+		},
+		"*-sw-31": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-31"
+			}
+		},
+		"*-sw-32": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-32"
+			}
+		},
+		"*-sw-33": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-33"
+			}
+		},
+		"*-sw-34": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-34"
+			}
+		},
+		"*-sw-35": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-35"
+			}
+		},
+		"*-sw-36": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-36"
+			}
+		},
+		"*-sw-37": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-37"
+			}
+		},
+		"*-sw-38": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-38"
+			}
+		},
+		"*-sw-39": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-39"
+			}
+		},
+		"*-sw-40": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-40"
+			}
+		},
+		"*-sw-41": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-41"
+			}
+		},
+		"*-sw-42": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-42"
+			}
+		},
+		"*-sw-43": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-43"
+			}
+		},
+		"*-sw-44": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-44"
+			}
+		},
+		"*-sw-45": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-45"
+			}
+		},
+		"*-sw-46": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-46"
+			}
+		},
+		"*-sw-47": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-47"
+			}
+		},
+		"*-se-1": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-1"
+			}
+		},
+		"*-se-2": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-2"
+			}
+		},
+		"*-se-3": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-3"
+			}
+		},
+		"*-se-4": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-4"
+			}
+		},
+		"*-se-5": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-5"
+			}
+		},
+		"*-se-6": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-6"
+			}
+		},
+		"*-se-7": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-7"
+			}
+		},
+		"*-se-8": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-8"
+			}
+		},
+		"*-se-9": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-9"
+			}
+		},
+		"*-se-10": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-10"
+			}
+		},
+		"*-se-11": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-11"
+			}
+		},
+		"*-se-12": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-12"
+			}
+		},
+		"*-se-13": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-13"
+			}
+		},
+		"*-se-14": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-14"
+			}
+		},
+		"*-se-15": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-15"
+			}
+		},
+		"*-se-16": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-16"
+			}
+		},
+		"*-se-17": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-17"
+			}
+		},
+		"*-se-18": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-18"
+			}
+		},
+		"*-se-19": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-19"
+			}
+		},
+		"*-se-20": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-20"
+			}
+		},
+		"*-se-21": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-21"
+			}
+		},
+		"*-se-22": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-22"
+			}
+		},
+		"*-se-23": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-23"
+			}
+		},
+		"*-se-24": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-24"
+			}
+		},
+		"*-se-25": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-25"
+			}
+		},
+		"*-se-26": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-26"
+			}
+		},
+		"*-se-27": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-27"
+			}
+		},
+		"*-se-28": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-28"
+			}
+		},
+		"*-se-29": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-29"
+			}
+		},
+		"*-se-30": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-30"
+			}
+		},
+		"*-se-31": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-31"
+			}
+		},
+		"*-se-32": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-32"
+			}
+		},
+		"*-se-33": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-33"
+			}
+		},
+		"*-se-34": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-34"
+			}
+		},
+		"*-se-35": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-35"
+			}
+		},
+		"*-se-36": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-36"
+			}
+		},
+		"*-se-37": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-37"
+			}
+		},
+		"*-se-38": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-38"
+			}
+		},
+		"*-se-39": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-39"
+			}
+		},
+		"*-se-40": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-40"
+			}
+		},
+		"*-se-41": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-41"
+			}
+		},
+		"*-se-42": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-42"
+			}
+		},
+		"*-se-43": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-43"
+			}
+		},
+		"*-se-44": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-44"
+			}
+		},
+		"*-se-45": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-45"
+			}
+		},
+		"*-se-46": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-46"
+			}
+		},
+		"*-se-47": {
+			"plate": {
+				"base": "backrooms:block/36/l36-meetplacard-47"
+			}
+		}
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 6,
+	"collisionboxByType": {
+		"l36-meetplacard-nw-1": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-2": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-3": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-4": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-5": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-6": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-7": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-8": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-9": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-10": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-11": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-12": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-13": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-14": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-15": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-16": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-17": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-18": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-19": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-20": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-21": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-22": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-23": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-24": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-25": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-26": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-27": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-28": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-29": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-30": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-31": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-32": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-33": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-34": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-35": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-36": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-37": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-38": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-39": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-40": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-41": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-42": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-43": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-44": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-45": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-46": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-47": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-1": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-2": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-3": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-4": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-5": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-6": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-7": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-8": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-9": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-10": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-11": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-12": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-13": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-14": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-15": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-16": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-17": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-18": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-19": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-20": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-21": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-22": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-23": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-24": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-25": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-26": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-27": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-28": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-29": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-30": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-31": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-32": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-33": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-34": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-35": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-36": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-37": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-38": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-39": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-40": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-41": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-42": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-43": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-44": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-45": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-46": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-47": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-sw-1": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-2": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-3": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-4": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-5": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-6": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-7": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-8": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-9": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-10": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-11": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-12": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-13": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-14": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-15": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-16": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-17": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-18": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-19": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-20": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-21": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-22": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-23": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-24": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-25": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-26": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-27": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-28": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-29": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-30": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-31": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-32": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-33": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-34": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-35": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-36": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-37": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-38": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-39": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-40": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-41": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-42": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-43": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-44": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-45": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-46": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-47": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-1": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-2": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-3": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-4": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-5": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-6": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-7": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-8": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-9": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-10": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-11": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-12": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-13": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-14": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-15": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-16": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-17": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-18": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-19": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-20": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-21": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-22": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-23": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-24": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-25": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-26": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-27": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-28": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-29": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-30": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-31": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-32": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-33": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-34": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-35": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-36": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-37": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-38": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-39": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-40": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-41": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-42": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-43": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-44": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-45": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-46": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-47": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		}
+	},
+	"selectionboxByType": {
+		"l36-meetplacard-nw-1": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-2": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-3": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-4": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-5": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-6": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-7": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-8": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-9": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-10": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-11": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-12": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-13": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-14": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-15": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-16": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-17": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-18": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-19": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-20": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-21": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-22": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-23": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-24": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-25": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-26": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-27": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-28": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-29": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-30": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-31": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-32": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-33": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-34": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-35": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-36": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-37": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-38": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-39": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-40": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-41": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-42": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-43": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-44": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-45": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-46": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-nw-47": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-1": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-2": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-3": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-4": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-5": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-6": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-7": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-8": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-9": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-10": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-11": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-12": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-13": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-14": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-15": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-16": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-17": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-18": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-19": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-20": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-21": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-22": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-23": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-24": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-25": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-26": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-27": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-28": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-29": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-30": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-31": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-32": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-33": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-34": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-35": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-36": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-37": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-38": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-39": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-40": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-41": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-42": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-43": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-44": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-45": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-46": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-ne-47": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 1.0
+		},
+		"l36-meetplacard-sw-1": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-2": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-3": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-4": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-5": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-6": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-7": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-8": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-9": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-10": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-11": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-12": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-13": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-14": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-15": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-16": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-17": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-18": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-19": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-20": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-21": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-22": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-23": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-24": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-25": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-26": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-27": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-28": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-29": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-30": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-31": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-32": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-33": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-34": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-35": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-36": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-37": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-38": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-39": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-40": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-41": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-42": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-43": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-44": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-45": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-46": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-sw-47": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 1.0,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-1": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-2": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-3": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-4": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-5": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-6": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-7": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-8": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-9": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-10": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-11": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-12": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-13": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-14": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-15": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-16": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-17": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-18": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-19": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-20": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-21": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-22": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-23": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-24": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-25": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-26": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-27": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-28": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-29": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-30": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-31": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-32": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-33": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-34": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-35": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-36": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-37": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-38": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-39": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-40": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-41": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-42": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-43": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-44": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-45": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-46": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		},
+		"l36-meetplacard-se-47": {
+			"x1": 0.0,
+			"y1": 0,
+			"z1": 0.0,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.25
+		}
+	},
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"attributes": {
+		"l36structure": true
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"drops": []
+}
