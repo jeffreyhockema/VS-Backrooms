@@ -1,5 +1,7 @@
 # The experimental levels: balance review (2026-11-01)
 
+(Updated 2026-11-14, the review: the figures that later rounds changed are corrected in place and say so; Levels 14 and 47 were added after this review and are not in it.)
+
 The eight experimental levels (73, the Basement, 52, 31, 36, 120, 15, 23) as they stand at 0.700.0-pre.3 (`e3950fc3`), read
 against the released game's progression rules: **lethality and armour by depth, ore only in Level 8, scarcity by survival
 class** (progression decisions 2, 5, 18-21), one kind of menacing thing at a time in Classes 0-2 and two in 3-5 (entity
@@ -23,7 +25,7 @@ need is under "Proposed" and "For the lead" below.
 | Level | Lore class | Code class (food x) | Danger | Solitude | Where the director works | Commonest hunter's blow | Ways in (from) | Ways out (to) | Verdict |
 |---|---|---|---|---|---|---|---|---|---|
 | 73 Redlands | 5 | 5 (x0.35) | 0.9 | 0.15 | outside the castle: the edge; the hill Coran keeps now the Approach | Hound 17.6 (dead in 1) | 9 (the Gloom), 6 (deepest dark); one-way | 9 (Coran's lead); one-way | deadliest band in the game; the run made makeable (applied) |
-| Basement | 2 | 2 (x1, now x0.5) | 0.3 | 1.3 | Cellar heartland, Flood approach | Smiler 7.6 (2 blows) | 0, 1, 2, 4, 5 (cracked floor); one-way | 0 (climb the crack); one-way | fine; food richer than its lore (applied); a newcomer's trap (user) |
+| Basement | 2 | 2 (x1, now x0.25) | 0.3 | 1.3 | Cellar heartland, Flood approach | Smiler 7.6 (2 blows) | 0, 1, 2, 4, 5 (cracked floor); one-way | 0 (climb the crack); one-way | fine; food cut to a quarter (applied); a newcomer's trap (user) |
 | 52 Campus | 1 | 1 (x1) | 0 | 1.0 | nowhere (Safe) | none | 4, 11; two-way | the same doors back | a sanctuary, as the lore says; fine |
 | 31 Roller Rink | 0 | 0 now (x1) | 0 | 1.0 | nowhere (Safe) | none | 2, 3, 6; two-way | 9/10/11 (revolving door), 0 (skates); one-way | infinite free food next to Class 3-4 levels (proposed) |
 | 36 Airport | 1 | 1 (x1) | 0.35 | 1.0, now 2.5 | blackouts and dark back of house (edge) | Hound 9.1 (1.6 blows) | 9, 11; two-way | 11, 9, 37, 3999, 188, 10 (flights), 37 (sink); one-way | blackouts too busy for "rare" (applied); a food hoard off Level 9 (user) |
@@ -58,8 +60,8 @@ blows); Level 1's heartland 8.6 and approach 23.5; Level 4's approach 21; Level 
   drops twice and 46 % an extra from the deepest pool (tin bronze bits 2-4 about one time in four, iron bits 1-3 one in nine, a
   temporal gear one in 75). The castle's 18 candelabras and its furniture are such blocks: a few bronze and iron bits in all, as
   from any cache in Levels 7-11. No ore. Not a breach for a Class 5 level (but see Level 6 below).
-- **Restricted resources.** 14 real beds (a respawn point, decision 9) in the one safe building; pleather from the upholstery
-  (decision 10 allows it). 4 C outside, 16-22 inside; stability 0.9 outside, 1 within the walls. Fine.
+- **Restricted resources.** 14 real beds (a respawn point, decision 9) in the one safe building; cloth from the upholstery
+  (it gave pleather before the feedback round retired it). 4 C outside, 16-22 inside; stability 0.9 outside, 1 within the walls. Fine.
 - **Ways.** In: the Gloom in Level 9 (90 s in it, warned three times; about nine in the world, the nearest 6.7 km from spawn),
   Level 6's deepest dark (180 s without light; five in the world, the nearest 4.25 km). Out: Coran's lead to Level 9.
   **6 to 73 to 9** skips Levels 7 and 8 (and the only ore), but costs a class-5 run, a night's sleep and an unarmoured arrival in
@@ -94,8 +96,8 @@ blows); Level 1's heartland 8.6 and approach 23.5; Level 4's approach 21; Level 
   water dehydrates. A Level 0 newcomer with an empty bag must gather a ladder's worth of placeable blocks (furniture salvage,
   rope) before thirst does its work: possible, but the likelier way out is death and the respawn. The patches are kilometres
   apart and a Lobby note ("Soft floor") warns of them, so it is rare. See "Proposed".
-- **Verdict.** Director and danger fine. **Applied:** food from blocks in the Basement x0.5 (`ScarcitySystem.ClassScale`, the
-  resource axis of its Fandom class; the pantries stay, half as full). **Proposed** (user decision): a surer way out for the
+- **Verdict.** Director and danger fine. **Applied:** food from blocks in the Basement x0.5, cut to x0.25 in the balance fixes of 2026-11 (`ScarcitySystem.ClassScale`, the
+  resource axis of its Fandom class; the pantries stay, a quarter as full). **Proposed** (user decision): a surer way out for the
   unequipped.
 
 ## Level 52, the Greenfield Campus
@@ -104,10 +106,9 @@ blows); Level 1's heartland 8.6 and approach 23.5; Level 4's approach 21; Level 
 - **Loot.** Store rooms (a box one time in four, 30 % torn above the ground storey), J. Barry's warehouse (shelving, a few
   boxes), lockers and filing cabinets (brackets, notes), corridor fountains (3.5 % of corridor wall tiles, 1-3 Almond Water each,
   one time), coolers, vending machines (snack machines restock weekly), the canteen. Lodging blocks full of beds (and J.
-  Turner's converted classrooms). No metal beyond brackets; no weapons or armour beyond pleather from chairs. 10-32 C outdoors
+  Turner's converted classrooms). No metal beyond brackets; no weapons or armour (the pleather chairs gave is gone with the feedback round). 10-32 C outdoors
   over the day, 21 C indoors; stability 1.1.
-- **Ways.** In: an EMERGENCY EXIT in Level 4 (0.49 per km2, the nearest 2.2 km from spawn) and a high school in Level 11 (about
-  one city block in 123); both two-way, back by the doors you came in by. Out: only those.
+- **Ways.** In: an EMERGENCY EXIT in Level 4 (0.63 cells per km2 as `52links` counts it now; 0.49 at pre.3) and a high school in Level 11 (one city block in 640, 0.11 schools per km2 of city; one in 123 at pre.3); both two-way, back by the doors you came in by. Out: only those.
 - **A free sanctuary?** Yes, and the lore says so. It sits beside Level 4, already the game's calm level (its heartland Safe in
   play, Facelings, camps) and Class 1, so it adds safe ground where the game already has it, not where scarcity is meant to bite:
   no level of Class 3 or more leads to it. Its beds are a respawn point beside Level 4, like Level 4's camps. Its food is weekly
@@ -123,7 +124,7 @@ blows); Level 1's heartland 8.6 and approach 23.5; Level 4's approach 21; Level 
 - **The Coach** (`l31-coach`): invulnerable, stands still, gives one pair of skates free (+30 % walk speed on the rink's smooth
   floors, only in Level 31), marks the nearest revolving door on the map. Harmless to balance.
 - **Food: the problem.** The food court's server hands every player a pizza, wings or hot dog (300-380 satiety) **every 1.5 game
-  hours** (3 real minutes at the default day length), with Almond Water 60 % of the time (`L31System.ServeHours`), and its vending
+  hours** (3 real minutes at the default day length), with Almond Water 60 % of the time (`L31System.ServeHours`; as measured at pre.3, since changed to 12 hours and 30 %, see P1), and its vending
   machines swap Almond Water for snacks without stock. That is 16 meals a game day, four or five times what a player eats, handed
   over as items that stack and keep: an infinite food and water farm. It is **two-way from Levels 2 and 3** (Class 3 and 4, where
   decision 21 thins food to x0.7 and x0.5) and from Level 6. Nothing else in the game feeds without limit but the Snackrooms'
@@ -243,10 +244,10 @@ blows); Level 1's heartland 8.6 and approach 23.5; Level 4's approach 21; Level 
 - **The new creatures and the director's caps.** None of the four is put down by the director or counted in its caps: Coran, the
   Coach and the Planner are not menacing; Misglitches are L120System's own (up to six round a death, more than the director
   allows a Class 2 level at once: see Proposed). Level 73's packs fill the cap of five (two kinds) at once.
-- **Map crowding.** The regions do not overlap (README). The hosts gain entrances: **Level 4** three kinds (52's exit 0.49 and
+- **Map crowding.** The regions do not overlap (README). The hosts gain entrances: **Level 4** three kinds (52's exit 0.63 and
   120's SERVER ROOM 0.52 per km2, the Basement's crack one cell in 3000), all leading somewhere calm or back; **Level 2** two (31's
   door 1.2 per km2, the crack); **Level 3** two (15's door 0.48, 31's 0.56); **Level 9** two (36's door 0.34, the Gloom 0.22);
-  **Level 11** two (52's schools 1.07, 36's door 0.30); Levels 0, 1, 5, 6, 10 and 37 one each. All are kilometres apart, rarer than
+  **Level 11** two (52's schools 0.11, 36's door 0.30); Levels 0, 1, 5, 6, 10 and 37 one each. All are kilometres apart, rarer than
   layout 12's quartered shortcuts; the link session owns their numbers.
 - **Warnings.** Of the ways into a more dangerous level, Level 120's door has a placard and 36's gates name their level; 31's
   revolving doors to Level 9, 15's ESCAPE to Level 3 and the Level 6 dark to Level 73 have none (the last is warned in chat).
@@ -257,7 +258,7 @@ blows); Level 1's heartland 8.6 and approach 23.5; Level 4's approach 21; Level 
    levels breaks decision 21 more than anything else here. Proposed (the level's file, not this review's).
 2. **Level 73's run: the Approach within 140 blocks of the castle** (MenaceSystem's Level 73 arm). Applied.
 3. **Level 36's blackouts: solitude 2.5** (`Roster.Solitude`). Applied.
-4. **The Basement's food x0.5** (`ScarcitySystem.ClassScale`). Applied.
+4. **The Basement's food x0.5, then x0.25** (`ScarcitySystem.ClassScale`). Applied.
 5. **Level 36's food hoard off Level 9**: either food x0.7 in 36 (`ScarcitySystem.ClassScale`, one line, as for the Basement) or
    fewer snack shops (1 in 8 to 1 in 24, its layout). User decision.
 6. **31's revolving doors named** (which level each leads to, on a sign and in the Coach's line). For the lead and the 31 agent.
@@ -274,7 +275,7 @@ Single lines or arms in this review's files; each builds, and nothing in Levels 
 |---|---|---|---|---|---|---|
 | A1 | Level 73: the hill Coran keeps is the Approach band | `src/Entities/MenaceSystem.cs` (Level 73's arm of the band switch) | the edge (Threshold) everywhere outside the walls | the Approach within 140 blocks of the castle's middle (`L73IslandX/Z`; Coran's leash; the arrivals lie inside), the edge beyond | the director's rolls there 813 to 208 bodies an hour, hunters about 47 % to 24 % of them; the walker's felt hunts on the hill 289 to 131 an hour (Verification) | the user's decision asks for a run "a fast player can make"; at one body every 9 s it was luck. Still the busiest approach band in the game at one-blow danger |
 | A2 | Level 36: solitude 2.5 | `src/Entities/Roster.cs` (`Solitude`, a new arm) | 1.0 (the default) | 2.5 | the blackouts' rolls 95.5 to 36.3 bodies an hour (sounds 161 to 61) | the lore's "rarely", in a Class 1 level; now between Level 1's approach (23.5) and Level 3999's Blackout (122) |
-| A3 | The Basement: food from blocks x0.5 | `src/Salvage/ScarcitySystem.cs` (`ClassScale`, a new line) | x1 (Class 2) | x0.5 | pantry shelves, iceboxes, boxes and dispensers there give half (the class-scale behaviour every food block carries) | Fandom's "Lack of Needed Resources" and the plan's "no food of the level's own"; its pantries held more than ten sealed boxes each |
+| A3 | The Basement: food from blocks x0.5 (now x0.25) | `src/Salvage/ScarcitySystem.cs` (`ClassScale`, a new line) | x1 (Class 2) | x0.5, then x0.25 | pantry shelves, iceboxes, boxes and dispensers there give half, then a quarter (the class-scale behaviour every food block carries) | Fandom's "Lack of Needed Resources" and the plan's "no food of the level's own"; its pantries held more than ten sealed boxes each |
 | A4 | Level 31: survival class 0 | `src/Worldgen/WorldLayout.Gates.cs` (`SurvivalClass`, a new arm) | 1 (the default) | 0 | no behaviour: scarcity, kinds at once, placards and the crossing line are the same for 0 and 1 | Wikidot's Survival Difficulty 0; the table now says it |
 | A5 | The eight levels in the balance spec | `docs/design/balance-spec.yaml` | no rows | a row each: class, solitude, danger, kinds at once, class scale, the director's bands (measured after A1-A4, 100 hours) and the commonest hunter's armour rows | the gate's scorecard reads them | so a later change to any of these numbers shows up in the gate |
 
@@ -284,7 +285,7 @@ Each with the file it lives in and the number; none applied.
 
 | # | Change | Where | Before | After | Why |
 |---|---|---|---|---|---|
-| P1 | Level 31's server feeds a player every 6 game hours | `src/Regions/L31System.cs` `ServeHours` | 1.5 (16 meals a game day) | 6 (4 a game day, about 1360 satiety) | an infinite stockable food and water farm two-way from Class 3-4 levels (decision 21); 4 meals keep a resident fed and give nothing to carry away. If the user would rather keep the lore's generosity, the alternative is serving a dish eaten at the counter (as Level 73's table), not an item |
+| P1 | Level 31's server feeds a player every 6 game hours (now 12, with Almond Water 30 %) | `src/Regions/L31System.cs` `ServeHours` | 1.5 (16 meals a game day) | 6 (4 a game day, about 1360 satiety), then 12 (2 a game day) and Almond Water 30 % in the balance fixes of 2026-11 | an infinite stockable food and water farm two-way from Class 3-4 levels (decision 21); 4 meals keep a resident fed and give nothing to carry away. If the user would rather keep the lore's generosity, the alternative is serving a dish eaten at the counter (as Level 73's table), not an item |
 | P2 | Level 36's food thinned | `src/Salvage/ScarcitySystem.cs` `ClassScale` (one line, as the Basement's) or `WorldLayout.Level36.cs` (snack shops 1 in 8 duty-free shops to 1 in 24) | x1, 1 shop in 8 | x0.7, or 1 in 24 | a Snackrooms in every duty-free street, two-way from Level 9 (food x0.35), in a level where fatigue is held. Lore class 1 argues for leaving it: the user's call |
 | P3 | A surer way out of the Basement | `WorldLayout.LevelBasement.cs` (the crack's ladder) | a 2-high vanilla ladder by half the cracks | at one crack in three, a ladder or rope that reaches rel 16 (or a stack of crates under the shaft) | a Level 0-2 newcomer who falls in with nothing has Foul water, tier-3 walls and a 16-block climb; the lore's "near impossible" is kept by most cracks, and the notes can point at the one that is not |
 | P4 | Misglitches round a death | `src/Regions/L120System.cs` (the 6-within-24 cap) | 6 | 3 | a Class 2 level's director allows 1-3 menacing things at once; six faster-than-walking, long-reach hunters round a corpse is a death loop |

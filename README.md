@@ -4,16 +4,16 @@ A [Vintage Story](https://www.vintagestory.at/) mod. **Wake up in the Backrooms 
 
 ![Level 0, where you wake](docs/screenshots/01-level0-where-you-wake.png)
 
-You start in Level 0, an endless, procedurally generated labyrinth of mono-yellow rooms under buzzing fluorescent lights, with a folded note in your pocket and two supply boxes beside you. Walk far enough and it gives way to deeper levels, one after another: the concrete car park of Level 1, the pipe tunnels of Level 2, the Electrical Station, the Abandoned Office, the Terror Hotel, the lightless maze of Level 6, the endless sea of Level 7, the caves of Level 8, the night-time Suburbs and the farmland of Level 10. Further still, reached by the ways between levels and no wall, lie the Endless City, the Poolrooms, Motion, Level !, Level Fun =), The End, The Hub, Kitty's House, the Neon Paradise and the Courtyard of Windows.
+You start in Level 0, an endless, procedurally generated labyrinth of mono-yellow rooms under buzzing fluorescent lights, with a folded note in your pocket and two supply boxes beside you. Walk far enough and it gives way to deeper levels, one after another: the concrete car park of Level 1, the pipe tunnels of Level 2, the Electrical Station, the Abandoned Office, the Terror Hotel, the lightless maze of Level 6, the endless sea of Level 7, the caves of Level 8, the night-time Suburbs and the farmland of Level 10. Further still, reached by the ways between levels and no wall, lie the Endless City, the Poolrooms, Motion, Level !, Level Fun =), The End, The Hub, Kitty's House, the Neon Paradise and the Courtyard of Windows. Past those, by rarer ways still, lie ten more: the Basement under the floors, the Redlands and its castle, the School Halls, the Roller Rink, Broken Servos, the Airport, the Futuristic Halls, the Petrified Garden, the Hospital and the Adderwood.
 
 It is a complete survival game built on Vintage Story's own systems. Hunger, thirst, sleep, temporal stability, knapping, pottery, smelting, farming and animal husbandry all still work; what changes is where everything comes from. You start by cutting a blade from a glass shard, and you end up with a lit home in Level 0, crops under the ceiling lights, copper from the pipes, iron from the caves, and a map of the ways between levels that you drew yourself.
 
 ## Features
 
-- **Twenty-two levels**: Levels 0 to 11, the Snackrooms, Level 37, Level 94 and seven far places, each built to follow the Backrooms lore.
+- **Thirty-two levels**: Levels 0 to 11, the Snackrooms, Level 37, Level 94, seven far places and ten more (the Basement and Levels 73, 52, 31, 120, 36, 15, 23, 14 and 47), each built to follow the Backrooms lore.
 - **More than seventy kinds of threshold** between them: elevators, stairwells, pits, pools, vents, windows, barn walls that aren't quite there. Every one always leads to the same place, so you can build a travel network from what you find.
 - **Scavenger survival**: salvage furniture, lights and the building itself, then follow Vintage Story's normal path of flint, fire, pottery, copper and bronze with materials found level by level.
-- **A climb by class**: each level has a class, from 1 to 5, and a placard by every gate into a higher one says what lies past it. From Level 3 on, what lives there outruns a sprint, so armour, fire and what you carry decide the climb.
+- **A climb by class**: each level has a class, from 0 to 5, and a placard by every gate into a higher one says what lies past it. From Level 3 on, what lives there outruns a sprint, so armour, fire and what you carry decide the climb.
 - **Home is where you last slept**: you wake in the last bed you slept in, or else in Level 0, so everything a base needs has to be brought back.
 - **Creatures with their own behaviour**, from Smilers and Hounds to the Mangled. They're heard and glimpsed far more than fought, and each one has a counter you can learn.
 - **Thirst and sleep**: a water bar and a Rest bar, beds of every kind, bottles and boiling, Blue and Green Almond Water. Death leaves a body where you fell, holding what you carried, for as long as it takes.
@@ -26,13 +26,14 @@ It is a complete survival game built on Vintage Story's own systems. Hunger, thi
 
 | Class | Levels |
 | --- | --- |
-| 1 | 0, 1, 4, 10 |
-| 2 | 5, 11 |
-| 3 | 2, 94 |
-| 4 | 3, 7, 8 |
-| 5 | 9 |
+| 0 | 31, 37, The End |
+| 1 | 0, 1, 4, 6, 10, 15, 36, 52 |
+| 2 | 5, 11, 120, the Basement |
+| 3 | 2, 47, 94, 188 |
+| 4 | 3, 7, 8, 14, 23 |
+| 5 | 9, 73, Fun |
 
-Level 6 is not classed yet. Food and Almond Water thin out from Class 3 down, a minute at zero stability blacks you out from any cause, and ways down to a higher level are rarer than they were. The handbook's *Reality Stability* and *What Lives Here* have the rest.
+(Level !, the Hub, Level 974 and Level 3999 are Class 1.) Food and Almond Water thin out from Class 3 down, a minute at zero stability blacks you out from any cause, and ways down to a higher level are rarer than they were. The handbook's *Reality Stability* and *What Lives Here* have the rest.
 
 ## Installing
 

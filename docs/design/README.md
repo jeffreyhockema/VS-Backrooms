@@ -22,6 +22,8 @@ They contain spoilers for every level.
 | [entity-ai-overhaul/](entity-ai-overhaul/README.md) | The entity AI overhaul for the release after 0.514.0: perception (sight, hearing, belief) for every entity, the encounter state machine v2, lore reconciliation against the current Wikidot pages, harvest materials, batches and prompts |
 | [needs/](needs/README.md) | Thirst and fatigue: the plan, the user's decisions, worker briefs and tracker |
 | [traders/](traders/README.md) | The wanderers who trade: per-site identities, trade lists and the Backrooms dialogue, with the sourced lore research behind them (`lore.md`) |
+| [experimental-levels/](experimental-levels/README.md) | The ten 0.700 levels (the Basement and Levels 73, 52, 31, 120, 36, 15, 23, 14, 47): a plan for each, the reserved value table, the ways between levels (`LINKS.md`), the balance review (`BALANCE.md`) and the questions still open for the user (`OPEN-QUESTIONS.md`) |
+| [feedback-2026-11/](feedback-2026-11/README.md) | The 2026-11 player-feedback round and the 0.700 item pass: the late game, the carpet and armour ladder, props, small fixes and the item models |
 | [future-levels.md](future-levels.md) | Level ideas not built yet (Level 73, Infinite IKEA) and whether they fit |
 
 The review image sheets these documents mention (`level-review/`, `entity-review/`, `visual-review/*.jpg`, the Hub renders) are not part of the public repository.

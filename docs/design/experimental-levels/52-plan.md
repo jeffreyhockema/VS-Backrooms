@@ -1,7 +1,7 @@
-# Level 52 "School Halls": prototype plan
+# Level 52 "School Halls": plan
 
 Internal id **23**, `WorldLayout.Level52`, tag `52`, blocks `l52-`, method infix `L52`, region south-south-east (see README).
-Prototype only: disconnected, cheats menu / `/backrooms goto 52`, no entities, thresholds, loot or handbook.
+Built and connected (see Links).
 
 ## 1. What the lore says
 
@@ -522,6 +522,13 @@ tables; the lifts' doors (the lore has lifts; these do not run).
   lands at 565923,217,642303 with 0 error lines; `/backrooms showcase 52` lists every spot.
 - `GATE_TAG=52 python tools/gate.py --fast --port-base 43120`: PASS (generators, lang, build, boot, harness).
 
+### Balance, layout 16 (0.700.0-pre.11)
+
+Level 52 is a safe level with a lot of green, so its trees were cut (every world, `ExpVersion` 16): hill trees from 7 % to
+1.4 % of squares (a fifth), the quad courtyards' trees from 50 % to 10 % of spots with a 45 % chance of a shrub in the
+place of a tree, lawn trees from 0.4 % to 0.08 % with shrubs 0.2 % (`WorldLayout.Level52.cs`). The courtyards no longer
+crowd their lawns. Its snack machines never restock and its food props are found stripped (feedback-2026-11/README.md).
+
 ### Questions for the user
 1. **Names on the buildings.** The lore says the doors carry four digits and "no subject and no campus name" anywhere,
    so the buildings show their numbers (on the canopies) and the campuses' names appear only on the M.E.G.'s boards at
@@ -697,5 +704,5 @@ L52LunchSeat 1110).
   (the projector's screen case); C 2 done, 2 partly, 2 skipped (the bike rack already at the bar; the M.E.G. placards).
 - **Still weak:** the shared props Level 52 still uses (folding chairs in some rooms, office chairs, the staff room's sofa,
   the street lights, benches and bins outdoors, the cars) are a step below the new pieces up close; the locker number plates
-  read as dark dots; the stair treads have no nosings; the courtyard's trees still crowd its lawns; the canteens' food stands
+  read as dark dots; the stair treads have no nosings; the courtyard's trees crowded its lawns (fixed by the layout 16 tree balance, see "Balance, layout 16" below); the canteens' food stands
   are the shared snack counter.

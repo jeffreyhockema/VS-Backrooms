@@ -1,8 +1,7 @@
 # Level 120 "Broken Servos": plan (prototype, then the detail pass)
 
 Internal id **26**, `WorldLayout.Level120`, tag `120`, blocks `l120-`, method infix `L120`, region far north-east
-(`spawn + (+F, -F)`, see BACKLOG batch 2). Prototype only: disconnected, cheats menu / `/backrooms goto 120`, no
-entities, thresholds, loot or handbook. Reserved: `WallPattern` 242, `FloorKind` 251, `CeilingKind` 112-119, `Props`
+(`spawn + (+F, -F)`, see BACKLOG batch 2). Built and connected (see Links). Reserved: `WallPattern` 242, `FloorKind` 251, `CeilingKind` 112-119, `Props`
 780-819, `Unders` 170-179, `Overheads` 160-169, `Pipes` 140-149, salts 0x2600-0x26BF, port 42487.
 
 ## 1. What the lore says
@@ -188,7 +187,7 @@ they differ, this section wins.
   floating round it and four on its surface; two looks: red wound marks, or all black), animations idle, lurk,
   glitch, walk, run, attack, hurt, die; sounds by `tools/gen_120_sounds.py` (three static bursts, a corrupted shriek,
   a slice, hurt, death, a glitch blip). `L120System` puts one down wherever a player dies in Level 120 (all black for
-  an internal death: hunger, poison, suffocation, drowning), at most six within 24 blocks (three from round 3, the balance review). `AiTaskMisglitch`
+  an internal death: hunger, poison, suffocation, drowning), at most three within 24 blocks (six before the balance review of 2026-11-01). `AiTaskMisglitch`
   (`src/Regions/L120Misglitch.cs`): stands slumped by the place, crackling static every 4-10 s (the warning in the
   dark); wakes for anyone within 6 blocks (3.5 sneaking), running within 18, or carrying light 7+ in its line of
   sight within 16; chases at 0.043 (x Danger.Speed: just under a sprint), and every 4.5 s may skip 2.2 blocks straight
@@ -220,13 +219,13 @@ they differ, this section wins.
 - The passages (4 wide, every 96 blocks) are kept from the prototype: the lore has no connective tissue between
   clusters, and they guarantee every cluster is reached. They are dark now, and dressed as the rooms are.
 - The prototype's hall kinds (control room, cold vault, great hall, dead store) are gone; the aisle layout survives as
-  one room kind among five. No "Server Room" door to Level 4 (DECISIONS: no thresholds in or out).
+  one room kind among five. No "Server Room" door to Level 4 at first (DECISIONS: no thresholds in or out; built later: see Links, thresholds and doors back exist).
 - Sub-Misglitches: not built (DECISIONS); the handbook and the folded note name them.
 - The brief's boot-disk key, blinking LEDs, floor pits and corrupted wall screens (nice): not built.
 - Smilers are "dazzled" by being put down as Ambient wanderers rather than by a new state in the shared menace AI.
 
 ### My inventions (not lore)
-- The Misglitch's senses (drawn by light and running), its glitch-skip, its leash, its 24-hour life and six-cap.
+- The Misglitch's senses (drawn by light and running), its glitch-skip, its leash, its 24-hour life and three-cap (six before the balance review).
 - The trip numbers, and that spilled cables trip runners outside the hallways.
 - Void 60% / hallway 40%, the nearest-pocket rule, arriving mid-hallway with a window at both ends.
 - The windows' remembered return spot (the lore: "the computer block that brought you").

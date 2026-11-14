@@ -1,7 +1,7 @@
-# Level 31 "Roller Rink": prototype plan
+# Level 31 "Roller Rink": plan
 
 Internal id **24**, `WorldLayout.Level31`, tag `31`, blocks `l31-`, method infix `L31`, region west-north-west (BACKLOG batch 2).
-Prototype only: disconnected, cheats menu / `/backrooms goto 31`, no entities, thresholds, loot or handbook.
+Built and connected (see Links).
 Reserved: `WallPattern` 240, `FloorKind` 249, `CeilingKind` 96-103, `Props` 700-739, salts 0x2400-0x24BF, title keys 2401-2499.
 
 ## 1. What the lore says
@@ -477,7 +477,7 @@ fixture in the air block in front of a wall, at its own height; `Tile.Pipe` = `P
     space (no; text unchanged).
 
 **7. The lead's balance items (added 2026-11-01 during the round, from the balance review)**
-41. (A) [done] The food court's server feeds a player every 6 game hours (`L31System.ServeHours`, was 1.5).
+41. (A) [done] The food court's server feeds a player every 12 game hours (`L31System.ServeHours`; 1.5 at first, then 6 in the balance review, 12 in the balance fixes of 2026-11), with Almond Water 30 % of the time (60 % at first).
 42. (A) [done] A screen over each revolving door naming where it goes (TO LV9 / LV10 / LV11), in Level 36's gate-screen style.
 43. (A) [done] The Coach's line about the doors names the Suburbs' danger.
 

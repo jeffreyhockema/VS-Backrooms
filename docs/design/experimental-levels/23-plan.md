@@ -1,7 +1,7 @@
 # Level 23 "The Petrified Garden": plan
 
 Internal id **28**, `WorldLayout.Level23`, tag `23`, blocks `l23-`, method infix `L23`, region far south-west beyond
-Level 974 (`spawn + (-F, +F)`, see the README). Disconnected: cheats menu / `/backrooms goto 23` only. Reserved: the
+Level 974 (`spawn + (-F, +F)`, see the README). Built and connected (see Links). Reserved: the
 L23 column of the README's table (`WallPattern`/`FloorKind`/... 480-511, `Props` 1400-1499, title keys 2801-2899,
 salts 0x2800-0x28BF, ports 43170-43179). Lore brief: `lore/23-brief.md`; decisions: `lore/DECISIONS.md` (Wikidot only:
 Fandom's Level 23 is an unrelated Vienna; crust-patch plus core-basin reading; Gardener's Sorries as light props).

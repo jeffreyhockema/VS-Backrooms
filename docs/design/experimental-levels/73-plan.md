@@ -1,7 +1,7 @@
-# Level 73 "The Redlands": prototype plan
+# Level 73 "The Redlands": plan
 
-Internal id 21, `WorldLayout.Level73`, infix `L73`, blocks `l73-`, region per README (NNW, mirror of 188). Disconnected,
-cheats menu / `/backrooms goto 73` only. No entities, thresholds, loot, notes, handbook. Research only; nothing touched.
+Internal id 21, `WorldLayout.Level73`, infix `L73`, blocks `l73-`, region per README (NNW, mirror of 188). Built and connected (see
+Links); the sections below are the prototype's research and rounds, kept as written.
 
 ## 1. What the lore says
 
@@ -151,7 +151,7 @@ Key `2101` is for the castle interior only; the island uses `level-21`.
   nightstands, wardrobes), a bathroom (bathtub, toilet). Windows boarded with aged planks. 32 `l73-sconce` (light 8).
 - *Sky and air* (client): fog crimson-black 0.0035 (0.006 over the sea, ground mist at sea level), scene brightness 0.30,
   held at every hour like Level 9's; the outside sky (sun, moon, stars, blue) hidden in a fog sphere of the fog's colour
-  (Level 10's trick); a fixed full moon drawn by `src/Regions/L73Moon.cs` (bearing 200, 24 degrees up, 5 degrees across,
+  (Level 10's trick); a fixed full moon drawn by `src/Regions/L73Moon.cs` (bearing 10, north-north-east, 18 degrees up, 5 degrees across; first drawn at bearing 200, 24 degrees up,
   `textures/environment/l73-moon.png`); dark spells (one 2-game-hour slot in three, ~0.35 h) hide the moon, double the
   fog, scene 0.12. Keep: warm brown air 0.0015, scene 0.85, title key 2101 "The Silver Castle".
 - *Sound bed* (all reused): vanilla wind, `waterwaves` surf louder toward the coast, wolf howls far off every 45-105 s, the
@@ -207,7 +207,8 @@ World + content, still unlinked (cheats menu / `/backrooms goto 73` only). Lore 
   3.5 s from outside open it ("bang on the door as loud as possible"), one touch from inside; it shuts itself after 6 s
   (not on anyone in the doorway). The attic's doors only say it is off-limits.
 - *The table and the baths*: a place set (stew, bread, a glass of water) feeds 600 satiety and 700 hydration and is set
-  again 4 game hours later (`BlockEntityL73Table`); a barrel washes and warms (body temperature to normal) or fills an
+  again 4 game hours later (`BlockEntityL73Table`), but the castle feeds each wanderer once per 12 game hours (balance fixes
+  2026-11: `L73System.MealEveryHours`, `LastMealKey`); a barrel washes and warms (body temperature to normal) or fills an
   empty bottle with clean water.
 - *The light rule*: a light of 8+ in hand outside the walls raises a 0.7 noise every 4 s (MenaceSystem's noise bus: the
   hordes come to it), and a warning the first time.
@@ -625,8 +626,7 @@ detail kit, the Hub). Tier A must, B should, C nice. Inventions are marked (inv.
 28. [A] [done] **Windows glow**: light leaks between the boards of the keep's windows (emissive cracks, a low warm light on
     the outside face) so the path and courtyard read; no lamp outside (the lore).
 29. [B] [done] **The shore**: black rocks at the waterline and wreckage (ribs of a boat, planks, a crate) on the beaches.
-30. [B] [done] **Heaps of the dead** on the fields sculpted (bones, rags, a pack), near the castle's hill where Coran leaves
-    them.
+30. [B] [done] **Heaps of the dead** on the fields sculpted (bones, rags, a pack), near the castle's hill (the lore's dead Coran has killed; he leaves no carcass now, balance fixes 2026-11, so these heaps are scenery only).
 31. [B] [done: the outline, cones and glow read from the run (the-run, coran shots)] The arrival view: the castle's outline and glow read from 60-120 blocks.
 32. [C] [skipped: time] A guard room in a gatehouse tower (racks, a bench, a brazier) (inv.).
 
@@ -691,7 +691,7 @@ detail kit, the Hub). Tier A must, B should, C nice. Inventions are marked (inv.
   the pieces lying below), shoulder blades, the pelvis, the legs flat out with knobbed joints and clawed toes, the tail.
 - *The island*: dead trees with crooked forking limbs and twigs on an eight-sided trunk with a root flare; faceted
   boulders; black rocks and **wreckage** on the beaches (a boat's ribs sunk in the sand, planks and rope; `l73-wreck-*`);
-  **heaps of the dead** on the hill's flanks where Coran leaves them; the moonlit scene a shade brighter (0.44, was 0.36).
+  **heaps of the dead** on the hill's flanks (scenery: Coran leaves no carcass, balance fixes 2026-11); the moonlit scene a shade brighter (0.44, was 0.36).
 - *Showcase* spots `gate-arch`, `corner-tower`, `chandelier`, `attic-roof` (F7: under the gate, the hall and the attic).
 
 ### Inventions (round 4)

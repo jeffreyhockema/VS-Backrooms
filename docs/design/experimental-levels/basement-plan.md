@@ -1,9 +1,9 @@
-# The Basement (unnumbered): prototype plan
+# The Basement (unnumbered): plan
 
 Internal id **22**, `WorldLayout.Basement`, infix `Basement`, blocks `basement-`, tag `basement`, region south-south-west.
 Reserved ranges are in README.md (WallPattern 208-223, FloorKind 228-243, CeilingKind 80-87, Props 620-659, Unders
 130-139, Overheads 120-129, Pipes 100-109, salts 0x2200-0x22BF, title keys 2201-2299, port 42482).
-Disconnected: cheats menu / `/backrooms goto basement` only. No entities, thresholds, loot or handbook.
+Built and connected (see Links).
 
 ## 1. What the lore says
 

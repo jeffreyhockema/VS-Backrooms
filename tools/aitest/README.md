@@ -5,12 +5,12 @@ the Hound sees, hears and senses (`/backrooms dummy ...`, `/backrooms perceive .
 `docs/design/entity-ai-overhaul/README.md`, sections 4 and 4.5).
 
     BACKROOMS_SCRATCH="$TEMP/backrooms-build" bash tools/locked.sh mod ai
-    python tools/aitest/run.py --mods "$TEMP/backrooms-build/build-ai/Mods" [--data DIR] [--keep] [--only lost,fear] [--no-smoke] [--port N]
+    python tools/aitest/run.py --mods "$TEMP/backrooms-build/build-ai/Mods" [--data DIR] [--keep] [--only lost,fear] [--no-smoke] [--port N] [--groups all|smoke] [--rerun-failed N]
 
 One PASS/FAIL line per case with its evidence (timeline: S seen, s sensed, h heard, . none, one character per second).
 The full console log is written to `<data>/aitest.log`. The exit status is non-zero on any failed case or any
 `[backrooms]` error line. The first world generation can take minutes; the server uses port 42733 (`--port N` changes it, so two harnesses can run at once). `--only` skips the
-`dummies on` smoke run, and `--no-smoke` does the same without `--only`. An unknown name in `--only` stops before the server starts and exits non-zero.
+`dummies on` smoke run, and `--no-smoke` does the same without `--only`. An unknown name in `--only` stops before the server starts and exits non-zero. `--groups all` runs every case group and the smoke (what no `--only` does), `--groups smoke` only the 60 s dummies smoke (it excludes `--only`), and `--rerun-failed N` reruns each failed case up to N more times on the same server (the placement cases are flaky); `tools/gate.py` uses `--groups all --rerun-failed 1`.
 
 ## P1 cases (`--only p1`, belief-based Menace task)
 
@@ -75,3 +75,56 @@ pure-math check of docs/design/needs/README.md passes) and `needs-rates` (`ratec
 ## Path cases (`--only path`)
 
 `path-cubicle-partition`: `/backrooms pathtest duller` across a Level 4 back partition (seed 12345) must plan a way round it (10+ steps for 4 blocks), not over it (3 steps, as the game's step test planned before `TallBlockPathing`).
+
+## Struck Skin-Stealers and Flickering (`--only p7-stealer`, `--only p7-flicker`)
+
+`p7-stealer-fed`, `p7-stealer-hungry` and `p7-stealer-glimpse`: a fed Skin-Stealer (`/backrooms feed fed`) stays docile near a
+dummy, a hungry one comes for it, and a hungry one's glimpse is read from the log. `p7-flicker` starts a Level 1 Flickering
+(`/backrooms flicker`) and asserts the lights go out and a Hound hunts until they come back.
+
+## Felt rates (`--only felt`)
+
+`felt-rates`: the director's placement dry-run in every busy level (the table in `FELT_LEVELS`): a roll that finds no spot is
+silence, so a stalk or hunt must be placeable at least a quarter of the time wherever a dummy stands in the approach band.
+
+## World cases (`--only world`)
+
+`sapling-grows` (`/backrooms growtree`): a sapling planted in Levels 9 and 10 (oak) and 9 (acacia) is made due and grows into a
+tree with logs and leaves. A spot under a roof is retried, since a tree rightly does not fit there.
+
+## Progression cases (`--only prog`)
+
+`prog-armour` (`armourtest` for a Smiler and a Hound: blows to kill by level and armour set), `prog-speed` (from danger .36 a
+hunter runs at least 1.15 sprints, 1.4 from Level 9; the lore-slow Wretch and Duller keep their own pace), `prog-zero` (a dummy
+at stability 0 in Level 3 is sent the worst hunter and after 60 s moved to Level 2) and `prog-zero-safe` (zero in Level 0 does
+nothing in 70 s).
+
+## Walker cases (`--only walk`)
+
+`walker-smoke` and `walker-struck`: see "Simulated players" in `docs/DEVELOPING.md` (`tools/aitest/walk.py` runs the same
+walker for a long session).
+
+## Working props (`--only props`, 0.700)
+
+`props-lure-firealarm`, `props-lure-caralarm`, `props-lure-radio` and `props-lure-clock`: a Hound stalking a dummy hears the
+lure four blocks beyond it ("hears <kind> at") and goes to see, so the noise is on the bus (the clock case puts down a real
+alarm clock and winds it, so its own timer is tested). `props-sprinkler` (a pulled fire alarm sprays the head over the scene
+and puts out the firepit and torch under it), `props-steam` (a turned valve blasts the dummy after the hiss and its health
+falls) and `props-breaker` (a thrown breaker darkens the lamps under it, stays dark after a restart, and a fuse brings it back).
+
+## Balance fixes (`--only bal`, 2026-11)
+
+`bal-l73-table` (the castle feeds each wanderer once per 12 game hours: two dummies, `bal table`), `bal-coran` (a Hound beside
+Coran: the kill leaves no carcass), `bal-drops` (class-scaled drops read off the block types: Basement pantry shelf x0.25,
+Level 36 snack shelf x0.35, Level 15 seat carpet fibre, Level 120 rack wire and boards), `bal-l14-cache` (a Level 14 supply
+box pays the Level 4 to 6 pool and none of iron, tin bronze or temporal gears), `bal-l23-water` (the level's clean water is
+only at the Heart of Water's pool and Base Seedling's spring) and `bal-l52-dispenser` (a Level 52 snack machine never
+restocks; Level 9's does). They use `/backrooms bal ...` (`src/Cheats/RigCommands.cs`). The gate's `harness` stage runs this
+group, so `--only bal` is a harness group, not a gate stage.
+
+## Other scripts
+
+`smalltest.py` (the small checks of the feedback round: the Faceling's tell before its shove, borax ore in Level 8 against the
+world's layout version, vanilla liquids filling the water bar) and `armourtest.py` (`--only` names a table; `tables` also
+checks the recipe warnings) exit 1 on a FAIL verdict, as `houndrate.py` does with `--max-packs-per-10 N` and
+`--one-pack-at-a-time`.

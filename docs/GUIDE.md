@@ -17,7 +17,7 @@ Create a new world and pick the **Backrooms: Survival Story** playstyle. It only
 - **Marking a moment (F8):** the mod keeps a private log of your play (nothing is sent anywhere; switch it off with `/backrooms telemetry off`). In singleplayer it is on your own computer; on a multiplayer server the host keeps the log of everyone, each player is told once per session in chat, and only an operator can turn it off. F8, or `.mark some words`, drops a marker in it with where you are and what was happening, for when something felt wrong or unfair; the developer's report script turns the log into numbers.
 - **Dark areas** are easier to explore with a candle.
 - **Arriving in a level** shows its name, with a word of advice for the dangerous ones.
-- **Surveyor's chalk** (sometimes found in crumbled ceiling tiles, or crafted from a vanilla chalk stone) marks walls with an arrow, a cross or a circle. Choose the mark with the tool mode key (F), and click a mark again to change it. Chalk marks show bright white on the map.
+- **Surveyor's chalk** (sometimes found in crumbled ceiling tiles, or crafted from a vanilla chalk stone) marks walls with an arrow, a cross or a circle. Choose the mark with the tool mode key (F), and click a mark again to change it. Chalk marks show bright white on the map. White chalk is joined by red, blue, yellow and green sticks (found in Level 4's filing cabinets, Level 5's suitcases and Level 52's chalkboards), and each colour's marks are its own: use one for the way home and another for a danger.
 
 ## Surviving
 
@@ -27,7 +27,7 @@ The Backrooms are survived from a home, in expeditions.
 
 - **You wake where you last slept.** Die anywhere and you wake in the last bed you slept in, or in the Lobby if you have never slept in one. What you carried waits in your body where you fell, for as long as it takes (the map marks it, and it never despawns). A temporal gear moves where you wake, from any level, and is used up as it takes hold. Everything a home needs (a door, a chest, fire, seeds, soil) has to be brought back from deeper levels.
 - **The walls between levels are solid, but for gates.** A gate (a doorway through) comes every few hundred blocks along a boundary. Chalk arrows on the walls nearby point the way to one, and wanderers' notes tell of them. Walking the wall looking for one is walking the most dangerous ground of a level.
-- **Food is scarce.** Most supply boxes and crates were gone through long ago: a torn box or an emptied crate can be told from across the room and holds no real food, only now and then a few food scraps (one break in four on Normal, a quarter of a cracker packet). In worlds made since 0.700 the food props of Levels 1 to 4 are picked over too: about three in four of Level 1's metal shelves, drums and cardboard boxes, and three in five of those and of the fridges in Levels 2 to 4, are found stripped (emptied shelving, open drums, flattened cardboard, a fridge door ajar) and give no food. Level 0's boxes were left in twos and threes in the corners of rooms, about one cell in six (one in three or four in the blackouts), plus the caches at the hearts of dens; a sealed box holds some five minutes of walking's food. The deeper the level, the less is picked over; rooms behind locked doors and the hearts of dens were never touched. Hunger runs at 125%.
+- **Food is scarce.** Most supply boxes and crates were gone through long ago: a torn box or an emptied crate can be told from across the room and holds no real food, only now and then a few food scraps (one break in four on Normal, a quarter of a cracker packet). In worlds made since 0.700 the food props of Levels 1 to 4 are picked over too: about four in five of Level 1's metal shelves, drums and cardboard boxes, and three in five of those and of the fridges in Levels 2 to 5, are found stripped (emptied shelving, open drums, flattened cardboard, a fridge door ajar) and give no food. The Basement's pantry shelves (three in four) and Level 52's campus food props (three in five) are found stripped in every world. Level 0's boxes were left in twos and threes in the corners of rooms, about one cell in six (one in three or four in the blackouts), plus the caches at the hearts of dens; a sealed box holds some five minutes of walking's food. The deeper the level, the less is picked over; rooms behind locked doors and the hearts of dens were never touched. Hunger runs at 125%.
 - **Playing together.** Food and drink go further in company: a box, crate, shelf, fridge or other store broken open with other players within 48 blocks in the same level gives 1.5 times its food and drink for two, twice for three, half as much again for each more (not dispensers or trade).
 - **Heat and cold.** From 30 °C up you go thirsty faster (or hungry, with Thirst turned off), up to half again as fast (Levels 2 and 3, Level 5's boiler halls). Levels 6 and 8 are cold enough to want clothes. Level 0's blackout zones are cold and damp, so food keeps there.
 - **Farming at home.** Crops grow in Level 0 under the ceiling lights (light 15 under a working troffer gives about 60% of daylight growth) on soil from potted plants, watered from a flooded room or a bucket. Seed packets come from Level 9's sheds and kitchens and, rarely, supply boxes.
@@ -61,7 +61,7 @@ What you take is mostly salvage. The building itself can be broken (to shape a h
   - **Cloth** from the seats of Level 1's wrecked cars, Level 4's office chairs and Level 5's chairs and sofas, one or two a piece (the pleather they once gave is gone; any left in a world turns into carpet squares, and pleather armour into the same piece of carpet armour).
   - Glass: anything. Glass shards.
   - Vanilla rock and ore (Level 8, the cliffs) and soil break as in any world.
-- **You can build with it again, from scratch.** The building never comes back as blocks, but a base can be made of the Backrooms' own look: bare drywall, yellow, dotted, manila and cream wallpaper (with baseboards), Level 0, office and hotel carpet (the lobby's too), ceiling tiles, the hotel's panelling and floors, concrete (with its floor, ceiling, wall and pavement forms), Level 3's brick, tile and cinder block walls, house floorboards, bathroom tiles, house siding and roofs, barn boards and the porch's deck, pool and subway tile and the Endless City's plain walls are grid recipes from plaster, mortar, rubble, wallpaper strips, carpet fibres, planks, bricks and clay tiles (57 recipes, `tools/gen_building.py`, plus asphalt in the barrel: 1 litre of tar and 4 rubble make 4 blocks; a block costs real salvage). What you craft comes back whole: break a block you made and you get that block (an axe or bare hands for drywall, wallpaper, carpet and tiles, a pickaxe for concrete and masonry); only the Backrooms' own walls break down. Desks, tables, chairs, sofas, wardrobes, bookshelves, dressers and partitions broken with a **saw** in hand come away whole and can be set down again facing the player, and so do the metal pieces (filing cabinets, cafeteria, folding and stacked chairs, folding tables, luggage carts, service trolleys) under a **hammer**; any other tool gives the lumber, cloth and brackets as before, even on a piece you set down yourself. Lights, machines, pipes, doors and anything that holds a level together are never craftable.
+- **You can build with it again, from scratch.** The building never comes back as blocks, but a base can be made of the Backrooms' own look: bare drywall, yellow, dotted, manila and cream wallpaper (with baseboards), Level 0, office and hotel carpet (the lobby's too), ceiling tiles, the hotel's panelling and floors, concrete (with its floor, ceiling, wall and pavement forms), Level 3's brick, tile and cinder block walls, house floorboards, bathroom tiles, house siding and roofs, barn boards and the porch's deck, pool and subway tile and the Endless City's plain walls are grid recipes from plaster, mortar, rubble, wallpaper strips, carpet fibres, planks, bricks and clay tiles (57 recipes, plus asphalt in the barrel: 1 litre of tar and 4 rubble make 4 blocks; a block costs real salvage). What you craft comes back whole: break a block you made and you get that block (an axe or bare hands for drywall, wallpaper, carpet and tiles, a pickaxe for concrete and masonry); only the Backrooms' own walls break down. Desks, tables, chairs, sofas, wardrobes, bookshelves, dressers and partitions broken with a **saw** in hand come away whole and can be set down again facing the player, and so do the metal pieces (filing cabinets, cafeteria, folding and stacked chairs, folding tables, luggage carts, service trolleys) under a **hammer**; any other tool gives the lumber, cloth and brackets as before, even on a piece you set down yourself. Lights, machines, pipes, doors and anything that holds a level together are never craftable.
 - Furniture and clutter are not the building: a minibar, a cake tin or a bin breaks like any block and gives what is in it, and what you made or won (rubble masonry, a plush or neon lamp from a prize counter) comes back whole.
 - The walls between levels break like any other wall of their material: the gates are the easy way through, not the only one.
 - **Never broken** (the block info says so):
@@ -98,18 +98,21 @@ What you take is mostly salvage. The building itself can be broken (to shape a h
 
 With tinder, sticks and firewood, the vanilla fire starter, firepit and torches work as usual.
 
+- **Clothes.** Everyday clothes turn up in every world: t-shirts, jeans, a hoodie, a work jacket, sneakers, work boots and a baseball cap, each a little warmth and no armour. A **lab coat** comes from the lockers of Levels 14 and 15 and the shelves of Level 120. A rare **hazmat suit and hood** (the same lockers and shelves) takes three quarters off Level 14's contamination, poison and stability drain, and the hood slows the smell of the Basement's dead to a quarter; both are hot and a little slow, give no armour and wear out.
+- **Borax** is the steel flux and the hide-soak of the vanilla guides. A washer in the Suburbs' laundries holds a pinch, and in worlds from layout version 16 Level 8's claystone, sandstone, shale, limestone and chalk carry a little too.
+
 ### A Vintage Story player wakes in the Backrooms
 
 Breaking things down feeds Vintage Story's own progression, so the usual path from knapped flint to bronze still works. What changes is where each material comes from.
 
 The levels are classed from 1 to 5, and the way down is a climb through the classes (see [Classes and placards](#classes-and-placards)):
 
-- **Class 1:** Levels 0, 1, 4 and 10. Level 1's cable spools and wrecked cars give copper, and Level 4 is the calm place to rest, with fountains of Almond Water.
-- **Class 2:** Levels 5 and 11. Level 5's coal and beds, and the stores of the city.
-- **Class 3:** Levels 2 and 94. Level 2 has the first copper: machine cabinets, and the mains of the pipe tunnels. Level 94's fire clay is the iron road's. Food and Almond Water thin out from here down.
-- **Class 4:** Levels 3, 7 and 8. Clay and coal are in Level 3, a raid for anyone in sewn leather at least. Level 8's ore and tin are a dash off the 9th Road, whose lamps keep your stability up.
-- **Class 5:** Level 9. Houses to strip, but a Hound kills in one blow there.
-- Level 6 is not classed yet.
+- **Class 1:** Levels 0, 1, 4, 6 and 10 (and Levels 15, 36 and 52). Level 1's cable spools and wrecked cars give copper, and Level 4 is the calm place to rest, with fountains of Almond Water.
+- **Class 2:** Levels 5 and 11 (and the Basement and Level 120). Level 5's coal and beds, and the stores of the city.
+- **Class 3:** Levels 2, 94 and 188 (and Level 47). Level 2 has the first copper: machine cabinets, and the mains of the pipe tunnels. Level 94's fire clay is the iron road's. Food and Almond Water thin out from here down.
+- **Class 4:** Levels 3, 7 and 8 (and Levels 14 and 23). Clay and coal are in Level 3, a raid for anyone in sewn leather at least. Level 8's ore and tin are a dash off the 9th Road, whose lamps keep your stability up.
+- **Class 5:** Levels 9 and Fun (and Level 73). Houses to strip, but a Hound kills in one blow there.
+- Level 31, the Poolrooms and The End are Class 0.
 
 - Level 0 (the Lobby): wanderers' supply boxes hold sticks and dry grass, but flint only about one time in twenty: the Lobby's blades are the glass shiv and the scraper, and fire starts with tinder cut from the wallpaper. Make a fire starter, torches and a firepit. Furniture breaks into planks, sticks and nails, so a chest or a barrel is possible before you own a saw.
 - Level 1: where flint is found: the crumbling concrete leaves loose stones and flint about, and crates and shelves hold sticks, tinder, flint, charcoal and brackets. Knap a flint knife and axe. Toolboxes (here, in Level 2's tunnels and Level 9's garages) sometimes hold a copper hammer, chisel, saw or knife.
@@ -166,9 +169,9 @@ The gear on the HUD shows how firmly this place has hold of you. It is Vintage S
 
 Each level has a class, from 1 to 5, that says how hard it is. The M.E.G. put a placard on the near-side wall of every gate into a higher class, beside the opening: the level it leads to, its class, and a warning line. Class 3 reads THINGS HERE OUTRUN YOU, Class 4 ARMOUR OR DON'T, and Class 5 NO UNARMOURED TRAVEL. The first time you cross into a higher class, the game tells you so in chat.
 
-- **The classes.** Class 1: Levels 0, 1, 4 and 10. Class 2: Levels 5 and 11. Class 3: Levels 2 and 94. Class 4: Levels 3, 7 and 8. Class 5: Level 9. Level 6 is not classed yet.
+- **The classes.** Class 0: Level 31, the Poolrooms and The End. Class 1: Levels 0, 1, 4, 6, 10, 15, 36 and 52, and Levels !, 974, 3999 and the Hub. Class 2: Levels 5, 11 and 120, and the Basement. Class 3: Levels 2, 47, 94 and 188. Class 4: Levels 3, 7, 8, 14 and 23. Class 5: Levels 9, Fun and 73.
 - **What the classes ask.** From Level 3 on, what lives there outruns a sprint and kills an unarmoured person in two blows (one or two by Level 8; a Hound in one at Level 9). Sewn leather halves a Level 3 blow. Copper or bronze lamellar stands three blows at Level 8, and iron plate many at Level 9. The Lobby's carpet armour (a leather jerkin's worth, silent) wears out fast at depth. Metal armour makes you louder. See [What Lives Here](#what-lives-here).
-- **Food and water.** From Class 3 down, caches, crates, supply boxes and the dispensers hold less food and Almond Water: seven tenths of their usual share in Class 3, half in Class 4 and about a third (0.35) in Class 5, on top of the world setting. Level 94, the Snackrooms, the Hub and Kitty's House keep theirs.
+- **Food and water.** From Class 3 down, caches, crates, supply boxes and the dispensers hold less food and Almond Water: seven tenths of their usual share in Class 3, half in Class 4 and about a third (0.35) in Class 5, on top of the world setting. The Basement's share is a quarter and Level 36's about a third (0.35), whatever their class. Level 94, the Snackrooms, the Hub and Kitty's House keep theirs.
 - **Shortcuts.** Ways down to a higher level are about a quarter as common in new worlds, from stairwells, elevators, steel doors and the like. Ways back up are unchanged.
 - **The blackout.** At zero stability you black out after about a minute, from any cause: a dark pocket, a Reality Shift, or hunger and thirst. You wake a level back, with what you carried, and your stability at half.
 
@@ -226,7 +229,7 @@ The Backrooms are not empty, but what lives in them is there to be heard and gli
 - **World settings** under Survival challenges when creating a world: *Backrooms entities* (Off: sounds only, Very low, Low, Normal, High, Very high), *Backrooms scarcity* (Plentiful: twice the food, Normal, Sparse: 0.6 times the food, Scarce: about a third). It scales everything you can eat or drink in every box, crate, cupboard and fridge, how much vending machines, water coolers, fountains and Kitty's fridge hold and how soon they refill, and Level 10's livestock. In new worlds on Sparse or Scarce, Level 9's gardens and Level 10's crops and berry bushes are thinner too (set by the scarcity the world was created with; changing it later doesn't change them). Seeds, notes and tools are not affected. And *Backrooms map*:
   - **Seen areas** (the default): the map as described above.
   - **Seen areas, no waypoints:** the map still fills in as you explore, but nothing is marked for you, not even where you woke up or where you died (vanilla's death waypoint is off too, and so is the mark of your body; you are told which way it lies when you wake). Add your own waypoints. Notes still give a direction and a number of paces, and your journal keeps them; registers, directories and the like tell you the direction and paces in chat instead of marking the map.
-  - **None:** no world map and no minimap; the map keys do nothing and waypoints can't be made. Notes, registers and directories tell you the way as above. Chalk is how you find your way back, and crumbled ceiling tiles and lost backpacks give half as much again of it. A player granted vanilla's `allowMap` privilege still sees the map, but the Backrooms treat the world as mapless for them too: nothing is marked, and the tutorial is the no-map one.
+  - **None:** no world map and no minimap; the map keys do nothing and waypoints can't be made. Notes, registers and directories tell you the way as above. Chalk is how you find your way back, and crumbled ceiling tiles and lost backpacks give half as much again of it. A player granted vanilla's map privilege still sees the map, but the Backrooms treat the world as mapless for them too: nothing is marked, and the tutorial is the no-map one.
   - In both, the First Steps tutorial's note and map steps are worded for the setting, and The End's computers tell you the way out instead of marking it.
 - **Thirst and Fatigue**, under Survival challenges (the water bar and the Rest bar; a night's sleep outside a safe place can draw a creature to your bed, halved by a shut door nearby): both on by default, in new worlds and in worlds made before this update (those get both on, with a one-time chat note). Turn one off when you make a world, or later with `/worldconfig backroomsThirst false` or `/worldconfig backroomsFatigue false` (they take effect at once).
 - **Level size**, under World generation when creating a world: *Backrooms level size* (50%, 75%, 100%, the default, 150% or 200%) sets how wide the rings of levels are, so how far you go through each level before the next begins. Only the distance changes: the rooms, halls and buildings of every level are as big as ever, Level 10 still goes on forever, and the city and the other far places lie where they always do. At 50% and 75% no level is ever thinner anywhere than the thinnest stretch of a 100% world; at 150% and 200% in a map smaller than the default million blocks across, the rings are held back a kilometre and a half from the city where they would otherwise run into it, so in those directions they are not as much wider (but never narrower than at 100%). It is fixed when the world is created: changing it later changes nothing, and existing worlds stay at 100%.
@@ -343,6 +346,29 @@ This is how Vintage Story's own translocators behave: a repaired one picks its e
 | Level 188 | The fire door on each upper storey | Level 1 (2nd), Level 5 (3rd), Level 4 (4th), Level 2 (5th) | A thin spot (Levels 1, 4), or the locked door you arrive beside, which now opens (Levels 5, 2) |
 | Level 188 | Opening a closed window's blind from inside its room (the window then shows where, and the room seals for three in-game days) | A place fixed per window (Level 0 16%, 1, 4, 5 10% each … The End, Level Fun, Motion 2% each) | None |
 | Level 188 | Dropping through the hatch in the deck | Level 37 | None |
+| Levels 0, 1, 2, 4, 5 | A patch of cracked floor, a few paces across, that gives way under you (rare) | The Basement: a long fall that hurts and does not kill | None |
+| The Basement | Climbing to the top of a crack's shaft, about sixteen blocks up (a ladder, or blocks to stand on) | Level 0 | None |
+| Levels 2, 3, 6 | A wooden door where no door should be, with faint pop music behind it (rarer in Level 6) | Level 31, a rink's lobby, beside a wooden door | That door |
+| Level 31 | A revolving door in the front of a lobby (about one lobby in fifty) | Level 9, 10 or 11, always the same one for that door | None |
+| Level 31 | Walking out of Skate Rental with skates the Coach did not give you, or leaving the level in his | Level 0, without the skates | None |
+| Level 4 | A grey steel door marked SERVER ROOM, a cold green light under it and a placard beside it (a handful in the whole level) | Level 120, beside a steel door | That door |
+| Level 120 | A steel door in a server room's wall, or in a Pitch-Black Hallway (look low for the warm light) | Level 4, an office door that is locked | None |
+| Level 4 | A grey steel door under a green EMERGENCY EXIT sign, in an office wall with nothing behind it (rare) | Level 52, the end of a teaching block | That door |
+| Level 11 | A brick high school with HIGH SCHOOL over a pair of steel doors (rare) | Level 52, the front doors of a campus quad | Those doors |
+| Levels 9, 11 | A door under a lit airplane sign, where no door should be (very rare) | Level 36's claim hall, beside a door under the same sign | That door |
+| Level 36 | Boarding a flight at a gate (the screen names the level) | Level 3999, 188, 37, 9, 10 or 11, fixed per gate | None |
+| Level 36 | Turning on a restroom sink and holding your head under the overflow | Level 37 | None |
+| Level 10 | A white wall at a field's edge, with one small reinforced door (rare) | Level 15, a main hall beside a reinforced door that does not open | None |
+| Level 3 | A door that opens on Level 15 (rare) | Level 15, a main hall | None |
+| Level 15 | The ESCAPE panel in a control room, and the gateway it opens / a glowing orange pane, broken / an out-of-place office's stairs down / a MEDICAL CENTER door in a medical bay | Level 3 / Level 11 / Level 4 / Level 14 | None |
+| Level 37 | A huge hollow tree with green bark, growing up through the tiles (climb in) | Level 23, out of a hollow trunk | None |
+| Level 23 | The hollow tree at Base Seedling / swimming down the well in the Heart of Water's pool | Level 37's green tree nearest the middle / Level 7's open sea | That tree / None |
+| Levels 6, 9 | Lingering in Level 6's very deepest dark with no light / standing in the Gloom, a pool of black murk, a minute or two | Level 73, in sight of the Silver Castle | None |
+| Level 73 | Asking Coran to lead you out, after a night under his roof | Level 9, out of a chained door in the north wall | None |
+| Level 0 | A grey EMERGENCY EXIT door in a wall, a green running man over it (very rare) | Level 14, a reception room | None |
+| Level 14 | A futuristic door / a red exit door / a patch of floor that gives way | Level 15 / Level ! / Level 73 | None |
+| Level 10 | An ancient, hollow, mossy dead tree at a field's edge (very rare) | Level 47, out of a dead tree's hollow | None |
+| Level 47 | Some of the dead trees' hollows / a green giant | Level 10, beside its dead tree / Level 23 | None |
 
 Things to know:
 
@@ -363,6 +389,8 @@ Where two levels meet the wall is solid but for **gates**: within each 320-block
 No ring is a circle. Each one is stretched and lopsided in its own way: a level may end after a few hundred blocks in one direction and go on for several times that in another, and the short way through one level need not line up with the short way through the next. Finding the way on is a matter of mapping, supplies, and luck.
 
 Level 6.1 is not a ring: it is rare sealed cells scattered through Level 6. Where two levels meet there is a full-height wall; its gates are lined up with the corridors on either side where there are any.
+
+The ten newest regions (the Basement and Levels 73, 52, 31, 36, 120, 15, 23, 14 and 47) lie out past the rings like the far places, reached only by thresholds; see [Ten more places](#ten-more-places).
 
 Each level looks like itself right up to the wall it shares with the next: the wall is two thick, each side with its own face, and the way through a gate is a short passage with the next level's doorway at its far end. Only that passage carries a touch of the next level: Level 0's carpet is worn to the concrete in the doorway to Level 1, and Level 4's carpet is the hotel's red in the doorway to Level 5.
 
@@ -717,3 +745,87 @@ One shared building: a dark courtyard of mossy lawns and a round wooden deck, wa
 - **Air:** courtyard 8 °C, rooms 21 °C, stair 15 °C, roof 6 °C; stability 1.05 in rooms, 0.95 in corridors, 0.85 in the courtyard, 0.8 on the roof; danger 0.45 (Skin-Stealers, Smilers in the dark); safe in a guest room with its door shut.
 - **The guest book:** open on the lobby's reception desk; right-click the desk to read it.
 - **Items:** the housekeeping keycard (opens rooms that are only locked, never sealed ones), cereal, juice boxes; wardrobes, minibars, carts, linen shelves and beds salvage to cloth, clothes, Almond Water, juice and crackers. The building itself (walls, floors, windows, doors, stairs, the deck and the courtyard) never breaks (as the lore has it, forcing its doors has always failed).
+
+## Ten more places
+
+Ten more regions lie beyond the rings, each reached only by thresholds (see the table above), and each with a handbook page that opens once you have been there. Level 73 lies to the north-north-west, the Basement to the south-south-west, Level 52 to the south-south-east, Level 31 to the west-north-west and Level 36 to the west-south-west, close in; Level 120 far to the north-east, Level 15 far to the north-west, Level 23 far to the south-west, Level 14 far to the north-north-west and Level 47 far to the south-south-east, further still. Their ways in are rare, a quarter as common as the lore's own where they lead to a deeper level, and a walked way into a higher class has its M.E.G. placard. Old worlds get all ten and their ways in the parts nobody has reached yet.
+
+### Level 73: the Redlands
+
+Class 5. One island of dark red ground in a black sea, under a full moon that never moves and now and then goes behind a cloud; cold (4 °C), and it drains you a little.
+
+- **Getting in:** one way, from the Gloom in Level 9 (a rare patch of black murk that light does not reach: stay in it a minute or two, and you are warned), from the very deepest dark of Level 6 (rarer still), or from a patch of Level 14's floor that gives way. You arrive on the island with the Silver Castle in sight.
+- **Getting out:** Coran, the castle's keeper, leads you out once you have slept a night under his roof and asked him (sneak and right-click him): he walks you round to a chained door in the north wall, and you come out in the Suburbs. One way. The castle's table feeds each wanderer once in twelve hours, and Coran leaves no carcass of what he kills.
+- **The danger:** the whole island is hostile (Hounds in packs, Smilers, Death Rats, Skin-Stealers and more, all hunting until they die). Run for the castle and carry no light outside its walls.
+
+### The Basement
+
+Class 2. A basement far larger than any house: rooms of cinder block and pine panelling, furnace rooms, rec rooms, and then flooded passages (cold, 8 °C).
+
+- **Getting in:** a rare patch of cracked floor in Levels 0, 1, 2, 4 or 5 gives way under you. The long fall hurts and does not kill, and it is one way.
+- **Getting out:** climbing back up the crack, which takes a ladder or blocks to stand on and about sixteen blocks; you are hauled out into Level 0, and the crack is not behind you.
+- **The danger:** the dead lie heaped in a few rooms and the smell builds until it chokes you (a hazmat hood slows it to a quarter); the flood's water makes you sick and is not safe to drink; and there is almost nothing to eat. Food is a quarter of a normal level's.
+
+### Level 52: the Greenfield Campus
+
+Class 1. School campuses standing apart on green hills under a blue sky that is the same at every hour; nothing lives here but the odd Faceling dressed as a teacher, which means no harm.
+
+- **Getting in:** by a rare brick high school in the Endless City (go in by its steel doors), or by an EMERGENCY EXIT door in an office wall in Level 4. Two-way: walk out through the doors you came in by.
+- **Getting out:** the same two doors. Other doors on the campuses only open onto rooms.
+- **The danger:** none that moves. The level is a place to rest and to map, and to learn a long way from anything that hunts how little there is to eat: the snack machines never restock and few trees grow. Chalkboards give coloured chalk.
+
+### Level 31: the Roller Rink
+
+Class 0. A 1990s rink that goes on for ever, neon halls on dark carpet, muffled pop overhead, skates and laughter from above where nothing is (cool, 12 °C). Nothing hunts here.
+
+- **Getting in:** a wooden door where no door should be in Level 2, 3 or 6 (rarer in 6), with faint pop music behind it. It opens in a rink's lobby, beside a wooden door that takes you back.
+- **Getting out:** a revolving door in the front of a few lobbies, always to the same place: Level 9, 10 or 11, one way (the Coach marks the nearest on your map). Walk out of Skate Rental with a pair the Coach did not give you, or leave wearing his, and you noclip into Level 0 without them.
+- **The danger:** staying. It is safe and warm, and the food court serves you free once every twelve hours, so nobody wants to leave.
+
+### Level 36: the Airport
+
+Class 1 on the lore's scale, but entered only from deep levels, so its food is thin (x0.35). An endless terminal, empty and spotless, where nobody sleeps and your Rest stays where it was.
+
+- **Getting in:** most come in like luggage, on the baggage carousel in the claim hall; or by a door under an airplane sign in the wall of a street in the Suburbs or the Endless City, which opens in the same hall and shuts behind you into a door back.
+- **Getting out:** a flight. A gate's screen names its level (the city, the Suburbs, the Poolrooms, Level 3999, Level 188 or Level 10's fields), and boarding opens about a hundred seconds before it goes; the flight takes 70, one way, to the same place every time. Or turn on a restroom sink, put your head under, and come up in the Poolrooms.
+- **The danger:** the dark. Deeper in, whole wings and the back of house are blacked out, and only there, and rarely, something waits. Be in the cabin before the doors close.
+
+### Level 120: Broken Servos
+
+Class 2. Server rooms in clusters, racks ripped apart, wallpaper and rotting boards, every light smashed. Pitch dark.
+
+- **Getting in:** in Level 4, a very rare grey steel door marked SERVER ROOM with a cold green light under it and a placard beside it. It opens on a server room here and takes you back.
+- **Getting out:** a steel door in the wall of a server room (look low for the warm light under it), or in a Pitch-Black Hallway, opens on Level 4, one way.
+- **The danger:** the dark and dying. Anyone who dies here gets up again as a Misglitch where they fell, guarding what they dropped, and its static is your only warning; and a runner trips on the cables in the Pitch-Black Hallways.
+
+### Level 15: the Futuristic Halls
+
+Class 1. Clean white halls and a hum that never stops, labs and dormitories and dead machines; no one is alive and nothing is out to get you, but every way out is one way and none is marked.
+
+- **Getting in:** a rare white wall of the level's own panels at the edge of a Level 10 field, with one small reinforced door; or a door in Level 3 that opens on it. One way: you arrive in a main hall beside a reinforced door that does not open.
+- **Getting out:** very few ways, about one block of halls in forty: the ESCAPE panel in a control room (it opens a security gateway to Level 3), a pane of orange glass in a machine room (a fall to a street of Level 11), an office out of place with a stair down (Level 4), and, very rarely, a door in a medical bay marked MEDICAL CENTER (Level 14). The star door in the far machine room does not open.
+- **The danger:** the dark squares. About one square in six the power is out; the machines stop, the air goes stale, and it wears on your stability. Stay in the light and never rest there.
+
+### Level 23: the Petrified Garden
+
+Class 4. A forest of stone trees under a lid of leaves, with a few holes through which a star that never moves shines (mild, 17 °C); it drains you slowly.
+
+- **Getting in:** a huge hollow green-barked tree growing up through the Poolrooms' tiles (climb in), or a green giant of the Adderwood. You climb out of a hollow trunk and no tree behind you goes back.
+- **Getting out:** the hollow tree at Base Seedling, the wanderers' camp, which comes out in the Poolrooms and brings you back; or the well in the bed of the Heart of Water's pool, which comes out in Level 7's open sea, one way. The Garden's clean water is the pool and Base Seedling's spring.
+- **The danger:** keep quiet. The buried sentries (faces in the bark at head height) scream like chainsaws if you say "it's only a matter of time" near one, loud enough to hurt anyone close, and what hunts the ruins is worse.
+
+### Level 14: the Hospital
+
+Class 4. A hospital that never ends: dark halls, wards and surgical suites, a heavy smell of antiseptic, footsteps and whispering with nobody there.
+
+- **Getting in:** a very rare grey EMERGENCY EXIT door (a green running man over it, a smell of antiseptic) in a Level 0 wall, or a door in a Level 15 medical bay marked MEDICAL CENTER. You arrive in a reception room whose door never lets you back in, so strip its desk first.
+- **Getting out:** all one way, and rare: a futuristic door to Level 15, a red exit door to Level !, and a floor that gives way over the Redlands. Surgery doors can be pried open.
+- **The danger:** the Hunter, who was once a patient, and what the air does in a contaminated room (a hazmat suit takes three quarters off it). Never meet its eyes; when the air turns cold and smoky, go.
+
+### Level 47: the Adderwood
+
+Class 3. An old-growth forest under a fog that lifts each night for a full moon much nearer than ours (cool, 11 °C), where what you are not looking at may not be where you left it. A bare trail winds through it, past stone posts with a snake cut into them. The snakes are sacred.
+
+- **Getting in:** very rarely, an ancient dead tree, hollow and mossy, at the edge of a Level 10 field. Step into its hollow. One way.
+- **Getting out:** some of the Adderwood's own dead hollows put you out in Level 10, beside its dead tree; a green giant, a huge hollow tree of green bark, puts you out in the Petrified Garden. One way each.
+- **The danger:** harm no snake, or the Great Old Adder comes for you. At night packs of Black Shucks come out: climb the tallest tree you can and wait for the dawn. The bulls and the cows with calves among the elk charge.

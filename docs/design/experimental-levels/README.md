@@ -5,24 +5,28 @@ judged from screenshots in the real client; round 3, 2026-11-01, worked each lev
 function, multi-block objects, signs and text; round 4, 2026-11-03, the asset-quality pass: every prop rebuilt to the
 released levels' bar from real references, multi-block objects that read as one thing, shared assets reused or retinted;
 both are written up in each `<tag>-plan.md` under "Round 3" and "Round 4").
-`BALANCE.md` reviews how the eight sit against the released levels and records the balance changes made. Since the links round (2026-10-31) they are **connected**: each has the ways in and
+`BALANCE.md` reviews how the ten sit against the released levels and records the balance changes made. Since the links round (2026-10-31) they are **connected**: each has the ways in and
 out its lore gives wherever the lore names a level this mod has (`LINKS.md`; the handbook's Ways Between Levels page
-lists them), and the rest are rumours in its notes. The cheats menu (F7) and `/backrooms goto
-73|basement|52|31|120|36|15|23` still take you straight there. Two more, Levels 14 and 47, were scaffolded on
-2026-11-01 (batch 4, below) for builders to fill (`/backrooms goto 14|47`).
+lists them), and the rest are rumours in its notes. They have entities, loot, notes and handbook pages, and the entrances
+exist in Levels 0 to 20 (drawn by `WorldLayout.ExpLinks.cs`; `BACKROOMS_NO_EXP_ENTRANCES=1` leaves them out to prove the
+released levels' own grids unchanged). The cheats menu (F7) and `/backrooms goto 73|basement|52|31|120|36|15|23|14|47`
+still take you straight there. The questions that are still open for the user are collected in `OPEN-QUESTIONS.md`.
 
-This branch is not meant to merge into `main` for a long time. Each level is its own commit after the shared
-scaffolding commit, so one can be cherry-picked or reverted on its own. Levels 55 and 183 were built in batch 2 and
+This branch is **meant to merge into `main`**: the merge is the next release (0.700.0, "ten new levels"), and `main`'s next
+layout bump must be 17 (see below). Each level is its own commit after the shared scaffolding commit, so one can be
+cherry-picked or reverted on its own. Levels 55 and 183 were built in batch 2 and
 dropped on 2026-10-30 (their plans are in `dropped/`); their ids 25 and 27 now hold Levels 36 and 15.
 
 **Layout versions.** Main's layout version 14 (the 2026-11 review's fixes, released as 0.611.0) is the released
 meaning of 14 everywhere. This branch's food round (the stripped food props of Levels 1 to 5, `WorldGenerator.Stripped.cs`,
-`WorldLayout.Loot.cs`) was first gated on 14 and moved to **15** when main was merged (0.700.0-pre.8, 2026-11-03), so
-`WorldLayout.CurrentVersion` is 15 here. A pre-release world made at the branch's old 14 generates its later chunks at
+`WorldLayout.Loot.cs`) was first gated on 14 and moved to **15** when main was merged (0.700.0-pre.8, 2026-11-03); version
+15 is what the uploaded pre-releases mean, and the gate pins 1 to 15 as released. A pre-release world made at the branch's old 14 generates its later chunks at
 the merged rules: the stripped-prop spots and main's v14 fixes differ from what it had, which is the price of a pre build.
 The 2026-11 player-feedback round (0.700.0-pre.10, 2026-11-13; decisions in `docs/design/feedback-2026-11/`) is
-**16** here: Level 10's barn wall in one barn in five, one city rowhouse door in four leading to Level 9, and more borax in
-Level 8. So main's next layout bump must be **17**, never 16.
+**16**, and `WorldLayout.CurrentVersion` is 16 here: Level 10's barn wall in one barn in five, one city rowhouse door in
+four leading to Level 9, more borax in Level 8, Level 36's cabins, Level 52's chalkboard ends and Level 47's open-ground
+arrivals. The ten levels' own balance reads `WorldLayout.ExpVersion` (never below 16), so a world made at any version gets it in
+its unexplored parts. So main's next layout bump must be **17**, never 16.
 
 | Level | Internal id | Constant | Shown as | Tag (files, block codes) | Method infix | Region |
 |---|---|---|---|---|---|---|
@@ -93,7 +97,9 @@ outside its level's block and kept values (its `RESERVED`/`KEPT` tables mirror t
 
 ## Rules for the detail agents
 
-Each of the eight levels gets one agent working in parallel with the others; keep out of each other's way.
+(Historic: the rules of the build phase, kept for the record. The levels are done; the merge rules are "Layout versions" above.)
+
+Each of the ten levels gets one agent working in parallel with the others; keep out of each other's way.
 
 1. **Your ranges only.** Values from your level's column above, nothing else. Name every member and constant with your
    prefix (`L36Gate`, `Props.L36Bench`, `Unders.L36Belt`): `expclash.py` decides whose a value is by that prefix.
@@ -134,11 +140,13 @@ Each of the eight levels gets one agent working in parallel with the others; kee
 
 ## Budget rules for this branch
 
+(Historic: these were the prototype phase's; every level has since got its ways, entities, loot, notes and handbook page.)
+
 - Prototype quality: get the space, its blocks, light, fog and a sound bed right. Skip anything the contract lists
   that the level does not need (thresholds, entities, dens, loot tables, notes, handbook).
 - Reuse existing blocks and textures wherever they fit (Level 0-11 walls, floors, lights, props); generate new
   assets only for what defines the level's look.
-- Existing levels 0-20 must stay byte-identical (`layouthash`): no entrances in other levels.
+- Existing levels 0-20 must stay byte-identical (`layouthash`): at the time, no entrances in other levels; now the entrances exist and the same pin is the run with `BACKROOMS_NO_EXP_ENTRANCES=1`.
 
 ## History
 

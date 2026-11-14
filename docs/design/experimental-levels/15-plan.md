@@ -1,8 +1,8 @@
 # Level 15 "Futuristic Halls": plan
 
 Internal id **27**, `WorldLayout.Level15`, tag `15`, blocks `l15-`, method infix `L15`, region far north-west beyond the
-End (`spawn + (-F, -F)`, Level 183's old slot), round, radius `max(40, spawnMacroX / 50)` (320 cells full size). Disconnected:
-the cheats menu / `/backrooms goto 15` only. Reserved: `WallPattern`, `FloorKind`, `CeilingKind`, `Unders`, `Overheads`,
+End (`spawn + (-F, -F)`, Level 183's old slot), round, radius `max(40, spawnMacroX / 50)` (320 cells full size). Built and connected (see
+Links). Reserved: `WallPattern`, `FloorKind`, `CeilingKind`, `Unders`, `Overheads`,
 `Pipes`, `Decor` 448-479, `Props` 1300-1399, title keys 2701-2799, salts 0x2700-0x27BF (thresholds 0x27C0-0x27FF), ports
 43160-43169. Lore brief: `lore/15-brief.md`; the user's decisions: `lore/DECISIONS.md` ("isolation and notes, no living
 base; sparse Roboman and bones; star door as flavour").
