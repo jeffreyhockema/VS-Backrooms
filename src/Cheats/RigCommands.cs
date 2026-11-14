@@ -30,7 +30,7 @@ public class RigCommands : ModSystem
         var parsers = api.ChatCommands.Parsers;
         api.ChatCommands.Get("backrooms")?
             .BeginSubCommand("rig")
-                .WithDescription("Client test rig helpers: equip <set> (wear game:armor-head/body/legs-<set>, e.g. sewn-leather), sleep (put a hotel bed beside you if there is none and lie down in it), face <text> (reports the heading and pitch to the nearest block whose code contains text, within 16 blocks), walk <blocks> (moves you that far along the way you face, one block at a time, over a floor and through free air), hurt <amount> (a blow from nothing in particular), classdrops <block> (the drops of a block such as supplybox rolled 400 times as if it stood where you do), place <code@dx,dz> (sets a block at your feet height dx, dz off, clearing the one above), use <text> (right-clicks the nearest block whose code contains text, within 16 blocks, as you would: its own behaviours run, so a door opens or takes you through), pry <text> (leans a pry bar on the nearest such block: says whether it gave, or why not)")
+                .WithDescription("Client test rig helpers: equip <set> (wear game:armor-head/body/legs-<set>, e.g. sewn-leather), sleep (put a hotel bed beside you if there is none and lie down in it), face <text> (reports the heading and pitch to the nearest block whose code contains text, within 16 blocks), walk <blocks> (moves you that far along the way you face, one block at a time, over a floor and through free air), hurt <amount> (a blow from nothing in particular), classdrops <block> (the drops of a block such as supplybox rolled 400 times as if it stood where you do), place <code@dx,dz> (sets a block at your feet height dx, dz off, clearing the one above), use <text> (right-clicks the nearest block whose code contains text, within 16 blocks, as you would: its own behaviours run, so a door opens or takes you through), pry <text> (leans a pry bar on the nearest such block: says whether it gave, or why not), itemshow <code> [n] (the item in your selected hotbar slot and one at rest on the floor 2 blocks ahead, for item shots)")
                 .RequiresPlayer()
                 .WithArgs(parsers.Word("what"), parsers.OptionalWord("arg"))
                 .HandleWith(Handle)
@@ -354,7 +354,8 @@ public class RigCommands : ModSystem
             case "have": return Have(player);
             case "craft": return Craft(player, arg);
             case "tooltip": return Tooltip(player, arg);
-            default: return TextCommandResult.Error("rig-error: equip, sleep, face, walk, hurt, classdrops, place, use, pry, cut, have, craft or tooltip");
+            case "itemshow": return ItemShow(player, arg);
+            default: return TextCommandResult.Error("rig-error: equip, sleep, face, walk, hurt, classdrops, place, use, pry, cut, have, craft, tooltip or itemshow");
         }
     }
 
@@ -423,6 +424,69 @@ public class RigCommands : ModSystem
         if (found == 0) return TextCommandResult.Error("rig-error: no grid recipe makes " + want);
         text.Append(bad == 0 ? " ok" : " PROBLEM");
         return bad == 0 ? TextCommandResult.Success(text.ToString()) : TextCommandResult.Error(text.ToString());
+    }
+
+    BlockPos itemStage;
+
+    /// <summary>
+    /// The item stage: once per spot, a flat 15 x 15 pad of plain stone under the player's feet with the air above it cleared to 4 blocks (crops,
+    /// grass and the like), so an item on the floor can be seen and the third-person camera has nothing behind it.
+    /// </summary>
+    void Stage(IServerPlayer player)
+    {
+        BlockPos at = player.Entity.Pos.AsBlockPos;
+        if (itemStage != null && itemStage.X == at.X && itemStage.Y == at.Y && itemStage.Z == at.Z) return;
+        Block stone = sapi.World.GetBlock(new AssetLocation("game:rock-granite"));
+        var blocks = sapi.World.BlockAccessor;
+        for (int dx = -7; dx <= 7; dx++)
+            for (int dz = -7; dz <= 7; dz++)
+            {
+                if (stone != null && stone.Id != 0) blocks.SetBlock(stone.Id, new BlockPos(at.X + dx, at.Y - 1, at.Z + dz));
+                for (int dy = 0; dy < 5; dy++)
+                {
+                    var pos = new BlockPos(at.X + dx, at.Y + dy, at.Z + dz);
+                    if (dx == 0 && dz == 0 && dy < 2) continue;
+                    if (blocks.GetBlock(pos).Id != 0) blocks.SetBlock(0, pos);
+                }
+            }
+        itemStage = at.Copy();
+    }
+
+    long itemShowEntity = -1;
+
+    /// <summary>
+    /// itemshow code [n]: item shots for the item pass. Puts n (default 1) of the item (backrooms code, or domain:code) in the selected
+    /// hotbar slot and sets one on the floor about 2 blocks ahead, at rest (the one shown before is despawned).
+    /// </summary>
+    TextCommandResult ItemShow(IServerPlayer player, string arg)
+    {
+        string[] parts = (arg ?? "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length == 0) return TextCommandResult.Error("rig-error: itemshow <code> [n]");
+        string code = parts[0];
+        int n = parts.Length > 1 && int.TryParse(parts[1], out int k) && k > 0 ? k : 1;
+        var loc = new AssetLocation(code.Contains(':') ? code : "backrooms:" + code);
+        CollectibleObject co = (CollectibleObject)sapi.World.GetItem(loc) ?? sapi.World.GetBlock(loc);
+        if (co == null || co.Id == 0) return TextCommandResult.Error("rig-error: no item " + loc);
+        ItemSlot slot = player.InventoryManager.ActiveHotbarSlot;
+        if (slot == null) return TextCommandResult.Error("rig-error: no active hotbar slot");
+        Stage(player);
+        var held = new ItemStack(co, n);
+        slot.Itemstack = held;
+        slot.MarkDirty();
+        if (itemShowEntity >= 0)
+        {
+            sapi.World.GetEntityById(itemShowEntity)?.Die(EnumDespawnReason.Removed);
+            itemShowEntity = -1;
+        }
+        var e = player.Entity;
+        double yaw = e.Pos.Yaw, x = e.Pos.X + Math.Sin(yaw) * 2, z = e.Pos.Z + Math.Cos(yaw) * 2;
+        var ground = sapi.World.SpawnItemEntity(new ItemStack(co, 1), new Vec3d(x, e.Pos.Y + 0.05, z), new Vec3d(0, 0, 0));
+        if (ground != null)
+        {
+            ground.Pos.Motion.Set(0, 0, 0);
+            itemShowEntity = ground.EntityId;
+        }
+        return TextCommandResult.Success(string.Format(CultureInfo.InvariantCulture, "rig-itemshow {0} x{1} in slot {2}, on the floor at {3:0.0} {4:0.0}", co.Code, n, player.InventoryManager.ActiveHotbarSlotNumber, x, z));
     }
 
     /// <summary>tooltip code: the info lines the game builds for an item (what the hover tooltip shows), as this server's collectible says them.</summary>
