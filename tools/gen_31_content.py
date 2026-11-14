@@ -405,6 +405,8 @@ def items():
                                                   "transitionedStack": {"type": "item", "code": "game:rot"}, "transitionRatio": 1}]},
             "attributes": {"handbook": {"groupBy": ["l31-food-*"]}}}
     data.update(SPRITE)
+    from gen_items_treats import dress  # the item model pass: the snack bar's models (tools/gen_items_treats.py)
+    dress("l31-food", data)
     write_json(os.path.join(ITEMS, "l31-food.json"), data,
                "Level 31's food court: what the Faceling behind the counter serves, free (Wikidot): pizza, pepperoni pizza, wings, a foot-long hot dog")
     for k, (n, _, _) in foods.items():

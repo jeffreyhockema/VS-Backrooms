@@ -2,9 +2,6 @@
 {
 	"code": "fun-lucatears",
 	"maxstacksize": 4,
-	"texture": {
-		"base": "item/fun/lucatears"
-	},
 	"creativeinventory": {
 		"general": [
 			"*"
@@ -27,43 +24,43 @@
 		"groundStorageTransform": {
 			"origin": {
 				"x": 0.5,
-				"y": 0.5,
+				"y": 0,
 				"z": 0.5
 			},
-			"scale": 1.3
+			"scale": 0.4
 		}
 	},
 	"class": "BackroomsLucaTears",
 	"guiTransform": {
 		"rotation": {
-			"x": 0,
-			"y": 0,
+			"x": 157.4,
+			"y": -45.3,
 			"z": 0
 		},
 		"origin": {
 			"x": 0.5,
-			"y": 0.5,
+			"y": 0.188,
 			"z": 0.5
 		},
-		"scale": 1
+		"scale": 3.2
 	},
 	"tpHandTransform": {
 		"translation": {
-			"x": -0.75,
-			"y": -0.4,
-			"z": -0.55
+			"x": -0.85,
+			"y": -0.5,
+			"z": -0.6
 		},
 		"rotation": {
 			"x": 0,
 			"y": -45,
 			"z": -10
 		},
-		"scale": 0.6
+		"scale": 0.5
 	},
 	"groundTransform": {
 		"rotation": {
-			"x": 90,
-			"y": 0,
+			"x": 0,
+			"y": -45,
 			"z": 0
 		},
 		"origin": {
@@ -71,7 +68,7 @@
 			"y": 0,
 			"z": 0.5
 		},
-		"scale": 2
+		"scale": 1.75
 	},
 	"behaviors": [
 		{
@@ -85,8 +82,32 @@
 					"x2": 1,
 					"y2": 0.125,
 					"z2": 1
+				},
+				"selectionBox": {
+					"x1": 0,
+					"y1": 0,
+					"z1": 0,
+					"x2": 1,
+					"y2": 0.2,
+					"z2": 1
 				}
 			}
 		}
-	]
+	],
+	"shape": {
+		"base": "item/treats/fun-lucatears"
+	},
+	"fpHandTransform": {
+		"translation": {
+			"x": -0.85,
+			"y": -0.5,
+			"z": -0.6
+		},
+		"rotation": {
+			"x": 0,
+			"y": -45,
+			"z": -10
+		},
+		"scale": 0.5
+	}
 }

@@ -3,9 +3,6 @@
 	"code": "end-memoryjuice",
 	"class": "BackroomsMemoryJuice",
 	"maxstacksize": 8,
-	"shape": {
-		"base": "item/end/memoryjuice"
-	},
 	"creativeinventory": {
 		"general": [
 			"*"
@@ -20,7 +17,15 @@
 	},
 	"materialDensity": 1000,
 	"attributes": {
-		"hydration": 100
+		"hydration": 100,
+		"groundStorageTransform": {
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.432
+		}
 	},
 	"guiTransform": {
 		"rotation": {
@@ -30,23 +35,23 @@
 		},
 		"origin": {
 			"x": 0.5,
-			"y": 0.3,
+			"y": 0.312,
 			"z": 0.5
 		},
-		"scale": 2.4
+		"scale": 2.105
 	},
 	"fpHandTransform": {
 		"translation": {
-			"x": 0,
-			"y": 0.1,
-			"z": 0.4
+			"x": -0.85,
+			"y": -0.5,
+			"z": -0.6
 		},
 		"rotation": {
 			"x": 0,
-			"y": -30,
-			"z": 0
+			"y": -45,
+			"z": -10
 		},
-		"scale": 2
+		"scale": 0.54
 	},
 	"tpHandTransform": {
 		"translation": {
@@ -59,7 +64,7 @@
 			"y": -45,
 			"z": -10
 		},
-		"scale": 0.8
+		"scale": 0.54
 	},
 	"groundTransform": {
 		"rotation": {
@@ -72,7 +77,7 @@
 			"y": 0,
 			"z": 0.5
 		},
-		"scale": 2.8
+		"scale": 1.89
 	},
 	"behaviors": [
 		{
@@ -92,10 +97,13 @@
 					"y1": 0,
 					"z1": 0,
 					"x2": 1,
-					"y2": 0.625,
+					"y2": 0.32,
 					"z2": 1
 				}
 			}
 		}
-	]
+	],
+	"shape": {
+		"base": "item/treats/end-memoryjuice"
+	}
 }
