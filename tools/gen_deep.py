@@ -5,6 +5,7 @@ import math
 import os
 
 import deep_textures
+import gen_items_pantry
 import bonekit as BK
 import deepprops as DP
 import l11art as L11
@@ -65,14 +66,15 @@ TRANSFORMS = {
 
 
 def food(code, english, satiety, category, desc, health=0, stack=16, extra=None):
-    data = {"code": code, "maxstacksize": stack, "texture": {"base": f"item/{code}"},
+    """A Snackrooms food or drink; its look (shape, textures, transforms) is tools/gen_items_pantry.py's."""
+    data = {"code": code, "maxstacksize": stack,
             "creativeinventory": {"general": ["*"], "items": ["*"]},
             "nutritionProps": dict({"satiety": satiety, "foodcategory": category}, **({"health": health} if health else {})),
             "materialDensity": 600}
-    data.update(TRANSFORMS)
+    height = gen_items_pantry.apply_look(data, code)
     if extra:
         data.update(extra)
-    ground_storable(data)
+    ground_storable(data, height=height)
     write_json(os.path.join(ASSETS, "itemtypes", "deep", code + ".json"), data, english)
     LANG[f"item-{code}"] = english
     LANG[f"itemdesc-{code}"] = desc

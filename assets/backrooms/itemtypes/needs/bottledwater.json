@@ -3,9 +3,6 @@
 	"code": "bottledwater",
 	"class": "BackroomsAlmondWater",
 	"maxstacksize": 8,
-	"shape": {
-		"base": "item/almondwater"
-	},
 	"variantgroups": [
 		{
 			"code": "kind",
@@ -16,11 +13,6 @@
 			]
 		}
 	],
-	"textures": {
-		"tex": {
-			"base": "item/bottledwater-{kind}"
-		}
-	},
 	"nutritionPropsByType": {
 		"*-clean": {
 			"satiety": 100,
@@ -87,6 +79,14 @@
 			"requiresContainer": false
 		}
 	},
+	"shape": {
+		"base": "item/pantry/bottle"
+	},
+	"textures": {
+		"tex": {
+			"base": "item/pantry/bottledwater-{kind}"
+		}
+	},
 	"guiTransform": {
 		"rotation": {
 			"x": 157.4,
@@ -95,10 +95,10 @@
 		},
 		"origin": {
 			"x": 0.5,
-			"y": 0.34,
+			"y": 0.36,
 			"z": 0.5
 		},
-		"scale": 2.2
+		"scale": 2.1
 	},
 	"fpHandTransform": {
 		"translation": {
@@ -157,7 +157,7 @@
 					"y1": 0,
 					"z1": 0,
 					"x2": 1,
-					"y2": 0.6875,
+					"y2": 0.72,
 					"z2": 1
 				}
 			}

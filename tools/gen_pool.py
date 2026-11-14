@@ -13,9 +13,10 @@ from PIL import Image, ImageDraw
 
 from detail_kit import ASSETS, CLOTH, LANG, METAL, SIDES, STONE, ROTATE, block, bx, cube, ground_storable, name, prop, shape, write_json
 from detail_textures import S, noise, rgb, save, text
-from gen_deep import TRANSFORMS, door_block, drops, threshold
+from gen_deep import door_block, drops, threshold
 from gen_detail import cube_block
 from detail_kit import T, seed_of
+import gen_items_pantry
 
 
 def tile_texture(tile, grout, key, film=None, glow=0.0, coping=False):
@@ -132,27 +133,6 @@ def textures():
     b13_textures()
 
 
-def item_textures():
-    # Epsom salt: a little heap of white crystals
-    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
-    rng = random.Random(seed_of("epsomitem"))
-    d.ellipse([5, 15, 27, 28], fill=(232, 236, 240, 255))
-    for _ in range(40):
-        x, y = rng.randrange(7, 25), rng.randrange(13, 26)
-        c = rng.choice([(255, 255, 255, 255), (210, 220, 228, 255), (244, 248, 250, 255)])
-        d.rectangle([x, y, x + 1, y + 1], fill=c)
-    T.save(img, "item/epsomsalt.png")
-    # Red water: a bottle of what the Reservoir's sprouts grow in
-    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
-    d.rectangle([13, 3, 18, 8], fill=(200, 210, 210, 255))
-    d.rectangle([12, 1, 19, 3], fill=(120, 90, 60, 255))
-    d.rounded_rectangle([9, 8, 22, 29], 3, fill=(150, 18, 30, 235), outline=(210, 220, 225, 255))
-    d.line([11, 11, 11, 25], fill=(220, 90, 100, 255))
-    T.save(img, "item/redwater.png")
-
-
 def blocks():
     # (B13) the mosaic in versions that share their grout and ground (three; the coping two), picked by height as well
     # (randomizeAxes xyz), so a wall's column does not stack one version
@@ -264,19 +244,20 @@ def blocks():
 
 
 def items():
-    data = {"code": "epsomsalt", "maxstacksize": 64, "texture": {"base": "item/epsomsalt"},
+    # their looks (a little heap of crystals, a corked flask) are tools/gen_items_pantry.py's
+    data = {"code": "epsomsalt", "maxstacksize": 64,
             "creativeinventory": {"general": ["*"], "items": ["*"]}, "materialDensity": 1700,
             "attributes": {"handbook": {"groupBy": ["epsomsalt"]}}}
-    data.update(TRANSFORMS)
-    ground_storable(data, "Messy12")
+    height = gen_items_pantry.apply_look(data, "epsomsalt")
+    ground_storable(data, "Messy12", height=height)
     write_json(os.path.join(ASSETS, "itemtypes", "pool", "epsomsalt.json"), data, "Epsom salt, dried out of the Poolrooms' water")
     LANG["item-epsomsalt"] = "Epsom Salt"
     LANG["itemdesc-epsomsalt"] = "Dried out of the Poolrooms' water on the rims of its dark corners. Eases aches and draws out what festers: mixed with linen it makes a salt poultice."
-    data = {"code": "redwater", "class": "BackroomsRedWater", "maxstacksize": 4, "texture": {"base": "item/redwater"},
+    data = {"code": "redwater", "class": "BackroomsRedWater", "maxstacksize": 4,
             "creativeinventory": {"general": ["*"], "items": ["*"]}, "materialDensity": 1000,
             "nutritionProps": {"satiety": 40, "foodcategory": "NoNutrition"}, "attributes": {"hydration": 200}}
-    data.update(TRANSFORMS)
-    ground_storable(data)
+    height = gen_items_pantry.apply_look(data, "redwater")
+    ground_storable(data, height=height)
     write_json(os.path.join(ASSETS, "itemtypes", "pool", "redwater.json"), data, "Red water from the Sanguine Reservoir")
     LANG["item-redwater"] = "Red Water"
     LANG["itemdesc-redwater"] = "Water from where the red sprouts grow, at the bottom of the Sanguine Reservoir. Drink it and every wound closes. Everyone who has drunk it was changed for good."
@@ -308,7 +289,6 @@ def lang():
 
 def generate():
     textures()
-    item_textures()
     blocks()
     items()
     recipes()
