@@ -29,7 +29,7 @@
 		"seraph": {
 			"base": "game:block/transparent"
 		},
-		"cap": {
+		"brcap": {
 			"base": "backrooms:entity/wear/baseballcap"
 		}
 	},
@@ -85,7 +85,7 @@
 	"groundTransform": {
 		"translation": {
 			"x": 0.05,
-			"y": -1.1,
+			"y": -0.65,
 			"z": 0
 		},
 		"rotation": {

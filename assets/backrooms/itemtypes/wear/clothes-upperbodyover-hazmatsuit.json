@@ -32,7 +32,7 @@
 		"seraph": {
 			"base": "game:block/transparent"
 		},
-		"hazmat": {
+		"brhazsuit": {
 			"base": "backrooms:entity/wear/hazmatsuit"
 		}
 	},

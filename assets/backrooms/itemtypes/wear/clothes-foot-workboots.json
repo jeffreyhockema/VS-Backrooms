@@ -40,7 +40,7 @@
 		"seraph": {
 			"base": "game:block/transparent"
 		},
-		"boot": {
+		"brboot": {
 			"base": "backrooms:entity/wear/workboots"
 		}
 	},

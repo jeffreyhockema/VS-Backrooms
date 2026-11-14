@@ -268,7 +268,8 @@ def paint_vanilla(shape_paths, key, tex_size, painter, seed):
 # ====================================================================================================================
 
 class Wear:
-    """A clothing shape of our own: elements on the seraph's body parts (stepParentName), each face given a texture
+    """A clothing shape of our own (its texture key must be its own: worn together, two items that share a key draw
+    with one texture, so the hood would wear the suit's): elements on the seraph's body parts (stepParentName), each face given a texture
     rectangle by a shelf packer and painted by `paint(ctx)` with ctx.part = the element's `part` tag."""
 
     def __init__(self, key, paint, atlas_w=32, seed=1):
@@ -1047,11 +1048,11 @@ def shoe_model(key, paint, boot, seed):
 
 
 def cap_model():
-    m = Wear("cap", cap, atlas_w=32, seed=21)
+    m = Wear("brcap", cap, atlas_w=32, seed=21)
     # (As wide as vanilla's hats, over the hair, which stands about half a unit off the head)
-    root = m.el("hidehat", (-0.65, 3.0, -0.65), (6.15, 5.6, 5.65), "crown", step="Head")
-    m.el("capdome", (0.35, 2.6, 0.35), (6.45, 3.15, 5.95), "dome", parent=root)
-    m.el("capbutton", (3.15, 3.15, 2.9), (3.65, 3.35, 3.4), "dome", parent=root)
+    root = m.el("hidehat", (-0.65, 3.45, -0.65), (6.15, 5.85, 5.65), "crown", step="Head")
+    m.el("capdome", (0.35, 2.4, 0.35), (6.45, 2.9, 5.95), "dome", parent=root)
+    m.el("capbutton", (3.15, 2.9, 2.9), (3.65, 3.1, 3.4), "dome", parent=root)
     # The peak, curved: a flat middle and its two sides turned down, the whole tipped down a little at the front
     brim = m.el("capbrim", (-3.3, 0.0, 1.0), (0.3, 0.3, 5.3), "brim", parent=root, rot=(0, 0, 9), origin=(0.3, 0.15, 3.15))
     m.el("capbrimn", (0.0, -0.18, -0.65), (3.6, 0.12, 0.0), "brim", parent=brim, rot=(-14, 0, 0), origin=(1.8, 0.0, 0.0))
@@ -1060,7 +1061,7 @@ def cap_model():
 
 
 def hazmat_suit_model():
-    m = Wear("hazmat", hazmat, atlas_w=48, seed=31)
+    m = Wear("brhazsuit", hazmat, atlas_w=48, seed=31)
     b = 0.32   # how much bigger than the body: baggy
     up = m.el("suitupper", (-b, -b, -b), (5 + b, 5 + b, 6.2 + b), "torso_u", step="UpperTorso")
     m.el("suitflap", (-0.18, 0.4, 2.55), (0.0, 5.4, 3.65), "tape", parent=up)
@@ -1083,7 +1084,7 @@ def hazmat_suit_model():
 
 
 def hazmat_hood_model():
-    m = Wear("hazmat", hazmat, atlas_w=48, seed=37)
+    m = Wear("brhazhood", hazmat, atlas_w=48, seed=37)
     shell = m.el("hidehat", (-0.6, -1.1, -0.6), (6.1, 6.0, 5.6), "shell", step="Head")
     m.el("hoodtop", (0.0, 7.1, 0.0), (6.3, 7.45, 6.2), "shell", parent=shell)
     m.el("visorseal", (-0.2, 2.1, 0.75), (0.0, 6.15, 5.45), "seal", parent=shell)
@@ -1193,20 +1194,20 @@ def define_items():
          dict(FOLDABLE), "A lab coat on vanilla's long coat with the full collar, cut off at the knee.")
     item("clothes-foot-sneakers", "foot", "Sneakers",
          "Canvas sneakers with rubber toes, grey with dirt round the soles.", 0.5,
-         {"base": "backrooms:entity/wear/sneakers"}, {"sneaker": tex("sneakers")}, {}, "Canvas sneakers, a model of our own.")
+         {"base": "backrooms:entity/wear/sneakers"}, {"brsneaker": tex("sneakers")}, {}, "Canvas sneakers, a model of our own.")
     item("clothes-foot-workboots", "foot", "Work Boots",
          "Laced leather work boots with thick lugged soles, scuffed and dark with old wet.", 1.5,
-         {"base": "backrooms:entity/wear/workboots"}, {"boot": tex("workboots")}, {}, "Leather work boots, a model of our own.")
+         {"base": "backrooms:entity/wear/workboots"}, {"brboot": tex("workboots")}, {}, "Leather work boots, a model of our own.")
     item("clothes-head-baseballcap", "head", "Baseball Cap",
          "A red cap, sun-faded, with a sweat line round the band. It keeps the light out of your eyes.", 0,
-         {"base": "backrooms:entity/wear/baseballcap"}, {"cap": tex("baseballcap")},
+         {"base": "backrooms:entity/wear/baseballcap"}, {"brcap": tex("baseballcap")},
          {"disableElements": HAT_HIDES, "keepElements": KEEP_UNDER_HAT, "rainProtectionPerc": 0.3},
-         "A baseball cap, a model of our own.")
+         "A baseball cap, a model of our own.", top={"ground": tr(0.05, -0.65, 0, -2, 0, -4, 0.5, 0.5, 0.5299, scale=4)})
     item("clothes-upperbodyover-hazmatsuit", "upperbodyover", "Hazmat Suit",
          "A sealed yellow coverall with boots and gloves. In a contaminated room it keeps most of the poison off your "
          "skin, and it wears a little every time. Hot to work in (you get thirsty faster), a little slow, and no use "
          "at all against a blow.", 1,
-         {"base": "backrooms:entity/wear/hazmatsuit"}, {"hazmat": tex("hazmatsuit")},
+         {"base": "backrooms:entity/wear/hazmatsuit"}, {"brhazsuit": tex("hazmatsuit")},
          {"disableElements": SHIRT_TAILS + ["glovefrill-l", "glovefrill-r"],
           "statModifiers": {"walkSpeed": -0.05}, "visibleDamageEffect": True, "hazmat": "suit"},
          "A hazmat suit, one coverall with its boots and gloves, a model of our own (src/Wear/HazmatSystem.cs).",
@@ -1214,11 +1215,11 @@ def define_items():
     item("clothes-head-hazmathood", "head", "Hazmat Hood",
          "A sealed hood with a visor and a filter. It keeps out most of a contaminated room's air and the smell of the "
          "dead, and the filter wears a little every time. Close and stuffy: you get thirsty faster in it.", 0.5,
-         {"base": "backrooms:entity/wear/hazmathood"}, {"hazmat": tex("hazmathood")},
+         {"base": "backrooms:entity/wear/hazmathood"}, {"brhazhood": tex("hazmathood")},
          {"disableElements": HOOD_HIDES, "keepElements": KEEP_UNDER_HAT,
           "visibleDamageEffect": True, "hazmat": "hood", "rainProtectionPerc": 0.9},
          "A hazmat hood with its visor and filter, a model of our own (src/Wear/HazmatSystem.cs).",
-         top={"durability": 200})
+         top={"durability": 200, "ground": tr(0.05, -0.55, 0, -2, 0, -4, 0.5, 0.5, 0.5299, scale=4)})
 
 
 def item_json(code, spec):
@@ -1233,7 +1234,9 @@ def item_json(code, spec):
     textures = dict({"seraph": {"base": "game:block/transparent"}}, **spec["textures"])
     data = {"code": code, "storageFlags": 128, "behaviors": [{"name": "Wearable"}], "attributes": attrs,
             "shape": spec["shape"], "textures": textures, "creativeinventory": INV, "renderAlphaTest": 0.25}
-    data.update(spec["top"])
+    top = dict(spec["top"])
+    ground = top.pop("ground", None)
+    data.update(top)
     if slot == "foot":
         # As vanilla's shoes: set down in pairs on the floor
         data["behaviors"].append({"name": "GroundStorable", "properties": {"layout": "Quadrants",
@@ -1243,7 +1246,7 @@ def item_json(code, spec):
         data["heldTpIdleAnimation"] = "holdunderarm"
     data["guiTransform"] = t["gui"]
     data["tpHandTransform"] = t["tp"]
-    data["groundTransform"] = t["ground"]
+    data["groundTransform"] = ground or t["ground"]
     return data
 
 
@@ -1300,8 +1303,8 @@ def main():
                             "entity/humanoid/seraph/clothing/upperbodyover/collar-extended-full"], "uover", (28, 64),
                            lab_coat, 106), "labcoat")
     # Models of our own
-    for name, model, key in (("sneakers", shoe_model("sneaker", sneaker, False, 11), "sneaker"),
-                             ("workboots", shoe_model("boot", work_boot, True, 12), "boot"),
+    for name, model, key in (("sneakers", shoe_model("brsneaker", sneaker, False, 11), "brsneaker"),
+                             ("workboots", shoe_model("brboot", work_boot, True, 12), "brboot"),
                              ("baseballcap", cap_model(), "cap"),
                              ("hazmatsuit", hazmat_suit_model(), "hazmat"),
                              ("hazmathood", hazmat_hood_model(), "hazmat")):

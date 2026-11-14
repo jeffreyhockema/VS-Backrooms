@@ -39,7 +39,7 @@
 		"seraph": {
 			"base": "game:block/transparent"
 		},
-		"hazmat": {
+		"brhazhood": {
 			"base": "backrooms:entity/wear/hazmathood"
 		}
 	},
@@ -95,7 +95,7 @@
 	"groundTransform": {
 		"translation": {
 			"x": 0.05,
-			"y": -1.1,
+			"y": -0.55,
 			"z": 0
 		},
 		"rotation": {

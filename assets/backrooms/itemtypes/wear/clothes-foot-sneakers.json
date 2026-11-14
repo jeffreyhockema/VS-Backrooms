@@ -40,7 +40,7 @@
 		"seraph": {
 			"base": "game:block/transparent"
 		},
-		"sneaker": {
+		"brsneaker": {
 			"base": "backrooms:entity/wear/sneakers"
 		}
 	},
