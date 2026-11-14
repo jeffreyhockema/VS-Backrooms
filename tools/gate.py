@@ -304,6 +304,10 @@ def stage_lang(st, ctx):
                 bad.append("langcheck " + l)
         if not any(b.startswith("langcheck") for b in bad):
             bad.append("langcheck failed: " + (r.stderr or r.stdout).strip()[-300:])
+    # items drawn flat (no shape) are only those in tools/itemcheck-flat.txt (item pass 0.700)
+    r = subprocess.run([sys.executable, os.path.join(REPO, "tools", "itemcheck.py")], capture_output=True, text=True, encoding="utf-8", errors="replace")
+    if r.returncode != 0:
+        bad += ["itemcheck " + l for l in r.stdout.splitlines() if l.startswith("[")] or ["itemcheck failed: " + (r.stderr or r.stdout).strip()[-300:]]
     if bad:
         for b in bad:
             st.note("PROBLEM " + b)
