@@ -107,6 +107,8 @@ def block(code, data, comment=None):
 
 
 def item(code, data, comment=None):
+    from gen_items_treats import dress as treats_dress  # the item model pass: the treats' models (tools/gen_items_treats.py)
+    data = treats_dress(code, data)
     write_json(os.path.join(ASSETS, "itemtypes", "3999", code + ".json"), dict({"code": code}, **data), comment)
     ITEMS.append(code)
 

@@ -919,16 +919,6 @@ def item_textures():
     d.line([5, 23, 12, 23], fill=H(0x2A3A8A))
     d.ellipse([14, 22, 17, 25], fill=(0, 0, 0, 0), outline=H(0xCFC4A8))
     save_item(img, "cataloguecard")
-    # Memory Juice: cloudy amber glass, a cork
-    img = noisy(0xC88A2E, 8, "juiceglass")
-    px = img.load()
-    for y in range(S):
-        for x in range(S):
-            r, g, b, a = px[x, y]
-            f = 1.15 if 6 <= x <= 9 else 1
-            px[x, y] = (clamp(r * f), clamp(g * f), clamp(b * f), 255)
-    save_item(img, "memoryjuice-glass")
-    save_item(noisy(0xA88A60, 10, "cork"), "memoryjuice-cork")
 
 
 # ======================= Shapes and block types =======================
@@ -2367,6 +2357,8 @@ ITEMS = []
 
 
 def itm(code, data, comment):
+    from gen_items_treats import dress as treats_dress  # the item model pass: Memory Juice's model (tools/gen_items_treats.py)
+    data = treats_dress(code, data)
     write_json(os.path.join(ASSETS, "itemtypes", "end", code + ".json"), dict({"code": code}, **data), comment)
     ITEMS.append(code)
 
@@ -2379,19 +2371,7 @@ def items():
         "combustibleProps": {"burnTemperature": 600, "burnDuration": 3},
     }, **ITEM_TRANSFORMS), "end-cataloguecard")), "A card from The End's card catalogue: read it (right-click) and it marks the nearest way out on the map")
 
-    # Memory Juice: a small unlabelled bottle, cloudy amber, a cork; a few boxes in item space (0-16)
-    def box(nm, frm, to, tex, top=True):
-        faces = ("north", "east", "south", "west", "up", "down") if top else ("north", "east", "south", "west")
-        return bx(nm, frm, to, tex, faces=faces)
-    els = [box("Body", (6, 0, 6.5), (10, 6, 9.5), "glass"),
-           box("Shoulder", (6.5, 6, 7), (9.5, 7, 9), "glass"),
-           box("Neck", (7.3, 7, 7.3), (8.7, 8.6, 8.7), "glass", top=False),
-           box("Lip", (7.1, 8.6, 7.1), (8.9, 9.1, 8.9), "glass", top=False),
-           box("Cork", (7.4, 8.6, 7.4), (8.6, 10.2, 8.6), "cork")]
-    write_json(os.path.join(ASSETS, "shapes", "item", "end", "memoryjuice.json"),
-               {"textureWidth": 16, "textureHeight": 16,
-                "textures": {"glass": "backrooms:item/end/memoryjuice-glass", "cork": "backrooms:item/end/memoryjuice-cork"},
-                "elements": els})
+    # Memory Juice: its model is tools/gen_items_treats.py's (the item model pass)
     itm("end-memoryjuice", ground_storable(dict({
         "class": "BackroomsMemoryJuice", "maxstacksize": 8, "shape": {"base": "item/end/memoryjuice"},
         "creativeinventory": {"general": ["*"], "items": ["*"]},
@@ -3334,7 +3314,7 @@ def check():
             for m in re.finditer(r'"base":\s*"([^"]+)"', raw):
                 p = m.group(1)
                 rel = p.split(":", 1)[-1]
-                is_shape = rel.startswith(("block/end/end-", "item/end/memoryjuice")) and not rel.startswith("item/end/memoryjuice-")
+                is_shape = rel.startswith(("block/end/end-", "item/treats/"))
                 ok = asset_exists("shapes", p, ".json") if is_shape else asset_exists("textures", p, ".png")
                 if not ok:
                     problems.append(f"{kind} {code}: {p}")

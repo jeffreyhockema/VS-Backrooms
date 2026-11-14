@@ -27,26 +27,6 @@
 		]
 	},
 	"materialDensity": 600,
-	"textureByType": {
-		"l3999-traymeal-burger": {
-			"base": "item/3999/traymeal-burger"
-		},
-		"l3999-traymeal-pizza": {
-			"base": "item/3999/traymeal-pizza"
-		},
-		"l3999-traymeal-noodles": {
-			"base": "item/3999/traymeal-noodles"
-		},
-		"l3999-traymeal-taco": {
-			"base": "item/3999/traymeal-taco"
-		},
-		"l3999-traymeal-icecream": {
-			"base": "item/3999/traymeal-icecream"
-		},
-		"l3999-traymeal-pretzel": {
-			"base": "item/3999/traymeal-pretzel"
-		}
-	},
 	"nutritionPropsByType": {
 		"l3999-traymeal-burger": {
 			"satiety": 420,
@@ -88,50 +68,11 @@
 		"groundStorageTransform": {
 			"origin": {
 				"x": 0.5,
-				"y": 0.5,
+				"y": 0,
 				"z": 0.5
 			},
-			"scale": 1.3
+			"scale": 0.75
 		}
-	},
-	"guiTransform": {
-		"rotation": {
-			"x": 0,
-			"y": 0,
-			"z": 0
-		},
-		"origin": {
-			"x": 0.5,
-			"y": 0.5,
-			"z": 0.5
-		},
-		"scale": 1
-	},
-	"tpHandTransform": {
-		"translation": {
-			"x": -0.75,
-			"y": -0.4,
-			"z": -0.55
-		},
-		"rotation": {
-			"x": 0,
-			"y": -45,
-			"z": -10
-		},
-		"scale": 0.6
-	},
-	"groundTransform": {
-		"rotation": {
-			"x": 90,
-			"y": 0,
-			"z": 0
-		},
-		"origin": {
-			"x": 0.5,
-			"y": 0,
-			"z": 0.5
-		},
-		"scale": 2
 	},
 	"behaviors": [
 		{
@@ -145,8 +86,416 @@
 					"x2": 1,
 					"y2": 0.125,
 					"z2": 1
+				},
+				"selectionBox": {
+					"x1": 0,
+					"y1": 0,
+					"z1": 0,
+					"x2": 1,
+					"y2": 0.315,
+					"z2": 1
 				}
 			}
 		}
-	]
+	],
+	"shapeByType": {
+		"l3999-traymeal-burger": {
+			"base": "item/treats/l3999-traymeal-burger"
+		},
+		"l3999-traymeal-pizza": {
+			"base": "item/treats/l3999-traymeal-pizza"
+		},
+		"l3999-traymeal-noodles": {
+			"base": "item/treats/l3999-traymeal-noodles"
+		},
+		"l3999-traymeal-taco": {
+			"base": "item/treats/l3999-traymeal-taco"
+		},
+		"l3999-traymeal-icecream": {
+			"base": "item/treats/l3999-traymeal-icecream"
+		},
+		"l3999-traymeal-pretzel": {
+			"base": "item/treats/l3999-traymeal-pretzel"
+		}
+	},
+	"guiTransformByType": {
+		"l3999-traymeal-burger": {
+			"rotation": {
+				"x": 145,
+				"y": -45.3,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0.133,
+				"z": 0.5
+			},
+			"scale": 2.08
+		},
+		"l3999-traymeal-pizza": {
+			"rotation": {
+				"x": 145,
+				"y": -45.3,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0.041,
+				"z": 0.5
+			},
+			"scale": 2.044
+		},
+		"l3999-traymeal-noodles": {
+			"rotation": {
+				"x": 145,
+				"y": -45.3,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0.1,
+				"z": 0.5
+			},
+			"scale": 2.08
+		},
+		"l3999-traymeal-taco": {
+			"rotation": {
+				"x": 145,
+				"y": -45.3,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0.086,
+				"z": 0.5
+			},
+			"scale": 2.08
+		},
+		"l3999-traymeal-icecream": {
+			"rotation": {
+				"x": 145,
+				"y": -45.3,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0.177,
+				"z": 0.5
+			},
+			"scale": 2.08
+		},
+		"l3999-traymeal-pretzel": {
+			"rotation": {
+				"x": 145,
+				"y": -45.3,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0.053,
+				"z": 0.5
+			},
+			"scale": 2.08
+		}
+	},
+	"fpHandTransformByType": {
+		"l3999-traymeal-burger": {
+			"translation": {
+				"x": -0.528,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.96
+		},
+		"l3999-traymeal-pizza": {
+			"translation": {
+				"x": -0.439,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.96
+		},
+		"l3999-traymeal-noodles": {
+			"translation": {
+				"x": -0.496,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.96
+		},
+		"l3999-traymeal-taco": {
+			"translation": {
+				"x": -0.483,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.96
+		},
+		"l3999-traymeal-icecream": {
+			"translation": {
+				"x": -0.57,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.96
+		},
+		"l3999-traymeal-pretzel": {
+			"translation": {
+				"x": -0.451,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.96
+		}
+	},
+	"tpHandTransformByType": {
+		"l3999-traymeal-burger": {
+			"translation": {
+				"x": -0.528,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.96
+		},
+		"l3999-traymeal-pizza": {
+			"translation": {
+				"x": -0.439,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.96
+		},
+		"l3999-traymeal-noodles": {
+			"translation": {
+				"x": -0.496,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.96
+		},
+		"l3999-traymeal-taco": {
+			"translation": {
+				"x": -0.483,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.96
+		},
+		"l3999-traymeal-icecream": {
+			"translation": {
+				"x": -0.57,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.96
+		},
+		"l3999-traymeal-pretzel": {
+			"translation": {
+				"x": -0.451,
+				"y": 0,
+				"z": -0.42
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": -90
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 0.96
+		}
+	},
+	"groundTransformByType": {
+		"l3999-traymeal-burger": {
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 3.36
+		},
+		"l3999-traymeal-pizza": {
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 3.36
+		},
+		"l3999-traymeal-noodles": {
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 3.36
+		},
+		"l3999-traymeal-taco": {
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 3.36
+		},
+		"l3999-traymeal-icecream": {
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 3.36
+		},
+		"l3999-traymeal-pretzel": {
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"origin": {
+				"x": 0.5,
+				"y": 0,
+				"z": 0.5
+			},
+			"scale": 3.36
+		}
+	}
 }

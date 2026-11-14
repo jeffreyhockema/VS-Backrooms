@@ -22,6 +22,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 from detail_kit import bx, ground_storable, turn, shift  # noqa: E402
 
 import gen_974_tex  # noqa: E402
+from gen_items_treats import dress as treats_dress  # noqa: E402
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 ASSETS = os.path.join(ROOT, "assets", "backrooms")
@@ -1127,6 +1128,7 @@ def items():
         if extra:
             d.update(extra)
         ground_storable(d)
+        treats_dress(code, d)  # the item model pass (tools/gen_items_treats.py)
         write_json(os.path.join(folder, code + ".json"), d, english)
         LANG[f"item-{code}"] = english
         if desc:
@@ -1146,6 +1148,7 @@ def items():
          "materialDensity": 600}
     d.update(SPRITE_TRANSFORMS)
     ground_storable(d)
+    treats_dress("l974-meal", d)
     write_json(os.path.join(folder, "l974-meal.json"), d, "A Remembered Meal: pancakes, chicken soup, macaroni and cheese, from Kitty's kitchen table")
     LANG.update({"item-l974-meal-pancakes": "A Remembered Meal (pancakes)", "item-l974-meal-soup": "A Remembered Meal (chicken soup)",
                  "item-l974-meal-macaroni": "A Remembered Meal (macaroni and cheese)",

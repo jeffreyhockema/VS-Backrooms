@@ -4,6 +4,7 @@ import os
 
 from detail_kit import ground_storable
 from gen_items_paper import ITEMS as PAPER_ITEMS, dress  # the item pass (0.700): the keycard's model
+from gen_items_treats import dress as treats_dress  # the item pass: the breakfast's models
 from gen_188_kit import (
     ASSETS, CERAMIC, CLOTH, GLASS, LANG, METAL, PARTS, SIDES, STONE, WOOD, WRITTEN,
     bx, bxa, bxf, cube, cyl, drops, mirror_x, reg, retex, shift, split, split_boxes, vblock, vx, write_json,
@@ -503,7 +504,7 @@ def items():
         d.update(data)
         if code in PAPER_ITEMS:
             dress(d, code)
-        write_json(os.path.join(folder, code + ".json"), ground_storable(d), english)
+        write_json(os.path.join(folder, code + ".json"), treats_dress(code, ground_storable(d)), english)
         WRITTEN["itemtypes"].append(code)
         LANG[f"item-{code}"] = english
         LANG[f"itemdesc-{code}"] = desc

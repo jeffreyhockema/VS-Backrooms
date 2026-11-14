@@ -2531,7 +2531,8 @@ def item_shapes():
 
 def write_item(code, data, comment, **ground):
     """Writes an item type, set down on the floor as `ground` says (detail_kit.ground_storable's arguments)."""
-    write_json(os.path.join(ASSETS, "itemtypes", "fun", code + ".json"), detail_kit.ground_storable(data, **ground), comment)
+    from gen_items_treats import dress as treats_dress  # the item model pass: the party food's models (tools/gen_items_treats.py)
+    write_json(os.path.join(ASSETS, "itemtypes", "fun", code + ".json"), treats_dress(code, detail_kit.ground_storable(data, **ground)), comment)
     WRITTEN["itemtypes"].append(code)
 
 
