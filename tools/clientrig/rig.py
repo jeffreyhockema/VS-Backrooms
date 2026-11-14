@@ -209,7 +209,10 @@ def prepare_mods(mods, root):
     """The client's mods dir gets the shotbot beside the Backrooms build. The server gets a dir with the Backrooms build only."""
     if not os.path.exists(os.path.join(mods, "backroomsss")):
         sys.exit(f"no backroomsss build in {mods}")
-    if not os.path.exists(os.path.join(batch.SHOTBOT_BUILD, "shotbot.dll")):
+    dll = os.path.join(batch.SHOTBOT_BUILD, "shotbot.dll")
+    src = os.path.join(REPO, "tools", "shotbot", "ShotBot.cs")
+    # rebuilt when the source is newer: a dll built once and kept missed verbs added later (camyaw ran as a no-op)
+    if not os.path.exists(dll) or os.path.getmtime(src) > os.path.getmtime(dll):
         log("building the shotbot")
         dn = os.path.join(os.environ.get("LOCALAPPDATA", ""), "Microsoft", "dotnet", "dotnet.exe")
         subprocess.run([dn, "build", os.path.join(REPO, "tools", "shotbot"), "-nologo", "-clp:NoSummary"], check=True)
@@ -243,8 +246,16 @@ class Run:
         """Appends a line (and a mark behind it); waits until the bot has done both."""
         self.marks += 1
         tag = f"__s{self.marks}__"
-        with open(os.path.join(self.botdir, "commands.txt"), "a", encoding="utf-8") as f:
-            f.write(line + "\nmark " + tag + "\n")
+        for attempt in range(20):
+            try:
+                with open(os.path.join(self.botdir, "commands.txt"), "a", encoding="utf-8") as f:
+                    f.write(line + "\nmark " + tag + "\n")
+                break
+            except PermissionError:
+                # the client holds the file for a moment while it reads it (4 steps in 3700 failed so in one long run)
+                if attempt == 19:
+                    raise
+                time.sleep(0.1)
         end = time.time() + timeout
         while time.time() < end:
             if tag in read(os.path.join(self.botdir, "marks.txt")):

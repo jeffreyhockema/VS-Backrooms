@@ -201,221 +201,161 @@
 	"fpHandTransformByType": {
 		"l3999-traymeal-burger": {
 			"translation": {
-				"x": -0.528,
-				"y": 0,
-				"z": -0.42
+				"x": -0.8,
+				"y": -0.3,
+				"z": -0.6
 			},
 			"rotation": {
 				"x": 0,
-				"y": 0,
-				"z": -90
+				"y": -45,
+				"z": -10
 			},
-			"origin": {
-				"x": 0.5,
-				"y": 0,
-				"z": 0.5
-			},
-			"scale": 0.96
+			"scale": 0.7
 		},
 		"l3999-traymeal-pizza": {
 			"translation": {
-				"x": -0.439,
-				"y": 0,
-				"z": -0.42
+				"x": -0.8,
+				"y": -0.3,
+				"z": -0.6
 			},
 			"rotation": {
 				"x": 0,
-				"y": 0,
-				"z": -90
+				"y": -45,
+				"z": -10
 			},
-			"origin": {
-				"x": 0.5,
-				"y": 0,
-				"z": 0.5
-			},
-			"scale": 0.96
+			"scale": 0.7
 		},
 		"l3999-traymeal-noodles": {
 			"translation": {
-				"x": -0.496,
-				"y": 0,
-				"z": -0.42
+				"x": -0.8,
+				"y": -0.3,
+				"z": -0.6
 			},
 			"rotation": {
 				"x": 0,
-				"y": 0,
-				"z": -90
+				"y": -45,
+				"z": -10
 			},
-			"origin": {
-				"x": 0.5,
-				"y": 0,
-				"z": 0.5
-			},
-			"scale": 0.96
+			"scale": 0.7
 		},
 		"l3999-traymeal-taco": {
 			"translation": {
-				"x": -0.483,
-				"y": 0,
-				"z": -0.42
+				"x": -0.8,
+				"y": -0.3,
+				"z": -0.6
 			},
 			"rotation": {
 				"x": 0,
-				"y": 0,
-				"z": -90
+				"y": -45,
+				"z": -10
 			},
-			"origin": {
-				"x": 0.5,
-				"y": 0,
-				"z": 0.5
-			},
-			"scale": 0.96
+			"scale": 0.7
 		},
 		"l3999-traymeal-icecream": {
 			"translation": {
-				"x": -0.57,
-				"y": 0,
-				"z": -0.42
+				"x": -0.8,
+				"y": -0.3,
+				"z": -0.6
 			},
 			"rotation": {
 				"x": 0,
-				"y": 0,
-				"z": -90
+				"y": -45,
+				"z": -10
 			},
-			"origin": {
-				"x": 0.5,
-				"y": 0,
-				"z": 0.5
-			},
-			"scale": 0.96
+			"scale": 0.7
 		},
 		"l3999-traymeal-pretzel": {
 			"translation": {
-				"x": -0.451,
-				"y": 0,
-				"z": -0.42
+				"x": -0.8,
+				"y": -0.3,
+				"z": -0.6
 			},
 			"rotation": {
 				"x": 0,
-				"y": 0,
-				"z": -90
+				"y": -45,
+				"z": -10
 			},
-			"origin": {
-				"x": 0.5,
-				"y": 0,
-				"z": 0.5
-			},
-			"scale": 0.96
+			"scale": 0.7
 		}
 	},
 	"tpHandTransformByType": {
 		"l3999-traymeal-burger": {
 			"translation": {
-				"x": -0.528,
-				"y": 0,
-				"z": -0.42
+				"x": -0.8,
+				"y": -0.3,
+				"z": -0.6
 			},
 			"rotation": {
 				"x": 0,
-				"y": 0,
-				"z": -90
+				"y": -45,
+				"z": -10
 			},
-			"origin": {
-				"x": 0.5,
-				"y": 0,
-				"z": 0.5
-			},
-			"scale": 0.96
+			"scale": 0.7
 		},
 		"l3999-traymeal-pizza": {
 			"translation": {
-				"x": -0.439,
-				"y": 0,
-				"z": -0.42
+				"x": -0.8,
+				"y": -0.3,
+				"z": -0.6
 			},
 			"rotation": {
 				"x": 0,
-				"y": 0,
-				"z": -90
+				"y": -45,
+				"z": -10
 			},
-			"origin": {
-				"x": 0.5,
-				"y": 0,
-				"z": 0.5
-			},
-			"scale": 0.96
+			"scale": 0.7
 		},
 		"l3999-traymeal-noodles": {
 			"translation": {
-				"x": -0.496,
-				"y": 0,
-				"z": -0.42
+				"x": -0.8,
+				"y": -0.3,
+				"z": -0.6
 			},
 			"rotation": {
 				"x": 0,
-				"y": 0,
-				"z": -90
+				"y": -45,
+				"z": -10
 			},
-			"origin": {
-				"x": 0.5,
-				"y": 0,
-				"z": 0.5
-			},
-			"scale": 0.96
+			"scale": 0.7
 		},
 		"l3999-traymeal-taco": {
 			"translation": {
-				"x": -0.483,
-				"y": 0,
-				"z": -0.42
+				"x": -0.8,
+				"y": -0.3,
+				"z": -0.6
 			},
 			"rotation": {
 				"x": 0,
-				"y": 0,
-				"z": -90
+				"y": -45,
+				"z": -10
 			},
-			"origin": {
-				"x": 0.5,
-				"y": 0,
-				"z": 0.5
-			},
-			"scale": 0.96
+			"scale": 0.7
 		},
 		"l3999-traymeal-icecream": {
 			"translation": {
-				"x": -0.57,
-				"y": 0,
-				"z": -0.42
+				"x": -0.8,
+				"y": -0.3,
+				"z": -0.6
 			},
 			"rotation": {
 				"x": 0,
-				"y": 0,
-				"z": -90
+				"y": -45,
+				"z": -10
 			},
-			"origin": {
-				"x": 0.5,
-				"y": 0,
-				"z": 0.5
-			},
-			"scale": 0.96
+			"scale": 0.7
 		},
 		"l3999-traymeal-pretzel": {
 			"translation": {
-				"x": -0.451,
-				"y": 0,
-				"z": -0.42
+				"x": -0.8,
+				"y": -0.3,
+				"z": -0.6
 			},
 			"rotation": {
 				"x": 0,
-				"y": 0,
-				"z": -90
+				"y": -45,
+				"z": -10
 			},
-			"origin": {
-				"x": 0.5,
-				"y": 0,
-				"z": 0.5
-			},
-			"scale": 0.96
+			"scale": 0.7
 		}
 	},
 	"groundTransformByType": {

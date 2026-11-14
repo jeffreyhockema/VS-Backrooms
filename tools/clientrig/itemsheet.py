@@ -7,7 +7,10 @@
 A code is a Backrooms item code (almondwater, wanderernote-cache) or domain:code (game:flint).
 Level 10 by day (an open field, nothing behind the camera), creative so nothing hurts. Per item: /backrooms rig itemshow puts it in the
 selected hotbar slot and on the floor 2 blocks ahead; then four shots: its handbook page (the inventory icon, large), first person
-holding it (HUD on: the game hides the hand with the GUIs), third person (zoomed), and a close look at it on the ground. Output in <out>: <code>.jpg (the four, labelled),
+holding it (HUD on: the game hides the hand with the GUIs; the rig's client still draws no first-person hand, so this mostly shows
+the item set down ahead), third person from the front on the side of the right hand (the overhead camera brought round with
+camyaw, the body held facing north: the held item is checked here, 1.22 draws first person with the same tpHandTransform), and
+a close look at it on the ground. The clock is put back to noon before each item. Output in <out>: <code>.jpg (the four, labelled),
 index.jpg (all items), and the rig's own report (itemsheet/report.md, shots, logs). The scenario is <out>/itemsheet.json.
 The client is single-instance: rig.py waits for a free one.
 """
@@ -43,11 +46,12 @@ def scenario(codes):
         {"cmd": "/backrooms heal"}, {"cmd": "/backrooms director off"}, {"cmd": "/gamemode creative"},
         {"server": "/time setmonth jun"}, {"server": "/time set 12:00"},
         {"cmd": "/backrooms goto 10 timeout=60"}, {"bot": "movewait"}, {"bot": "ready 48"},
-        {"bot": "daylight"}, {"bot": "slot 0"}, {"bot": "look 0 0"}, {"bot": "wait 1500"},
+        {"bot": "daylight"}, {"bot": "setbool immersiveFpMode false"}, {"bot": "setbool hideFpHands false"}, {"bot": "slot 0"}, {"bot": "look 0 0"}, {"bot": "wait 1500"},
     ]
     for code in codes:
         s = slug(code)
         st += [
+            {"server": "/time set 12:00"},  # a long run drifts into dusk otherwise
             {"cmd": "/backrooms rig itemshow " + code},
             {"expect_chat": "rig-itemshow"},
             {"bot": "wait 1200"},
@@ -57,11 +61,16 @@ def scenario(codes):
             # first person, looking a little down so the hand and the item on the floor are both in view; the HUD on, because the game
             # does not draw the first-person hand while the GUIs are hidden (EntityPlayerShapeRenderer: FirstPerson && HideGuis returns)
             {"bot": "hud on"}, {"bot": "fov 70"}, {"bot": "look 0 -12"}, {"bot": "wait 900"}, {"shot": s + "-fp"}, {"bot": "hud off"},
-            # third person, a little zoomed: head to knees, so the hands and what is in them are in the frame (fov 28 cut them off)
-            {"bot": "hotkey cyclecamera"}, {"bot": "fov 48"}, {"bot": "look 0 -15"}, {"bot": "wait 1200"}, {"shot": s + "-tp"},
-            {"bot": "hotkey cyclecamera"}, {"bot": "hotkey cyclecamera"}, {"bot": "fov 70"}, {"bot": "wait 600"},
             # on the ground, close: a narrow view down at the item 2 blocks ahead
             {"bot": "fov 30"}, {"bot": "look 0 -40"}, {"bot": "wait 900"}, {"shot": s + "-ground"},
+            # third person from the front: the behind-the-back camera hides what the right hand holds in front of the body, so the
+            # overhead camera (cyclecamera twice) is turned round to the front on the side of the right hand (camyaw holds the body
+            # facing north; as the worn-clothing shots do: face north in the behind camera first, then the overhead one, then turn it).
+            # First a step 4 blocks north, past the item on the floor, so that one is behind the body and not taken for the held one.
+            {"cmd": "/tp ~ ~ ~-4"}, {"bot": "wait 800"},
+            {"bot": "hotkey cyclecamera"}, {"bot": "look 0 -12"}, {"bot": "wait 1200"}, {"bot": "hotkey cyclecamera"}, {"bot": "wait 800"},
+            {"bot": "fov 50"}, {"bot": "camyaw 210 -12 0"}, {"bot": "wait 1200"}, {"shot": s + "-tp"},
+            {"bot": "hotkey cyclecamera"}, {"bot": "fov 70"}, {"bot": "look 0 0"}, {"cmd": "/tp ~ ~ ~4"}, {"bot": "wait 800"},
             {"bot": "fov 70"}, {"bot": "look 0 0"},
         ]
     st += [{"expect_no_log": "Did not find"}, {"expect_no_log": "Exception:"}]

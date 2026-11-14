@@ -40,21 +40,16 @@
 	},
 	"tpHandTransform": {
 		"translation": {
-			"x": -0.75,
-			"y": -0.35,
-			"z": -0.55
+			"x": -0.8,
+			"y": -0.45,
+			"z": -0.6
 		},
 		"rotation": {
 			"x": 0,
 			"y": -45,
 			"z": -10
 		},
-		"origin": {
-			"x": 0.5,
-			"y": 0.2,
-			"z": 0.5
-		},
-		"scale": 0.7
+		"scale": 1.0
 	},
 	"groundTransform": {
 		"translation": {
