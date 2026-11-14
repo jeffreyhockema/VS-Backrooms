@@ -243,7 +243,7 @@ public partial class L36System : ModSystem
                 continue;
             }
             HoldTime(player, uid, now);
-            Fly(player, uid, x, z, now);
+            if (Fly(player, uid, x, z, now)) continue;
             Report(player, uid, x, z, now);
         }
         UpdateCabins(now);
@@ -268,12 +268,14 @@ public partial class L36System : ModSystem
         }
     }
 
-    /// <summary>Aboard a plane when its count runs out: the flight, and then the carousel. (What is said and shown is Report's.)</summary>
-    private void Fly(IServerPlayer player, string uid, int x, int z, long now)
+    /// <summary>Aboard a plane when its count runs out: the flight, and then the carousel. (What is said and shown is Report's.) True when the player left this tick.</summary>
+    private bool Fly(IServerPlayer player, string uid, int x, int z, long now)
     {
         if (flying.TryGetValue(uid, out FlightRun run))
         {
-            if (now - run.StartMs < L36Timeline.FlightMs) return;
+            if (now - run.StartMs < L36Timeline.FlightMs) return false;
+            // Not now if the player cannot travel this tick (loading, mid-teleport, in another passage): the flight waits for the next
+            if (sapi.ModLoader.GetModSystem<Thresholds.ThresholdSystem>() is not { } thresholds || !thresholds.CanTravelNow(player)) return false;
             flying.Remove(uid);
             aboard.Remove(uid);
             // Off the plane, wherever the gate's flights go: one-way, through the threshold network, so every flight from
@@ -281,19 +283,19 @@ public partial class L36System : ModSystem
             Play("clunk", player.Entity.Pos.X, player.Entity.Pos.Y + 1, player.Entity.Pos.Z, player);
             var door = new BlockPos(run.DoorX, geometry.FloorFor(WorldLayout.Level36) + 1, run.DoorZ);
             sapi.ModLoader.GetModSystem<Thresholds.ThresholdSystem>()?.Use(player, door, "l36-flight");
-            return;
+            return true;
         }
         if (!Aboard(x, z))
         {
             aboard.Remove(uid);
-            return;
+            return false;
         }
         WorldLayout.L36Gate gate = layout.L36GateAt(x, z);
-        if (gate == null) return;
+        if (gate == null) return false;
         Flight f = FlightOf(gate);
         // (Aboard with no boarding remembered, after a restart: counted as boarded on this flight)
         if (!aboard.TryGetValue(uid, out var boarded) || boarded.Gate != gate.Code) aboard[uid] = boarded = (gate.Code, f.Cycle);
-        if (f.Cycle <= boarded.Cycle || gate.SupportGroup) return;
+        if (f.Cycle <= boarded.Cycle || gate.SupportGroup) return false;
         if (layout.TileAt(x, z).Zone != (byte)WorldLayout.L36Zone.Cabin)
         {
             // Still on the bridge when the plane leaves: the bridge pulls back, and they are put off at the door
@@ -302,10 +304,11 @@ public partial class L36System : ModSystem
             Play("clunk", gate.FrontX + 0.5, player.Entity.Pos.Y + 1, gate.FrontZ + 0.5, player);
             Tell(player, "backrooms:l36-bridge-back", NumberOf(gate, boarded.Cycle), gate.Code);
             seen[uid] = (gate.Code, L36State.Departed);
-            return;
+            return false;
         }
         flying[uid] = new FlightRun { StartMs = now, Gate = gate.Code, DoorX = gate.DoorX, DoorZ = gate.DoorZ, Number = NumberOf(gate, boarded.Cycle), Destination = f.Destination };
         GateRunFor(gate, now);
+        return false;
     }
 
     // ================= The restroom sinks =================
@@ -319,6 +322,17 @@ public partial class L36System : ModSystem
         overflowing[pos.Copy()] = sapi.World.ElapsedMilliseconds + OverflowMs;
         sapi.World.PlaySoundAt(new AssetLocation("game:sounds/effect/water-pour"), pos.X + 0.5, pos.Y + 1, pos.Z + 0.5, null, true, 16);
         Tell(player, "backrooms:l36-sink-overflow");
+    }
+
+    /// <summary>
+    /// A sink that shows as overflowing though no timer runs for it (the server restarted, or the timer was lost): it is dry again,
+    /// and true is returned so the use is the tap's, not a dunk.
+    /// </summary>
+    public bool DrainIfStale(BlockPos pos, Block block)
+    {
+        if (overflowing.ContainsKey(pos)) return false;
+        if (sapi.World.GetBlock(BlockCodes.WithVariant(block, "state", "dry")) is { BlockId: not 0 } dry) sapi.World.BlockAccessor.ExchangeBlock(dry.BlockId, pos);
+        return true;
     }
 
     /// <summary>A head held under an overflowing sink: the Poolrooms, one-way, through the threshold network.</summary>
@@ -432,6 +446,7 @@ public class BlockBehaviorL36Sink : BlockBehavior
             if (server) world.Api.ModLoader.GetModSystem<L36System>()?.Overflow((IServerPlayer)byPlayer, blockSel.Position, block);
             return false;
         }
+        if (server && world.Api.ModLoader.GetModSystem<L36System>()?.DrainIfStale(blockSel.Position, block) == true) return false;
         if (server)
         {
             under[byPlayer.PlayerUID] = (blockSel.Position.Copy(), world.ElapsedMilliseconds);

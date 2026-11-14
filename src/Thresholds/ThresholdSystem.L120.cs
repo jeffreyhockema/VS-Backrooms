@@ -28,7 +28,7 @@ public partial class ThresholdSystem
             while (run < 24)
             {
                 Tile t = layout.TileAt(ax + dx * (run + 1), az + dz * (run + 1));
-                if (t.Level != WorldLayout.Level120 || t.Kind is not (TileKind.Floor or TileKind.Doorway) || !WorldLayout.IsWalkThroughProp(t.Variant) || t.SupplyBox || t.Stack > 0) break;
+                if (t.Level != WorldLayout.Level120 || t.Kind is not (TileKind.Floor or TileKind.Doorway) || (t.Kind != TileKind.Doorway && !WorldLayout.IsWalkThroughProp(t.Variant)) || t.SupplyBox || t.Stack > 0) break;
                 run++;
             }
             // (A player looks along (sin yaw, cos yaw))
@@ -57,4 +57,7 @@ public partial class ThresholdSystem
     /// </summary>
     public bool L120Carry(IServerPlayer player, double x, double y, double z, string style = null) =>
         layout != null && player.Entity != null && Arrive(player, new Link(x, y, z, false), style);
+
+    /// <summary>Whether the player could be carried now: playing, alive, not mid-teleport and not already in a passage (for other systems that start a trip of their own).</summary>
+    public bool CanTravelNow(IServerPlayer player) => CanTravel(player) && !IsBusy(player);
 }

@@ -201,9 +201,12 @@ public class L120System : ModSystem
         var (hx, hz) = WorldLayout.L120HallOf(x, z);
         (int, int)? best = null;
         long bestD = long.MaxValue;
-        for (int dz = -reach; dz <= reach; dz++)
-            for (int dx = -reach; dx <= reach; dx++)
+        // Ring by ring outwards, stopping at the first ring with a whole terminal (each cluster's plan is costly to build)
+        for (int ring = 0; ring <= reach && best == null; ring++)
+        for (int dz = -ring; dz <= ring; dz++)
+            for (int dx = -ring; dx <= ring; dx++)
             {
+                if (Math.Max(Math.Abs(dx), Math.Abs(dz)) != ring) continue;
                 if (layout.L120KindOf(hx + dx, hz + dz) != Kind.Cluster) continue;
                 foreach (var b in layout.L120PlanOf(hx + dx, hz + dz).Boots)
                 {
@@ -249,15 +252,25 @@ public class L120System : ModSystem
 
     // ================= The Smilers of the White Voids =================
 
+    private bool dummiesSeen;
+    private int idleTicks;
+
     private void OnSlowTick(float dt)
     {
         var who = new List<Entity>();
         foreach (IPlayer online in sapi.World.AllOnlinePlayers)
             if (online is IServerPlayer player && player.Entity is { Alive: true } entity && player.ConnectionState == EnumClientState.Playing
                 && player.WorldData.CurrentGameMode != EnumGameMode.Spectator) who.Add(entity);
-        // (Headless tests: a straw dummy stands in for a player)
-        foreach (Entity e in sapi.World.LoadedEntities.Values)
-            if (e.Alive && Senses.IsTestTarget(e)) who.Add(e);
+        // (Headless tests: a straw dummy stands in for a player. The scan of every loaded entity runs only with someone in the
+        // level or a dummy known, and otherwise now and then to find a first dummy)
+        bool anyHere = false;
+        foreach (Entity w in who) anyHere |= InLevel(w.Pos.X, w.Pos.Z);
+        if (anyHere || dummiesSeen || ++idleTicks % 15 == 0)
+        {
+            dummiesSeen = false;
+            foreach (Entity e in sapi.World.LoadedEntities.Values)
+                if (e.Alive && Senses.IsTestTarget(e)) { who.Add(e); dummiesSeen = true; }
+        }
         foreach (Entity entity in who)
         {
             if (!InLevel(entity.Pos.X, entity.Pos.Z) || layout.TileAt((int)Math.Floor(entity.Pos.X), (int)Math.Floor(entity.Pos.Z)).Zone != (byte)Zone.Void) continue;
@@ -323,7 +336,7 @@ public class L120System : ModSystem
         if (type == null) return null;
         if (sapi.World.GetEntitiesAround(at, 24, 8, e => e.Alive && e.Code?.Path == "l120-misglitch").Length >= L120MisglitchCap) return null;
         Entity e = sapi.World.ClassRegistry.CreateEntity(type);
-        double y = Math.Floor(at.Y + 0.1);
+        double y = Math.Abs(at.Y - Math.Round(at.Y)) < 0.01 ? Math.Round(at.Y) : at.Y;
         e.Pos.SetPos(at.X, y, at.Z);
         e.Pos.Yaw = (float)(rand.NextDouble() * Math.PI * 2);
         e.WatchedAttributes.SetInt("textureIndex", look);

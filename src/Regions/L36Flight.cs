@@ -169,7 +169,6 @@ public class L36ClientSystem : ModSystem
         string text = Lang.Get("backrooms:l36-hud-" + name, packet.Number, packet.Destination, packet.Gate, time);
         if (text != shown)
         {
-            shown = text;
             hud.Show(text, Color(state));
         }
         if (!hud.IsOpened()) hud.TryOpen();
@@ -208,19 +207,31 @@ public class L36ClientSystem : ModSystem
 /// <summary>The flight's status line, centred near the top of the screen. Reads nothing and takes no input.</summary>
 public class HudL36Flight : HudElement
 {
-    private const int Width = 1200, Height = 36;
+    private const int MaxWidth = 1200, Height = 36;
+    private const double BaseSize = 26, MinSize = 13;
     private readonly CairoFont font;
+    private int width;
 
     public HudL36Flight(ICoreClientAPI capi) : base(capi)
     {
         font = new CairoFont
         {
-            Color = new[] { 1.0, 1.0, 1.0, 1.0 }, Fontname = GuiStyle.StandardFontName, UnscaledFontsize = 26, FontWeight = Cairo.FontWeight.Bold,
+            Color = new[] { 1.0, 1.0, 1.0, 1.0 }, Fontname = GuiStyle.StandardFontName, UnscaledFontsize = BaseSize, FontWeight = Cairo.FontWeight.Bold,
             Orientation = EnumTextOrientation.Center, LineHeightMultiplier = 1,
         };
-        ElementBounds textBounds = ElementBounds.Fixed(0, 4, Width, Height);
+        Compose(BoxWidth());
+    }
+
+    /// <summary>The box is about nine tenths of the window wide (in GUI units), at most 1200.</summary>
+    private int BoxWidth() => (int)Math.Clamp(capi.Render.FrameWidth * 0.9 / Math.Max(0.1, RuntimeEnv.GUIScale), 200, MaxWidth);
+
+    private void Compose(int boxWidth)
+    {
+        width = boxWidth;
+        ElementBounds textBounds = ElementBounds.Fixed(0, 4, width, Height);
         ElementBounds bgBounds = textBounds.ForkBoundingParent(8, 6, 8, 6);
         ElementBounds dialogBounds = bgBounds.ForkBoundingParent().WithAlignment(EnumDialogArea.CenterTop).WithFixedAlignmentOffset(0, 95);
+        SingleComposer?.Dispose();
         SingleComposer = capi.Gui.CreateCompo("backrooms-l36flight", dialogBounds)
             .AddGameOverlay(bgBounds, new[] { 0.0, 0.0, 0.0, 0.62 })
             .AddDynamicText("", font, textBounds, "text")
@@ -234,6 +245,12 @@ public class HudL36Flight : HudElement
 
     public void Show(string text, double[] color)
     {
+        // (The window may have been resized, or the GUI scale changed, since the last line: the box is made again then)
+        int box = BoxWidth();
+        if (box != width) Compose(box);
+        // A smaller type when the line would not fit the box
+        font.UnscaledFontsize = BaseSize;
+        while (font.UnscaledFontsize > MinSize && font.GetTextExtents(text).Width > width * RuntimeEnv.GUIScale) font.UnscaledFontsize -= 1;
         font.Color = color;
         SingleComposer.GetDynamicText("text").SetNewText(text, false, true);
     }

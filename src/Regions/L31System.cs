@@ -8,6 +8,7 @@ using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Config;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
+using Vintagestory.GameContent;
 using Zone = Backrooms.Worldgen.WorldLayout.L31Zone;
 
 namespace Backrooms.Regions;
@@ -333,7 +334,8 @@ public class L31System : ModSystem
         if (item == null) return;
         var stack = new ItemStack(item);
         if (!player.InventoryManager.TryGiveItemstack(stack, slotNotifyEffect: true) || stack.StackSize > 0)
-            sapi.World.SpawnItemEntity(stack, from.Pos.XYZ.Add(0, 1.2, 0));
+            // Marked so the litter sweep leaves what the server itself dropped for a full inventory
+            sapi.World.SpawnItemEntity(stack, from.Pos.XYZ.Add(0, 1.2, 0))?.Attributes.SetBool("l31served", true);
     }
 
     /// <summary>
@@ -349,6 +351,7 @@ public class L31System : ModSystem
             if (TileAt(player.Entity.Pos.X, player.Entity.Pos.Z).Zone != (byte)Zone.Snack) continue;
             foreach (Entity e in sapi.World.GetEntitiesAround(player.Entity.Pos.XYZ, 20, 4, e => e is EntityItem && e.Alive))
             {
+                if (e.Attributes.GetBool("l31served")) continue;
                 if (TileAt(e.Pos.X, e.Pos.Z).Zone != (byte)Zone.Snack) continue;
                 seen.Add(e.EntityId);
                 if (!litterSeen.TryGetValue(e.EntityId, out long first)) { litterSeen[e.EntityId] = now; continue; }
@@ -554,6 +557,9 @@ public class L31System : ModSystem
             any = true;
             return true;
         });
+        // The lesson's "has skates" answer is a dialogue variable: clear it so the Coach lends a pair again
+        if (any && player.Entity?.Api.ModLoader.GetModSystem<VariablesModSystem>() is { VarData: not null } vars)
+            vars.SetPlayerVariable(player.PlayerUID, "l31skates", "false");
         return any;
     }
 
@@ -598,7 +604,7 @@ public class L31System : ModSystem
             return;
         }
         var at = new Vec3d(door.X + 0.5, geometry.FloorFor(WorldLayout.Level31) + 1, door.Z + 0.5);
-        Map.MapMarks.Add(sapi, player, at, Lang.Get("backrooms:l31-waypoint-revolving"), "spiral", Map.MapMarks.WayColorTo(layout.L31RevolvingTarget(door.X, door.Z)), 6, tell: false);
+        Map.MapMarks.Add(sapi, player, at, Backrooms.Say.T(player, "backrooms:l31-waypoint-revolving"), "spiral", Map.MapMarks.WayColorTo(layout.L31RevolvingTarget(door.X, door.Z)), 6, tell: false);
         Say(player, "backrooms:l31-coach-leadout");
     }
 

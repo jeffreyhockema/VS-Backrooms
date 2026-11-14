@@ -157,6 +157,7 @@ public class L47System : ModSystem
         e.WatchedAttributes.SetString(AiTaskL47Adder.QuarryKey, quarryId);
         e.AlwaysActive = true;
         sapi.World.SpawnEntity(e);
+        mayHaveCreatures = true;
         Strike.Log(e, "comes for {0}", quarryId);
         return e;
     }
@@ -234,6 +235,7 @@ public class L47System : ModSystem
         e.Attributes.SetDouble(Danger.Key, danger);
         setup?.Invoke(e);
         sapi.World.SpawnEntity(e);
+        mayHaveCreatures = true;
         return e;
     }
 
@@ -342,11 +344,24 @@ public class L47System : ModSystem
     }
 
     /// <summary>Lets go of what nobody is near any more: snakes and elk out of everyone's way, walkers far behind, keepers when nobody is near the glade.</summary>
+    /// <summary>False once a sweep found none of the level's creatures loaded; true again when one is put down (and after a load, until a sweep says otherwise).</summary>
+    private bool mayHaveCreatures = true;
+
     private void OnSlowTick(float dt)
     {
         if (layout == null) return;
-        var players = sapi.World.AllOnlinePlayers.Where(p => p.Entity != null).Select(p => p.Entity.Pos.XYZ).ToList();
-        foreach (Entity e in sapi.World.LoadedEntities.Values.ToList())
+        List<Vec3d> players = null;
+        bool inLevel = false;
+        foreach (IPlayer p in sapi.World.AllOnlinePlayers)
+        {
+            if (p.Entity == null) continue;
+            (players ??= new List<Vec3d>()).Add(p.Entity.Pos.XYZ);
+            inLevel |= InLevel(p.Entity.Pos.X, p.Entity.Pos.Z);
+        }
+        if (!inLevel && !mayHaveCreatures) return;
+        bool found = false;
+        List<Entity> gone = null;
+        foreach (Entity e in sapi.World.LoadedEntities.Values)
         {
             if (!e.Alive) continue;
             string path = e.Code?.Path;
@@ -358,10 +373,15 @@ public class L47System : ModSystem
                 "l47-shuck" => 90,
                 _ => -1,
             };
-            if (far < 0 || e.AlwaysActive || !InLevel(e.Pos.X, e.Pos.Z)) continue;
-            if (players.Any(p => p.SquareDistanceTo(e.Pos.XYZ) < far * far)) continue;
-            e.Die(EnumDespawnReason.OutOfRange);
+            if (far < 0 || !InLevel(e.Pos.X, e.Pos.Z)) continue;
+            found = true;
+            if (e.AlwaysActive) continue;
+            bool near = false;
+            if (players != null) foreach (Vec3d p in players) if (p.SquareDistanceTo(e.Pos.XYZ) < far * far) { near = true; break; }
+            if (!near) (gone ??= new List<Entity>()).Add(e);
         }
+        mayHaveCreatures = found;
+        if (gone != null) foreach (Entity e in gone) e.Die(EnumDespawnReason.OutOfRange);
     }
 
     // ================= Testing =================

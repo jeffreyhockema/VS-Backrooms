@@ -25,6 +25,13 @@ public class L23Sentries : ModSystem
     /// <summary>A player's watched int, 1 once sentries have screamed at them (the handbook then counts them met).</summary>
     public const string ScreamedKey = "backrooms:l23Screamed";
 
+    private const long CooldownMs = 20000;
+    private readonly Dictionary<long, long> lastScream = new();
+
+    /// <summary>The face blocks only (round 4's sentryface and round 1's sentry), not the body blocks behind them, so one sentry is one scream.</summary>
+    private static bool IsFace(string path) =>
+        path.StartsWith("l23-sentryface-", StringComparison.Ordinal) || path.StartsWith("l23-sentry-", StringComparison.Ordinal);
+
     private ICoreServerAPI sapi;
     private WorldLayout layout;
 
@@ -69,13 +76,17 @@ public class L23Sentries : ModSystem
         IBlockAccessor ba = sapi.World.BlockAccessor;
         var at = new BlockPos(0);
         var screaming = new List<Vec3d>();
+        long now = sapi.World.ElapsedMilliseconds;
         for (int dy = -6; dy <= 6; dy++)
             for (int dz = -Reach; dz <= Reach; dz++)
                 for (int dx = -Reach; dx <= Reach; dx++)
                 {
                     if (dx * dx + dz * dz > Reach * Reach) continue;
                     Block block = ba.GetBlock(at.Set(px + dx, py + dy, pz + dz));
-                    if (block?.Code == null || block.Code.Domain != "backrooms" || !block.Code.Path.StartsWith("l23-sentry", StringComparison.Ordinal)) continue;
+                    if (block?.Code == null || block.Code.Domain != "backrooms" || !IsFace(block.Code.Path)) continue;
+                    long key = ((long)(px + dx) & 0xFFFFFFF) | (((long)(pz + dz) & 0xFFFFFFF) << 28) | ((long)(py + dy) << 56);
+                    if (lastScream.TryGetValue(key, out long last) && now - last < CooldownMs) continue;
+                    lastScream[key] = now;
                     screaming.Add(new Vec3d(px + dx + 0.5, py + dy + 0.5, pz + dz + 0.5));
                 }
         if (screaming.Count == 0) return;

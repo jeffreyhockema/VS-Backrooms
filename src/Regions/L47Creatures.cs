@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Backrooms.Entities;
 using Backrooms.Worldgen;
 using Vintagestory.API.Common;
@@ -429,7 +430,7 @@ public class AiTaskL47Shuck : AiTaskL47Base
         }
         if (Strike.IsCreative(target)) { Stop(); return true; }
         int pack = entity.World.GetEntitiesAround(target.Pos.XYZ, 24, 12, e => e.Alive && e.Code?.Path == "l47-shuck").Length;
-        if (state == State.Stalk && pack >= L47System.ShuckPackHunts) { state = State.Hunt; stateSince = Now; Play($"game:sounds/creature/wolf/growl{1 + rand.Next(4)}", 24); }
+        if (state == State.Stalk && pack >= L47System.ShuckPackHunts) { state = State.Hunt; stateSince = Now; StopGrowl(); Play($"game:sounds/creature/wolf/growl{1 + rand.Next(4)}", 24); }
         // Calling the pack in
         if (Now > nextHowl)
         {
@@ -453,6 +454,7 @@ public class AiTaskL47Shuck : AiTaskL47Base
         {
             // Stalking (or treed): stay six to nine blocks off, circling, watching; never attacking
             double want = treed ? 3 : 7;
+            if (gap > want + 3 || gap < want - 2) StopGrowl();
             if (gap > want + 3)
             {
                 if (!pathTraverser.Active || Now - lastPathMs > 1500) Go(target.Pos.XYZ, gap > 14, (float)want);
@@ -479,6 +481,19 @@ public class AiTaskL47Shuck : AiTaskL47Base
         return true;
     }
 
+    /// <summary>A growl or sniff started while stalking is cut short when the stalking ends (Showing holds the task while one plays).</summary>
+    private void StopGrowl()
+    {
+        entity.AnimManager.StopAnimation("growl");
+        entity.AnimManager.StopAnimation("sniff");
+    }
+
+    public override void FinishExecute(bool cancelled)
+    {
+        base.FinishExecute(cancelled);
+        StopGrowl();
+    }
+
     private void Blink(Random rand)
     {
         lastBlinkMs = Now;
@@ -498,6 +513,7 @@ public class AiTaskL47Shuck : AiTaskL47Base
     private void Flee()
     {
         if (state == State.Flee) return;
+        StopGrowl();
         state = State.Flee;
         stateSince = Now;
         var rand = entity.World.Rand;
@@ -511,7 +527,7 @@ public class AiTaskL47Shuck : AiTaskL47Base
     public override void OnEntityHurt(DamageSource source, float damage)
     {
         base.OnEntityHurt(source, damage);
-        if (state == State.Stalk && source?.GetCauseEntity() is EntityPlayer p) { target = p; state = State.Hunt; stateSince = Now; }
+        if (state == State.Stalk && source?.GetCauseEntity() is EntityPlayer p) { target = p; state = State.Hunt; stateSince = Now; StopGrowl(); }
     }
 }
 
@@ -531,7 +547,9 @@ public class AiTaskL47Ophion : AiTaskL47Base
     private enum State { Idle, Walk, Watch, Preach, Drive, Return }
     private State state = State.Idle;
     private long stateUntil, nextWord;
-    private bool started, walker, warned;
+    private bool started, walker;
+    /// <summary>The intruders (by entity id) already warned in the glade.</summary>
+    private readonly HashSet<long> warnedIds = new();
     private Vec3d home;
     private double trailPhi = -1;
     private int trailDir = 1;
@@ -584,11 +602,11 @@ public class AiTaskL47Ophion : AiTaskL47Base
         }
 
         // A keeper in the glade: whoever comes into it is warned, then driven out
+        if (near == null && warnedIds.Count > 0) warnedIds.Clear();
         if (!walker && near != null && system.InGlade(near.Pos.X, near.Pos.Z, 0))
         {
-            if (!warned)
+            if (warnedIds.Add(near.EntityId))
             {
-                warned = true;
                 Stop();
                 TurnTowards(near.Pos.XYZ, 1, 99);
                 entity.AnimManager.StartAnimation("beckon");

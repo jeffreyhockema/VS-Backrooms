@@ -249,7 +249,11 @@ public partial class L36System
     {
         if (blockCache.TryGetValue(code, out Block cached)) return cached;
         Block b = sapi.World.GetBlock(new AssetLocation("backrooms", code));
-        if (b == null || b.BlockId == 0) b = null;
+        if (b == null || b.BlockId == 0)
+        {
+            b = null;
+            sapi.Logger.Warning("[backrooms] Level 36: swap block {0} is not registered", code);
+        }
         blockCache[code] = b;
         return b;
     }

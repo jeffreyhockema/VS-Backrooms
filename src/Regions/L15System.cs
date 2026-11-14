@@ -120,7 +120,9 @@ public class L15System : ModSystem
         IBlockAccessor blocks = sapi.World.BlockAccessor;
         int floor = geometry.FloorFor(WorldLayout.Level15), opened = 0;
         (int X, int Z)? first = null;
-        foreach (var (x, z) in layout.L15GatewayNear(pos.X, pos.Z))
+        var gateway = layout.L15GatewayOfWing(pos.X, pos.Z);
+        if (gateway.Count == 0) gateway = layout.L15GatewayNear(pos.X, pos.Z);
+        foreach (var (x, z) in gateway)
         {
             first ??= (x, z);
             for (int rel = 1; rel <= 3; rel++)

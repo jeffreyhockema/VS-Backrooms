@@ -635,6 +635,20 @@ public sealed partial class WorldLayout
         return found;
     }
 
+    /// <summary>
+    /// The gateway tiles of the wing a block position is in, from the wing's plan (a control room can be long enough for its
+    /// gateway to lie past any fixed reach of the panel). Empty if the wing has no ESCAPE room.
+    /// </summary>
+    public List<(int X, int Z)> L15GatewayOfWing(int gx, int gz)
+    {
+        var found = new List<(int X, int Z)>();
+        L15Plan plan = L15PlanOf(Hashing.FloorDiv(gx, L15Period), Hashing.FloorDiv(gz, L15Period));
+        if (plan.Exit != L15ExitEscape) return found;
+        var (sx, sz) = L15Along(plan.GateFace);
+        for (int i = 0; i < 2; i++) found.Add(plan.World(plan.GateA + sx * i, plan.GateB + sz * i));
+        return found;
+    }
+
     // ================= Showcase =================
 
     /// <summary>
