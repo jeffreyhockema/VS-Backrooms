@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Config;
@@ -241,6 +242,15 @@ public static class Senses
 
     public const double ChainClank = 1.4, PlateClank = 2.0;
     private static readonly Dictionary<long, (long At, double Factor)> clankCache = new();
+
+    /// <summary>Drops a player's cached armour noise (they left, so the entry would otherwise stay for the life of the process).</summary>
+    public static void ForgetClank(long entityId) => clankCache.Remove(entityId);
+
+    /// <summary>Drops the cached armour noise of everyone not in <paramref name="live"/>.</summary>
+    public static void ForgetClankExcept(HashSet<long> live)
+    {
+        foreach (long id in clankCache.Keys.Where(id => !live.Contains(id)).ToList()) clankCache.Remove(id);
+    }
 
     /// <summary>The noise someone walking in loud armour makes (nothing in quiet armour); sneaking halves it.</summary>
     public static double ClankLoudness(Entity who)

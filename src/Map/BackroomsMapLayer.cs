@@ -256,6 +256,11 @@ public class BackroomsMapLayer : MapLayer
                 floorY = geometry.FloorFor(level);
                 groundFollows = true;
                 return y > floorY - 2 && y < floorY + 40;
+            // Level 73: each column on its own ground (the hills, the path, the castle), as Motion and 52
+            case WorldLayout.Level73:
+                floorY = geometry.FloorFor(level);
+                groundFollows = true;
+                return y > floorY - 7 && y < floorY + 40;
             // The five kept as 14-18: their own floor, and the room above it (a level that needs more takes its case out of this group)
             case WorldLayout.RunLevel:
             case WorldLayout.FunLevel:
@@ -264,7 +269,6 @@ public class BackroomsMapLayer : MapLayer
             case WorldLayout.Level974:
             case WorldLayout.Level3999:
             case WorldLayout.Level188:
-            case WorldLayout.Level73:
             case WorldLayout.Basement:
             case WorldLayout.Level31:
             case WorldLayout.Level120:

@@ -122,7 +122,7 @@ public class WandererSystem : ModSystem
 
     /// <summary>
     /// The site key of a wanderer standing here, by the level: camp (Level 1, and anywhere that is not a site's level),
-    /// outpost (Level 4), road (Level 8), city (Level 11), end (The End), 3999 (Level 3999); in the Hub, hub at the M.E.G.'s
+    /// outpost (Level 4), road (Level 8), city (Level 11), end (The End), 3999 (Level 3999), 36 (Level 36), 23 (Level 23); in the Hub, hub at the M.E.G.'s
     /// doorstep by the city door and amber at Camp Amber's by the Level 1 door.
     /// </summary>
     private string SiteKeyAt(double x, double z)
@@ -136,6 +136,7 @@ public class WandererSystem : ModSystem
             case WorldLayout.TheEnd: return "end";
             case WorldLayout.Level3999: return "3999";
             case WorldLayout.Level36: return "36";
+            case WorldLayout.Level23: return "23";
             case WorldLayout.Hub:
                 return layout.HubMegSite() is { } meg && (meg.X - gx) * (meg.X - gx) + (meg.Z - gz) * (meg.Z - gz) < 24 * 24 ? "hub" : "amber";
             default: return "camp";

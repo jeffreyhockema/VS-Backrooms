@@ -3,7 +3,7 @@
 One tree for every wanderer, the size of vanilla's trader's, with the talk a wanderer would actually give: what lives
 here, water and food, sleep, the ways out, what is next, and whether there is a way home. Each wanderer has a site
 (WandererSites, given by WandererSystem): camp (Level 1), outpost (Level 4), road (Level 8's 9th Road), city (Level
-11), end (The End's Junkies), hub (the M.E.G.'s doorstep in the Hub), amber (Camp Amber in the Hub) or 3999. The
+11), end (The End's Junkies), hub (the M.E.G.'s doorstep in the Hub), amber (Camp Amber in the Hub) or 3999, with the experimental levels' own (36, 23 below). The
 dialogue reads it as entity.backroomsSite, and most of what a wanderer says is the line of its own site: vanilla's
 dialogue picks, from a trader's lines, one of those whose conditions hold. The Junkies trade only with someone carrying
 Memory Juice (the player.inventory condition, checked on both sides).
@@ -48,6 +48,23 @@ L36_LINES = {
     "rumours": "Gate C32 has a support group waiting on a flight to Level 186. Their count has nine digits. Very patient people. Lovely soup.",
     "home": "If you came in by a door under an airplane sign, it lets you back out from the baggage wall. Otherwise, the Agency recommends a flight. None of them fly back, I'm afraid. Have you tried one of our lounges?",
 }
+
+# ---- Level 23 "Petrified Garden" (experimental, id 28): Base Seedling's quartermaster (site "23", WorldLayout.Level23.cs),
+# an M.E.G. hand in a glow room by the hollow tree: dry, practical, short of food. Facts from docs/design/experimental-levels/
+# (23-plan.md, LINKS.md): the sentries in the trunks scream at "it's only a matter of time", the Heart of Water's pool and the
+# spring at Seedling are clean and the puddles are not, the hollow tree at camp is the way home and the well at the Heart is a way out.
+SITES.append("23")
+L23_LINES = {
+    "greet": "Base Seedling, M.E.G. You made it through the garden. Come into the glow. Mind the lanterns.",
+    "name": "{{npcname}}, quartermaster, Base Seedling. I count what we have. It does not take long.",
+    "creaturessite": "The sentries are in the trunks, faces in the bark, and they scream if you say that phrase near them: it's only a matter of time. Don't. We cleared this camp of them. Down in the glow rooms, the Sorries whisper. Don't answer.",
+    "watersite": "The Heart's pool and the spring in our cavern are clean, drink all you like. The puddles in the glow rooms are not. Water we have. Food, not so much.",
+    "sleepsite": "The tents face the hollow tree, and nothing comes into the camp. Take a bed. Bring your own food.",
+    "exitssite": "The hollow tree at camp, the way home. The other way is the well at the bottom of the Heart's pool: it goes down to the open sea. Hold your breath.",
+    "rumours": "A hollow trunk in the forest will put you here from Level 37 or 47, one way only. They say the stone ruins hold something, and the Latin on them says keep out.",
+    "home": "The hollow tree behind me. Climb up into its hollow and you come out the Poolrooms' tree, back where you started. It's the one road we guard.",
+}
+LINES_BY_SITE = {"36": L36_LINES, "23": L23_LINES}
 
 
 def site(s):
@@ -95,7 +112,7 @@ def per_site(key, texts, jump, **extra):
     """A trader's line for each site (texts: site -> text, or for "end" a (with juice, without) pair)."""
     lines = []
     for s in SITES:
-        t = texts[s] if s in texts else L36_LINES[key]
+        t = texts[s] if s in texts else LINES_BY_SITE[s][key]
         if isinstance(t, tuple):
             lines.append(line(key + "-" + s + "-juice", t[0], site(s), HAS_JUICE))
             lines.append(line(key + "-" + s, t[1], site(s), NO_JUICE))
@@ -237,7 +254,7 @@ def build():
 
     # (The gates are the rings' own: the city, The End, the Hub and Level 3999 have none)
     trader("exits", [line("exits", "Every level ends in a wall, and the wall has gates. Chalk arrows point the way.",
-                          not_site("city"), not_site("end"), not_site("hub"), not_site("amber"), not_site("3999"), not_site("36"))], "exitssite")
+                          not_site("city"), not_site("end"), not_site("hub"), not_site("amber"), not_site("3999"), not_site("36"), not_site("23"))], "exitssite")
     per_site("exitssite", {
         "camp": "The stair cores climb to other floors, now and then to Level 4. Stay away from a red EXIT door in a solid wall.",
         "outpost": "The stairwells here loop, mostly. Some flights down come out in the Lobby. Never step through a doorframe standing on its own!",

@@ -111,6 +111,15 @@
 							"isValue": "36"
 						}
 					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-greet-23",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "23"
+						}
+					]
 				}
 			],
 			"jumpTo": "testnew",
@@ -491,6 +500,15 @@
 							"isValue": "36"
 						}
 					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-name-23",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "23"
+						}
+					]
 				}
 			],
 			"jumpTo": "main",
@@ -672,6 +690,15 @@
 							"isValue": "36"
 						}
 					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-creaturessite-23",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "23"
+						}
+					]
 				}
 			],
 			"jumpTo": "creaturesreply"
@@ -843,6 +870,15 @@
 							"isValue": "36"
 						}
 					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-watersite-23",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "23"
+						}
+					]
 				}
 			],
 			"jumpTo": "waterreply"
@@ -984,6 +1020,15 @@
 							"isValue": "36"
 						}
 					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-sleepsite-23",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "23"
+						}
+					]
 				}
 			],
 			"jumpTo": "sleepreply"
@@ -1045,6 +1090,10 @@
 						{
 							"variable": "entity.backroomsSite",
 							"isNotValue": "36"
+						},
+						{
+							"variable": "entity.backroomsSite",
+							"isNotValue": "23"
 						}
 					]
 				}
@@ -1134,6 +1183,15 @@
 						{
 							"variable": "entity.backroomsSite",
 							"isValue": "36"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-exitssite-23",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "23"
 						}
 					]
 				}
@@ -1251,6 +1309,15 @@
 							"isValue": "36"
 						}
 					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-rumours-23",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "23"
+						}
+					]
 				}
 			],
 			"jumpTo": "main"
@@ -1338,6 +1405,15 @@
 						{
 							"variable": "entity.backroomsSite",
 							"isValue": "36"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-home-23",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "23"
 						}
 					]
 				}

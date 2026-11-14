@@ -5099,5 +5099,14 @@
 	"item-clothes-upperbodyover-hazmatsuit": "Hazmat Suit",
 	"itemdesc-clothes-upperbodyover-hazmatsuit": "A sealed yellow coverall with boots and gloves. In a contaminated room it keeps most of the poison off your skin, and it wears a little every time. Hot to work in (you get thirsty faster), a little slow, and no use at all against a blow.",
 	"item-clothes-head-hazmathood": "Hazmat Hood",
-	"itemdesc-clothes-head-hazmathood": "A sealed hood with a visor and a filter. It keeps out most of a contaminated room's air and the smell of the dead, and the filter wears a little every time. Close and stuffy: you get thirsty faster in it."
+	"itemdesc-clothes-head-hazmathood": "A sealed hood with a visor and a filter. It keeps out most of a contaminated room's air and the smell of the dead, and the filter wears a little every time. Close and stuffy: you get thirsty faster in it.",
+
+	"dialogue-wanderer-greet-23": "Base Seedling, M.E.G. You made it through the garden. Come into the glow. Mind the lanterns.",
+	"dialogue-wanderer-name-23": "{{npcname}}, quartermaster, Base Seedling. I count what we have. It does not take long.",
+	"dialogue-wanderer-creaturessite-23": "The sentries are in the trunks, faces in the bark, and they scream if you say that phrase near them: it's only a matter of time. Don't. We cleared this camp of them. Down in the glow rooms, the Sorries whisper. Don't answer.",
+	"dialogue-wanderer-watersite-23": "The Heart's pool and the spring in our cavern are clean, drink all you like. The puddles in the glow rooms are not. Water we have. Food, not so much.",
+	"dialogue-wanderer-sleepsite-23": "The tents face the hollow tree, and nothing comes into the camp. Take a bed. Bring your own food.",
+	"dialogue-wanderer-exitssite-23": "The hollow tree at camp, the way home. The other way is the well at the bottom of the Heart's pool: it goes down to the open sea. Hold your breath.",
+	"dialogue-wanderer-rumours-23": "A hollow trunk in the forest will put you here from Level 37 or 47, one way only. They say the stone ruins hold something, and the Latin on them says keep out.",
+	"dialogue-wanderer-home-23": "The hollow tree behind me. Climb up into its hollow and you come out the Poolrooms' tree, back where you started. It's the one road we guard."
 }

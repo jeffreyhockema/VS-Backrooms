@@ -228,7 +228,8 @@ public partial class AtmosphereSystem
             gloom = rel > 0.5 && rel < 3.5 && WorldLayout.IsL73Gloom(layout.TileAt(bx, bz));
         }
         else if (playing && level == 6 && layout.IsL73DarkCell(WorldLayout.MacroOf(bx), WorldLayout.MacroOf(bz)))
-            dark = Entities.Senses.HeldLight(entity) < Entities.Senses.LitLevel;
+            dark = Entities.Senses.HeldLight(entity) < Entities.Senses.LitLevel
+                && capi.World.BlockAccessor.GetLightLevel(new BlockPos(bx, (int)Math.Floor(pos.Y + 1.5), bz), EnumLightLevelType.OnlyBlockLight) <= 3;
         l73GloomTime = gloom ? l73GloomTime + dt : Math.Max(0, l73GloomTime - dt * 4);
         l73DarkTime = dark ? l73DarkTime + dt : Math.Max(0, l73DarkTime - dt * 2);
 

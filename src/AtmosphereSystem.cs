@@ -318,6 +318,8 @@ public partial class AtmosphereSystem : ModSystem
             l73Wind, l73Surf, l73Fire,
             basementTone, basementWash, basementDoorSound,
             l52Room, l52Wind,
+            l31Music, l31Room, l31DoorMusic, l120Loop, l36Bed, l15Hum, l15Air, l15Heart, l23Rustle, l23Water,
+            l14Air, l14Buzz, l14Ward, l14Monitor, l14Torture, l14Contam, l14Dread, l14Heart, l47Wind, l47Creek, l47Chant,
         }.Concat(sirenVoice?.Loaded() ?? []).Concat(funVoiceA?.Loaded() ?? []).Concat(funVoiceB?.Loaded() ?? []).Concat(hotelVoice?.Loaded() ?? []))
         {
             sound?.Stop();

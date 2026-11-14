@@ -311,6 +311,7 @@ public partial class MenaceSystem : ModSystem
         jumping.Remove(id);
         ambientNextMs.Remove(id);
         houndClocks.Remove(id);
+        Senses.ForgetClank(id);
     }
 
     public override void Dispose()
@@ -539,7 +540,7 @@ public partial class MenaceSystem : ModSystem
             case WorldLayout.Level3999: a.Band = layout.L3999DarkAt(gx, gz) ? MenaceBand.Threshold : MenaceBand.Safe; return;
             // Level 188: safe in a room with its door shut, the heart in the courtyard and below, the edge upstairs and by the windows out
             case WorldLayout.Level188: a.Band = Regions.L188System.BandAt(layout, geometry, gx, y, gz); return;
-            // The experimental levels (ids 21-23): safe for now
+            // The experimental levels (ids 21-30)
             // Level 73: the edge everywhere but in the castle, except the hill Coran keeps (his leash, 140 blocks from the castle's middle, where the arrivals are): the
             // Approach there, so the run from the arrival to the door can be made (balance review 2026-11-01; was the edge, about 400 bodies an hour felt)
             case WorldLayout.Level73: a.Band = Regions.L73System.BandAt(layout, gx, gz); if (a.Band == MenaceBand.Threshold && (long)(gx - layout.L73IslandX) * (gx - layout.L73IslandX) + (long)(gz - layout.L73IslandZ) * (gz - layout.L73IslandZ) < 140 * 140) a.Band = MenaceBand.Approach; return;
@@ -615,6 +616,7 @@ public partial class MenaceSystem : ModSystem
         foreach (long id in jumping.Keys.Where(id => !live.Contains(id)).ToList()) jumping.Remove(id);
         foreach (long id in ambientNextMs.Keys.Where(id => !live.Contains(id)).ToList()) ambientNextMs.Remove(id);
         PruneHoundClocks(live);
+        Senses.ForgetClankExcept(live);
     }
 
     private long nextPruneMs;

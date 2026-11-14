@@ -26,7 +26,7 @@ public static class MapMarks
     public const string InLevelIcon = "ladder";
 
     /// <summary>
-    /// The colour of a way by the level it leads to, by level id (0-11, then 37, 94, !, Fun, The End, the Hub, 974, 3999, 188),
+    /// The colour of a way by the level it leads to, by level id (0-11, then 37, 94, !, Fun, The End, the Hub, 974, 3999, 188, then the ten experimental levels),
     /// so every way to one level is one colour on the map. Kelly's colours of greatest contrast, without the greys (taken by
     /// <see cref="InLevelColor"/>) and black (lost on a dark floor), with a teal for the Hub; picked to suit the level where one could.
     /// </summary>
@@ -55,15 +55,15 @@ public static class MapMarks
         Rgb(0xF6A600), // 188: orange yellow, the lit windows
         // The experimental levels
         Rgb(0x8B0000), // 73: dark red, the Redlands
-        Rgb(0x848482), // the Basement: grey, the brick
+        Rgb(0xC08A5A), // the Basement: warm tan, the brick
         Rgb(0x5DBB63), // 52: lawn green
         Rgb(0xD41CE0), // 31: neon magenta, the rink
         Rgb(0x1C3F94), // 36: airline navy (id 25)
-        Rgb(0x222222), // 120: near black, the dark server rooms (id 26)
+        Rgb(0xE8E8A0), // 120: light signal yellow, the server rooms' lamps (id 26)
         Rgb(0x5BC8E8), // 15: cyan, the halls' line
-        Rgb(0x2E6B3A), // 23: deep forest green
+        Rgb(0x1FA67A), // 23: forest teal (id 28)
         Rgb(0x9FD8CB), // 14: pale hospital mint (id 29)
-        Rgb(0x4B5320), // 47: moss (id 30)
+        Rgb(0xA39B2D), // 47: moss yellow (id 30)
     };
 
     private static int Rgb(int rgb) => ColorUtil.ColorFromRgba((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF, 255);

@@ -114,11 +114,11 @@ public static class Danger
         Backrooms.Worldgen.WorldLayout.Level974 => 0,
         Backrooms.Worldgen.WorldLayout.Level3999 => 0.8, // (only its Neon Blackout has anything in it)
         Backrooms.Worldgen.WorldLayout.Level188 => 0.45, // the Courtyard of Windows: unsafe (Class 2-5 by the wikis), its windows worst of all
-        // The experimental levels (ids 21-23): nothing in them yet
+        // The experimental levels (ids 21-30)
         Backrooms.Worldgen.WorldLayout.Level73 => 0.9, // the Redlands: Survival Difficulty 5, "extremely hostile" hordes everywhere outside the Silver Castle
         Backrooms.Worldgen.WorldLayout.Basement => 0.3, // Fandom's class 2: decent amount of entities, all of them visitors from above
         Backrooms.Worldgen.WorldLayout.Level52 => 0,
-        // Batch 2 (ids 24-27): nothing in them yet
+        // Batch 2 (ids 24-30)
         Backrooms.Worldgen.WorldLayout.Level31 => 0,
         Backrooms.Worldgen.WorldLayout.Level120 => 0.3, // Survival Difficulty 2: its Misglitches and the voids' Smilers (Regions/L120System.cs; the director puts nothing down)
         Backrooms.Worldgen.WorldLayout.Level36 => 0.35, // (only its blackouts have anything in them: Class 1)
@@ -398,7 +398,7 @@ public static class Roster
             E(SkinStealer, Approach, Encounters.Stalk | Encounters.Hunt | Amb, 0.5) with { Rarity = SkinStealerWanders },
             E(Smiler, Heart, Encounters.Glimpse | Encounters.Stalk, 0.6) with { NeedsDark = true },
         },
-        // The experimental levels (ids 21-23): empty
+        // The experimental levels (ids 21-30)
         // Level 73, the Redlands: the Wikidot page's list, all "extremely hostile", gathering "in large groups to attack the
         // nearest human"; nothing within the castle's walls (L73System.BandAt), and Coran kills what he hears outside them.
         // (Windows and Camo Crawlers are left out: the handbook says so)
@@ -686,7 +686,7 @@ public static class Roster
             S("backrooms:sounds/effect/188/vacuum", 0.9f, 1.05f, 0.3f), S("backrooms:sounds/effect/188/icedrop", 0.9f, 1.1f, 0.35f),
             S("backrooms:sounds/effect/188/thump", 0.85f, 1.05f, 0.5f), S("backrooms:sounds/effect/188/knock", 0.9f, 1.1f, 0.4f), Footsteps,
         },
-        // The experimental levels (ids 21-23): none yet
+        // The experimental levels (ids 21-30)
         [Backrooms.Worldgen.WorldLayout.Level73] = new[] { HoundHowl, HoundHowl, HoundGrowl, Wings, Scuttle, Hurt, Drag }, // the hordes far off, and what they caught
         // The Basement: footsteps, a knock, a scratch in the walls, the far wail, water dripping
         [Backrooms.Worldgen.WorldLayout.Basement] = new[] { Footsteps, Knock, Scratch, Groan, Drip },
