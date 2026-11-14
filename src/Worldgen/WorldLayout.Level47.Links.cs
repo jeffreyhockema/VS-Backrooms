@@ -154,7 +154,7 @@ public sealed partial class WorldLayout
         if (hollows.Count == 0) return null;
         var h = hollows[(int)(Hashing.Mix(key) % (ulong)hollows.Count)];
         return FindArrival(Level47, key, t => t.Level == Level47 && t.Under is Unders.L47DeadHollow or Unders.L47StillHollow,
-            spot: t => IsArrivalSpot(t) && t.Zone is L47Forest or L47TrailZone, near: (MacroOf(h.X), MacroOf(h.Z)));
+            spot: t => IsArrivalSpot(t) && t.Zone is L47Forest or L47TrailZone && (t.Detail & L47SolidFeet) == 0, near: (MacroOf(h.X), MacroOf(h.Z)));
     }
 
     // ================= Level 10's ancient dead trees =================

@@ -1212,7 +1212,7 @@ public sealed partial class WorldGenerator
             5 => Level5Block(t, rel, gx, gz),
             _ => Level6Block(t, rel),
         };
-        // (Layout version 14: a food prop others went through is its stripped block, WorldGenerator.Stripped.cs)
+        // (Layout version 15: a food prop others went through is its stripped block, WorldGenerator.Stripped.cs; the Basement's and Level 52's from layout 16's balance in every world)
         block = Stripped(t, block);
         // A chalk mark at eye height on the wall beside the tile, left by someone before
         if (block == 0 && fluid == 0 && rel == 2 && t.Chalk != 0) return ChalkMark(t.Chalk);

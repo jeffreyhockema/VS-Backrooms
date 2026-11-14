@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using System.Threading.Tasks;
 using Backrooms.Cheats;
 
 namespace Backrooms.Worldgen;
@@ -117,22 +118,35 @@ public sealed partial class WorldLayout
     /// <summary>
     /// Whether a cell rolls Level 6's deepest dark (by its own hash alone; IsL73DarkCell says whether it is one). From layout
     /// 16's balance (every world: ExpVersion), where the quarter would leave the whole of Level 6 none (a small world, an unlucky seed), the cell with the
-    /// lowest roll of those the old rate gave stays (decision 20's "keep at least one"): <see cref="L73DarkFloor"/>.
+    /// lowest roll of those the old rate gave stays (decision 20's "keep at least one"): <see cref="L73DarkFloorScan"/>.
     /// </summary>
     public bool L73DarkRolls(int mx, int mz)
     {
         double u = Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltL73DarkCell));
         if (u < 1.0 / L73DarkOneIn) return true;
-        return ExpVersion >= 16 && u < 1.0 / L73DarkCells && u <= L73DarkFloor;
+        // (Until the floor is known, no extra cell: it comes in a second or so on a worker thread, not on the caller's)
+        return ExpVersion >= 16 && u < 1.0 / L73DarkCells && L73DarkFloorNow is double floor && u <= floor;
     }
 
-    private StrongBox<double> l73DarkFloor;
+    private Task<double> l73DarkFloor;
+
+    private double? L73DarkFloorNow
+    {
+        get
+        {
+            var task = LazyInitializer.EnsureInitialized(ref l73DarkFloor, () => Task.Run(L73DarkFloorScan));
+            return task.IsCompletedSuccessfully ? task.Result : null;
+        }
+    }
+
+    /// <summary>Waits for <see cref="L73DarkFloorScan"/> to be known (for the harness, which wants the final answer).</summary>
+    public void L73DarkFloorWait() => LazyInitializer.EnsureInitialized(ref l73DarkFloor, () => Task.Run(L73DarkFloorScan)).Wait();
 
     /// <summary>
     /// The lowest roll among the cells that are Level 6's deepest dark at the old rate (one in <see cref="L73DarkCells"/>), or
     /// 0 if there is none: worked out once, over a square round spawn that holds the whole of Level 6.
     /// </summary>
-    private double L73DarkFloor => LazyInitializer.EnsureInitialized(ref l73DarkFloor, () =>
+    private double L73DarkFloorScan()
     {
         double outer = 0;
         for (int a = 0; a < 360; a++) outer = Math.Max(outer, RingEdges(6, a * Math.PI / 180).Outer);
@@ -149,8 +163,8 @@ public sealed partial class WorldLayout
                 best = u;
                 found = true;
             }
-        return new StrongBox<double>(found ? best : 0);
-    }).Value;
+        return found ? best : 0;
+    }
 
     // ================= The north door, in the castle =================
 

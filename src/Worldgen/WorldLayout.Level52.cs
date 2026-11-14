@@ -1502,14 +1502,18 @@ public sealed partial class WorldLayout
         box = false;
         L52RoomKind kind = L52KindOn(c, room, storey);
         // Never in a doorway's way: nothing on a tile beside a door (nor, on its storey, within two of a bridge's opening)
-        foreach (ArchPier side in L52Ways)
+        bool Blocked()
         {
-            var (du, dv) = L52Step(side);
-            int nu = u + du, nv = v + dv;
-            if (c.InGrid(nu, nv) && c.At(nu, nv).Kind == TileKind.Doorway) return 0;
-            if (storey == L52BridgeStorey)
-                for (int k = 1; k <= 2; k++)
-                    if (c.InGrid(u + du * k, v + dv * k) && c.At(u + du * k, v + dv * k).Overhead == Overheads.L52BridgeDoor) return 0;
+            foreach (ArchPier side in L52Ways)
+            {
+                var (du, dv) = L52Step(side);
+                int nu = u + du, nv = v + dv;
+                if (c.InGrid(nu, nv) && c.At(nu, nv).Kind == TileKind.Doorway) return true;
+                if (storey == L52BridgeStorey)
+                    for (int k = 1; k <= 2; k++)
+                        if (c.InGrid(u + du * k, v + dv * k) && c.At(u + du * k, v + dv * k).Overhead == Overheads.L52BridgeDoor) return true;
+            }
+            return false;
         }
         // The room's frame: d the depth from the door's wall (0 next to it), a along it
         bool alongX = room.DoorSide is ArchPier.North or ArchPier.South;
@@ -1522,6 +1526,8 @@ public sealed partial class WorldLayout
         ArchPier intoRoom = L52Opposite(room.DoorSide), toLowA = alongX ? ArchPier.West : ArchPier.North, toHighA = L52Opposite(toLowA);
         ulong h = Hashing.Hash(seed, c.Head.X0 + room.U0 + storey * 131, c.Head.Z0 + room.V0, SaltL52Room);
         double rr = Hashing.Unit(Hashing.Hash(seed, c.Head.X0 + u + storey * 977, c.Head.Z0 + v, SaltL52Room + 2));
+        // A classroom's board is walk-through, so from layout 16 its end tiles are decided before this guard
+        if ((Version < 16 || kind != L52RoomKind.Classroom) && Blocked()) return 0;
         switch (kind)
         {
             case L52RoomKind.Classroom:
@@ -1541,6 +1547,7 @@ public sealed partial class WorldLayout
                     stack = (byte)(d == left ? 0 : d == right ? 2 : 1);
                     return Props.L52Chalkboard;
                 }
+                if (Version >= 16 && Blocked()) return 0;
                 int fromBoard = boardLow ? a : la - 1 - a;
                 if (fromBoard == 1 && d == ld - 1) { facing = L52Opposite(toBoard); return Props.Desk; }
                 if (fromBoard == 0 && d == ld - 1 && (h >> 3 & 3) != 0) { facing = L52Opposite(toBoard); return Props.Tv; }

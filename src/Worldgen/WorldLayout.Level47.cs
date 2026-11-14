@@ -35,6 +35,9 @@ public sealed partial class WorldLayout
     /// <summary>A tile's <see cref="Tile.Detail"/> bit: open forest floor all round it.</summary>
     public const byte L47OpenGround = 1;
 
+    /// <summary>A tile's <see cref="Tile.Detail"/> bit (layout 16 on): a root, low log or boulder tip stands at the feet there, so nobody is put down on it.</summary>
+    public const byte L47SolidFeet = 2;
+
     /// <summary>The top of the world above the level's floor (the floor is <see cref="WorldGeometry.L47Drop"/> below the shared one, which is 39 below the world's top block).</summary>
     public const int L47Top = 38 + WorldGeometry.L47Drop;
 
@@ -76,31 +79,21 @@ public sealed partial class WorldLayout
 
     private bool InL47(double mx, double mz) => InRoundRegion(mx, mz, L47CentreX, L47CentreZ, L47Radius, SaltL47Shape);
 
-    private int l47MidX = int.MinValue, l47MidZ;
+    private (int X, int Z)? l47Mid;
 
     /// <summary>The middle of the glade (the end of the trail), in blocks: near the region's centre, moved a little by the seed.</summary>
-    public int L47MidX
+    private (int X, int Z) L47Mid => l47Mid ??= L47MidWork();
+
+    private (int X, int Z) L47MidWork()
     {
-        get
-        {
-            if (l47MidX == int.MinValue)
-            {
-                ulong h = Hashing.Hash(seed, 0, 0, SaltL47Mid);
-                l47MidZ = L47CentreZ * MacroSize + MacroSize / 2 + (int)(Hashing.Unit(Hashing.Mix(h)) * 25) - 12;
-                l47MidX = L47CentreX * MacroSize + MacroSize / 2 + (int)(Hashing.Unit(h) * 25) - 12;
-            }
-            return l47MidX;
-        }
+        ulong h = Hashing.Hash(seed, 0, 0, SaltL47Mid);
+        return (L47CentreX * MacroSize + MacroSize / 2 + (int)(Hashing.Unit(h) * 25) - 12,
+            L47CentreZ * MacroSize + MacroSize / 2 + (int)(Hashing.Unit(Hashing.Mix(h)) * 25) - 12);
     }
 
-    public int L47MidZ
-    {
-        get
-        {
-            _ = L47MidX;
-            return l47MidZ;
-        }
-    }
+    public int L47MidX => L47Mid.X;
+
+    public int L47MidZ => L47Mid.Z;
 
     /// <summary>How far a point lies from the glade's middle (the middle of its middle block).</summary>
     public double L47FromMid(double px, double pz)
@@ -117,7 +110,7 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>Arriving: on the forest floor (or the trail) with open ground all round.</summary>
-    private static bool IsL47ArrivalSpot(Tile t) => IsArrivalSpot(t) && t.Zone is L47Forest or L47TrailZone && (t.Detail & L47OpenGround) != 0;
+    private static bool IsL47ArrivalSpot(Tile t) => IsArrivalSpot(t) && t.Zone is L47Forest or L47TrailZone && (t.Detail & L47OpenGround) != 0 && (t.Detail & L47SolidFeet) == 0;
 
     /// <summary>How high above the level's floor to put someone down: on the ground.</summary>
     private static double L47ArrivalHeight(in Tile t, double stand) => t.Height + stand;
@@ -994,6 +987,9 @@ public sealed partial class WorldLayout
                     continue;
                 }
                 t = L47TileAt(gx, gz, kinds);
+                // The wood call left the block at the feet in kinds[0] for every forest, trail and stream tile
+                if (Version >= 16 && t.Kind == TileKind.Floor && t.Zone is L47Forest or L47TrailZone && kinds[0] != 0 && !L47IsLeaf(kinds[0]))
+                    t.Detail |= L47SolidFeet;
             }
         if (rimCell) return;
         L47PlaceThings(b, mx, mz);
@@ -1076,7 +1072,8 @@ public sealed partial class WorldLayout
                         if (!open[(lz + dz) * n + lx + dx]) { all = false; break; }
                 for (int d = L47OpenReach + 1; d <= L47OpenWay && all; d++)
                     all = open[(lz + d) * n + lx] && open[(lz - d) * n + lx] && open[lz * n + lx + d] && open[lz * n + lx - d];
-                if (all) b.At(lx, lz).Detail |= L47OpenGround;
+                // (A root or log underfoot still counts as open round its neighbours, but nobody is put down on it)
+                if (all && (b.At(lx, lz).Detail & L47SolidFeet) == 0) b.At(lx, lz).Detail |= L47OpenGround;
             }
     }
 

@@ -217,7 +217,7 @@ public sealed class Protection
         WorldLayout.Level974 => WorldGeometry.RoomHeight + 1,
         WorldLayout.Level3999 => WorldGeometry.RoomHeight + 1,
         WorldLayout.Level188 => WorldGeometry.RoomHeight + 1,
-        WorldLayout.Level73 => WorldGeometry.RoomHeight + 1,
+        WorldLayout.Level73 => WorldGeometry.RoomHeight + 1, // open sky over the island, but the castle's roofs and ceilings start here and must hold (IsRoof only counts a block with nothing open above it)
         WorldLayout.Basement => WorldGeometry.RoomHeight + 1,
         WorldLayout.Level52 => int.MaxValue, // open sky
         WorldLayout.Level31 => WorldGeometry.RoomHeight + 1,

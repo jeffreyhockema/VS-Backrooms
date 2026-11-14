@@ -5,8 +5,8 @@ using Vintagestory.API.Server;
 namespace Backrooms.Thresholds;
 
 /// <summary>
-/// What happens round Level 15, "Futuristic Halls"'s thresholds in the game (experimental, kept as level 27): it has none;
-/// someone put down in it (the cheats menu, <c>/backrooms goto</c>) faces along the hall or corridor they arrive in.
+/// What happens round Level 15, "Futuristic Halls"'s thresholds in the game (experimental, kept as level 27): its ways in and out are in WorldLayout.Level15.Links.cs;
+/// someone put down in it (a way in, the cheats menu, <c>/backrooms goto</c>) faces along the hall or corridor they arrive in.
 /// This file is the level's own.
 /// </summary>
 public partial class ThresholdSystem

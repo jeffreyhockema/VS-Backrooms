@@ -9,7 +9,7 @@ namespace Backrooms.Worldgen;
 /// leaves overhead with a few holes the fixed star shines through, a maze of stone trunks, buttress roots and humus
 /// under it, glow rooms (caverns lit by Gardener's Sorries) beneath, reached by root tunnels; four ruins of wrong-shaped
 /// wonders in the deepest of them, the M.E.G.'s Base Seedling in another, and in the middle the Heart of Water, a basin
-/// and its reservoir ringed by Green Giants. No thresholds in or out (the cheats menu or <c>/backrooms goto</c> only).
+/// and its reservoir ringed by Green Giants. Its ways in and out are in WorldLayout.Level23.Links.cs (and the cheats menu or <c>/backrooms goto</c>).
 ///
 /// <para><b>Everything is a pure function of the block position</b> (and the seed), shared by the layout, the generator
 /// (WorldGenerator.L23.cs) and the client (its air, AtmosphereSystem.L23.cs): the ground (<see cref="L23Ground"/>), the

@@ -95,18 +95,33 @@ public sealed partial class WorldLayout
 
     // ================= In: the EMERGENCY EXIT door, in Level 0 =================
 
-    /// <summary>
-    /// Whether a cell is drawn for an EMERGENCY EXIT door, by its hashes alone (the cell may have no wall for it): a Lobby cell
-    /// in the outer two fifths of the level, at least 1500 blocks from spawn, never the spawn cell, a party nobody came to, a Red Room or the Manila Room.
-    /// </summary>
     /// <summary>How near the world's spawn (in blocks) no EMERGENCY EXIT door into Level 14 may stand.</summary>
     public const int L14ExitMinFromSpawn = 1500;
 
+    /// <summary>
+    /// Whether a cell is drawn for an EMERGENCY EXIT door, by its hashes alone (the cell may have no wall for it): a Lobby cell
+    /// in the outer two fifths of the level, at least 1500 blocks from spawn, never the spawn cell, a party nobody came to, a Red Room or the Manila Room;
+    /// and where the rate draws none in the whole Lobby, the allowed cell with the lowest roll (layout 16's balance, every world: ExpVersion).
+    /// </summary>
     public bool L14ExitCell(int mx, int mz)
     {
         if (!ExpEntrances) return false;
         double r = Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltL14ExitCell));
-        if (r >= L14ExitCellChance || LevelAt(mx, mz) != 0 || IsSpawnMacro(mx, mz)) return false;
+        if (r >= L14ExitCellChance)
+            return ExpVersion >= 16 && (l14ExitProbe is { } probe ? probe == (mx, mz) : L14ExitKept is { } kept && kept == (mx, mz));
+        if (!L14ExitAllowed(mx, mz)) return false;
+        // (Never two within a few cells of each other: the lower roll keeps it)
+        for (int dz = -L14ExitApart; dz <= L14ExitApart; dz++)
+            for (int dx = -L14ExitApart; dx <= L14ExitApart; dx++)
+                if ((dx != 0 || dz != 0) && Hashing.Unit(Hashing.Hash(seed, mx + dx, mz + dz, SaltL14ExitCell)) is double o && o < L14ExitCellChance && o < r)
+                    return false;
+        return true;
+    }
+
+    /// <summary>Where a cell may be drawn for an EMERGENCY EXIT, whatever its roll: a Lobby cell in the outer two fifths, far enough from spawn, not a special cell.</summary>
+    private bool L14ExitAllowed(int mx, int mz)
+    {
+        if (LevelAt(mx, mz) != 0 || IsSpawnMacro(mx, mz)) return false;
         double angle = Math.Atan2(mz - spawnMacroZ, mx - spawnMacroX);
         if (RingDistance(mx, mz) < 0.6 * OuterEdge(0, angle)) return false;
         // Never within L14ExitMinFromSpawn blocks of the world's spawn (the cell's nearest block to the spawn cell's middle): a new
@@ -114,13 +129,54 @@ public sealed partial class WorldLayout
         int sx = spawnMacroX * MacroSize + MacroSize / 2, sz = spawnMacroZ * MacroSize + MacroSize / 2;
         double nx = Math.Clamp(sx, mx * MacroSize, mx * MacroSize + MacroSize - 1) - sx, nz = Math.Clamp(sz, mz * MacroSize, mz * MacroSize + MacroSize - 1) - sz;
         if (nx * nx + nz * nz < (double)L14ExitMinFromSpawn * L14ExitMinFromSpawn) return false;
-        if (IsFunPartyCell(mx, mz) || IsRedRoom(mx, mz) || IsManilaMacro(mx, mz)) return false;
-        // (Never two within a few cells of each other: the lower roll keeps it)
-        for (int dz = -L14ExitApart; dz <= L14ExitApart; dz++)
-            for (int dx = -L14ExitApart; dx <= L14ExitApart; dx++)
-                if ((dx != 0 || dz != 0) && Hashing.Unit(Hashing.Hash(seed, mx + dx, mz + dz, SaltL14ExitCell)) is double o && o < L14ExitCellChance && o < r)
-                    return false;
-        return true;
+        return !(IsFunPartyCell(mx, mz) || IsRedRoom(mx, mz) || IsManilaMacro(mx, mz));
+    }
+
+    private (int X, int Z)? l14ExitKept;
+    private volatile bool l14ExitKeptDone;
+
+    /// <summary>The cell being tried as the kept one, on this thread (while it is, only that cell reads as drawn).</summary>
+    [ThreadStatic] private static (int X, int Z)? l14ExitProbe;
+
+    /// <summary>
+    /// The one cell kept for an EMERGENCY EXIT when the rate draws none in the whole Lobby, else null: of the allowed cells, the
+    /// lowest roll that has a straight wall for the door. Worked out once (two threads asking at the start may both work it out,
+    /// to the same answer); the Lobby is only a few thousand cells.
+    /// </summary>
+    private (int X, int Z)? L14ExitKept
+    {
+        get
+        {
+            if (l14ExitKeptDone) return l14ExitKept;
+            double reach = 0;
+            for (int i = 0; i < 64; i++) reach = Math.Max(reach, OuterEdge(0, i * Math.PI / 32 - Math.PI));
+            int span = (int)(reach * 1.3) + 12;
+            var allowed = new List<(double Roll, int X, int Z)>();
+            for (int mz = spawnMacroZ - span; mz <= spawnMacroZ + span; mz++)
+                for (int mx = spawnMacroX - span; mx <= spawnMacroX + span; mx++)
+                    if (L14ExitAllowed(mx, mz)) allowed.Add((Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltL14ExitCell)), mx, mz));
+            allowed.Sort((a, b) => a.Roll.CompareTo(b.Roll));
+            (int X, int Z)? kept = null;
+            if (allowed.Count > 0 && allowed[0].Roll >= L14ExitCellChance)
+            {
+                // (The rate draws none: try the lowest rolls in turn for one whose cell has a wall for the door; else the lowest)
+                kept = (allowed[0].X, allowed[0].Z);
+                for (int i = 0; i < Math.Min(allowed.Count, 200); i++)
+                {
+                    l14ExitProbe = (allowed[i].X, allowed[i].Z);
+                    try
+                    {
+                        if (L14ExitIn(allowed[i].X, allowed[i].Z) == null) continue;
+                    }
+                    finally { l14ExitProbe = null; }
+                    kept = (allowed[i].X, allowed[i].Z);
+                    break;
+                }
+            }
+            l14ExitKept = kept;
+            l14ExitKeptDone = true;
+            return kept;
+        }
     }
 
     /// <summary>
@@ -158,11 +214,8 @@ public sealed partial class WorldLayout
         ref Tile door = ref b.At(ex, ez);
         door.Under = Unders.L14ExitDoor;
         door.Pier = f;
-        if (ExpVersion >= 12)
-        {
-            var (dx, dz) = FacingStep(f);
-            L14PlacardBeside(b, ex, ez, dx, dz);
-        }
+        var (dx, dz) = FacingStep(f);
+        L14PlacardBeside(b, ex, ez, dx, dz);
     }
 
     /// <summary>

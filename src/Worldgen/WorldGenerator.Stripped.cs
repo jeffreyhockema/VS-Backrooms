@@ -4,10 +4,10 @@ using Vintagestory.API.Common;
 namespace Backrooms.Worldgen;
 
 /// <summary>
-/// Layout version 14: the food props of Levels 1 to 5 that others went through before the player (the tile's
+/// Layout version 15: the food props of Levels 1 to 5 that others went through before the player (the tile's
 /// <see cref="Tile.Looted"/>, WorldLayout.MarkPickedOver) are drawn as their stripped blocks: emptied metal shelving, an
 /// open drum, flattened cardboard, a fridge with its door ajar, a bare cupboard and a bare pantry shelf. They give what the
-/// prop gives but no food. Worlds made before version 14 never mark a prop, so nothing here changes them.
+/// prop gives but no food. Worlds made before version 15 draw none of them stripped, so nothing here changes them; the Basement's and Level 52's food props are stripped in every world (layout 16's balance: ExpVersion).
 /// </summary>
 public sealed partial class WorldGenerator
 {

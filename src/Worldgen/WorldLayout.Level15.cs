@@ -7,7 +7,7 @@ namespace Backrooms.Worldgen;
 /// <summary>
 /// Level 15, "Futuristic Halls" (experimental): kept as level 27 (<see cref="Level15"/>) and shown as "15". A maze of clean
 /// white halls in a round noclip region far out to the north-west, beyond the End (both wikis' Level 15; the design is
-/// docs/design/experimental-levels/15-plan.md). No thresholds in or out: the cheats menu or <c>/backrooms goto 15</c> only.
+/// docs/design/experimental-levels/15-plan.md). Its ways in and out are in WorldLayout.Level15.Links.cs (and the cheats menu or <c>/backrooms goto 15</c>).
 ///
 /// <para><b>The lattice.</b> Main halls run straight through the whole region every <see cref="L15Period"/> blocks each
 /// way, five wide (x or z mod 128 in 1-5) and five high, a strip of LED panels down the middle, glowing strips along the

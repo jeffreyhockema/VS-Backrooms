@@ -109,7 +109,7 @@ public sealed partial class WorldLayout
                     t.Sealed = true;
                     t.SupplyBox = false;
                 }
-        if (ExpVersion >= 12) L120PlacardBeside(b, lx, lz, dx, dz);
+        L120PlacardBeside(b, lx, lz, dx, dz);
     }
 
     /// <summary>

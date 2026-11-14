@@ -7,7 +7,7 @@ namespace Backrooms.Worldgen;
 /// The Basement (experimental, unnumbered): kept as level 22 (<see cref="Basement"/>) and shown as "Basement". A round
 /// noclip region far out to the south-south-west: the endless house basement of the Fandom page, whose lower parts are the
 /// flooded cellar of the Wikidot account. The design is in docs/design/experimental-levels/basement-plan.md (lore:
-/// lore/basement-brief.md). No thresholds in or out (the cheats menu or <c>/backrooms goto basement</c> only). This file is
+/// lore/basement-brief.md). Its ways in and out are in WorldLayout.LevelBasement.Links.cs (and the cheats menu or <c>/backrooms goto basement</c>). This file is
 /// the level's own.
 ///
 /// <para><b>Zones</b>, one per cell (<see cref="BasementCellZone"/>, a smooth noise over the cells): <b>the Cellar</b>
