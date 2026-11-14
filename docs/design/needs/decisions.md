@@ -32,3 +32,5 @@ is marked (rec.).
 
 Earlier decisions this plan overturns: "No thirst for now" (2026-10-04) and "Almond Water is a plain food item"
 (2026-10-04), both the user's at the time.
+
+2026-11-14: a vanilla bowl or bucket filled from water in the world remembers the water's class (stack attribute `backrooms:waterclass`: Tainted, Salt or Foul; absent is Clean) and drinking from it has the same per-litre effect as drinking that water from the world; pouring between containers does not carry the class (the vanilla transfer copies no attributes), so poured water counts as clean.

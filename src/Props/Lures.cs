@@ -63,8 +63,8 @@ public partial class PropSystem
             Range = range, Volume = volume, Loudness = loud, Who = who?.EntityId ?? -1,
             Block = sapi.World.BlockAccessor.GetBlock(pos)?.FirstCodePart(),
         });
-        // Whoever set it going is heard by it too: what hunts them knows where it was done
-        if (who is EntityPlayer && director != null) director.MakeNoise(who, 0.4, Centre(pos), loud, kind);
+        // Whoever set it going is heard by it too: what hunts them knows where it was done (not a clock, which rings later and elsewhere)
+        if (who is EntityPlayer && director != null && kind != "alarmclock") director.MakeNoise(who, 0.4, Centre(pos), loud, kind);
         sapi.Logger.Notification("[backrooms] props: {0} at {1} {2} {3} rings for {4} s{5}", kind, pos.X, pos.Y, pos.Z, ms / 1000,
             who == null ? "" : " (set going by " + who.Code.Path + " #" + who.EntityId + ")");
         return true;
@@ -81,8 +81,21 @@ public partial class PropSystem
         return null;
     }
 
+    /// <summary>Drops the cooldowns that have run out (one entry per car, alarm or valve ever used would otherwise stay for the life of the server).</summary>
+    private void PruneCooldowns(long now)
+    {
+        foreach (var d in new[] { carRearmMs, alarmResetMs, valveRearmMs })
+        {
+            if (d.Count == 0) continue;
+            List<long> spent = null;
+            foreach (var e in d) if (e.Value <= now) (spent ??= new List<long>()).Add(e.Key);
+            if (spent != null) foreach (long k in spent) d.Remove(k);
+        }
+    }
+
     private void TickRings(long now)
     {
+        PruneCooldowns(now);
         for (int i = rings.Count - 1; i >= 0; i--)
         {
             Ring r = rings[i];

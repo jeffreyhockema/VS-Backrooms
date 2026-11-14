@@ -21,10 +21,13 @@ namespace Backrooms.Salvage;
 public class PrySystem : ModSystem
 {
     /// <summary>The locked doors a pry bar works on (the first part of their block codes).</summary>
-    public static readonly HashSet<string> Doors = new() { "metaldoor", "officedoor", "hoteldoor", "tunneldoor", "tunneldoorpaint", "housedoor", "suburbdoor" };
+    public static readonly HashSet<string> Doors = new() { "metaldoor", "officedoor", "hoteldoor", "tunneldoor", "tunneldoorpaint", "housedoor", "suburbdoor", "l14-door" };
 
-    /// <summary>Whether a block of one of the <see cref="Doors"/> is locked (a Suburbs door from layout version 9 only when it says so; the others always).</summary>
-    public static bool Locked(Block block) => block.FirstCodePart() != "suburbdoor" || block.Variant["state"] == "locked";
+    /// <summary>The door family of a block: the first part of its code, except Level 14's <c>l14-door</c> (its first part, l14, is every block of the level).</summary>
+    public static string Family(Block block) => block.Code?.Path.StartsWith("l14-door-", StringComparison.Ordinal) == true ? "l14-door" : block.FirstCodePart();
+
+    /// <summary>Whether a block of one of the <see cref="Doors"/> is locked (a Suburbs or hospital door only when it says so; the others always).</summary>
+    public static bool Locked(Block block) => Family(block) is not ("suburbdoor" or "l14-door") || block.Variant["state"] == "locked";
 
     /// <summary>How long it takes to force a door, in seconds.</summary>
     public const float PrySeconds = 4f;
@@ -51,7 +54,7 @@ public class PrySystem : ModSystem
         // Ahead of the doors' own behaviours, so that with a pry bar in hand you force the door rather than try it
         foreach (Block block in api.World.Blocks)
         {
-            if (block?.Code?.Domain != "backrooms" || !Doors.Contains(block.FirstCodePart()) || !Locked(block)) continue;
+            if (block?.Code?.Domain != "backrooms" || !Doors.Contains(Family(block)) || !Locked(block)) continue;
             block.BlockBehaviors = new BlockBehavior[] { new BlockBehaviorPryable(block) }.Concat(block.BlockBehaviors ?? Array.Empty<BlockBehavior>()).ToArray();
         }
     }
@@ -62,14 +65,14 @@ public class PrySystem : ModSystem
         if (layout == null) return false;
         IBlockAccessor blocks = sapi.World.BlockAccessor;
         Block door = blocks.GetBlock(pos);
-        if (door.Code?.Domain != "backrooms" || !Doors.Contains(door.FirstCodePart()) || !Locked(door)) return false;
-        string family = door.FirstCodePart();
+        if (door.Code?.Domain != "backrooms" || !Doors.Contains(Family(door)) || !Locked(door)) return false;
+        string family = Family(door);
         // Not in somebody else's claim (TryAccess tells the player why)
         if (!sapi.World.Claims.TryAccess(player, pos, EnumBlockAccessFlags.BuildOrBreak)) return false;
 
         if (Refusal(pos) is { } why)
         {
-            player.SendIngameError("backrooms-pry", Lang.Get(why));
+            player.SendIngameError("backrooms-pry", Say.T(player, why));
             return false;
         }
 
@@ -78,7 +81,7 @@ public class PrySystem : ModSystem
         {
             BlockPos at = pos.AddCopy(0, dy, 0);
             Block there = blocks.GetBlock(at);
-            if (there.Code?.Domain == "backrooms" && there.FirstCodePart() == family) blocks.SetBlock(0, at);
+            if (there.Code?.Domain == "backrooms" && Family(there) == family) blocks.SetBlock(0, at);
         }
         if (sapi.World.GetItem(new AssetLocation("backrooms:metalbracket")) is Item bracket)
             sapi.World.SpawnItemEntity(new ItemStack(bracket), pos.ToVec3d().Add(0.5, 0.5, 0.5));
@@ -111,6 +114,8 @@ public class PrySystem : ModSystem
     private bool RoomBehind(int x, int z)
     {
         Tile tile = layout.TileAt(x, z);
+        // (A hospital surgery door is a doorway tile drawn locked; the room behind it is a room nobody has opened)
+        if (tile.Kind == TileKind.Doorway && tile.Level == WorldLayout.Level14 && tile.Detail == WorldLayout.L14DoorLocked) return true;
         if (tile.Kind != TileKind.Door) return false;
         foreach ((int dx, int dz) in Sides)
         {
