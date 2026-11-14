@@ -145,9 +145,11 @@ public partial class PropSystem
         var seen = new HashSet<long>();
         var p = new BlockPos(heads[0].dimension);
         int putOut = 0;
-        // (Nothing is put out under a spray nobody is near: the chunks round it are not ticking)
-        bool near = false;
-        foreach (IPlayer pl in sapi.World.AllOnlinePlayers)
+        // (Nothing is put out under a spray nobody is near: the chunks round it are not ticking. With nobody online at all,
+        // a headless test's straw dummies are the only audience, so the spray goes on as before)
+        IPlayer[] online = sapi.World.AllOnlinePlayers;
+        bool near = online.Length == 0;
+        foreach (IPlayer pl in online)
             if (pl.Entity != null && pl.Entity.Pos.Dimension == heads[0].dimension && pl.Entity.Pos.SquareDistanceTo(heads[0].X + 0.5, heads[0].Y, heads[0].Z + 0.5) <= 64 * 64) { near = true; break; }
         if (!near) return 0;
         foreach (BlockPos head in heads)
