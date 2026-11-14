@@ -66,12 +66,7 @@
 			"y": 0,
 			"z": -60
 		},
-		"origin": {
-			"x": 0.5,
-			"y": 0.05,
-			"z": 0.5
-		},
-		"scale": 0.6
+		"scale": 0.65
 	},
 	"groundTransform": {
 		"translation": {

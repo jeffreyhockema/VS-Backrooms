@@ -46,21 +46,16 @@
 	},
 	"tpHandTransform": {
 		"translation": {
-			"x": -0.75,
-			"y": -0.16,
-			"z": -0.73
+			"x": -0.8,
+			"y": -0.2,
+			"z": -0.6
 		},
 		"rotation": {
-			"x": -81,
-			"y": -92,
-			"z": -2
-		},
-		"origin": {
-			"x": 0.5,
+			"x": 0,
 			"y": 0,
-			"z": 0.51
+			"z": -60
 		},
-		"scale": 0.5
+		"scale": 0.7
 	},
 	"groundTransform": {
 		"translation": {

@@ -265,13 +265,17 @@ def gui(model, rx, ry, rz, fill=1.1, shift=(0, 0)):
 
 
 def tf(t=(0, 0, 0), r=(0, 0, 0), o=(0.5, 0, 0.5), s=1.0):
-    return {"translation": dict(zip("xyz", t)), "rotation": dict(zip("xyz", r)), "origin": dict(zip("xyz", o)), "scale": s}
+    d = {"translation": dict(zip("xyz", t)), "rotation": dict(zip("xyz", r))}
+    if o is not None:
+        d["origin"] = dict(zip("xyz", o))
+    d["scale"] = s
+    return d
 
 
-# Held flat in the fingers, as vanilla holds a letter (itemtypes/lore/letter.json, its shape lying flat round 8, 8)
-TP_FLAT = tf((-0.75, -0.16, -0.73), (-81, -92, -2), (0.5, 0, 0.51), 0.5)
-# Held like a block in the fist (a chunky thing): the fuse's
-TP_CHUNK = tf((-0.8, -0.2, -0.6), (0, 0, -60), (0.5, 0.05, 0.5), 0.6)
+# Held in the hand tipped up, as the fuse is (itemtypes/props/fuse.json, a shape lying round 8, 8 like these): the client
+# showed vanilla's letter transform holding them edge-on and the fuse's holding them where they can be seen
+TP_FLAT = tf((-0.8, -0.2, -0.6), (0, 0, -60), None, 0.7)
+TP_CHUNK = tf((-0.8, -0.2, -0.6), (0, 0, -60), None, 0.65)
 # Lying on the ground at its own size: dropped items are drawn at 0.2 x scale, ground-stored ones at 1
 GROUND = tf((0, 0, 0), (0, 0, 0), (0.5, 0, 0.5), 4.6)
 
@@ -304,7 +308,7 @@ def scrawl(cv, j, i0, i1, c, gap=0.3, lift=0.0, faint=1.0):
         n = cv.rng.randint(1, 3)
         for k in range(n):
             if i + k < i1 and cv.rng.random() > lift:
-                cv.tint(i + k, j, c, 0.62 * faint)
+                cv.tint(i + k, j, c, 0.48 * faint)
                 if cv.rng.random() < 0.08:
                     cv.tint(i + k, j - 1, c, 0.35 * faint)
         i += n + (2 if cv.rng.random() < gap else 1)
@@ -614,7 +618,7 @@ def keycard_model():
 
 
 def greencard_model():
-    """Level 31's arcade card (5 x 8 units): green, a white stripe, a big white 31, on a steel split ring."""
+    """Level 31's arcade card (5 x 8 units): green, a light stripe, a white star, on a steel split ring."""
     m = Model("greencard")
     green, dark, white = rgb("2f9a4e"), rgb("1d6b35"), rgb("f2f2ea")
 
@@ -624,18 +628,13 @@ def greencard_model():
             for i in range(cv.w):            # the light stripe
                 for j in (2, 3):
                     cv.set(i, j, tone(rgb("bfe8c4"), 0.95 + cv.rng.random() * 0.06))
-            # a blocky 31, lower right (Level 31's own number)
-            three = ["111", "..1", ".11", "..1", "111"]
-            one = [".1", "11", ".1", ".1", "11"]
-            ox, oy = cv.w - 7, cv.h - 7
-            for j, row in enumerate(three):
+            # a white arcade star (the inventory icon draws faces mirrored, so nothing that reads one way only)
+            star = ["..1..", "11111", ".111.", ".1.1.", "1...1"]
+            ox, oy = (cv.w - 5) // 2, cv.h - 9
+            for j, row in enumerate(star):
                 for i, ch in enumerate(row):
                     if ch == "1":
-                        cv.set(ox + i, oy + j, white)
-            for j, row in enumerate(one):
-                for i, ch in enumerate(row):
-                    if ch == "1":
-                        cv.set(ox + 4 + i, oy + j, white)
+                        cv.set(ox + i, oy + j, tone(white, 0.97 + cv.rng.random() * 0.05))
             for j in range(cv.h - 3, cv.h):   # a darker foot
                 for i in range(cv.w):
                     cv.shade(i, j, 0.92)
@@ -1087,7 +1086,7 @@ ITEMS = {
 # The chalk is modelled upright (as vanilla's tools and the bone are) and laid down on the ground: a 90 degree turn
 # about X through the stick's middle, dropped so it rests on its side
 CHALK_MID = 3.7 / 16
-CHALK_TP = tf((-0.75, -0.35, -0.55), (0, -45, -10), (0.5, 0.2, 0.5), 0.55)
+CHALK_TP = tf((-0.75, -0.35, -0.55), (0, -45, -10), (0.5, 0.2, 0.5), 0.7)
 CHALK_GROUND = tf((0, round(0.2 * 4.6 * 0.9 / 16, 3), 0), (90, 0, 0), (0.5, CHALK_MID, 0.5), 4.6)
 CHALK_STORED = {"translation": {"x": 0, "y": round(-CHALK_MID + 0.9 / 16, 3), "z": 0}, "rotation": {"x": 90, "y": 0, "z": 0},
                 "origin": {"x": 0.5, "y": CHALK_MID, "z": 0.5}}
