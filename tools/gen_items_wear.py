@@ -1202,7 +1202,7 @@ def define_items():
          "A red cap, sun-faded, with a sweat line round the band. It keeps the light out of your eyes.", 0,
          {"base": "backrooms:entity/wear/baseballcap"}, {"brcap": tex("baseballcap")},
          {"disableElements": HAT_HIDES, "keepElements": KEEP_UNDER_HAT, "rainProtectionPerc": 0.3},
-         "A baseball cap, a model of our own.", top={"ground": tr(0.05, -0.65, 0, -2, 0, -4, 0.5, 0.5, 0.5299, scale=4)})
+         "A baseball cap, a model of our own.", top={"ground": tr(0.05, -0.75, 0, -2, 0, -4, 0.5, 0.5, 0.5299, scale=4)})
     item("clothes-upperbodyover-hazmatsuit", "upperbodyover", "Hazmat Suit",
          "A sealed yellow coverall with boots and gloves. In a contaminated room it keeps most of the poison off your "
          "skin, and it wears a little every time. Hot to work in (you get thirsty faster), a little slow, and no use "
@@ -1219,7 +1219,7 @@ def define_items():
          {"disableElements": HOOD_HIDES, "keepElements": KEEP_UNDER_HAT,
           "visibleDamageEffect": True, "hazmat": "hood", "rainProtectionPerc": 0.9},
          "A hazmat hood with its visor and filter, a model of our own (src/Wear/HazmatSystem.cs).",
-         top={"durability": 200, "ground": tr(0.05, -0.55, 0, -2, 0, -4, 0.5, 0.5, 0.5299, scale=4)})
+         top={"durability": 200, "ground": tr(0.05, -0.72, 0, -2, 0, -4, 0.5, 0.5, 0.5299, scale=4)})
 
 
 def item_json(code, spec):
