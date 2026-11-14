@@ -91,8 +91,21 @@ pre.13 (see below). Built in four packages (`exp/fb-late`, `exp/fb-small`, `exp/
     Level 52's machines.
 - Carpet armour's cap wears the gambeson's hood (the jerkin has no head shape); the jerkin and leggings show the carpet.
 
+- **0.700.0-pre.13: the item pass and new clothes** (a mod-page comment of 2026-11-13 asked for "more refined items, with
+  actual models" and modern, lab and hazmat clothing; the user: model pass yes, lab coat and hazmat yes, modern clothes yes, no
+  firearms). 81 of the 82 items drawn as flat sprites got real 3D models (only the retired pleather stays flat), and the crude
+  ones were remade: Almond Water and its bottle family, canned beans, crackers, the Lobby's salvage and tools, notes, chalk,
+  cards and the levels' own food. Generators `tools/gen_items_{salvage,pantry,treats,paper,wear}.py`; the gate's `lang` stage
+  fails on a new flat item (`tools/itemcheck.py`). New wearables: t-shirts, jeans, a hoodie, a work jacket, sneakers, work
+  boots, a cap (cosmetic, a little warmth; dressers, wardrobes, racks, suitcases, luggage, backpacks), a lab coat (Level 14 and
+  15 lockers, Level 120 shelves) and a hazmat suit and hood (rare; 75 % off Level 14's contamination poison and stability
+  drain, the hood slows the Basement's smell of the dead; hot and a little slow, no armour, wears out). Loot is rolled at
+  runtime, so every world gets it. The Spanish is written for every key (machine-made, to be reviewed); the Basement's
+  emptied icebox has its own block.
+
 ## Known gaps
 
-- Spanish strings for the new text are not written.
+- The Spanish is machine-made and wants a native reader's review.
+- Held items are checked in third person only (the game draws the first-person hand with the same transform; the rig's first-person shot shows no hand).
 - Restart resets the props' cooldowns (in memory); tripped breakers persist.
 - A converted pleather piece keeps its remaining uses, not its share (full pleather shows as 175/250 carpet armour).
