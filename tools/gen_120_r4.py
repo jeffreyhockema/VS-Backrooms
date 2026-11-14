@@ -526,10 +526,10 @@ def rack_blocktype():
                "little light. Salvage: copper wire, brackets, now and then a circuit board",
                {"collisionbox": cuboid(FULL), "selectionbox": cuboid(FULL)},
                extra={"lightHsvByType": light, "dropsByType": {
-                   "*-lower-gutted-*": drops(("scrapwire", 0.4, 0.4), ("metalbracket", 0.5, 0.4)),
-                   "*-upper-gutted-*": drops(("scrapwire", 0.3, 0.3)),
-                   "*-lower-*": drops(("scrapwire", 0.6, 0.5), ("metalbracket", 0.5, 0.4), ("l3999-circuitboard", 0.2, 0)),
-                   "*-upper-*": drops(("scrapwire", 0.4, 0.4), ("l3999-circuitboard", 0.15, 0)),
+                   "*-lower-gutted-*": drops(("scrapwire", 0.2, 0.2), ("metalbracket", 0.5, 0.4)),
+                   "*-upper-gutted-*": drops(("scrapwire", 0.15, 0.15)),
+                   "*-lower-*": drops(("scrapwire", 0.3, 0.25), ("metalbracket", 0.5, 0.4), ("l3999-circuitboard", 0.1, 0)),
+                   "*-upper-*": drops(("scrapwire", 0.2, 0.2), ("l3999-circuitboard", 0.075, 0)),
                }}, inventory="l120-rack-lower-leda-north")
 
 

@@ -42,6 +42,7 @@ LANG = [
     ("l73-book-4", "The last name is in fresh ink. The line below it is already ruled, waiting."),
     ("blockhelp-l73-read", "Read the book"),
     ("l73-table-cleared", "Your place has been cleared. It will be set again."),
+    ("l73-table-fed", "You have eaten at this table. The cook remembers who sat, and will lay you a place again in half a day."),
     ("l73-bath-washed", "The water is warm. The island's red dust comes off you."),
     ("blockhelp-l73-knock", "Bang on the door"),
     ("blockhelp-l73-eat", "Eat and drink"),

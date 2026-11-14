@@ -123,7 +123,7 @@ FILES = {
     ],
     # The hotel's panelling and floor: planks and sticks
     "build-hotel": [
-        shaped("PSP,PSP", {"P": PLANK, "S": STICK}, "hotelwall-panel", 4),
+        shaped("PPS,PPS", {"P": PLANK, "S": STICK}, "hotelwall-panel", 4),
         shapeless([(block("hotelwall-panel"), 1), (STICK, 1)], "hotelwall-wainscot"),
         shapeless([(block("hotelwall-panel"), 1), (PLANK, 1)], "hotelwall-frieze"),
         shaped("PPP,PNP", {"P": PLANK, "N": NAILS}, "hotelwood", 4),
@@ -232,6 +232,8 @@ def twin(fam, groups):
         props = b.get("properties", {})
         if "result" in props:
             props["result"] = BUILT + props["result"]
+        if "squareResult" in props:  # a lifted square leaves the twin of the plain floor, not the world's wet concrete
+            props["squareResult"] = BUILT + "concretefloor-plain"
     drop = BUILT + fam + "".join("-{" + g["code"] + "}" for g in variants)
     out["drops"] = [{"type": "block", "code": drop, "quantity": {"avg": 1, "var": 0}}]
     out["creativeinventory"] = {"construction": ["*-north" if turned else "*"]}

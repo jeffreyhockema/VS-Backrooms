@@ -1480,7 +1480,7 @@ WANDERER_SITES = {
         "sells": [("game:gear-temporal", 6, 1, 1), ("backrooms:cannedbeans", 2, 3, 1), ("backrooms:crackers", 1, 3, 2), ("backrooms:almondwater", 2, 2, 1),
                   ("game:rope", 2, 2, 1), ("game:torch-basic-extinct-up", 1, 4, 2, "block"), ("game:lantern-small-up", 6, 1, 1, "block"),
                   ("game:pickaxe-tinbronze", 8, 1, 1), ("game:knife-generic-tinbronze", 6, 1, 1), ("game:spear-generic-tinbronze", 8, 1, 1),
-                  ("game:armor-body-sewn-linen", 6, 1, 1), ("game:bandage-clean", 2, 2, 1), ("game:resin", 2, 3, 2)],
+                  ("game:flaxtwine", 1, 3, 4), ("game:bandage-clean", 2, 2, 1), ("game:resin", 2, 3, 2)],
         "buys": [("game:hide-raw-medium", 2, 3, 1), ("game:hide-raw-large", 3, 2, 1), ("game:cloth-plain", 1, 4, 4),
                  ("backrooms:spidersilk", 2, 3, 1), ("game:paper-parchment", 1, 4, 8), ("backrooms:metalbracket", 1, 4, 4)],
         "sellMax": 9, "buyMax": 6,
@@ -1491,7 +1491,7 @@ WANDERER_SITES = {
         "sells": [("game:gear-temporal", 6, 1, 1), ("backrooms:candybar", 1, 3, 1), ("backrooms:chips", 1, 3, 1), ("backrooms:soda", 1, 3, 1),
                   ("backrooms:almondwaterblue", 2, 2, 1), ("backrooms:almondwatergreen", 2, 2, 1), ("backrooms:firesalt", 4, 2, 1, "block"),
                   ("game:knife-generic-tinbronze", 6, 1, 1), ("game:lantern-small-up", 6, 1, 1, "block"),
-                  ("game:armor-body-sewn-linen", 5, 1, 1), ("backrooms:chalk", 2, 2, 1)],
+                  ("game:flaxtwine", 1, 3, 4), ("backrooms:chalk", 2, 2, 1)],
         "buys": [("game:metalbit-silver", 2, 4, 3), ("game:metalbit-brass", 1, 4, 4), ("backrooms:l3999-ticket", 1, 4, 5),
                  ("backrooms:almondmilk", 2, 2, 1), ("backrooms:epsomsalt", 2, 2, 2), ("backrooms:mothquill", 2, 2, 1),
                  ("game:hide-raw-large", 3, 2, 1), ("backrooms:l3999-circuitboard", 2, 2, 1)],
@@ -1512,7 +1512,7 @@ WANDERER_SITES = {
     "hub": {
         "sells": [("game:gear-temporal", 6, 1, 1), ("backrooms:almondwater", 2, 2, 1), ("game:bandage-clean", 2, 2, 1), ("backrooms:chalk", 2, 2, 1),
                   ("game:candle", 1, 3, 2), ("backrooms:crackers", 1, 3, 2), ("game:torch-basic-extinct-up", 1, 3, 2, "block"),
-                  ("game:armor-body-sewn-linen", 6, 1, 1), ("backrooms:firesalt", 3, 2, 1, "block")],
+                  ("game:flaxtwine", 1, 3, 4), ("backrooms:firesalt", 3, 2, 1, "block")],
         "buys": [("backrooms:metalbracket", 1, 6, 4), ("backrooms:scrapwire", 1, 6, 5), ("backrooms:glassshard", 1, 4, 8),
                  ("game:paper-parchment", 1, 4, 8), ("game:hide-raw-medium", 2, 2, 1), ("backrooms:end-cataloguecard", 2, 2, 1),
                  ("backrooms:l3999-circuitboard", 2, 2, 1)],
@@ -1583,6 +1583,16 @@ WANDERER_SITES["36"] = {
     "sellMax": 7, "buyMax": 5,
 }
 WANDERER_SITE_NAMES["36"] = ["Planner Ines", "Planner Okoro", "Planner Wren", "Planner Halvard"]
+
+# Level 23 (experimental): the M.E.G.'s quartermaster at Base Seedling, in front of the hollow tree (WorldLayout.Level23.cs). Plain stores for the
+# road: cloth, flax and wood in, the basics out. (No site names: the quartermaster keeps the name the entity type gives a wanderer.)
+WANDERER_SITES["23"] = {
+    "sells": [("backrooms:crackers", 1, 1, 2), ("game:seeds-flax", 2, 3, 4), ("game:seeds-cabbage", 2, 3, 4), ("game:bandage-clean", 2, 2, 1),
+              ("game:flaxtwine", 1, 3, 4), ("game:candle", 1, 3, 2), ("game:linensack", 2, 1, 1), ("game:resin", 2, 2, 2)],
+    "buys": [("game:cloth-plain", 1, 4, 4), ("game:flaxfibers", 1, 6, 6), ("game:firewood", 1, 6, 8), ("backrooms:rottenwood", 1, 3, 8),
+             ("game:hide-raw-medium", 2, 3, 1), ("backrooms:glassshard", 1, 4, 8), ("backrooms:scrapwire", 1, 6, 5)],
+    "sellMax": 7, "buyMax": 6,
+}
 
 
 def wanderer_trade_files():

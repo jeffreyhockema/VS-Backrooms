@@ -711,7 +711,7 @@ def blocks():
         ends = {"up": f"block/47/rings-{k}", "down": f"block/47/rings-{k}"}
         firewood = [drop("game:firewood", 0.5, 0.4)] if k != "green" else []
         out.append(cube(f"l47-bark-{k}", f"// Level 47: {names[k]}", [f"block/47/bark-{k}", f"block/47/bark-{k}-2"], "Wood", WOOD,
-                        6 if k != "green" else 12, drops=firewood, faces=ends))
+                        6 if k != "green" else 12, drops=[drop("game:firewood", 0.5, 0.4)], faces=ends))
         # (Moss on top too: the roots crawling over the ground and the snags' broken tops showed cut rings, like stumps)
         out.append(cube(f"l47-mossbark-{k}", f"// Level 47: {names[k]}, mossed over", [f"block/47/mossbark-{k}", f"block/47/mossbark-{k}-2"], "Wood", WOOD,
                         6 if k != "green" else 12, drops=firewood + [drop("game:drygrass", 0.2, 0.2)], faces={"up": "block/47/moss", "down": f"block/47/rings-{k}"}))

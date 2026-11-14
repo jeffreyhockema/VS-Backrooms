@@ -737,10 +737,10 @@ def blocktypes():
                "both green and blue: the upper block gives a little light), or gutted. Salvage: copper wire, brackets, now and then a circuit board",
                {"collisionbox": cuboid(FULL), "selectionbox": cuboid(FULL)},
                extra={"lightHsvByType": light, "dropsByType": {
-                   "*-lower-gutted-*": drops(("scrapwire", 0.4, 0.4), ("metalbracket", 0.5, 0.4)),
-                   "*-upper-gutted-*": drops(("scrapwire", 0.3, 0.3)),
-                   "*-lower-*": drops(("scrapwire", 0.6, 0.5), ("metalbracket", 0.5, 0.4), ("l3999-circuitboard", 0.2, 0)),
-                   "*-upper-*": drops(("scrapwire", 0.4, 0.4), ("l3999-circuitboard", 0.15, 0)),
+                   "*-lower-gutted-*": drops(("scrapwire", 0.2, 0.2), ("metalbracket", 0.5, 0.4)),
+                   "*-upper-gutted-*": drops(("scrapwire", 0.15, 0.15)),
+                   "*-lower-*": drops(("scrapwire", 0.3, 0.25), ("metalbracket", 0.5, 0.4), ("l3999-circuitboard", 0.1, 0)),
+                   "*-upper-*": drops(("scrapwire", 0.2, 0.2), ("l3999-circuitboard", 0.075, 0)),
                }}, inventory="l120-rack-lower-leda-north")
 
     # The wrecks
@@ -750,8 +750,8 @@ def blocktypes():
                "Level 120: a rack ripped apart: toppled onto its back, or torn open (two high, lower and upper) with its units hanging out. "
                "Salvage: copper wire, brackets, circuit boards",
                {"collisionboxByType": {"*-toppled-*": cuboid(low), "*": cuboid(FULL)}, "selectionboxByType": {"*-toppled-*": cuboid(low), "*": cuboid(FULL)}},
-               extra={"dropsByType": {"*-toppled-*": drops(("scrapwire", 0.7, 0.5), ("metalbracket", 0.6, 0.4), ("l3999-circuitboard", 0.15, 0)),
-                                      "*": drops(("scrapwire", 0.5, 0.4), ("l3999-circuitboard", 0.25, 0), ("metalbracket", 0.3, 0.3))}},
+               extra={"dropsByType": {"*-toppled-*": drops(("scrapwire", 0.35, 0.25), ("metalbracket", 0.6, 0.4), ("l3999-circuitboard", 0.075, 0)),
+                                      "*": drops(("scrapwire", 0.25, 0.2), ("l3999-circuitboard", 0.125, 0), ("metalbracket", 0.3, 0.3))}},
                inventory="l120-wreck-toppled-north")
 
     # Cables over the floor: walked over

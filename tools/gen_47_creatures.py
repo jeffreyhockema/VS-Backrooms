@@ -1674,7 +1674,7 @@ def gen_json():
          ("die", "death", "Average", dict(DIE, animationSpeed=1.25))],
         30, {"code": "deaddecay", "hoursToDecay": 24, "decayedBlock": "game:carcass-medium"},
         harvest=[{"type": "item", "code": "game:bushmeat-raw", "quantity": {"avg": 7, "var": 1}},
-                 {"type": "item", "code": "game:hide-raw-medium", "quantity": {"avg": 1.5, "var": 0}},
+                 {"type": "item", "code": "game:hide-raw-medium", "quantity": {"avg": 0.5, "var": 0}},
                  {"type": "item", "code": "game:fat", "quantity": {"avg": 1.25, "var": 0}}])
     write_entity(
         "l47-ophion", "Level 47's Ophion Occult Order: a hooded, crimson-robed, ivory-masked worshipper of the Great Old Adder. "

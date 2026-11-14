@@ -112,5 +112,11 @@ def build():
 
 
 if __name__ == "__main__":
-    build().save(OUT)
-    print("wrote", OUT)
+    # The item's look is a model now (gen_items_pantry.py writes textures/item/pantry/foodscraps.png); this flat atlas is no
+    # longer used, so it is not written: pass --write to get the old sheet.
+    import sys
+    if "--write" in sys.argv:
+        build().save(OUT)
+        print("wrote", OUT)
+    else:
+        print("gen_scraps.py: superseded by gen_items_pantry.py; nothing written (--write for the old flat atlas)")

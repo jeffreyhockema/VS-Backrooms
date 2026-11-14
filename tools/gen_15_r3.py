@@ -894,7 +894,7 @@ def blocktypes():
                {"collisionboxByType": {"*-lo-*": cuboid((0, 0, 0, 1, 0.45, 1)), "*": cuboid((0, 0, 0, 1, 0.95, 1))},
                 "selectionboxByType": {"*-lo-*": cuboid((0, 0, 0, 1, 1, 1)), "*": cuboid((0, 0, 0, 1, 1, 1))}},
                sounds=CLOTH, material="Cloth",
-               extra={"drops": [{"type": "item", "code": "game:flaxtwine", "quantity": {"avg": 0.3, "var": 0.3}}]}, inventory="l15-seat-lo-north")
+               extra={"drops": [{"type": "item", "code": "carpetfibre", "quantity": {"avg": 1, "var": 1}}]}, inventory="l15-seat-lo-north")
 
     # The serving line
     shapes = {}
@@ -963,7 +963,7 @@ def blocktypes():
                "Level 15: a medical bay's curtain on its rail, along the block's edge toward its side (lower, upper)",
                {"collisionbox": cuboid((0, 0, 0, 0, 0, 0)), "selectionbox": cuboid((0, 0, 0, 1, 1, 0.12))},
                sounds=CLOTH, material="Cloth",
-               extra={"drops": [{"type": "item", "code": "game:flaxtwine", "quantity": {"avg": 0.5, "var": 0.3}}]}, inventory="l15-curtain-lower-north")
+               extra={"drops": [{"type": "item", "code": "carpetfibre", "quantity": {"avg": 1.5, "var": 1}}]}, inventory="l15-curtain-lower-north")
 
     # The cable tray
     base = tray_shape()

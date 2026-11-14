@@ -1804,8 +1804,8 @@ LANG = {
 
 
 def lang():
-    """Puts LANG into en.json's Level 31 block (as gen_31_content.merge_lang: a key there is updated in place, a new one
-    goes at the end of the block)."""
+    """Puts LANG into en.json (as gen_31_content.merge_lang: a key is updated in place wherever it sits, a new one goes at
+    the end of the Level 31 block)."""
     import json
     import re
     nl, tab = chr(10), chr(9)
@@ -1813,24 +1813,24 @@ def lang():
     with open(en, encoding="utf-8") as f:
         lines = f.read().split(nl)
     start = next(i for i, l in enumerate(lines) if l.startswith(tab + '"level-24"'))
-    ours = re.compile(r'^\t"(level-24\d\d|levelhint-24|levelname-24|[^"]*l31-[^"]*)"\s*:')
+    ours = re.compile(r'^\t"(level-24\d\d|levelhint-24|levelname-24|journal-track-l31|guide-level31-[^"]*|[^"]*l31-[^"]*)"\s*:')
     end = start
     while end + 1 < len(lines) and ours.match(lines[end + 1]):
         end += 1
-    block = lines[start:end + 1]
-    keys = {}
-    for i, l in enumerate(block):
+    where = {}
+    for i, l in enumerate(lines):
         m = re.match(r'^\t"([^"]+)"\s*:', l)
         if m:
-            keys[m.group(1)] = i
+            where.setdefault(m.group(1), []).append(i)
+    fresh = []
     for k, v in LANG.items():
         entry = tab + json.dumps(k) + ": " + json.dumps(v, ensure_ascii=False) + ","
-        if k in keys:
-            block[keys[k]] = entry
+        if k in where:
+            for i in where[k]:
+                lines[i] = entry if lines[i].rstrip().endswith(",") else entry[:-1]
         else:
-            keys[k] = len(block)
-            block.append(entry)
-    lines[start:end + 1] = block
+            fresh.append(entry)
+    lines[end + 1:end + 1] = fresh
     text_ = nl.join(lines)
     json.loads(text_)
     with open(en, "w", encoding="utf-8", newline=nl) as f:

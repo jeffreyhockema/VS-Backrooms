@@ -740,13 +740,13 @@ def level7():
                                    ("game:bandage-clean", 0.6, 0.4), ("chalk", 0.6, 0.3), ("game:candle", 0.8, 0.6), ("game:flint", 0.5, 0.5),
                                    ("scrapwire", 1, 0.8), ("game:metalbit-copper", 2, 1.5), ("game:knife-generic-copper", 0.15, 0),
                                    ("game:pickaxe-copper", 0.08, 0), ("game:gear-rusty", 0.25, 0), ("game:gear-temporal", 0.03, 0),
-                                   ("wanderernote-cache", 0.06, 0), ("wanderernote-way", 0.06, 0), ("seedpacket-carrot", 0.04, 0)),
+                                   ("wanderernote-cache", 0.03, 0), ("wanderernote-way", 0.03, 0), ("seedpacket-carrot", 0.04, 0)),
              "*-midnight-*": drops(("almondwater", 1.5, 1), ("cannedbeans", 1, 0.6), ("game:rope", 1.2, 0.6), ("game:bandage-clean", 1, 0.5),
                                    ("chalk", 0.6, 0.3), ("game:ingot-copper", 0.7, 0.4), ("game:ingot-tinbronze", 0.35, 0.25),
                                    ("game:metalbit-silver", 1.5, 1), ("game:metalbit-gold", 0.8, 0.8), ("game:pickaxe-tinbronze", 0.12, 0),
                                    ("game:prospectingpick-copper", 0.1, 0), ("game:knife-generic-tinbronze", 0.15, 0),
                                    ("game:gear-rusty", 0.6, 0.4), ("game:gear-temporal", 0.15, 0),
-                                   ("wanderernote-refuge", 0.08, 0), ("wanderernote-door", 0.08, 0))}})
+                                   ("wanderernote-refuge", 0.04, 0), ("wanderernote-door", 0.04, 0))}})
     LANG.pop("block-seachest-*", None)
     name("seachest-twilight-*", "Sea Chest")
     name("seachest-midnight-*", "Sunken Strongbox")
@@ -1738,8 +1738,20 @@ def roofslope_shapes():
     return paths
 
 
+def harden_chalkmarks():
+    """The chalk marks are drawn in the opaque pass, which cuts out alpha under a half: every inked texel is fully opaque
+    and the rest fully clear, so no translucent texel is left to flicker (deep_textures leaves the ink at 160 to 235)."""
+    from PIL import Image
+    for symbol in ("left", "right", "cross", "circle"):
+        path = os.path.join(ASSETS, "textures", "block", "detail", f"chalkmark-{symbol}.png")
+        img = Image.open(path).convert("RGBA")
+        img.putdata([(r, g, b, 255 if a else 0) for (r, g, b, a) in img.get_flattened_data()])
+        img.save(path)
+
+
 def generate():
     deep_textures.generate()
+    harden_chalkmarks()
     deepprops_tex.generate()  # (deep props) the signs, doors, shelf, rack, barrel, trough and pump
     refinements()
     roofs()

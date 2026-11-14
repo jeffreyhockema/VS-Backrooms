@@ -650,7 +650,7 @@ def bark_blocks():
     for kind in BARKS:
         out.append(cube_block(f"l23-bark-{kind}", f"// Level 23: {names[kind]}; its cut ends grey rings",
                               [f"block/23/bark-{kind}", f"block/23/bark-{kind}-2"], "Wood", *WOOD, 7 if kind != "green" else 12,
-                              drops=[drop("game:firewood", 0.6, 0.4)] if kind != "green" else [],
+                              drops=[drop("game:firewood", 0.6, 0.4)],
                               faces={"up": f"block/23/heartwood-{kind}", "down": f"block/23/heartwood-{kind}"}))
     return out
 
@@ -730,8 +730,8 @@ def pottery_block():
         "selectionboxByType": {"*-amphora": {"x1": 0.28, "y1": 0, "z1": 0.28, "x2": 0.72, "y2": 0.76, "z2": 0.72},
                                "*-shards": {"x1": 0.1, "y1": 0, "z1": 0.1, "x2": 0.9, "y2": 0.25, "z2": 0.9}},
         "dropsByType": {
-            "*-amphora": [drop("game:cloth-plain", 0.35, 0.35), drop("game:clay-red", 0.6, 0.4)],
-            "*-shards": [drop("game:clay-red", 0.3, 0.3)],
+            "*-amphora": [drop("game:cloth-plain", 0.35, 0.35), drop("game:clay-red", 0.2, 0.15)],
+            "*-shards": [drop("game:clay-red", 0.1, 0.1)],
         },
         "sounds": {"walk": "game:walk/stone*", "place": "game:block/ceramicplace", "break": "game:block/ceramicbreak",
                    "hit": "game:block/ceramichit"},

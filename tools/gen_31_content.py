@@ -559,28 +559,31 @@ def words():
 # ======================================================================== Writing the lang block
 
 def merge_lang():
-    """Puts LANG into en.json's Level 31 block (from level-24 on, while the keys are the level's): a key there is updated
-    in place; a new one goes at the end of the block."""
+    """Puts LANG into en.json: a key is updated in place wherever it sits (never added twice); a new one goes at the end
+    of the Level 31 block (from level-24 on, while the keys are the level's)."""
     with open(EN, encoding="utf-8") as f:
         lines = f.read().split(NL)
     start = next(i for i, l in enumerate(lines) if l.startswith(TAB + '"level-24"'))
-    ours = re.compile(r'^\t"(level-24\d\d|levelhint-24|levelname-24|[^"]*l31-[^"]*)"\s*:')
+    ours = re.compile(r'^\t"(level-24\d\d|levelhint-24|levelname-24|journal-track-l31|guide-level31-[^"]*|[^"]*l31-[^"]*)"\s*:')
     end = start
     while end + 1 < len(lines) and ours.match(lines[end + 1]):
         end += 1
-    block = lines[start:end + 1]
-    keys = {}
-    for i, l in enumerate(block):
+    where = {}
+    for i, l in enumerate(lines):
         m = re.match(r'^\t"([^"]+)"\s*:', l)
         if m:
-            keys[m.group(1)] = i
+            where.setdefault(m.group(1), []).append(i)
+    fresh = []
     for k, v in LANG.items():
         entry = TAB + json.dumps(k) + ": " + json.dumps(v, ensure_ascii=False) + ","
-        if k in keys:
-            block[keys[k]] = entry
+        if k in where:
+            for i in where[k]:
+                lines[i] = entry if lines[i].rstrip().endswith(",") else entry[:-1]
         else:
-            keys[k] = len(block)
-            block.append(entry)
+            fresh.append(entry)
+    lines[end + 1:end + 1] = fresh
+    end += len(fresh)
+    block = lines[start:end + 1]
     # (Every line of the block ends in a comma: it is never the file's last)
     block = [l if l.rstrip().endswith(",") else l.rstrip() + "," for l in block]
     lines[start:end + 1] = block

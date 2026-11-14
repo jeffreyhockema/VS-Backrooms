@@ -1151,7 +1151,7 @@ def blocktypes():
     closed = [{"type": "item", "code": "metalbracket", "quantity": {"avg": 0.6, "var": 0.4}},
               {"type": "item", "code": "game:metalnailsandstrips-iron", "quantity": {"avg": 0.4, "var": 0.4}},
               {"type": "item", "code": "scrapwire", "quantity": {"avg": 0.4, "var": 0.4}},
-              {"type": "item", "code": "game:flaxtwine", "quantity": {"avg": 0.3, "var": 0.3}},
+              {"type": "item", "code": "carpetfibre", "quantity": {"avg": 1, "var": 1}},
               {"type": "item", "code": "almondwater", "quantity": {"avg": 0.1, "var": 0}},
               {"type": "item", "code": "crackers", "quantity": {"avg": 0.15, "var": 0}},
               {"type": "item", "code": "game:candle", "quantity": {"avg": 0.06, "var": 0}},
@@ -1173,7 +1173,7 @@ def blocktypes():
             for s in SIDES:
                 shapes[f"l15-corpse-{pose}-{'spear' if sp else 'plain'}-{s}"] = {"base": base, "rotateY": ROTATE[s]}
     bones = {"type": "item", "code": "game:bone", "quantity": {"avg": 1.5, "var": 0.5}}
-    cloth = {"type": "item", "code": "game:flaxtwine", "quantity": {"avg": 0.6, "var": 0.4}}
+    cloth = {"type": "item", "code": "carpetfibre", "quantity": {"avg": 2, "var": 1.5}}
     json_block("l15-corpse", [{"code": "pose", "states": ["sitting", "head", "feet"]}, {"code": "gear", "states": ["plain", "spear"]},
                               {"code": "side", "states": SIDES}], shapes,
                "Level 15: the dead in lab coats, months gone: sitting against a wall (facing its side), or lying (head, feet; from the head "
