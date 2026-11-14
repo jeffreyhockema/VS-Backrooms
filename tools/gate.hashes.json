@@ -79,7 +79,7 @@
       "layout": "985d82f85b4dd89c"
     },
     "16": {
-      "far": "a676cb6bc3243ef4",
+      "far": "56a2e5993037b31a",
       "layout": "a6b66cddba869d4c"
     },
     "9": {
@@ -345,7 +345,7 @@
       "doorsToNowhere": 0,
       "noArrival": 0,
       "unreachable": 229,
-      "walkable": 520944
+      "walkable": 521274
     },
     "L23": {
       "badElevators": 0,
@@ -363,7 +363,7 @@
       "doorsToNowhere": 0,
       "noArrival": 0,
       "unreachable": 215754,
-      "walkable": 789363
+      "walkable": 791308
     },
     "L25": {
       "badElevators": 0,
