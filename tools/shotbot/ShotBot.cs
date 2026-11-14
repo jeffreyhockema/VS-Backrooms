@@ -326,6 +326,18 @@ public class ShotBotSystem : ModSystem, IRenderer
                 Wait(150);
                 break;
             }
+            case "camyaw":
+            {
+                // Turns only the camera (heading, pitch as for look), leaving the body as it faces: in the overhead camera
+                // (hotkey cyclecamera twice from first person) the body turns toward its walk yaw, so that is pinned to
+                // where it faces now, and the camera can come round to its front (worn clothing seen from the front)
+                float yaw = GameMath.Mod((float)(Math.PI - D(p[1]) * Math.PI / 180), (float)(Math.PI * 2));
+                float pitch = (float)(Math.PI - D(p[2]) * Math.PI / 180);
+                e.WalkYaw = e.Pos.Yaw;
+                capi.Input.MouseYaw = yaw; capi.Input.MousePitch = pitch;
+                Wait(150);
+                break;
+            }
             case "approach":
             {
                 // Teleports to dist blocks (default 3) from the nearest entity (not a player) whose code contains the text, on the near side, on its floor
