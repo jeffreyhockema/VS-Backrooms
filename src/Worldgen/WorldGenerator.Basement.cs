@@ -352,7 +352,7 @@ public sealed partial class WorldGenerator
             return thing >= 0 ? basementWallThingIds[thing, facing] : 0;
         }
         if (rel != 1) return 0;
-        // (Layout version 16: the pantry shelves, iceboxes, shelves and boxes others went through are drawn stripped)
+        // (Layout 16's balance, in every world (ExpVersion): the pantry shelves, iceboxes, shelves and boxes others went through are drawn stripped)
         return Stripped(t, t.Variant switch
         {
             Props.BasementBoiler => boilerIds[facing],

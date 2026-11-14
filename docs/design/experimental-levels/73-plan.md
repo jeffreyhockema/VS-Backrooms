@@ -335,7 +335,7 @@ finders), `WorldGenerator.L73.Links.cs` (blocks), `ThresholdNetwork.L73.cs` / `T
   taken at 90 s ("a minute or two, warned"); stepping out says so, and 20 s out lets it go. On the client a black fog sphere
   closes in round the player (tighter the longer they stay) and a heartbeat comes, quicker and louder. Arrival: on the island's
   dry land (the level's own arrival finder, facing the gate), the same place for the same Gloom.
-- *Level 6's deepest dark (one way, no tile).* One cell of Lights Out in 2500 (layout 16: one in 10,000, at least one kept;
+- *Level 6's deepest dark (one way, no tile).* One cell of Lights Out in 2500 (layout 16, every world from pre.13: one in 10,000, at least one kept;
   LINKS.md "Layout 16") (salt 0x2142; never the Snackrooms; only where
   the cell's north-west corner is wall, which stands for it in the network). Lingering there with no light in hand and block
   light <= 3 at the eyes: warnings at 60, 120 and 160 s, taken at 180 s. The client plays a faint, slow heartbeat there with no
@@ -371,7 +371,7 @@ where it leads (Coran "newly recovered from the Gloom" in the page's M.E.G. log:
 | From | Threshold | To | Way back |
 |---|---|---|---|
 | Level 9 | Standing a minute and a half in the Gloom, a rare pool of darkness in a yard or a street (black ground, a black murk over it; warned three times) | Level 73, on the island in sight of the castle | None (one way) |
-| Level 6 | Lingering three minutes with no light in the very deepest dark of Lights Out (one cell in 2500, from layout 16 one in 10,000; warned three times) | Level 73, on the island in sight of the castle | None (one way) |
+| Level 6 | Lingering three minutes with no light in the very deepest dark of Lights Out (one cell in 2500, from layout 16 (every world from pre.13) one in 10,000; warned three times) | Level 73, on the island in sight of the castle | None (one way) |
 | Level 73 | Asking Coran to lead you out (sneak and right-click him) after a night asleep in the castle: he walks you to the chained north door in the outside of the curtain wall and opens it | Level 9, out in the Suburbs | None (one way) |
 
 **Numbers (seed 12345, full size, `73links`)**: the Gloom: 9 of the 20 Level 9 cells that roll it hold one, about 0.22 a km² of

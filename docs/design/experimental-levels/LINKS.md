@@ -159,9 +159,24 @@ README. Their ways, like the others: lore first, rumours where the lore names a 
 
 The progression rule (docs/design/progression/decisions.md, decision 20; revision.md section B) cut the released levels'
 earlier-to-later shortcuts to a quarter in layout 12. The new levels' ways were built after it, and most at full rate. From
-layout version 16 (new worlds; worlds made with 1-15 keep what they have) the ways **from a level to a later one** are a
-quarter as common: the same kind of door, the same lore, the kept ones the same places (the lowest rolls). Ways back
-toward the Lobby, ways between levels of the same depth, and the 188/3999 flights are left alone.
+layout version 16 the ways **from a level to a later one** are a quarter as common: the same kind of door, the same lore,
+the kept ones the same places (the lowest rolls). Ways back toward the Lobby, ways between levels of the same depth, and
+the 188/3999 flights are left alone.
+
+**In every world (0.700.0-pre.13, the user's decision of 2026-11-13).** Worlds made before 0.700 (layout 1 to 15) get the
+new levels' ways in, in their unexplored parts, so they get these rules too: the new levels' code reads
+`WorldLayout.ExpVersion` (never below 16), not the world's own version, for these rates, for the Basement's and Level 52's
+balance (food props stripped, tools, seed sacks, trees: feedback-2026-11/README.md) and for the M.E.G. placards beside
+Level 0's EMERGENCY EXIT and Level 4's doors to 120 (layout 12 on before). The released levels' own generation is
+untouched (layouthash 0-20 identical at v1, 9, 12, 14, 15, 16, with the ways in and without); the gate's
+`layoutHashesExp` far places hashes of v1-15 moved, on purpose. Only Level 36's new cabin stays layout 16 only (a rebuild,
+not a rule). A way already built in a world's chunks at the old rate that the quarter dropped from the layout (an
+orphan: a revolving door, a MEDICAL CENTER door, a pane or office stairs of 15, a floor of 14 that gives way) still leads
+where it did: the threshold network asks the world's `WorldLayout.PreBalance` twin (its new levels at the old rates) only
+where the thing's own block shows it is built (the block used, the broken pane or the stairs stood in, the sagging floor's
+block under you: ThresholdSystem.L14MayPass). `mapgen 12345 24 orphans <kind> x z [rel]` shows one. Level 6's deepest
+dark has no block, so a dropped cell is simply Lights Out again; an already-built gate whose flight went from 10 or 11 to
+9 or 37 keeps its old screen (the status line and the landing say the new level), and one flown before keeps its link.
 
 Depth: a new level stands where it is entered and by its class. The Basement is the Lobby's cellar (out only to Level 0);
 31 sits with Level 2 (Class 0, two-way doors in 2, 3, 6); 120 and 52 are pockets of Level 4 (two-way, back only to 4, or

@@ -212,7 +212,7 @@ hall's arrival cells). No M.E.G. placard: neither host's own gates carry one, an
 than either.
 
 **Out: the flights, one-way.** Each gate's flight lands in one level, always the same for that gate, by a hash of its
-jet-bridge door (`L36FlightTo`, salt 0x2532): 11, 9, 37, 3999, 188 or 10 (the user's six). From layout 16 the flights to
+jet-bridge door (`L36FlightTo`, salt 0x2532): 11, 9, 37, 3999, 188 or 10 (the user's six). From layout 16 (every world from pre.13) the flights to
 10 and 11 are a quarter as many, the rest of those gates flying to 9 or 37 (salt 0x2533; LINKS.md "Layout 16"). The gate's screen names it
 (`l36-fids-to<level>`; the `gate` board is gone, the check-in boards list only the six); the screens' chat list and
 the door's lines say it too; Gate C32 still says 186 and never leaves. When the count runs out L36System asks the

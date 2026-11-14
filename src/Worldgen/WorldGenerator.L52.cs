@@ -494,8 +494,8 @@ public sealed partial class WorldGenerator
             Props.L52LunchSeat => l52Lunch[1, f],
             // (Round 4) the school's own counter, not the hotel's reception desk with its WELCOME
             Props.ReceptionDesk when l52Counter[0, f] != 0 => l52Counter[(int)(Hashing.Hash(seed, gx, gz, 0x2344) % 5) switch { 0 => 0, 1 or 2 => 1, _ => 2 }, f],
-            // (Layout version 16: the shelves, fridges and boxes are found stripped at 0.6: the ground storey's by the layout, the upper storeys' by their own hash)
-            _ => StrippedIf(layout.Version >= 16 && WorldLayout.IsFoodProp(prop)
+            // (Layout 16's balance, in every world (ExpVersion): the shelves, fridges and boxes are found stripped at 0.6: the ground storey's by the layout, the upper storeys' by their own hash)
+            _ => StrippedIf(layout.ExpVersion >= 16 && WorldLayout.IsFoodProp(prop)
                 && (storey == 0 ? t.Looted : Hashing.Unit(Hashing.Hash(seed, gx * 31 + storey, gz, 0x2337)) < 0.6),
                 AnyProp(new Tile { Kind = TileKind.Floor, Variant = prop, Pier = facing, Stack = stack, Level = t.Level }, 1)),
         };

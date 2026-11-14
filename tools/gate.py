@@ -498,7 +498,9 @@ def stage_mapgen(st, ctx):
         hash_f = {v: ex.submit(mg, ["1", "6", "layouthash"], {"LAYOUT_VERSION": str(v)}) for v in versions}
         # (0.700 branch) The experimental levels' ways in are marked in levels 0 to 20 at every layout version, so the plain hash
         # moves against main's; with them off (BACKROOMS_NO_EXP_ENTRANCES=1, which main ignores) the level grids must still be
-        # main's. layoutHashes keeps main's grids; layoutHashesExp keeps this branch's own hashes with the ways in.
+        # main's. layoutHashes keeps main's grids; layoutHashesExp keeps this branch's own hashes with the ways in. (Its far
+        # places hashes of v1-15 were moved on purpose at 0.700.0-pre.13, by the user's decision that the new levels play by
+        # layout 16's balance in every world, WorldLayout.ExpVersion: see its "_note", which the checks below never read.)
         plain_f = {v: ex.submit(mg, ["1", "6", "layouthash"], {"LAYOUT_VERSION": str(v), "BACKROOMS_NO_EXP_ENTRANCES": "1"}) for v in versions}
         val_f = {lv: ex.submit(mg, ["12345", "24", "validatelevel", str(lv)]) for lv in range(21)}
         validate_f = ex.submit(mg, ["12345", "24", "validate"])

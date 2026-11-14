@@ -319,7 +319,7 @@ The level stops being cheats-only: the ways in and out LINKS.md settles for it (
   the rink beside the lobby's own wooden door (`Unders.L31LobbyDoor` 353, in every lobby's back wall), which leads back to
   where you stood. A lobby door nobody came in by is locked.
 - **Out: the Revolving Door** (Fandom: "Going through The Revolving Door will land one in either Level 9, 10, or 11"). In
-  the front wall of one lobby in twelve (layout 16: one in 48, LINKS.md "Layout 16"), east of the front doors: Level 3999's glass drum (its shapes, `l31-revolvingdoor`
+  the front wall of one lobby in twelve (layout 16, every world from pre.13: one in 48, LINKS.md "Layout 16"), east of the front doors: Level 3999's glass drum (its shapes, `l31-revolvingdoor`
   with its own threshold kind `l31-revolving`; `Unders.L31Revolving` 354, three tiles, the middle one draws it). Use it:
   **one-way**, to Level 9, 10 or 11, each door always the same one (a third each by the hash of its middle tile, salt
   0x2429). The Coach's "Can you lead me out?" now walks you to the nearest and marks it on your map (Wikidot: he "leads
@@ -345,7 +345,7 @@ The level stops being cheats-only: the ways in and out LINKS.md settles for it (
 square), nearest 1369 blocks from spawn; Level 3 about 10.8 km2, 6 doors (0.56 per km2, one per 1340), nearest 2333;
 Level 6 about 18.6 km2, 7 doors (0.38 per km2, one per 1630), nearest 3730. In the level: 20092 complexes, 17997 lobbies
 with a wooden door, 1448 revolving doors (4.4 per km2, about one per 480 blocks square; 518 to Level 9, 456 to 10, 474 to
-11), the nearest 39 blocks from the region's centre. Layout 16 (the shortcuts a quarter): 354 (1.1 per km2; 130, 110, 114),
+11), the nearest 39 blocks from the region's centre. Layout 16 (the shortcuts a quarter; every world from pre.13): 354 (1.1 per km2; 130, 110, 114),
 the nearest the same one.
 
 **Own inventions:** the door's look (four panels, brass knob), the music itself and its 18-block reach; Level 3's brick

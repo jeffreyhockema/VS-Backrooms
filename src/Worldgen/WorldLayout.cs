@@ -531,13 +531,46 @@ public sealed partial class WorldLayout
     /// own locked front door (citydoor), while the ones that lead away wear the Suburbs' red door with its porch glow (in every
     /// world, since before 16 every rowhouse door leads away). Level 8 also holds more borax ore (vanilla's flux): vanilla's own
     /// deposits, which run in Level 8 in every world, lay it mostly in chert and conglomerate, so a quarter of a hundredth of the
-    /// ore cells are now borax in claystone, sandstone, shale, limestone and chalk (WorldGenerator.Deep.cs RockAt; blocks only, not tiles).</item>
+    /// ore cells are now borax in claystone, sandstone, shale, limestone and chalk (WorldGenerator.Deep.cs RockAt; blocks only, not tiles).
+    /// The new levels' balance of 0.700.0-pre.11 is also layout 16's, but read in every world (<see cref="ExpVersion"/>).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 16;
 
     /// <summary>The layout version this world was made with (see <see cref="CurrentVersion"/>).</summary>
     public readonly int Version;
+
+    /// <summary>The layout version from which the ten 0.700 levels' balance rules are read in every world (see <see cref="ExpVersion"/>).</summary>
+    public const int ExpBalancedVersion = 16;
+
+    /// <summary>
+    /// The layout version the ten experimental (0.700) levels' own rules read, and the ways into them marked in Levels 0 to 20:
+    /// never below <see cref="ExpBalancedVersion"/>. The user's decision of 2026-11-13 (0.700.0-pre.13): worlds made before 0.700
+    /// (layout 1 to 15) get the new levels' entrances in their unexplored parts, and those new levels play by the balanced rules
+    /// of layout 16 in every world (the Basement's and Level 52's stripped food props, the Basement's rare tools and seed sacks,
+    /// Level 52's fewer trees, the shortcuts out of 6, 14, 15, 31 and 36 a quarter as common, the M.E.G. placards beside the
+    /// ways in from 0 and 4), not at the pre-releases' too-generous ones. So new-level code tests <c>ExpVersion</c>, not
+    /// <see cref="Version"/>; the released levels' own generation still tests <see cref="Version"/>, and so does the Level 36
+    /// cabin (a rebuild, not a balance rule: layout 15 worlds keep the old cabin their airports were built with). A rule added
+    /// later that must not reach older worlds' new levels tests <see cref="Version"/> against a version past this one.
+    /// </summary>
+    public int ExpVersion => preBalance ? Version : Math.Max(Version, ExpBalancedVersion);
+
+    // Whether this is a world's PreBalance twin: its new levels read the world's own version, as the 0.700 pre-releases did
+    private readonly bool preBalance;
+    private WorldLayout preBalanceTwin;
+
+    /// <summary>
+    /// For a world made before layout 16: the same world laid out by the rules its new levels had before
+    /// <see cref="ExpVersion"/> (the pre-releases' rates), else null. Only for the thresholds of things already built by those
+    /// rules: a revolving door of Level 31, a MEDICAL CENTER door or a pane or office stairs of Level 15, a floor of Level 14
+    /// that gives way, which the quartered rates dropped from the layout after their chunks were made (an orphan). Asked only
+    /// where the thing's own block shows it was built (a block used, or the sagging floor stood on: ThresholdNetwork,
+    /// ThresholdSystem.L14), so nothing new is laid by the old rates. Made on first use.
+    /// </summary>
+    public WorldLayout PreBalance => preBalance || Version >= ExpBalancedVersion ? null
+        : System.Threading.LazyInitializer.EnsureInitialized(ref preBalanceTwin,
+            () => new WorldLayout((long)seed, spawnMacroX, spawnMacroZ, Version, FoodScale, RingScale, preBalance: true));
 
     /// <summary>
     /// The world's food multiplier, from its Backrooms scarcity setting (1 at Normal; the game side passes the one
@@ -577,9 +610,10 @@ public sealed partial class WorldLayout
     /// <summary>Hook for the partials of the far places to create their plan caches in the constructor.</summary>
     partial void CreateFarPlanCaches();
 
-    public WorldLayout(long seed, int spawnMacroX, int spawnMacroZ, int version = CurrentVersion, double foodScale = 1, double ringScale = 1)
+    public WorldLayout(long seed, int spawnMacroX, int spawnMacroZ, int version = CurrentVersion, double foodScale = 1, double ringScale = 1, bool preBalance = false)
     {
         Version = Math.Clamp(version, 1, CurrentVersion);
+        this.preBalance = preBalance;
         FoodScale = foodScale > 0 ? foodScale : 1;
         RingScale = ringScale > 0 ? Math.Clamp(ringScale, MinRingScale, MaxRingScale) : 1;
         for (int ring = 0; ring < RingWidths.Length; ring++) ringWidths[ring] = RingWidths[ring] * RingScale;

@@ -81,8 +81,8 @@ public sealed partial class WorldLayout
         if (b.IsSpawn || b.Level == 0 && (IsRedRoom(mx, mz) || IsManilaMacro(mx, mz))) return;
         if (b.Level == 6 && IsSnackrooms(mx, mz)) return;
         double share = PickedOverShare(b.Level, mx, mz);
-        bool props = Version >= 15 && b.Level is >= 1 and <= 5 || Version >= 16 && b.Level is Basement or Level52;
-        // (Layout version 16: Level 52's food props are found stripped at Level 4's share, its boxes keep the level's own)
+        bool props = Version >= 15 && b.Level is >= 1 and <= 5 || ExpVersion >= 16 && b.Level is Basement or Level52;
+        // (Layout 16's balance, in every world (ExpVersion): Level 52's food props are found stripped at Level 4's share, its boxes keep the level's own)
         double propShare = b.Level == Level52 ? 0.6 : share;
         for (int lz = 0; lz < MacroSize; lz++)
             for (int lx = 0; lx < MacroSize; lx++)

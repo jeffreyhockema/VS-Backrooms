@@ -78,7 +78,7 @@ static partial class LevelModes
             Console.WriteLine($"  door {x},{z} facing {f}: {D(sx, sz, x, z) / 1000:0.00} km from spawn; front {front.Kind}{(front.Sealed ? " SEALED" : "")}; placard {(placard ? "yes" : "no")}");
             if (t.Kind != TileKind.Wall || !WorldLayout.IsL14ExitDoor(t)) Bad("door not built");
             if (front.Kind != TileKind.Floor || front.Sealed) Bad("nothing to stand on before the door");
-            if (layout.Version >= 12 && !placard) Bad("no placard beside it");
+            if (layout.ExpVersion >= 12 && !placard) Bad("no placard beside it");
             if (i < 2) Through("EMERGENCY EXIT", net.Used(x, z, "l14-exit", out _), WorldLayout.Level14,
                 l => WorldLayout.L14ZoneOf(layout.TileAt((int)Math.Floor(l.X), (int)Math.Floor(l.Z))) == WorldLayout.L14Zone.Reception);
         }
