@@ -508,7 +508,7 @@ VALIDATE_LEVELS = 31  # ids 0-30: the released levels, then the ten experimental
 def check_new_links(name, ok_re, code, out):
     """What is wrong with one new level's links mode output: [] if it is clean."""
     why = []
-    out = out.replace("", "")  # (the harness prints CRLF on Windows; the OK patterns anchor on the line end)
+    out = out.replace("\r", "")  # (the harness prints CRLF on Windows; the OK patterns anchor on the line end)
     if code != 0:
         why.append("exit %d" % code)
     bad = [l.strip()[:150] for l in out.splitlines() if LINK_BAD.search(l)]
@@ -521,7 +521,7 @@ def check_new_links(name, ok_re, code, out):
 
 def check_regions(code, out):
     why = []
-    out = out.replace("", "")
+    out = out.replace("\r", "")
     if code != 0:
         why.append("exit %d" % code)
     arrivals = re.findall(r"arrivals: found (\d+)/(\d+), wrong level (\d+)", out)
