@@ -25,8 +25,8 @@ public sealed partial class WorldGenerator
     private readonly int[,] basementDuctIds = new int[3, 2];
     private int basementWireId, basementRopeHangId, basementRopeEndId, basementLobbyCarpetId, basementLobbyWallId, basementLobbyCeilingId, basementLobbyLightId;
     private readonly int[] basementStepIds = new int[4], basementBrickStepIds = new int[4], basementLadderIds = new int[4];
-    /// <summary>[state (closed, open, jammed), hinge (w, e), part (lower, upper), facing].</summary>
-    private readonly int[,,,] basementDoorIds = new int[3, 2, 2, 4];
+    /// <summary>[state (closed, open, jammed), hinge (w, e), part (lower, upper, bare: layout 16's upper half of a swollen door without its board), facing].</summary>
+    private readonly int[,,,] basementDoorIds = new int[3, 2, 3, 4];
     private readonly int[,] basementDebrisIds = new int[2, 4], basementJunkIds = new int[4, 4];
     /// <summary>[part (lower, upper, dial), leaf (l, r), facing].</summary>
     private readonly int[,,] basementLiftIds = new int[3, 2, 4];
@@ -99,7 +99,7 @@ public sealed partial class WorldGenerator
         basementLobbyWallId = Id("wallpaper-chevron-upper");
         basementLobbyCeilingId = Id("ceilingtile");
         basementLobbyLightId = Id("fluorescentlight-on");
-        string[] states = { "closed", "open", "jammed" }, hinges = { "w", "e" }, parts = { "lower", "upper" };
+        string[] states = { "closed", "open", "jammed" }, hinges = { "w", "e" }, parts = { "lower", "upper", "bare" };
         string[] debris = { "boards", "chunks" }, junk = { "rope", "crowbar", "bottle", "jar" }, lift = { "lower", "upper", "dial" }, leaves = { "l", "r" };
         for (int f = 0; f < 4; f++)
         {
@@ -222,6 +222,9 @@ public sealed partial class WorldGenerator
                 _ => basementWallId,
             };
         }
+        // (a long ladder, from the floor up through the crack's opening: the shaft's part is in BasementAbove)
+        if (rel >= 1 && rel <= ceiling && t.Kind == TileKind.Floor && t.Variant == Props.BasementLadder && t.Stack == WorldLayout.BasementLongLadder
+            && t.Ceiling == CeilingKind.BasementOpen) return basementLadderIds[Facing(Opposite(t.Pier))];
         if (rel == ceiling)
         {
             if (t.Ceiling == CeilingKind.BasementOpen) return 0;
@@ -455,6 +458,8 @@ public sealed partial class WorldGenerator
     private int BasementDoorPart(in Tile t, int part, int state = -1)
     {
         int st = state >= 0 ? state : t.Stack & 3;
+        // (layout 16: a swollen door's upper half without the DO NOT ENTER board is its own block)
+        if (part == 1 && st == 2 && state < 0 && (t.Stack & WorldLayout.BasementDoorBare) != 0) part = 2;
         return basementDoorIds[st > 2 ? 0 : st, (t.Stack >> 2) & 1, part, Facing(t.Pier)];
     }
 
@@ -469,6 +474,8 @@ public sealed partial class WorldGenerator
         if (t.Ceiling == CeilingKind.BasementOpen && t.Kind != TileKind.Water)
         {
             if (rel == top) return t.Detail == WorldLayout.BasementCrackMiddle ? basementLobbyLightId : basementLobbyCeilingId;
+            // (a long ladder, up the shaft's side to the room above)
+            if (t.Variant == Props.BasementLadder && t.Stack == WorldLayout.BasementLongLadder && rel <= top - 4) return basementLadderIds[Facing(Opposite(t.Pier))];
             if (t.Overhead == Overheads.BasementRope && rel >= top - 8 && rel <= top - 4) return rel == top - 8 ? basementRopeEndId : basementRopeHangId;
             return 0;
         }

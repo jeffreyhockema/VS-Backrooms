@@ -75,6 +75,13 @@ public sealed partial class WorldLayout
     private const double BasementPatchShare = 0.22;
 
     /// <summary>The share of Cellar cells with a crack in a ceiling, an Escherian stairwell, a room of the dead.</summary>
+    private const ulong SaltBasementClimb = 0x2211;
+    /// <summary>Layout 16: the share of cracks with a ladder from the floor to the top, and the ladder prop's Stack for it (0 is the short one).</summary>
+    private const double BasementClimbShare = 1.0 / 3;
+    public const byte BasementLongLadder = 1;
+    /// <summary>Layout 16: the share of swollen-shut doors with the DO NOT ENTER board, and the door Stack bit (8) for one without.</summary>
+    private const double BasementBoardShare = 1.0 / 3;
+    public const byte BasementDoorBare = 8;
     private const double BasementCrackShare = 0.4, BasementEscherShare = 0.18, BasementCharnelShare = 0.18;
 
     /// <summary>Round 3: the share of Cellar cells whose first split is a hallway two wide right across them, rooms off both sides.</summary>
@@ -343,7 +350,13 @@ public sealed partial class WorldLayout
                     else if (furnish.Chance(t.Floor == FloorKind.BasementDamp ? 0.3 : 0.06)) t.Ceiling = CeilingKind.BasementStained;
                 }
             int cx = x0 + w / 2, cz = z0 + h / 2;
-            if (k == crackRoom) { BasementCrack(b, ref furnish, x0, z0, x1, z1, cx, cz); middles[k] = true; }
+            if (k == crackRoom)
+            {
+                // (Layout 16: one crack in three has a ladder that climbs the whole way)
+                bool climbs = Version >= 16 && Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltBasementClimb)) < BasementClimbShare;
+                BasementCrack(b, ref furnish, x0, z0, x1, z1, cx, cz, climbs);
+                middles[k] = true;
+            }
             else if (k == escherRoom) { BasementTowerAt(b, cx - 2, cz - 2); middles[k] = true; }
             // A squat concrete pillar holding up the middle of a big workroom
             else if (kind is BasementRoomKind.Utility or BasementRoomKind.Workshop or BasementRoomKind.Store && w >= 9 && h >= 9 && furnish.Chance(0.6)
@@ -427,6 +440,17 @@ public sealed partial class WorldLayout
         BasementFinds(b, mx, mz, rooms, Solid, Open);
         BasementWallSigns(b, ref furnish, rooms, kinds, sides, Solid);
         BasementUnseal(b, sides);
+        // (Layout 16) only about one swollen-shut door in three has the DO NOT ENTER board nailed on (Stack bit 3: bare)
+        if (Version >= 16)
+        {
+            var boards = new Rng(Hashing.Hash(seed, mx, mz, SaltBasementDoor + 0x20));
+            for (int z = 0; z < MacroSize; z++)
+                for (int x = 0; x < MacroSize; x++)
+                {
+                    ref Tile t = ref b.At(x, z);
+                    if (t.Kind == TileKind.Doorway && BasementDoorJammed(t) && !boards.Chance(BasementBoardShare)) t.Stack |= BasementDoorBare;
+                }
+        }
     }
 
     /// <summary>
@@ -562,7 +586,7 @@ public sealed partial class WorldLayout
     /// lit, its torn floor round the edge), the rubble that came down under it, a rope's frayed end high up, and now and
     /// then a ladder somebody brought, far too short.
     /// </summary>
-    private static void BasementCrack(Builder b, ref Rng rng, int x0, int z0, int x1, int z1, int cx, int cz)
+    private static void BasementCrack(Builder b, ref Rng rng, int x0, int z0, int x1, int z1, int cx, int cz, bool climbs)
     {
         for (int dz = -3; dz <= 3; dz++)
             for (int dx = -3; dx <= 3; dx++)
@@ -603,8 +627,22 @@ public sealed partial class WorldLayout
             joist.Variant = Props.BasementFallen;
             joist.Pier = (ArchPier)rng.Range(0, 3);
         }
+        // (Layout 16) a ladder somebody brought that is long enough: on a free edge tile of the opening, against the shaft's
+        // lining, reaching the room above
+        if (climbs)
+        {
+            foreach (var (lx, lz, lp) in new[] { (1, 0, ArchPier.West), (-1, 0, ArchPier.East), (0, 1, ArchPier.North), (0, -1, ArchPier.South) })
+            {
+                ref Tile t = ref b.At(cx + lx, cz + lz);
+                if (t.Kind != TileKind.Floor || t.Variant != 0 || t.Stack != 0 || t.Overhead != 0) continue;
+                t.Variant = Props.BasementLadder;
+                t.Stack = BasementLongLadder;
+                t.Pier = lp;
+                break;
+            }
+        }
         // The ladder: against the room's wall, in the corner nearest the crack's north-west
-        if (!rng.Chance(0.45)) return;
+        if (!rng.Chance(0.45) || climbs) return;
         foreach (var (x, z, away) in new[] { (x0, cz, ArchPier.East), (x1, cz, ArchPier.West), (cx, z0, ArchPier.South), (cx, z1, ArchPier.North) })
         {
             ref Tile t = ref b.At(x, z);
@@ -1264,7 +1302,7 @@ public sealed partial class WorldLayout
     /// clothesline across the room; the workshop's long bench under a pegboard of tools; the rec room's pool table under its
     /// lamp on a rug, an old sofa facing a TV. Returns whether it took the middle of the room.
     /// </summary>
-    private static bool BasementSetPieces(Builder b, ref Rng rng, BasementRoomKind kind, int x0, int z0, int x1, int z1, bool middleTaken,
+    private bool BasementSetPieces(Builder b, ref Rng rng, BasementRoomKind kind, int x0, int z0, int x1, int z1, bool middleTaken,
         bool[] keepClear, Func<int, int, bool> solid, Func<int, int, bool> open)
     {
         int w = x1 - x0 + 1, h = z1 - z0 + 1;
@@ -1435,9 +1473,10 @@ public sealed partial class WorldLayout
                 if (took)
                     foreach (var (x, z, away) in Round())
                         if (Middling(x, z, away) && b.At(x, z).Overhead == 0 && Put(x, z, Props.BasementCueRack, away)) break;
-                // (Round 4) a home bar against a wall in most, a stool or two before it (the Wikidot clipping's bar cellar,
+                // (Round 4) a home bar against a wall (70 in 100 rec rooms, 28 from layout 16), a stool or two before it (the Wikidot clipping's bar cellar,
                 // as a family's rec room has one)
-                if (rng.Chance(0.7))
+                // (layout 16: in about 28 in 100 rec rooms, not 70)
+                if (rng.Chance(Version >= 16 ? 0.28 : 0.7))
                     foreach (var (x, z, away) in Round())
                     {
                         // (not hard by a doorway: its casing would cut into the mirror)
@@ -1526,6 +1565,9 @@ public sealed partial class WorldLayout
 
     /// <summary>Whether a Basement door is swollen shut (it will not open).</summary>
     public static bool BasementDoorJammed(in Tile t) => t.Variant == Props.BasementDoor && (t.Stack & 3) == 2;
+
+    /// <summary>A swollen-shut door without the DO NOT ENTER board (layout 16 on).</summary>
+    public static bool BasementDoorBareJam(in Tile t) => BasementDoorJammed(t) && (t.Stack & BasementDoorBare) != 0;
 
     // ---- The Flood ----
 

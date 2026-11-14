@@ -21,7 +21,8 @@
 			"code": "part",
 			"states": [
 				"lower",
-				"upper"
+				"upper",
+				"bare"
 			]
 		},
 		{
@@ -240,6 +241,102 @@
 		},
 		"*-open-e-upper-west": {
 			"base": "block/basement/door-open-eupper",
+			"rotateY": 90
+		},
+		"*-closed-w-bare-north": {
+			"base": "block/basement/door-closed-wupper",
+			"rotateY": 0
+		},
+		"*-closed-w-bare-east": {
+			"base": "block/basement/door-closed-wupper",
+			"rotateY": 270
+		},
+		"*-closed-w-bare-south": {
+			"base": "block/basement/door-closed-wupper",
+			"rotateY": 180
+		},
+		"*-closed-w-bare-west": {
+			"base": "block/basement/door-closed-wupper",
+			"rotateY": 90
+		},
+		"*-closed-e-bare-north": {
+			"base": "block/basement/door-closed-eupper",
+			"rotateY": 0
+		},
+		"*-closed-e-bare-east": {
+			"base": "block/basement/door-closed-eupper",
+			"rotateY": 270
+		},
+		"*-closed-e-bare-south": {
+			"base": "block/basement/door-closed-eupper",
+			"rotateY": 180
+		},
+		"*-closed-e-bare-west": {
+			"base": "block/basement/door-closed-eupper",
+			"rotateY": 90
+		},
+		"*-open-w-bare-north": {
+			"base": "block/basement/door-open-wupper",
+			"rotateY": 0
+		},
+		"*-open-w-bare-east": {
+			"base": "block/basement/door-open-wupper",
+			"rotateY": 270
+		},
+		"*-open-w-bare-south": {
+			"base": "block/basement/door-open-wupper",
+			"rotateY": 180
+		},
+		"*-open-w-bare-west": {
+			"base": "block/basement/door-open-wupper",
+			"rotateY": 90
+		},
+		"*-open-e-bare-north": {
+			"base": "block/basement/door-open-eupper",
+			"rotateY": 0
+		},
+		"*-open-e-bare-east": {
+			"base": "block/basement/door-open-eupper",
+			"rotateY": 270
+		},
+		"*-open-e-bare-south": {
+			"base": "block/basement/door-open-eupper",
+			"rotateY": 180
+		},
+		"*-open-e-bare-west": {
+			"base": "block/basement/door-open-eupper",
+			"rotateY": 90
+		},
+		"*-jammed-w-bare-north": {
+			"base": "block/basement/door-closed-wupper",
+			"rotateY": 0
+		},
+		"*-jammed-w-bare-east": {
+			"base": "block/basement/door-closed-wupper",
+			"rotateY": 270
+		},
+		"*-jammed-w-bare-south": {
+			"base": "block/basement/door-closed-wupper",
+			"rotateY": 180
+		},
+		"*-jammed-w-bare-west": {
+			"base": "block/basement/door-closed-wupper",
+			"rotateY": 90
+		},
+		"*-jammed-e-bare-north": {
+			"base": "block/basement/door-closed-eupper",
+			"rotateY": 0
+		},
+		"*-jammed-e-bare-east": {
+			"base": "block/basement/door-closed-eupper",
+			"rotateY": 270
+		},
+		"*-jammed-e-bare-south": {
+			"base": "block/basement/door-closed-eupper",
+			"rotateY": 180
+		},
+		"*-jammed-e-bare-west": {
+			"base": "block/basement/door-closed-eupper",
 			"rotateY": 90
 		}
 	},

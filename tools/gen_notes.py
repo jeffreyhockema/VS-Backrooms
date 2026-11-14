@@ -819,6 +819,9 @@ reached it."""),
 A newspaper cutting, soft with damp. CINCINNATI. FLOODED BAR CELLAR CLAIMS SIX. Six workers drowned when water filled
 the basement of a bar on the night of January 6th. Five bodies have been recovered. The sixth victim, Gary Moors, has
 yet to resurface. Patches of the cellar still suffer from large pools of water."""),
+    E("lbasement-7", "A long ladder", """
+Under one of the holes in the ceiling someone has stood a ladder that really does reach the top. Not every hole has
+one. Look under them all. I did not stop to ask who brought it."""),
 ]))
 
 # ---------------------------------------------------------------------------------------------------------------------

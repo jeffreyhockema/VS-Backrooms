@@ -1786,10 +1786,10 @@ public static class Props
     public const ushort BasementBoiler = 1000, BasementDrum = 1001, BasementShelf = 1002, BasementPump = 1003, BasementCabinet = 1004;
     /// <summary>
     /// The Basement, detail pass: a wooden door in a doorway (Stack: bits 0-1 shut, open or swollen shut, bit 2 hinged on
-    /// the east; Pier the side it faces); a step of an Escherian stairwell (Stack its place round the core, 0 the landing by
+    /// the east, bit 3 a swollen one without its DO NOT ENTER board (layout 16); Pier the side it faces); a step of an Escherian stairwell (Stack its place round the core, 0 the landing by
     /// the door); the rubble under the crack in the ceiling (Stack 0 boards, 1 chunks); where a body lies (Stack 0 bones,
     /// 1 a drowned body, 2 the drowned man the papers named); something someone dropped (Stack: rope, crowbar, bottle, jar);
-    /// a short ladder against a wall (Pier its face). Rubble and bodies are walked through.
+    /// a ladder (Pier its face): Stack 0 short against a wall, 1 (layout 16) up a crack's shaft to the room above. Rubble and bodies are walked through.
     /// </summary>
     public const ushort BasementDoor = 1005, BasementEscher = 1006, BasementDebris = 1007, BasementBody = 1008, BasementJunk = 1009, BasementLadder = 1010;
     /// <summary>

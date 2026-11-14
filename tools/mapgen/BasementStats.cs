@@ -76,7 +76,7 @@ static partial class LevelModes
         }
         var tileZone = new int[4];
         int steps = 0, lampsOn = 0, lampsFlicker = 0, lampsOff = 0, lampsDim = 0, lampsBright = 0, props = 0, sealedTiles = 0;
-        int doors = 0, jammed = 0, cracks = 0, towers = 0, bones = 0, drowned = 0, named = 0, junk = 0, boxes = 0, lifts = 0, carpet = 0, panels = 0;
+        int bars = 0, stools = 0, bareJams = 0, longLadders = 0, shortLadders = 0, doors = 0, jammed = 0, cracks = 0, towers = 0, bones = 0, drowned = 0, named = 0, junk = 0, boxes = 0, lifts = 0, carpet = 0, panels = 0;
         for (int i = 0; i < tiles.Length; i++)
         {
             if (!Ours(i)) continue;
@@ -87,6 +87,10 @@ static partial class LevelModes
             if (t.Stack > 0 || t.Variant != 0) props++;
             if (t.Variant == Props.BasementDoor) { doors++; if (WorldLayout.BasementDoorJammed(t)) jammed++; }
             if (t.Detail == WorldLayout.BasementCrackMiddle) cracks++;
+            if (t.Variant == Props.BasementBar && t.Stack == 0) bars++;
+            if (t.Variant == Props.BasementStool) stools++;
+            if (WorldLayout.BasementDoorBareJam(t)) bareJams++;
+            if (t.Variant == Props.BasementLadder) { if (t.Stack == WorldLayout.BasementLongLadder) longLadders++; else shortLadders++; }
             if (t.Variant == Props.BasementEscher && t.Stair == 1) towers++;
             if (t.Variant == Props.BasementBody) { if (t.Stack == 0) bones++; else if (t.Stack == 1) drowned++; else named++; }
             if (t.Variant == Props.BasementJunk) junk++;
@@ -127,6 +131,9 @@ static partial class LevelModes
 
         Console.WriteLine($"  doors {doors} ({jammed} swollen shut); cracks {cracks}; Escherian stairwells {towers}; bodies: bones {bones}, drowned {drowned}, named {named}; "
             + $"things dropped {junk}; boxes {boxes}; elevator leaves {lifts}; carpet {100.0 * carpet / Math.Max(1, tileZone[1]):0}% of the Cellar's walkable tiles; panelled wall tiles {panels}");
+
+        Console.WriteLine($"  home bars {bars} (stools {stools}); swollen-shut doors with the DO NOT ENTER board {jammed - bareJams} of {jammed} ({100.0 * (jammed - bareJams) / Math.Max(1, jammed):0}%); "
+            + $"cracks with a ladder to the top {longLadders} of {cracks} ({100.0 * longLadders / Math.Max(1, cracks):0}%), short ladders against a wall {shortLadders}");
 
         // Reachability: pieces joined by steps of one level at most
         var piece = new int[tiles.Length];

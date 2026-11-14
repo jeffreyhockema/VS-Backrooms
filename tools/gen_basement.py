@@ -554,6 +554,7 @@ def cuboid(b, side=None):
 def door_blocks():
     from gen_suburbs import cut, mirror_x
     shape_by, coll_by = {}, {}
+    plain_upper = {}
     closed = door_frame() + door_leaf()
     opened = door_frame() + door_open(door_leaf())
     for state, els in (("closed", closed), ("open", opened)):
@@ -564,6 +565,8 @@ def door_blocks():
                 path = write_shape(f"door-{state}-{hinge}{half}", parts[(0, r)], DOOR_TEX)
                 for side, rot in ROT.items():
                     shape_by[f"*-{state}-{hinge}-{half}-{side}"] = {"base": path, "rotateY": rot}
+                if half == "upper":
+                    plain_upper[(state, hinge)] = path
                 if state != "closed":
                     continue
                 # (Round 3) a swollen-shut door has a board nailed across it, DO NOT ENTER on it in marker
@@ -573,6 +576,12 @@ def door_blocks():
                                        dict(DOOR_TEX, **{k: R3.T[k] for k in ("doorboard", "panel", "metaldark")}))
                 for side, rot in ROT.items():
                     shape_by[f"*-jammed-{hinge}-{half}-{side}"] = {"base": path, "rotateY": rot}
+    # (Layout 16) "bare": the upper half of a door without the board, for the swollen-shut ones that have none
+    for state in ("closed", "open", "jammed"):
+        for hinge in ("w", "e"):
+            path = plain_upper[("open" if state == "open" else "closed", hinge)]
+            for side, rot in ROT.items():
+                shape_by[f"*-{state}-{hinge}-bare-{side}"] = {"base": path, "rotateY": rot}
     for st in ("closed", "open", "jammed"):
         for hinge in ("w", "e"):
             b = (0, 0, 2 / 16, 1, 1, 3.75 / 16) if st != "open" else (1.35 / 16, 0, 3.75 / 16, 4 / 16, 1, 1)
@@ -583,7 +592,7 @@ def door_blocks():
     write_json(os.path.join(BLOCKS, "basement-door.json"), {
         "code": "basement-door",
         "variantgroups": [{"code": "state", "states": ["closed", "open", "jammed"]}, {"code": "hinge", "states": ["w", "e"]},
-                          {"code": "part", "states": ["lower", "upper"]}, {"code": "side", "states": list(ROT)}],
+                          {"code": "part", "states": ["lower", "upper", "bare"]}, {"code": "side", "states": list(ROT)}],
         "creativeinventory": {"general": ["*-closed-w-lower-north"], "construction": ["*-closed-w-lower-north"]},
         "behaviors": [{"name": "BackroomsBasementDoor"}],
         "blockmaterial": "Wood", "drawtype": "json", "shapeByType": shape_by, "collisionSelectionBoxesByType": coll_by,
