@@ -280,6 +280,7 @@ static partial class LevelModes
                           + $"{tilesAll / Math.Max(1.0, glooms.Count):0} tiles each, on " + string.Join(", ", grounds.Select(kv => $"{kv.Key} {kv.Value}")));
 
         // Level 6's deepest dark
+        layout.L73DarkFloorWait(); // (the floor scan runs on a worker in the game; the harness wants the final answer)
         sw.Restart();
         var dark = layout.L73NearestDark(8);
         Console.WriteLine($"Level 6's deepest dark (one cell in {layout.L73DarkOneIn}; {sw.ElapsedMilliseconds} ms to find the nearest {dark.Count}):");
