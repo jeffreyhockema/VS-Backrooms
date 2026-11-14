@@ -12,6 +12,7 @@ import l11art as L11
 import deepprops_tex
 import l5props as L5
 import modelkit as MK
+from gen_items_paper import dress  # the item pass (0.700): the chalk's model
 from detail_kit import (ASSETS, CLOTH, GLASS, LANG, METAL, ROTATE, SIDES, STONE, WOOD, Decor, block, bx, cuboid, cyl, ground_storable,
                         name, prop, shape, wall_family, write_json)
 from gen_detail import carton, cube_block, plate
@@ -150,7 +151,7 @@ def level6():
     data = {"code": "chalk", "class": "BackroomsChalk", "maxstacksize": 1, "durability": 48,
             "texture": {"base": "item/chalk"}, "creativeinventory": {"general": ["*"], "items": ["*"]}}
     data.update(TRANSFORMS)
-    ground_storable(data, "Halves", ctrl=True)  # a tool: set down with ctrl + shift, as vanilla's are
+    ground_storable(dress(data, "chalk"), "Halves", ctrl=True)  # a tool: set down with ctrl + shift, as vanilla's are
     write_json(os.path.join(ASSETS, "itemtypes", "deep", "chalk.json"), data, "Surveyor's chalk: marks walls. The one thing in Level 6 that stays where you left it")
     LANG["item-chalk"] = "Surveyor's Chalk"
     LANG["itemdesc-chalk"] = "Right-click a wall to leave a mark: an arrow, a cross or a circle. Choose which with the tool mode key (F). Marks show on your map, if the world has one. Found in crumbled ceiling tiles, or made from a chalk stone."

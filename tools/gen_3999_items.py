@@ -11,6 +11,7 @@ the user direction of 2026-10-09: the level's point is its theme-based resources
 import os
 
 from detail_kit import ground_storable
+from gen_items_paper import ITEMS as PAPER_ITEMS, dress  # the item pass (0.700): the paper package's models
 from gen_3999_kit import (COLOURS, GLASS, LANG, SIDES, bx, hang, hsv, item, recipe, variants_block)
 
 # What melts down in a crucible: the metallurgy storage flag (with general, 5, as vanilla's nuggets and bits) and a
@@ -26,7 +27,7 @@ INV = {"general": ["*"], "items": ["*"], "backrooms": ["*"]}
 
 
 def sprite_item(code, english, desc, texture, extra=None, stack=64, comment=None, by_type=None, ground="Quadrants"):
-    """A flat item; `ground` is its layout set down on the floor."""
+    """An item: a flat sprite, or one of gen_items_paper's models; `ground` is its layout set down on the floor."""
     d = {"maxstacksize": stack, "creativeinventory": INV, "materialDensity": 400}
     if by_type:
         d["variantgroups"] = by_type[0]
@@ -36,6 +37,8 @@ def sprite_item(code, english, desc, texture, extra=None, stack=64, comment=None
     d.update(SPRITE)
     if extra:
         d.update(extra)
+    if code in PAPER_ITEMS:
+        dress(d, code)
     item(code, ground_storable(d, ground), comment or english)
     if english:
         LANG[f"item-{code}" + ("-*" if by_type else "")] = english
@@ -62,12 +65,12 @@ def items():
         LANG[f"item-l3999-traymeal-{m}"] = n
     LANG["itemdesc-l3999-traymeal-*"] = "From a stall in the Neon Paradise. It tastes almost right: a little funky, a little artificial."
 
-    item("l3999-glowband", ground_storable(dict({
+    item("l3999-glowband", ground_storable(dress(dict({
         "variantgroups": [{"code": "colour", "states": ["magenta", "cyan", "lilac"]}], "maxstacksize": 16, "creativeinventory": INV,
         "materialDensity": 300, "textureByType": {f"l3999-glowband-{c}": {"base": f"item/3999/glowband-{c}"} for c in ("magenta", "cyan", "lilac")},
         "lightHsvByType": {f"l3999-glowband-{c}": hsv(c, 6) for c in ("magenta", "cyan", "lilac")},
         "attributes": {"handbook": {"groupBy": ["l3999-glowband-*"]}},
-    }, **SPRITE)), "A glow bracelet (a prize): a dim coloured light while held, dimmer than a candle")
+    }, **SPRITE), "l3999-glowband")), "A glow bracelet (a prize): a dim coloured light while held, dimmer than a candle")
     LANG["item-l3999-glowband-*"] = "Glow Bracelet"
     LANG["itemdesc-l3999-glowband-*"] = "A prize from the Neon Paradise. It glows, a little, for good. Not enough to keep anything away."
 

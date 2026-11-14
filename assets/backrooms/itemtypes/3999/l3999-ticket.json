@@ -14,51 +14,66 @@
 		]
 	},
 	"materialDensity": 200,
-	"texture": {
-		"base": "item/3999/ticket"
-	},
-	"guiTransform": {
-		"rotation": {
-			"x": 0,
-			"y": 0,
-			"z": 0
-		},
-		"origin": {
-			"x": 0.5,
-			"y": 0.5,
-			"z": 0.5
-		},
-		"scale": 1
-	},
-	"tpHandTransform": {
-		"translation": {
-			"x": -0.75,
-			"y": -0.4,
-			"z": -0.55
-		},
-		"rotation": {
-			"x": 0,
-			"y": -45,
-			"z": -10
-		},
-		"scale": 0.6
-	},
-	"groundTransform": {
-		"rotation": {
-			"x": 90,
-			"y": 0,
-			"z": 0
-		},
-		"origin": {
-			"x": 0.5,
-			"y": 0,
-			"z": 0.5
-		},
-		"scale": 2
-	},
 	"combustibleProps": {
 		"burnTemperature": 300,
 		"burnDuration": 2
+	},
+	"shape": {
+		"base": "item/paper/ticket"
+	},
+	"textures": {
+		"tex": {
+			"base": "item/paper/ticket"
+		}
+	},
+	"guiTransform": {
+		"translation": {
+			"x": 0.0,
+			"y": -0.58,
+			"z": 0
+		},
+		"rotation": {
+			"x": 125,
+			"y": 150,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.035,
+			"z": 0.462
+		},
+		"scale": 1.68
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.8,
+			"y": -0.2,
+			"z": -0.6
+		},
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": -60
+		},
+		"scale": 0.7
+	},
+	"groundTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 4.6
 	},
 	"behaviors": [
 		{
@@ -75,15 +90,5 @@
 				}
 			}
 		}
-	],
-	"attributes": {
-		"groundStorageTransform": {
-			"origin": {
-				"x": 0.5,
-				"y": 0.5,
-				"z": 0.5
-			},
-			"scale": 0.8
-		}
-	}
+	]
 }
