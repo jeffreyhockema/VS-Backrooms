@@ -108,7 +108,7 @@ public sealed partial class WorldGenerator
             basementLadderIds[f] = BlockId("game:ladder-wood-aged-" + Sides[f]);
             for (int s = 0; s < 3; s++)
                 for (int h = 0; h < 2; h++)
-                    for (int p = 0; p < 2; p++)
+                    for (int p = 0; p < 3; p++)
                         basementDoorIds[s, h, p, f] = Id($"basement-door-{states[s]}-{hinges[h]}-{parts[p]}-{Sides[f]}");
             for (int k = 0; k < 2; k++) basementDebrisIds[k, f] = Id($"basement-debris-{debris[k]}-{Sides[f]}");
             for (int k = 0; k < 4; k++) basementJunkIds[k, f] = Id($"basement-junk-{junk[k]}-{Sides[f]}");
