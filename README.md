@@ -11,7 +11,7 @@ It is a complete survival game built on Vintage Story's own systems. Hunger, thi
 ## Features
 
 - **Thirty-one levels**: Levels 0 to 11, the Snackrooms, Level 37, Level 94, seven far places and nine more (the Basement and Levels 73, 52, 31, 120, 15, 23, 14 and 47), each built to follow the Backrooms lore. (Level 36, the Airport, is built but experimental: it is not reachable in play yet.)
-- **More than seventy kinds of threshold** between them: elevators, stairwells, pits, pools, vents, windows, barn walls that aren't quite there. Every one always leads to the same place, so you can build a travel network from what you find.
+- **More than a hundred kinds of threshold** between them: elevators, stairwells, pits, pools, vents, windows, barn walls that aren't quite there. Every one always leads to the same place, so you can build a travel network from what you find.
 - **Scavenger survival**: salvage furniture, lights and the building itself, then follow Vintage Story's normal path of flint, fire, pottery, copper and bronze with materials found level by level.
 - **A climb by class**: each level has a class, from 0 to 5, and a placard by every gate into a higher one says what lies past it. From Level 3 on, what lives there outruns a sprint, so armour, fire and what you carry decide the climb.
 - **Home is where you last slept**: you wake in the last bed you slept in, or else in Level 0, so everything a base needs has to be brought back.
