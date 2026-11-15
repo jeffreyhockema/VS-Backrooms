@@ -131,7 +131,7 @@ public partial class L73System : ModSystem
         // A player looks along (sin yaw, cos yaw): heading h (clockwise from north) is yaw 180 - h
         float yaw = (float)((180 - heading) * Math.PI / 180);
         coran.TeleportToDouble(x, y, z);
-        coran.Pos.Yaw = coran.ServerPos.Yaw = yaw;
+        coran.Pos.Yaw = yaw;
         CoranHoldUntilMs = sapi.World.ElapsedMilliseconds + 30_000;
         CoranHoldYaw = yaw;
         return TextCommandResult.Success($"Coran stands at {x:0.#},{y:0},{z:0.#}");
@@ -669,7 +669,7 @@ public partial class AiTaskL73Coran : AiTaskBase
                 prey = null;
             }
             entity.Pos.Yaw = l73.CoranHoldYaw;
-            entity.ServerPos.Yaw = l73.CoranHoldYaw;
+            entity.Pos.Yaw = l73.CoranHoldYaw;
             return true;
         }
         if (strikeAtMs >= 0)

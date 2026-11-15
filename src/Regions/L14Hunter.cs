@@ -1028,7 +1028,6 @@ public class AiTaskL14Agent : AiTaskBase
     private readonly AssetLocation[] chitterSounds;
     private readonly AssetLocation biteSound, spitSound, sizzleSound;
 
-    private L14HunterSystem system;
     private Entity target;
     private float think, nextChitter = 0.5f;
     private long bornMs, attackStartMs = -1, lastAttackMs, lastPathMs, nextSpitMs, spitStartMs = -1;
@@ -1064,7 +1063,6 @@ public class AiTaskL14Agent : AiTaskBase
         base.StartExecute();
         if (started) return;
         started = true;
-        system = entity.Api.ModLoader.GetModSystem<L14HunterSystem>();
         bornMs = entity.World.ElapsedMilliseconds;
         nextSpitMs = bornMs + 2500 + entity.World.Rand.Next(3000);
         double d = Danger.Of(entity);

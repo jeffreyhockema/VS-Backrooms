@@ -86,7 +86,4 @@ public sealed partial class ThresholdNetwork
     /// </summary>
     public Passage L31SkatesNoclip((int X, int Z) at) =>
         new Passage { Source = at, Key = KeyOf(at, SaltL31Threshold + 3), Find = In(0), Message = "backrooms:l31-skates-noclip" };
-
-    /// <summary>An arrival finder in the level, beside a feature if one is given.</summary>
-    private Func<ulong, (int X, int Z, double Height)?> IntoL31(Func<Tile, bool> beside = null) => In(WorldLayout.Level31, beside);
 }
