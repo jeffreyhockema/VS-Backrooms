@@ -102,6 +102,9 @@ pre.13 (see below). Built in four packages (`exp/fb-late`, `exp/fb-small`, `exp/
   drain, the hood slows the Basement's smell of the dead; hot and a little slow, no armour, wears out). Loot is rolled at
   runtime, so every world gets it. The Spanish is written for every key (machine-made, to be reviewed); the Basement's
   emptied icebox has its own block.
+- **0.700.0-pre.14: the 2026-11b review and the decisions round** (2026-11-14). The held items checked from the front in the
+  client (treats, notes and chalk held in the palm), the whole-project review of pre.13 (review/2026-11b) and the user's
+  answers to the ten levels' open questions, built (D1-D13, D15; docs/design/experimental-levels/OPEN-QUESTIONS.md).
 
 ## Known gaps
 
