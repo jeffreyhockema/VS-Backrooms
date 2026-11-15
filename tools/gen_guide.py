@@ -722,8 +722,6 @@ The page knows of none. But **Coran will lead you out**, once you have slept a n
     (22, "The Basement", """
 *Under most of the levels, they say: the bottom of the Backrooms.*
 
-Note: an experimental level; what is written here may change.
-
 **Getting here**
 Two accounts describe it, and both came in the same way: through the floor. Very rarely, in the Lobby, Level 1, the pipes of Level 2, the office or the hotel, a patch of the floor a few paces across is cracked, its middle broken and sunk as if nothing were under it. Step onto the middle and it gives way: you fall a long way, into the dark, and land hard. It hurts; it has not killed anyone yet. It stays dark for a moment, and then the lights come on, all at once. The crack you came through is still overhead, twenty blocks up, the yellow light of the Lobby at the top of it whatever floor you fell through, and a frayed end of rope hanging out of reach. The cracked patch you stepped on is still there, and always drops into the same place. **Class 2.**
 
@@ -911,7 +909,7 @@ Far from the middle, in one empty machine room, a doorframe stands on its own wi
 - Bring water in, and look in every control room for a lit button.
 """),
     (28, "Level 23, the Petrified Garden", """
-*An experimental level. A forest of stone trees on a world that is one tree.*
+*A forest of stone trees on a world that is one tree.*
 
 **What it is**
 Those who have been there say Level 23 is not a forest on a world but a world that is a forest: a tangle of trees the size of a planet, grown into one another, petrified, and somehow still alive. What you walk in is a patch of its crust. Overhead a lid of leaves lets almost no light through. A star that never moves shines through a few holes in it; there is no day and no night. Underfoot are humus, moss and leaf litter between trunks four to fourteen blocks thick (grey, redwood red, pale oak, dark cypress, all of it stone), buttress roots swelling at their feet and arching from one tree to the next, high enough in the middle to walk under. Trees that fell long ago lie across the floor where they came down, stone like the rest, some with the plate of roots they tore up still standing at one end; there are boulders, mushrooms as big as sheds gone to stone, and shrubs and saplings of stone in the undergrowth. Here and there a hole in the lid is wide enough to make a glade, grass and flowers in a pool of light, the one place up there where things still grow green. At the edge the trees fuse into a tangle nobody has got through. It is mild (17 °C) and it drains you, slowly.
@@ -990,7 +988,7 @@ Rusted stretchers stacked on each other, a shattered marble floor, blood down th
 - Watch the floor.
 """),
     (30, "Level 47, the Adderwood", """
-*An experimental level. A primeval forest that will not stay mapped. Harm no snake.*
+*A primeval forest that will not stay mapped. Harm no snake.*
 
 **What it is**
 An old-growth forest, temperate, of oaks and beeches, firs and spruces, many of them over a hundred feet tall and hundreds of years old or more, with dead trees standing grey among them. Moss and lichen cover everything they can: the trunks to head height and in patches far above, the fallen logs, the boulders, the ground itself, and old man's beard hangs from the boughs. Streams wind through it, and their water is safe to drink. It is cool (11 °C, colder by the water). By day a thick, damp fog lies over all of it and the sun never shows; each night the fog lifts, without fail, and a full moon hangs over the trees, much nearer than ours and showing its far side, among stars that make none of our constellations; very rarely there is an aurora, silver-white.
