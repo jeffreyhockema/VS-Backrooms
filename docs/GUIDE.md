@@ -107,7 +107,7 @@ Breaking things down feeds Vintage Story's own progression, so the usual path fr
 
 The levels are classed from 1 to 5, and the way down is a climb through the classes (see [Classes and placards](#classes-and-placards)):
 
-- **Class 1:** Levels 0, 1, 4, 6 and 10 (and Levels 15, 36 and 52). Level 1's cable spools and wrecked cars give copper, and Level 4 is the calm place to rest, with fountains of Almond Water.
+- **Class 1:** Levels 0, 1, 4, 6 and 10 (and Levels 15 and 52). Level 1's cable spools and wrecked cars give copper, and Level 4 is the calm place to rest, with fountains of Almond Water.
 - **Class 2:** Levels 5 and 11 (and the Basement and Level 120). Level 5's coal and beds, and the stores of the city.
 - **Class 3:** Levels 2, 94 and 188 (and Level 47). Level 2 has the first copper: machine cabinets, and the mains of the pipe tunnels. Level 94's fire clay is the iron road's. Food and Almond Water thin out from here down.
 - **Class 4:** Levels 3, 7 and 8 (and Levels 14 and 23). Clay and coal are in Level 3, a raid for anyone in sewn leather at least. Level 8's ore and tin are a dash off the 9th Road, whose lamps keep your stability up.
@@ -169,9 +169,9 @@ The gear on the HUD shows how firmly this place has hold of you. It is Vintage S
 
 Each level has a class, from 1 to 5, that says how hard it is. The M.E.G. put a placard on the near-side wall of every gate into a higher class, beside the opening: the level it leads to, its class, and a warning line. Class 3 reads THINGS HERE OUTRUN YOU, Class 4 ARMOUR OR DON'T, and Class 5 NO UNARMOURED TRAVEL. The first time you cross into a higher class, the game tells you so in chat.
 
-- **The classes.** Class 0: Level 31, the Poolrooms and The End. Class 1: Levels 0, 1, 4, 6, 10, 15, 36 and 52, and Levels !, 974, 3999 and the Hub. Class 2: Levels 5, 11 and 120, and the Basement. Class 3: Levels 2, 47, 94 and 188. Class 4: Levels 3, 7, 8, 14 and 23. Class 5: Levels 9, Fun and 73.
+- **The classes.** Class 0: Level 31, the Poolrooms and The End. Class 1: Levels 0, 1, 4, 6, 10, 15 and 52, and Levels !, 974, 3999 and the Hub. Class 2: Levels 5, 11 and 120, and the Basement. Class 3: Levels 2, 47, 94 and 188. Class 4: Levels 3, 7, 8, 14 and 23. Class 5: Levels 9, Fun and 73.
 - **What the classes ask.** From Level 3 on, what lives there outruns a sprint and kills an unarmoured person in two blows (one or two by Level 8; a Hound in one at Level 9). Sewn leather halves a Level 3 blow. Copper or bronze lamellar stands three blows at Level 8, and iron plate many at Level 9. The Lobby's carpet armour (a leather jerkin's worth, silent) wears out fast at depth. Metal armour makes you louder. See [What Lives Here](#what-lives-here).
-- **Food and water.** From Class 3 down, caches, crates, supply boxes and the dispensers hold less food and Almond Water: seven tenths of their usual share in Class 3, half in Class 4 and about a third (0.35) in Class 5, on top of the world setting. The Basement's share is a quarter and Level 36's about a third (0.35), whatever their class. Level 94, the Snackrooms, the Hub and Kitty's House keep theirs.
+- **Food and water.** From Class 3 down, caches, crates, supply boxes and the dispensers hold less food and Almond Water: seven tenths of their usual share in Class 3, half in Class 4 and about a third (0.35) in Class 5, on top of the world setting. The Basement's share is a quarter, whatever its class. Level 94, the Snackrooms, the Hub and Kitty's House keep theirs.
 - **Shortcuts.** Ways down to a higher level are about a quarter as common in new worlds, from stairwells, elevators, steel doors and the like. Ways back up are unchanged.
 - **The blackout.** At zero stability you black out after about a minute, from any cause: a dark pocket, a Reality Shift, or hunger and thirst. You wake a level back, with what you carried, and your stability at half.
 
@@ -355,9 +355,6 @@ This is how Vintage Story's own translocators behave: a repaired one picks its e
 | Level 120 | A steel door in a server room's wall, or in a Pitch-Black Hallway (look low for the warm light) | Level 4, an office door that is locked | None |
 | Level 4 | A grey steel door under a green EMERGENCY EXIT sign, in an office wall with nothing behind it (rare) | Level 52, the end of a teaching block | That door |
 | Level 11 | A brick high school with HIGH SCHOOL over a pair of steel doors (rare) | Level 52, the front doors of a campus quad | Those doors |
-| Levels 9, 11 | A door under a lit airplane sign, where no door should be (very rare) | Level 36's claim hall, beside a door under the same sign | That door |
-| Level 36 | Boarding a flight at a gate (the screen names the level) | Level 3999, 188, 37, 9, 10 or 11, fixed per gate | None |
-| Level 36 | Turning on a restroom sink and holding your head under the overflow | Level 37 | None |
 | Level 10 | A white wall at a field's edge, with one small reinforced door (rare) | Level 15, a main hall beside a reinforced door that does not open | None |
 | Level 3 | A door that opens on Level 15 (rare) | Level 15, a main hall | None |
 | Level 15 | The ESCAPE panel in a control room, and the gateway it opens / a glowing orange pane, broken / an out-of-place office's stairs down / a MEDICAL CENTER door in a medical bay | Level 3 / Level 11 / Level 4 / Level 14 | None |
@@ -390,7 +387,7 @@ No ring is a circle. Each one is stretched and lopsided in its own way: a level 
 
 Level 6.1 is not a ring: it is rare sealed cells scattered through Level 6. Where two levels meet there is a full-height wall; its gates are lined up with the corridors on either side where there are any.
 
-The ten newest regions (the Basement and Levels 73, 52, 31, 36, 120, 15, 23, 14 and 47) lie out past the rings like the far places, reached only by thresholds; see [Ten more places](#ten-more-places).
+The nine newest regions (the Basement and Levels 73, 52, 31, 120, 15, 23, 14 and 47) lie out past the rings like the far places, reached only by thresholds; see [Nine more places](#nine-more-places).
 
 Each level looks like itself right up to the wall it shares with the next: the wall is two thick, each side with its own face, and the way through a gate is a short passage with the next level's doorway at its far end. Only that passage carries a touch of the next level: Level 0's carpet is worn to the concrete in the doorway to Level 1, and Level 4's carpet is the hotel's red in the doorway to Level 5.
 
@@ -746,9 +743,9 @@ One shared building: a dark courtyard of mossy lawns and a round wooden deck, wa
 - **The guest book:** open on the lobby's reception desk; right-click the desk to read it.
 - **Items:** the housekeeping keycard (opens rooms that are only locked, never sealed ones), cereal, juice boxes; wardrobes, minibars, carts, linen shelves and beds salvage to cloth, clothes, Almond Water, juice and crackers. The building itself (walls, floors, windows, doors, stairs, the deck and the courtyard) never breaks (as the lore has it, forcing its doors has always failed).
 
-## Ten more places
+## Nine more places
 
-Ten more regions lie beyond the rings, each reached only by thresholds (see the table above), and each with a handbook page that opens once you have been there. Level 73 lies to the north-north-west, the Basement to the south-south-west, Level 52 to the south-south-east, Level 31 to the west-north-west and Level 36 to the west-south-west, close in; Level 120 far to the north-east, Level 15 far to the north-west, Level 23 far to the south-west, Level 14 far to the north-north-west and Level 47 far to the south-south-east, further still. Their ways in are rare, a quarter as common as the lore's own where they lead to a deeper level, and a walked way into a higher class has its M.E.G. placard. Old worlds get all ten and their ways in the parts nobody has reached yet.
+Nine more regions lie beyond the rings, each reached only by thresholds (see the table above), and each with a handbook page that opens once you have been there. Level 73 lies to the north-north-west, the Basement to the south-south-west, Level 52 to the south-south-east and Level 31 to the west-north-west, close in; Level 120 far to the north-east, Level 15 far to the north-west, Level 23 far to the south-west, Level 14 far to the north-north-west and Level 47 far to the south-south-east, further still. Their ways in are rare, a quarter as common as the lore's own where they lead to a deeper level, and a walked way into a higher class has its M.E.G. placard. Old worlds get all nine and their ways in the parts nobody has reached yet. A tenth, Level 36 (the Airport), is built but experimental and not reachable in play yet; it is described below for completeness.
 
 ### Level 73: the Redlands
 
@@ -782,7 +779,9 @@ Class 0. A 1990s rink that goes on for ever, neon halls on dark carpet, muffled 
 - **Getting out:** a revolving door in the front of a few lobbies, always to the same place: Level 9, 10 or 11, one way (the Coach marks the nearest on your map). Walk out of Skate Rental with a pair the Coach did not give you, or leave wearing his, and you noclip into Level 0 without them.
 - **The danger:** staying. It is safe and warm, and the food court serves you free once every twelve hours, so nobody wants to leave.
 
-### Level 36: the Airport
+### Level 36: the Airport (experimental)
+
+*Not reachable in play in this version: its doors under an airplane sign in Levels 9 and 11 stay locked. What follows is how it plays once it opens.*
 
 Class 1 on the lore's scale, but entered only from deep levels, so its food is thin (x0.35). An endless terminal, empty and spotless, where nobody sleeps and your Rest stays where it was.
 

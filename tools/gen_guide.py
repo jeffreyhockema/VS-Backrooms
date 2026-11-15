@@ -1139,7 +1139,7 @@ An elevator arrives beside another elevator, a stairwell beside a stairwell, a d
 - @4,26 Level 4, a grey steel door marked SERVER ROOM in an office's server room, a green light under it: Level 120, beside a steel door that leads back.
 - @4,23 Level 4, a door under a green EMERGENCY EXIT sign: Level 52, just inside the end doors of a teaching block, which lead back.
 - @11,23 Level 11, a high school (steel doors under a HIGH SCHOOL sign): Level 52, just inside a campus building's front doors, which lead back.
-- @9,11,25 Levels 9 and 11, a glazed door under a lit airplane sign: Level 36's claim hall, beside a door in the baggage wall that leads back.
+- @25 Levels 9 and 11, a glazed door under a lit airplane sign: Level 36's claim hall, beside a door in the baggage wall that leads back.
 - @12,28 Level 23, the hollow tree in the middle of Base Seedling: one hollow tree in Level 37, which leads back.
 
 **One-way, the farther levels**

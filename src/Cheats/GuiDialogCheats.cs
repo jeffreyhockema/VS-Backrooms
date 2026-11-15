@@ -142,7 +142,9 @@ public class GuiDialogCheats : GuiDialog
     private double ComposeTravel(GuiComposer c, double y)
     {
         y = Heading(c, "Go to a level", y);
-        y = ButtonGrid(c, y, LevelNumbers.Select(n => B(LevelLabel(n), $"/backrooms goto {n}")).ToArray(), 7);
+        y = ButtonGrid(c, y, LevelNumbers.Select(n => n == "36"
+            ? B("Level 36 (exp.)", $"/backrooms goto {n}", "Experimental: not reachable in play (its airplane-sign doors in Levels 9 and 11 stay locked); only the cheats go there")
+            : B(LevelLabel(n), $"/backrooms goto {n}")).ToArray(), 7);
 
         // The special places of the level you are in (made again when you go to another level)
         composedLevel = cheats.CurrentLevel();

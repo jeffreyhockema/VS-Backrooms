@@ -1,5 +1,11 @@
 # Experimental levels (branch `experimental-levels`)
 
+> **0.701.0: Level 36 is experimental and not reachable in play.** The user's decision (2026-11-15): its doors under an
+> airplane sign in Levels 9 and 11 stay locked in every world (`ThresholdNetwork.L36Open`, false; worldgen unchanged, the
+> doors are still drawn). Its ways out still work for anyone already inside, and the cheats still go there. It is left
+> out of the 0.701.0 changelog and the mod page. Set `L36Open` true (and restore the handbook's `@9,11,25` line, the
+> README/GUIDE lines and the class table) to open it.
+
 Ten levels, built as prototypes and brought up to the released levels' quality in four detail rounds (rounds 2 to 4
 judged from screenshots in the real client; round 3, 2026-11-01, worked each level through a listed visual pass: rooms by
 function, multi-block objects, signs and text; round 4, 2026-11-03, the asset-quality pass: every prop rebuilt to the

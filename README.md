@@ -4,13 +4,13 @@ A [Vintage Story](https://www.vintagestory.at/) mod. **Wake up in the Backrooms 
 
 ![Level 0, where you wake](docs/screenshots/01-level0-where-you-wake.png)
 
-You start in Level 0, an endless, procedurally generated labyrinth of mono-yellow rooms under buzzing fluorescent lights, with a folded note in your pocket and two supply boxes beside you. Walk far enough and it gives way to deeper levels, one after another: the concrete car park of Level 1, the pipe tunnels of Level 2, the Electrical Station, the Abandoned Office, the Terror Hotel, the lightless maze of Level 6, the endless sea of Level 7, the caves of Level 8, the night-time Suburbs and the farmland of Level 10. Further still, reached by the ways between levels and no wall, lie the Endless City, the Poolrooms, Motion, Level !, Level Fun =), The End, The Hub, Kitty's House, the Neon Paradise and the Courtyard of Windows. Past those, by rarer ways still, lie ten more: the Basement under the floors, the Redlands and its castle, the School Halls, the Roller Rink, Broken Servos, the Airport, the Futuristic Halls, the Petrified Garden, the Hospital and the Adderwood.
+You start in Level 0, an endless, procedurally generated labyrinth of mono-yellow rooms under buzzing fluorescent lights, with a folded note in your pocket and two supply boxes beside you. Walk far enough and it gives way to deeper levels, one after another: the concrete car park of Level 1, the pipe tunnels of Level 2, the Electrical Station, the Abandoned Office, the Terror Hotel, the lightless maze of Level 6, the endless sea of Level 7, the caves of Level 8, the night-time Suburbs and the farmland of Level 10. Further still, reached by the ways between levels and no wall, lie the Endless City, the Poolrooms, Motion, Level !, Level Fun =), The End, The Hub, Kitty's House, the Neon Paradise and the Courtyard of Windows. Past those, by rarer ways still, lie nine more: the Basement under the floors, the Redlands and its castle, the School Halls, the Roller Rink, Broken Servos, the Futuristic Halls, the Petrified Garden, the Hospital and the Adderwood.
 
 It is a complete survival game built on Vintage Story's own systems. Hunger, thirst, sleep, temporal stability, knapping, pottery, smelting, farming and animal husbandry all still work; what changes is where everything comes from. You start by cutting a blade from a glass shard, and you end up with a lit home in Level 0, crops under the ceiling lights, copper from the pipes, iron from the caves, and a map of the ways between levels that you drew yourself.
 
 ## Features
 
-- **Thirty-two levels**: Levels 0 to 11, the Snackrooms, Level 37, Level 94, seven far places and ten more (the Basement and Levels 73, 52, 31, 120, 36, 15, 23, 14 and 47), each built to follow the Backrooms lore.
+- **Thirty-one levels**: Levels 0 to 11, the Snackrooms, Level 37, Level 94, seven far places and nine more (the Basement and Levels 73, 52, 31, 120, 15, 23, 14 and 47), each built to follow the Backrooms lore. (Level 36, the Airport, is built but experimental: it is not reachable in play yet.)
 - **More than seventy kinds of threshold** between them: elevators, stairwells, pits, pools, vents, windows, barn walls that aren't quite there. Every one always leads to the same place, so you can build a travel network from what you find.
 - **Scavenger survival**: salvage furniture, lights and the building itself, then follow Vintage Story's normal path of flint, fire, pottery, copper and bronze with materials found level by level.
 - **A climb by class**: each level has a class, from 0 to 5, and a placard by every gate into a higher one says what lies past it. From Level 3 on, what lives there outruns a sprint, so armour, fire and what you carry decide the climb.
@@ -27,7 +27,7 @@ It is a complete survival game built on Vintage Story's own systems. Hunger, thi
 | Class | Levels |
 | --- | --- |
 | 0 | 31, 37, The End |
-| 1 | 0, 1, 4, 6, 10, 15, 36, 52 |
+| 1 | 0, 1, 4, 6, 10, 15, 52 |
 | 2 | 5, 11, 120, the Basement |
 | 3 | 2, 47, 94, 188 |
 | 4 | 3, 7, 8, 14, 23 |

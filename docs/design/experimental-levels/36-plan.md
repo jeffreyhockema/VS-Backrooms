@@ -1,5 +1,11 @@
 # Level 36 "Airport": plan
 
+> **0.701.0: Level 36 is experimental and not reachable in play.** The user's decision (2026-11-15): its doors under an
+> airplane sign in Levels 9 and 11 stay locked in every world (`ThresholdNetwork.L36Open`, false; worldgen unchanged, the
+> doors are still drawn). Its ways out still work for anyone already inside, and the cheats still go there. It is left
+> out of the 0.701.0 changelog and the mod page. Set `L36Open` true (and restore the handbook's `@9,11,25` line, the
+> README/GUIDE lines and the class table) to open it.
+
 Internal id **25**, `WorldLayout.Level36`, tag `36`, blocks `l36-`, method infix `L36`, region west-south-west (Level 55's old
 slot, README batch 3). Linked since 2026-10-31 (see "Links" at the end): doors under an airplane sign in Levels 9 and 11 in,
 the gates' flights and a restroom sink out.

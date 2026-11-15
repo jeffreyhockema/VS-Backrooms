@@ -119,7 +119,7 @@ public static class FeatureCatalog
         new(9, "l9swings", "Swing set", Tiles),
         new(9, "l9veg", "Vegetable patch", Tiles),
         new(9, "l9gloom", "The Gloom (to 73)", Region),
-        new(9, "l9airport", "Airplane-sign door (to 36)", Region),
+        new(9, "l9airport", "Airplane-sign door (to 36, locked: experimental)", Region),
         // ===== Level 10, the Bumper Crop =====
         new(10, "fieldthing", "Shed, trough or gate", Tiles),
         new(10, "l10scarecrow", "Scarecrow", Tiles),
@@ -154,7 +154,7 @@ public static class FeatureCatalog
         new(11, "l11wheat", "Wheat patch (to Level 10)", Tiles),
         new(11, "l11glitch", "Purple wall (to 3999)", Tiles),
         new(11, "l11school", "HIGH SCHOOL (to 52)", Region),
-        new(11, "l11airport", "Airplane-sign door (to 36)", Region),
+        new(11, "l11airport", "Airplane-sign door (to 36, locked: experimental)", Region),
         // ===== Level 37, the Poolrooms =====
         new(WorldLayout.Poolrooms, "l37rotunda", "Domed rotunda", Cells),
         new(WorldLayout.Poolrooms, "l37natatorium", "Natatorium", Cells),
@@ -323,7 +323,7 @@ public static class FeatureCatalog
         new(WorldLayout.Level31, "l31neon", "Neon-lit hall", Region),
         new(WorldLayout.Level31, "l31revolving", "Revolving Door (out)", Region),
         new(WorldLayout.Level31, "l31doorback", "Wooden door (way back)", Region),
-        // ===== Level 36, the Airport =====
+        // ===== Level 36, the Airport (experimental: not reachable in play, ThresholdNetwork.L36Open) =====
         new(WorldLayout.Level36, "l36carousel", "Baggage carousel", Region),
         new(WorldLayout.Level36, "l36doorback", "Baggage-wall door (back)", Region),
         new(WorldLayout.Level36, "l36lostfound", "Lost and Found", Region),

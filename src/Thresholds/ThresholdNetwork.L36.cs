@@ -17,6 +17,14 @@ namespace Backrooms.Thresholds;
 /// </summary>
 public sealed partial class ThresholdNetwork
 {
+    /// <summary>
+    /// Whether the doors under an airplane sign in Levels 9 and 11 let anyone in. False from 0.701.0: Level 36 is experimental
+    /// and not reachable in play (the user's decision, 2026-11-15); the doors are drawn as before (worldgen does not move) but
+    /// stay locked, in every world, including one somebody already came in by. Its ways out still work for anyone inside, and
+    /// the cheats (F7, /tp) still reach it. Set true to open it again.
+    /// </summary>
+    public static readonly bool L36Open = false;
+
     /// <summary>Hash salts for the level's thresholds start here (0x25C0-0x25FF).</summary>
     private const ulong SaltL36Threshold = 0x25C0;
 
@@ -33,7 +41,8 @@ public sealed partial class ThresholdNetwork
             case "l36-airport" when level is 9 or 11:
             {
                 // A door under an airplane sign in the city or the Suburbs: into the claim hall, beside a door like it in
-                // the baggage wall, the way back
+                // the baggage wall, the way back (locked while the level is experimental)
+                if (!L36Open) { refusal = "locked"; return null; }
                 var door = layout.FeatureOrigin(x, z, L36AirportDoor);
                 if (!L36AirportDoor(layout.TileAt(door.X, door.Z))) { refusal = "nowhere"; return null; }
                 Passage passage = BothWays(door, KeyOf(door, SaltL36Threshold + 1), WorldLayout.Level36, L36LandDoor);
