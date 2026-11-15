@@ -122,7 +122,6 @@ public class RigCommands : ModSystem
                 if (type == null) return TextCommandResult.Error("rig-error: no hound");
                 Entity hound = sapi.World.ClassRegistry.CreateEntity(type);
                 hound.Pos.SetPos(coran.Pos.X + 2, coran.Pos.Y, coran.Pos.Z);
-                hound.ServerPos.SetFrom(hound.Pos);
                 // (As /backrooms perceive puts a thing down: prepared for a dummy and always active, or the director's rules take a Hound nobody asked for away at once; its own tasks held still)
                 // (The dummy it is prepared for stands by Coran: a Hound far from its target is taken away)
                 if (menace.LivingDummies.FirstOrDefault() is { } dummy) dummy.TeleportToDouble(coran.Pos.X - 6, coran.Pos.Y, coran.Pos.Z);

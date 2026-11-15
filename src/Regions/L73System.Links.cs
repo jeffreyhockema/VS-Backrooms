@@ -549,7 +549,7 @@ public partial class AiTaskL73Coran
         {
             pathTraverser.Stop();
             Move(null);
-            entity.Pos.Yaw = entity.ServerPos.Yaw = GameMath.PI; // facing north, the door
+            entity.Pos.Yaw = GameMath.PI; // facing north, the door
             if (!l73.LeadOpening && led != null && led.Pos.HorDistanceTo(front) < LeadOpenBlocks) l73.CoranAtDoor(entity, now);
             else if (!l73.LeadOpening && led != null && now >= leadWordMs)
             {

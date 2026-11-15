@@ -74,12 +74,10 @@ public partial class ThresholdSystem
 
     // ================= The client =================
 
-    private ICoreClientAPI transitionApi;
     private TransitionRenderer transition;
 
     private void StartTransitionClient(ICoreClientAPI api)
     {
-        transitionApi = api;
         transition = new TransitionRenderer(api);
         api.Event.RegisterRenderer(transition, EnumRenderStage.Ortho, "backrooms-transition");
         api.Network.GetChannel(Channel).SetMessageHandler<TransitionPacket>(packet =>
