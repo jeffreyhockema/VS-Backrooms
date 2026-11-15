@@ -111,6 +111,13 @@ static partial class LevelModes
             foreach (var (x, z, _) in near.Take(2))
             {
                 var p = net.Used(x, z, "l36-airport", out string refusal);
+                if (!Backrooms.Thresholds.ThresholdNetwork.L36Open)
+                {
+                    // 0.701.0: the level is closed, so the door must refuse, and as locked
+                    if (p != null || refusal != "locked") Bad($"airport door {x},{z} in Level {host} is not locked while Level 36 is closed ({refusal ?? "it opens"})");
+                    else Console.WriteLine($"  Level {host} airport door {x},{z}: locked (Level 36 closed)");
+                    continue;
+                }
                 if (p == null) { Bad($"airport door {x},{z} in Level {host} leads nowhere ({refusal})"); continue; }
                 var home = new Backrooms.Thresholds.Link(x + 0.5, 1000, z + 0.5, false);
                 if (net.Take(p, home) is not { } arr) { Bad($"airport door {x},{z}: no arrival"); continue; }
