@@ -220,15 +220,6 @@ public sealed partial class WorldLayout
         return true;
     }
 
-    /// <summary>A mount centred on a tile (the left of the two middle ones for an even width), its run along P or Q.</summary>
-    private static bool L31MountAt(L31Plan plan, int p, int q, bool alongP, string name, ArchPier face)
-    {
-        int m = Array.FindIndex(L31Mounts, k => k.Name == name);
-        if (m < 0) return false;
-        int a = -(L31Mounts[m].Cols - 1) / 2, b = a + L31Mounts[m].Cols - 1;
-        return alongP ? L31MountRun(plan, p + a, q, p + b, q, name, face) : L31MountRun(plan, p, q + a, p, q + b, name, face);
-    }
-
     /// <summary>The staff a <see cref="L31Props.StaffSpot"/> is for.</summary>
     public const byte L31Coach = 0, L31Server = 1, L31Dj = 2;
 

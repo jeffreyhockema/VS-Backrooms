@@ -21,7 +21,7 @@ namespace Backrooms.Worldgen;
 public sealed partial class WorldGenerator
 {
     private int l73Earth, l73Rock, l73Ash, l73Mud, l73Silver, l73Basalt, l73Sand, l73Gravel, l73Ashlar, l73Carpet, l73Damask, l73TileFloor,
-        l73Boards, l73Ember, l73Slate, l73Bath, l73WindowBoards, l73Note, l73Burnt, l73Crust, l73Bone;
+        l73Boards, l73Bath, l73Note, l73Burnt, l73Crust;
     private readonly int[] l73Grass = new int[4];
     /// <summary>The keep's lined walls: [0 panelling (floor height), 1 damask above], by the face lined (north, east, south, west, 4 all round).</summary>
     private readonly int[,] l73Lined = new int[2, 5];
@@ -64,7 +64,6 @@ public sealed partial class WorldGenerator
         l73Mud = Id("l73-bloodmud");
         l73Burnt = Id("l73-burnt");
         l73Crust = Id("l73-crust");
-        l73Bone = Id("l73-bone");
         string[] lined = { "north", "east", "south", "west", "all" };
         for (int f = 0; f < 5; f++)
         {
@@ -75,9 +74,7 @@ public sealed partial class WorldGenerator
         l73Grass[2] = Id("l73-deadgrass-mid");
         l73Grass[3] = Id("l73-deadgrass-tall");
         l73Silver = Id("l73-silverwall");
-        l73Slate = Id("l73-slate");
         l73Bath = Id("l73-bath");
-        l73WindowBoards = Id("l73-boards");
         l73Note = Id("loosenote-refuge");
         string[] curtainParts = { "top", "mid", "low" }, doorParts = { "lb", "rb", "lm", "rm", "lt", "rt" };
         for (int f = 0; f < 4; f++)
@@ -101,7 +98,6 @@ public sealed partial class WorldGenerator
         l73Damask = BlockId("backrooms:hotelcarpet-damask");
         l73TileFloor = Id("l188-tile-bath");
         l73Boards = BlockId("game:planks-aged-ud");
-        l73Ember = GameId("game:ember");
         floorIds[(int)FloorKind.L73Floor] = l73Earth;
         floorIds[(int)FloorKind.L73Rock] = l73Rock;
         floorIds[(int)FloorKind.L73Ash] = l73Ash;

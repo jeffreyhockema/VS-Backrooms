@@ -38,7 +38,7 @@ namespace Backrooms.Worldgen;
 public sealed partial class WorldLayout
 {
     /// <summary>Hash salts 0x2300-0x23BF are this level's (0x23C0-0x23FF its thresholds').</summary>
-    private const ulong SaltL52Shape = 0x2301, SaltL52Campus = 0x2310, SaltL52Room = 0x2311, SaltL52Light = 0x2312, SaltL52Hill = 0x2313,
+    private const ulong SaltL52Shape = 0x2301, SaltL52Campus = 0x2310, SaltL52Room = 0x2311, SaltL52Hill = 0x2313,
         SaltL52Wave = 0x2314, SaltL52Tree = 0x2315, SaltL52Gap = 0x2316, SaltL52Stray = 0x2317, SaltL52Plan = 0x2318, SaltL52Storey = 0x2319,
         SaltL52Style = 0x231A;
 

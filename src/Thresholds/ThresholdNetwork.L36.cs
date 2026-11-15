@@ -80,9 +80,6 @@ public sealed partial class ThresholdNetwork
         return null;
     }
 
-    /// <summary>An arrival finder in the level, beside a feature if one is given.</summary>
-    private Func<ulong, (int X, int Z, double Height)?> IntoL36(Func<Tile, bool> beside = null) => In(WorldLayout.Level36, beside);
-
     /// <summary>In the claim hall, off the belts, beside a door under an airplane sign in the baggage wall where one can be found.</summary>
     private Func<ulong, (int X, int Z, double Height)?> IntoL36Landside() => key =>
         layout.FindArrival(WorldLayout.Level36, key, L36LandDoor, spot: WorldLayout.IsL36LandsideSpot) is { } a ? (a.X, a.Z, layout.ArrivalHeight(a.X, a.Z)) : null;

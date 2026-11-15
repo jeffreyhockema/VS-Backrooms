@@ -80,8 +80,6 @@ public sealed partial class WorldGenerator
                 for (int k = 0; k < 5; k++) l73Drum[(dx + 2) * 2 + dz, k] = Id($"l73-drum-{dx + 2}{dz}-{courses[k]}");
     }
 
-    private static int L73Ccw(int side) => (side + 3) & 3;
-
     /// <summary>A tower's or turret's top ring: which side a perimeter cell faces out to and whether it is a corner (the
     /// corner variants face their side and the one anticlockwise: NW is "north", NE "east", SE "south", SW "west"); -1 inside.</summary>
     private static (int Side, bool Corner) L73RingSide(int a, int b, int size)

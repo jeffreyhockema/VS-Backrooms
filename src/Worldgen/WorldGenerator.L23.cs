@@ -25,7 +25,7 @@ namespace Backrooms.Worldgen;
 /// </summary>
 public sealed partial class WorldGenerator
 {
-    private const ulong SaltL23Deco = 0x2840, SaltL23Mat = 0x2841, SaltL23Pot = 0x2843;
+    private const ulong SaltL23Deco = 0x2840, SaltL23Mat = 0x2841;
 
     /// <summary>The lowest height of a column that is worked out (the band's bottom), and how many heights there are up to the top of the world.</summary>
     private const int L23Low = -20, L23Height = WorldLayout.L23Top - L23Low + 1;
