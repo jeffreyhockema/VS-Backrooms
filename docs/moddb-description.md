@@ -1,6 +1,6 @@
 # Backrooms: Survival Story
 
-<!-- The text of the mod database page (https://mods.vintagestory.at/backrooms), version 0.610.5. moddb-description.html is the same text with the page's styling and images; keep both in sync. To publish, open the page editor's source view (the <> button) and replace everything with moddb-description.html; every style there is inline, and it has no HTML comments because the editor shows them as text.
+<!-- The text of the mod database page (https://mods.vintagestory.at/backrooms), version 0.701.0. moddb-description.html is the same text with the page's styling and images; keep both in sync. To publish, open the page editor's source view (the <> button) and replace everything with moddb-description.html; every style there is inline, and it has no HTML comments because the editor shows them as text.
 
 Spoiler policy (2026-11-01): the page stays around 2,500 words. Full cards, and named places, only for the rings (Levels 0 to 11 and the Snackrooms), with no creature named in a card; every level beyond the rings is a number, its name and a few words, so a reader knows which lore was built; the roster lists only what lives in the rings, what each does and no counters; no creature drops, no one-way door list, no level-by-level materials list. The player guide has the rest. -->
 
@@ -12,21 +12,24 @@ Backrooms: Survival Story is a complete survival game built on Vintage Story's o
 
 Links: [Player guide (spoilers)](https://github.com/jeffreyhockema/VS-Backrooms/blob/main/docs/GUIDE.md) · [Changelog](https://github.com/jeffreyhockema/VS-Backrooms/blob/main/CHANGELOG.md) · [Source on GitHub](https://github.com/jeffreyhockema/VS-Backrooms) · [Report a bug](https://github.com/jeffreyhockema/VS-Backrooms/issues)
 
-At a glance: 22 levels, 70+ ways between levels, 25+ things that live here, 1 place you wake up.
+At a glance: 31 levels, 100+ ways between levels, 35+ things that live here, 1 place you wake up.
 
 **Requires Vintage Story 1.22 or later.** Backrooms worlds are created with the **Backrooms: Survival Story** playstyle; your normal worlds are untouched, and updating the mod never rearranges a world you have already started.
 
 ---
 
-## Recent updates: 0.610.5
+## What's new since 0.610.5
 
-- **0.610.5, what you have seen.** The handbook learns as you do: it names a far level or a creature only once you have been there or met it, and opens a page on each as you find them. Long handbook pages no longer show black on Linux. The F7 cheat menu lists the special places of the level you are in and takes you to one, facing it.
-- **0.610.4, pine and paper.** Level 10 grows pines whose low logs ooze resin (in new worlds), and two wanderers' camps sell it. Other mods' schematics turn up in deep caches. Level 1's and Level 5's stairs can be climbed to the top in new worlds.
-- **0.610.3, the colour of the way.** Map waypoints for the ways between levels are coloured by where they lead. Wanderers buy a few more things. When the lights go out in Level 1, they go out for the whole party.
-- **0.610.1 and 0.610.2.** Players together are no longer hunted twice as often. Hotbar tooltips work again. Hounds fit through one-block gaps.
-- **0.610.0, the creatures, the needs and the climb.** Creatures that see, hear and remember, rare, and deadlier the deeper you go. Thirst and fatigue, with bottles, beds and a bedroll. Level classes, M.E.G. placards at the gates and armour that matters. Wanderers who trade. Death leaves a body, and you wake in your last bed. Six entity settings.
+- **0.701.0, nine new levels.** Level 73 (the Redlands), the Basement, Level 52 (School Halls), Level 31 (Roller Rink), Level 120 (Broken Servos), Level 15 (Futuristic Halls), Level 23 (the Petrified Garden), Level 14 (the Hospital) and Level 47 (the Adderwood), all beyond the rings, each with its own ways in and out, a handbook page, wanderers' notes, sounds and dangers. Worlds from earlier versions get them in the parts nobody has reached yet.
+- **Things on the walls work.** Fire alarms and sprinklers, steam valves, breakers that put the lights out, car alarms, radios and wind-up alarm clocks; and everything that works makes a noise that hunters follow.
+- **Real models and new clothes.** Nearly every item that was a flat sprite has a model now, and there are t-shirts, jeans, hoodies, work jackets, boots, a lab coat and a rare hazmat suit.
+- **Carpet is worth cutting.** Twine costs 18 fibres, and a crouched cut lifts a whole carpet square, for carpet armour (as good as a leather jerkin, and silent), a bedroll and a four-slot bag. Pleather is gone, and what you had of it is carpet now. Metal armour is loud.
+- **Food is under pressure.** A torn box sometimes gives a scrap, and in new worlds the food shelves and fridges of Levels 1 to 5 are picked over too; a store broken open with others nearby gives more. Sprinting tires you four times as fast.
+- **The late game, eased.** Hounds in Levels 8 and 9 come about half as often, one pack at a time. The way back from the Suburbs to the city works again, and in new worlds one Level 10 barn in five has the wall that is not quite there, and you can tell which.
+- **Smaller things.** Vanilla drinks fill the water bar, washers give borax, chalk comes in four colours, and iceboxes hold cheese.
+- **0.611.0 and 0.611.1, the review.** Fixes from a whole-project review (bodies, ways back, night visitors, vending stock, new-world layouts), a hint the first time you run low on water, clearer tutorial steps, and no more crash on joining a world where the tutorial was started.
 
-The changelog has the full list.
+Every change, with the details, is in the [changelog](https://github.com/jeffreyhockema/VS-Backrooms/blob/main/CHANGELOG.md).
 
 ---
 
@@ -68,6 +71,24 @@ The changelog has the full list.
   A library that looks like the way out.
 - **The Hub**  
   Road tunnels lined with doors to almost every level.
+- **Level 73, the Redlands**  
+  A dark red island in a black sea, under a moon that never moves.
+- **The Basement**  
+  A cellar far larger than any house.
+- **Level 52, School Halls**  
+  Green hills, a blue sky and schools with nobody in them.
+- **Level 31, Roller Rink**  
+  A 1990s roller rink that goes on for ever.
+- **Level 120, Broken Servos**  
+  Ripped-apart server rooms in the dark.
+- **Level 15, Futuristic Halls**  
+  White halls and a hum that never stops.
+- **Level 23, the Petrified Garden**  
+  A forest of stone trees under a lid of leaves.
+- **Level 14, the Hospital**  
+  A hospital that never ends.
+- **Level 47, the Adderwood**  
+  An old-growth forest that will not stay mapped.
 
 ---
 
@@ -94,13 +115,13 @@ What lives in the Backrooms is there to be heard and glimpsed far more than foug
 | Strider | A man-sized eyeball on six tall legs walking Level 9's streets; it hunts by sight alone and comes faster than you can run. |
 | Watcher | A giant eye floating silently over Level 9's streets. If it sees you in the open, its eye glows for two seconds, and then its beam kills. |
 
-And nine more, beyond the rings, waiting to be discovered.
+And nineteen more, beyond the rings, waiting to be discovered.
 
 ---
 
 ## Surviving
 
-**You are a scavenger.** Most of what you own is salvage: supply boxes, crates, furniture, dead lights and ceiling tiles break for scraps, and walls and carpet cut for wallpaper strips and carpet fibres. A glass shard is your first blade, and with it you make a shiv, a scraper, twine, a bag and tinder in Level 0 alone. From there the normal Vintage Story path carries on, its materials found level by level: flint, clay, coal, copper, ore, sand, crops and livestock, each in a level of its own.
+**You are a scavenger.** Most of what you own is salvage: supply boxes, crates, furniture, dead lights and ceiling tiles break for scraps, and walls and carpet cut for wallpaper strips, carpet fibres and carpet squares. A glass shard is your first blade, and with it you make a shiv, a scraper, twine, a bag and tinder in Level 0 alone. From there the normal Vintage Story path carries on, its materials found level by level: flint, clay, coal, copper, ore, sand, crops and livestock, each in a level of its own.
 
 **What breaks, and what does not.** Drywall and wallpaper give way to any tool and give almost nothing. Concrete, brick and tile need a copper pickaxe and break into rubble, and four rubble make a block of masonry to build with. Pipes and machinery give brackets, wire and the odd bit of copper or lead. Roofs, the walls between levels, and every door, elevator and vent never break.
 
@@ -133,7 +154,7 @@ That is only how the world is built. The real map is the network of ways between
 1. **Every way between levels always leads to the same place.** Where it leads is fixed the first time anyone goes through it and saved with the world.
 2. **If you walked through it, you can walk back. If you fell, dived or were taken, you cannot.** Elevators arrive beside elevators, stairs beside stairs, doors beside doors, and that partner is the way back. Where there is none, one is built for you nearby, in that level's own style. A few doors close behind you for good.
 
-Elevators, stairwells, vents, pools, fountains, manholes, vending machines, posters, windows where no window should be: more than seventy different ways tie the levels together, the way vanilla translocators pair up once repaired. Finding them is a matter of mapping, supplies and luck. Building routes out of what you have found is the game.
+Elevators, stairwells, vents, pools, fountains, manholes, vending machines, posters, windows where no window should be: more than a hundred different ways tie the levels together, the way vanilla translocators pair up once repaired. Finding them is a matter of mapping, supplies and luck. Building routes out of what you have found is the game.
 
 ---
 
@@ -157,8 +178,8 @@ World settings, under *Survival challenges* (level size under *World generation*
 ## Notes and credits
 
 - Built for Vintage Story 1.22.
-- Version 0.610.5 is a full, playable survival game, and still in active development: expect balance changes and refinements between versions.
-- In English and Spanish; the Spanish translation is by NeoB.
+- Version 0.701.0 is a full, playable survival game, and still in active development: expect balance changes and refinements between versions.
+- In English and Spanish; the Spanish translation is by NeoB (the newest levels' Spanish is machine-made for now, awaiting a native reader).
 - The levels are generated as you walk; the first chunks of a new region take a moment.
 - Lore follows the Backrooms Wikidot wiki first, the Fandom and Miraheze wikis second, with the original photo posted in 2019 and Kane Pixels' films for Level 0's look and feel.
 - Open source: the code is GPL-3.0, and the textures, models, sounds and text are CC BY-SA 4.0. Level and creature lore is adapted from the Backrooms wikis under CC BY-SA; credits are in the README.
