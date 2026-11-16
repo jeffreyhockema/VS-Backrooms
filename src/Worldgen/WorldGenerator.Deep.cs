@@ -20,7 +20,7 @@ public sealed partial class WorldGenerator
     private readonly Dictionary<WallPattern, int> snackWallIds = new();
 
     // Level 7
-    private int oceanCeilingId, oceanGlowId, islandRockId, seabedId, tarId, roomFloorId;
+    private int oceanCeilingId, oceanGlowId, islandRockId, islandGlowFaintId, islandGlowDeepId, seabedId, tarId, roomFloorId;
     private const ulong SaltCeilingGlow = 0x7C20;
     // Level 7 from layout version 9: the high ceiling (plain and glowing), the sunken rooms' windows, and vanilla's rope
     // ladder by the side it hangs against (as Sides)
@@ -152,6 +152,8 @@ public sealed partial class WorldGenerator
         oceanCeilingId = Id("oceanceiling-plain");
         oceanGlowId = Id("oceanceiling-glow");
         islandRockId = Id("islandrock-plain");
+        islandGlowFaintId = Id("islandrockglow-faint");
+        islandGlowDeepId = Id("islandrockglow-deep");
         seabedId = BlockId("backrooms:carpet-soaked");
         tarId = Id("tar");
         roomFloorId = seabedId; // the entry room's carpet, soaked with the water pooling on it
@@ -509,6 +511,9 @@ public sealed partial class WorldGenerator
             fluid = waterId;
             return rel == bed + t.Stack ? kelpTopId : kelpSectionId;
         }
+        // (From layout version 17) The ways out of the sea glow faintly, so a diver can find them in the dark: the bottom of a
+        // cave mouth's shaft and a ring of the islands' rock round its mouth (below), and the tops of a stone circle's stones
+        if (layout.Version >= 17 && (t.Under == Unders.Cave ? rel == bed - 8 : rel == bed && t.Under == 0 && IsCaveRim(gx, gz))) return islandGlowDeepId;
         if (t.Under == Unders.Cave && rel <= bed && rel > bed - 8)
         {
             fluid = waterId;
@@ -516,7 +521,7 @@ public sealed partial class WorldGenerator
         }
         if (rel > bed)
         {
-            if (t.Variant == Props.StoneStapler && rel <= bed + 4) return islandRockId; // a standing stone
+            if (t.Variant == Props.StoneStapler && rel <= bed + 4) return rel == bed + 4 && layout.Version >= 17 ? islandGlowFaintId : islandRockId; // a standing stone
             fluid = waterId;
             // Waterweed in the shallows, dead coral in the twilight zone (WorldGenerator.Caves.cs)
             if (rel <= bed + 4 && SeabedGrowth(t, gx, gz, rel, bed) is int growth and >= 0) return growth;
@@ -549,6 +554,17 @@ public sealed partial class WorldGenerator
     /// and the islands' pillars go on up to it. The entry rooms hang from it in their piers (<see cref="WorldLayout.AddEntryRoomV9"/>),
     /// and the sunken rooms lie on the seabed (<see cref="SunkenRoomBlock"/>).
     /// </summary>
+    /// <summary>
+    /// Whether a column of Level 7's seabed is in the ring round a cave mouth (layout version 17): two tiles out from the middle
+    /// of a cell whose feature is a cave mouth (<see cref="WorldLayout.L7FeatureOf"/>; the mouth is the 3 by 3 round the middle).
+    /// </summary>
+    private bool IsCaveRim(int gx, int gz)
+    {
+        int mx = WorldLayout.MacroOf(gx), mz = WorldLayout.MacroOf(gz);
+        int dx = gx - mx * WorldLayout.MacroSize - WorldLayout.L7FeatureMiddle, dz = gz - mz * WorldLayout.MacroSize - WorldLayout.L7FeatureMiddle;
+        return Math.Max(Math.Abs(dx), Math.Abs(dz)) == 2 && layout.L7FeatureOf(mx, mz) == WorldLayout.L7Feature.Cave;
+    }
+
     private int HighSeaBlock(in Tile t, int gx, int gz, int rel, out int fluid)
     {
         fluid = 0;

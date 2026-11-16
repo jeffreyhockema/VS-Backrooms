@@ -43,7 +43,7 @@ POOLROOMS, MOTION, RUN, FUN, END, HUB, L974, L3999, L188, SNACKROOMS = 12, 13, 1
 LEVEL_IDS = set(range(0, 12)) | {POOLROOMS, MOTION, RUN, FUN, END, HUB, L974, L3999, L188, SNACKROOMS}
 
 # What an entry may mark besides its paper's own mark (src/Notes/MarkResolver.cs)
-MARKS = {"door", "way", "cache", "refuge", "manila", "den", "manhole", "barnwall", "endexit", "hubdoor", "redroom", "party", "sunken"}
+MARKS = {"door", "way", "cache", "refuge", "manila", "den", "manhole", "barnwall", "endexit", "hubdoor", "redroom", "party", "sunken", "l7circle", "l7cave"}
 
 # The recurring writers (for the catalogue only; the signatures are part of each text)
 WRITERS = {
@@ -437,9 +437,9 @@ TRACKS.append(Track("l7", "common", "Level 7: Thalassophobia", 7, entries=[
 You come in from a room in the ceiling, over the drop. Shallows by the walls, then the twilight, then the midnight, then
 the abyss. Islands of black rock, some with a camp and a supply box.""", mark="cache"),
     E("l7-2", "Standing stones", """
-A ring of standing stones in the water. Dive in the middle and you come up in the Suburbs. One way."""),
+A ring of standing stones in the water. Dive in the middle and you come up in the Suburbs. One way.""", mark="l7circle"),
     E("l7-3", "The cave mouth", """
-A cave mouth in the deep. Swim in and you come out on the 9th Road, in the caves. One way. Take a breath first."""),
+A cave mouth in the deep. Swim in and you come out on the 9th Road, in the caves. One way. Take a breath first.""", mark="l7cave"),
     E("l7-4", "White tile", """
 In the twilight zone, a patch of white tile on the seabed, faintly lit. Dive to it and you come up in warm water: the
 Poolrooms. One way."""),
@@ -1725,6 +1725,8 @@ def write_lang():
         "waypoint-note-redroom": "The Red Rooms (a note)",
         "waypoint-note-party": "A party =) (a note)",
         "waypoint-note-sunken": "Air under the sea (a note)",
+        "waypoint-note-l7circle": "Standing stones (a note)",
+        "waypoint-note-l7cave": "A cave mouth in the deep (a note)",
         "waypoint-note-runexit": "The real exit (a note)",
         "waypoint-note-hubopen": "A carved door that opens (a note)",
         "waypoint-note-staffdoor": "STAFF ONLY: one in six opens (a note)",

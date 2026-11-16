@@ -694,6 +694,13 @@ def level7():
     cube_block("islandrock", "Strange Rock", ["plain"], {"plain": "islandrock"}, comment="The unknown rock of Level 7's islands",
                randomizeAxes="xyz",  # (D4) a stack's or pillar's blocks pick their versions by height too
                drops=[{"type": "item", "code": "game:stone-basalt", "quantity": {"avg": 3, "var": 1}}], resistance=6)
+    # Layout version 17 (2026-11-15, a player could not find either in hours of diving): the same rock glowing faintly, so a
+    # diver can see the ways out of the sea from a distance. WorldGenerator.Deep.cs Level7Block draws it
+    cube_block("islandrockglow", "Glowing Strange Rock", ["faint", "deep"], {"faint": "islandrock", "deep": "islandrock"},
+               comment="The unknown rock of Level 7's islands, glowing faintly (layout version 17): the tops of the standing stones round a stone circle (faint), the rim of a cave mouth in the deep and the bottom of its shaft (deep)",
+               randomizeAxes="xyz", drops=[{"type": "item", "code": "game:stone-basalt", "quantity": {"avg": 3, "var": 1}}], resistance=6,
+               lightHsvByType={"*-faint": [34, 2, 7], "*-deep": [34, 2, 10]},
+               vertexFlagsByType={"*-faint": {"glowLevel": 64}, "*-deep": {"glowLevel": 96}})
     block("tar", {"class": "BackroomsTar", "creativeinventory": {"general": ["*"]}, "blockmaterial": "Soil", "drawtype": "cube",
                   # (B10) versions: a rising bubble in one block in four, two small ones in another; the drips of the
                   # sides at other places

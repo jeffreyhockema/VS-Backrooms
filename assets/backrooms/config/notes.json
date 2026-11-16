@@ -579,12 +579,12 @@
     {
      "key": "l7-2",
      "gate": [],
-     "mark": null
+     "mark": "l7circle"
     },
     {
      "key": "l7-3",
      "gate": [],
-     "mark": null
+     "mark": "l7cave"
     },
     {
      "key": "l7-4",

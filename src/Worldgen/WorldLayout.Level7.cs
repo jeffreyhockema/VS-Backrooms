@@ -214,20 +214,17 @@ public sealed partial class WorldLayout
         if (Version >= 5) ShapeLevel7(b, mx, mz, ocean);
         AddJetty(b, mx, mz);
 
-        double feature = Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltL7Feature));
-        int cx = 16, cz = 16, centreDepth = OceanDepth(mx * MacroSize + cx, mz * MacroSize + cz);
-        // The entry room is one of a kind in its stretch of sea (from layout version 9 hung from the high ceiling in a pier)
-        if (RegionPick(mx, mz, 4, SaltL7Feature + 1, 0.9) && centreDepth > 0 && centreDepth < TwilightDepth + 6)
+        const int cx = L7FeatureMiddle, cz = L7FeatureMiddle;
+        switch (L7FeatureOf(mx, mz))
         {
-            if (Version >= 9) AddEntryRoomV9(b, mx, mz, cx, cz);
-            else AddEntryRoom(b, cx, cz);
-            return;
+            case L7Feature.EntryRoom:
+                if (Version >= 9) AddEntryRoomV9(b, mx, mz, cx, cz);
+                else AddEntryRoom(b, cx, cz);
+                return;
+            case L7Feature.Circle: AddStoneCircle(b, cx, cz); break;
+            case L7Feature.Cave: AddUnderwaterCave(b, cx, cz); break;
+            case L7Feature.TiledSeabed: AddTiledSeabed(b, cx, cz); break;
         }
-        // (From layout version 12 a quarter as many of each: they are ways to a later level)
-        bool later = Version >= 12;
-        if (feature < (later ? 0.015 : 0.06) && centreDepth >= TwilightDepth && centreDepth < MidnightDepth) AddStoneCircle(b, cx, cz);
-        else if (feature < (later ? 0.04 : 0.16) && centreDepth >= MidnightDepth && centreDepth < AbyssDepth) AddUnderwaterCave(b, cx, cz);
-        else if ((later ? feature is >= 0.06 and < 0.07 : feature is >= 0.06 and < 0.1) && centreDepth >= TwilightDepth && centreDepth < MidnightDepth) AddTiledSeabed(b, cx, cz);
         // From layout version 9, now and then a room on the seabed with air under its roof, off the middle of the cell
         if (Version >= 9) AddSunkenRoom(b, mx, mz);
     }
@@ -612,6 +609,31 @@ public sealed partial class WorldLayout
                 return;
             }
         }
+    }
+
+    /// <summary>What a cell of Level 7 holds in its middle (<see cref="L7FeatureOf"/>).</summary>
+    public enum L7Feature : byte { None, EntryRoom, Circle, Cave, TiledSeabed }
+
+    /// <summary>The tile, on both axes of its cell, that a Level 7 feature is centred on.</summary>
+    public const int L7FeatureMiddle = 16;
+
+    /// <summary>
+    /// What a cell of Level 7 holds in its middle, from the cell alone (its hash and the sea's depth at its middle), so a note
+    /// can look a long way for the nearest stone circle or cave mouth without building the cells (<see cref="NearestL7Feature"/>).
+    /// The entry room is one of a kind in its stretch of sea (from layout version 9 hung from the high ceiling in a pier); from
+    /// layout version 12 there are a quarter as many of the others, as they are ways to a later level.
+    /// </summary>
+    public L7Feature L7FeatureOf(int mx, int mz)
+    {
+        int centreDepth = OceanDepth(mx * MacroSize + L7FeatureMiddle, mz * MacroSize + L7FeatureMiddle);
+        if (RegionPick(mx, mz, 4, SaltL7Feature + 1, 0.9) && centreDepth > 0 && centreDepth < TwilightDepth + 6) return L7Feature.EntryRoom;
+        double feature = Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltL7Feature));
+        bool later = Version >= 12;
+        bool twilight = centreDepth >= TwilightDepth && centreDepth < MidnightDepth;
+        if (feature < (later ? 0.015 : 0.06) && twilight) return L7Feature.Circle;
+        if (feature < (later ? 0.04 : 0.16) && centreDepth >= MidnightDepth && centreDepth < AbyssDepth) return L7Feature.Cave;
+        if ((later ? feature is >= 0.06 and < 0.07 : feature is >= 0.06 and < 0.1) && twilight) return L7Feature.TiledSeabed;
+        return L7Feature.None;
     }
 
     /// <summary>A ring of standing stones on the seabed; swim down into its middle (Under = Circle) to leave.</summary>

@@ -168,6 +168,16 @@ public sealed class MarkResolver
                 icon = "vessel";
                 ps = "cache";
                 break;
+            case "l7circle":
+            case "l7cave":
+                // (Level 7: the ring of standing stones to the Suburbs, the cave mouth in the deep to the 9th Road; rare and dark,
+                // so the note says where, 2026-11-15)
+                bool circle = kind == "l7circle";
+                at = level == 7 ? layout.NearestL7Feature(x, z, circle ? WorldLayout.L7Feature.Circle : WorldLayout.L7Feature.Cave, (circle ? 1600 : 800) * k, skip) : null;
+                title = Lang.Get(circle ? "backrooms:waypoint-note-l7circle" : "backrooms:waypoint-note-l7cave");
+                icon = "spiral";
+                ps = "way";
+                break;
             case "party":
                 at = level == WorldLayout.FunLevel ? layout.NearestParty(x, z, 320, skip) : null;
                 title = Lang.Get("backrooms:waypoint-note-party");

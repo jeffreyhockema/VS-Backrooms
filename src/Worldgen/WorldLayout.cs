@@ -533,9 +533,12 @@ public sealed partial class WorldLayout
     /// deposits, which run in Level 8 in every world, lay it mostly in chert and conglomerate, so a quarter of a hundredth of the
     /// ore cells are now borax in claystone, sandstone, shale, limestone and chalk (WorldGenerator.Deep.cs RockAt; blocks only, not tiles).
     /// The new levels' balance of 0.700.0-pre.11 is also layout 16's, but read in every world (<see cref="ExpVersion"/>).</item>
+    /// <item><b>17</b>: Level 7's ways out glow faintly, so a diver can find them in the dark (a player's report, 2026-11-15): the tops of
+    /// a stone circle's standing stones, and a ring of rock round a cave mouth and the bottom of its shaft, are glowing island rock
+    /// (islandrockglow; WorldGenerator.Deep.cs Level7Block). Blocks only: the tiles, and so <c>layouthash</c>, are as in 16.</item>
     /// </list>
     /// </summary>
-    public const int CurrentVersion = 16;
+    public const int CurrentVersion = 17;
 
     /// <summary>The layout version this world was made with (see <see cref="CurrentVersion"/>).</summary>
     public readonly int Version;

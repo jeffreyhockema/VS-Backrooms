@@ -111,6 +111,34 @@ public sealed partial class WorldLayout
     public (int X, int Z)? NearestSunkenRoom(int gx, int gz, int radius, Func<int, int, bool> skip = null) =>
         Version < 9 ? null : NearestTile(gx, gz, 7, radius, t => t.Zone == L7ZoneLine, skip: skip);
 
+    /// <summary>
+    /// The nearest stone circle (<see cref="L7Feature.Circle"/>) or cave mouth (<see cref="L7Feature.Cave"/>) in Level 7: the tile
+    /// in its middle that takes a diver away. Decided cell by cell (<see cref="L7FeatureOf"/>), so cheap to search far; only a
+    /// cell that holds one is built, to find a tile of it (a sea stack's ledge can take the very middle).
+    /// </summary>
+    public (int X, int Z)? NearestL7Feature(int gx, int gz, L7Feature kind, int radius, Func<int, int, bool> skip = null)
+    {
+        int under = kind == L7Feature.Circle ? Unders.Circle : kind == L7Feature.Cave ? Unders.Cave : -1;
+        if (under < 0) return null;
+        foreach ((int mx, int mz, int _) in CellsOutward(MacroOf(gx), MacroOf(gz), radius / MacroSize + 1))
+        {
+            if (LevelAt(mx, mz) != 7 || L7FeatureOf(mx, mz) != kind) continue;
+            Tile[] tiles = BuildMacro(mx, mz);
+            (int X, int Z)? best = null;
+            int bestD = int.MaxValue;
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                if (tiles[i].Under != under) continue;
+                int lx = i % MacroSize, lz = i / MacroSize;
+                int d = (lx - L7FeatureMiddle) * (lx - L7FeatureMiddle) + (lz - L7FeatureMiddle) * (lz - L7FeatureMiddle);
+                if (d < bestD) { bestD = d; best = (mx * MacroSize + lx, mz * MacroSize + lz); }
+            }
+            if (best is not { } p || skip != null && skip(p.X, p.Z)) continue;
+            return p;
+        }
+        return null;
+    }
+
     /// <summary>The nearest stretch of barn wall in Level 10 that isn't quite there (the way into the city).</summary>
     public (int X, int Z)? NearestBarnWall(int gx, int gz, int radius, Func<int, int, bool> skip = null)
     {
