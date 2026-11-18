@@ -20,7 +20,10 @@ namespace Backrooms.Regions;
 /// The Hub's people (docs/design/new-levels/hub-plan.md 2.6, 2.7):
 /// <list type="bullet">
 /// <item><b>The Tower</b> lets each person in once (canon: "Upon exiting The Tower, it will be impossible to re-enter
-/// afterwards"). Whoever has been inside and is outside again, however they left, is never let in again.</item>
+/// afterwards"), and then not again for a long while: from 0.701.2 it forgets a visitor after an in-game month
+/// (<see cref="ForgetHours"/>), and lets them in, and the Keymaster comes down to them, as if for the first time. Once in
+/// a whole playthrough was too little (the owner's decision, 2026-11-17). Whoever has been inside and is outside again,
+/// however they left, waits out that month.</item>
 /// <item><b>The Keymaster</b> appears to each visitor once: at once if they carry a Level Key, otherwise when they reach
 /// the meeting hall. Right-click him and he holds out the key to one of the levels you have been to, another each time;
 /// sneak and right-click to take it. He then shows you to its door, and the Tower is closed to you. Break anything of the
@@ -34,7 +37,8 @@ namespace Backrooms.Regions;
 public partial class HubSystem
 {
     private const string VisitedKey = "backrooms:visitedLevels", InTowerKey = "backrooms:hubInTower", TowerVisitedKey = "backrooms:hubTowerVisited",
-        GiftKey = "backrooms:hubKeymasterGift", ChoiceKey = "backrooms:hubKeymasterChoice", EnteredSaveKey = "backrooms-hub-entered", MegKey = "backrooms:megKeys";
+        GiftKey = "backrooms:hubKeymasterGift", ChoiceKey = "backrooms:hubKeymasterChoice", EnteredSaveKey = "backrooms-hub-entered", MegKey = "backrooms:megKeys",
+        TowerLeftKey = "backrooms:hubTowerLeftHours", DoorsKnownKey = "backrooms:hubDoorsKnown";
 
     /// <summary>The levels whose keys the Keymaster and the M.E.G. deal in (those whose doors need a key), in order.</summary>
     private static readonly int[] KeyedLevels =
@@ -90,7 +94,7 @@ public partial class HubSystem
             : sapi.World.AllOnlinePlayers.OfType<IServerPlayer>().FirstOrDefault(p => p.PlayerName.Equals(name, StringComparison.OrdinalIgnoreCase));
         if (who?.Entity == null) return TextCommandResult.Error(string.IsNullOrEmpty(name) ? "Give a player's name." : "No such player online: " + name);
         if (layout == null) return TextCommandResult.Error("Not a Backrooms world.");
-        ResetTower(who);
+        ResetTower(who, "hub reset");
         return TextCommandResult.Success($"The Tower will let {who.PlayerName} in again, and the Keymaster will come down to them once more.");
     }
 
@@ -98,14 +102,14 @@ public partial class HubSystem
     /// Forgets a player's visit to the Tower: its doors open for them again and the Keymaster offers a key once more. (The
     /// same flags the Tower keeps, set back to what a new player has, so nothing new is saved.)
     /// </summary>
-    private void ResetTower(IServerPlayer player)
+    private void ResetTower(IServerPlayer player, string why)
     {
         Dismiss(player.PlayerUID);
         SyncedTreeAttribute attributes = player.Entity.WatchedAttributes;
         attributes.SetBool(TowerVisitedKey, false);
         attributes.SetBool(GiftKey, false);
         attributes.SetInt(ChoiceKey, -1);
-        sapi.Logger.Notification("[backrooms] the Tower forgets {0}'s visit (hub reset)", player.PlayerName);
+        sapi.Logger.Notification("[backrooms] the Tower forgets {0}'s visit ({1})", player.PlayerName, why);
     }
 
     private void SaveEntered() => sapi.WorldManager.SaveGame.StoreData(EnteredSaveKey, BitConverter.GetBytes(entered));
@@ -119,8 +123,43 @@ public partial class HubSystem
 
     // ================= Who has been where =================
 
-    /// <summary>Whether a player has been inside the Tower and come out again (it will not let them in twice).</summary>
-    public static bool TowerVisited(IPlayer player) => player.Entity?.WatchedAttributes.GetBool(TowerVisitedKey) == true;
+    /// <summary>Whether the Tower will not let a player in now: they have been inside and come out again within <see cref="ForgetHours"/>.</summary>
+    public static bool TowerVisited(IPlayer player) => TowerClosedHours(player) > 0;
+
+    /// <summary>How long (in-game hours) the Tower takes to forget a visitor: one in-game month (0.701.2).</summary>
+    public static double ForgetHours(IWorldAccessor world) => world.Calendar.DaysPerMonth * world.Calendar.HoursPerDay;
+
+    /// <summary>
+    /// In-game hours until the Tower lets a player in again (0 if it would now). A visit made before 0.701.2 kept no time
+    /// and counts as long ago, so whoever came in once in an older version is let in again.
+    /// </summary>
+    public static double TowerClosedHours(IPlayer player)
+    {
+        if (player.Entity?.WatchedAttributes is not { } attributes || !attributes.GetBool(TowerVisitedKey)) return 0;
+        IWorldAccessor world = player.Entity.World;
+        return Math.Max(0, attributes.GetDouble(TowerLeftKey, 0) + ForgetHours(world) - world.Calendar.TotalHours);
+    }
+
+    /// <summary>The Tower has forgotten a player it let in before: in again, and the Keymaster comes down to them once more.</summary>
+    public void Readmit(IServerPlayer player)
+    {
+        if (player.Entity?.WatchedAttributes.GetBool(TowerVisitedKey) != true || TowerClosedHours(player) > 0) return;
+        ResetTower(player, "a month has passed");
+    }
+
+    /// <summary>
+    /// Whether a carved Hub door knows a player: they opened it with its key before, and from 0.701.2 it lets them through
+    /// again without one (Wikidot's Level Keys have "no apparent limit to uses"; the key is still spent the first time).
+    /// </summary>
+    public static bool DoorKnows(IPlayer player, int level) =>
+        level is >= 0 and < 31 && ((player.Entity?.WatchedAttributes.GetInt(DoorsKnownKey) ?? 0) & (1 << level)) != 0;
+
+    /// <summary>A player has opened a level's carved door with its key: from now on it knows them.</summary>
+    public static void RememberDoor(IPlayer player, int level)
+    {
+        if (level is < 0 or >= 31 || player.Entity?.WatchedAttributes is not { } attributes) return;
+        attributes.SetInt(DoorsKnownKey, attributes.GetInt(DoorsKnownKey) | (1 << level));
+    }
 
     private static bool HasVisited(IPlayer player, int level) => (player.Entity.WatchedAttributes.GetInt(VisitedKey) & (1 << level)) != 0;
 
@@ -146,7 +185,11 @@ public partial class HubSystem
             if (!inTower)
             {
                 // Out again, by a door, the Keymaster, the void or death: the Tower will not have them back
-                if (wasIn) entity.WatchedAttributes.SetBool(TowerVisitedKey, true);
+                if (wasIn)
+                {
+                    entity.WatchedAttributes.SetBool(TowerVisitedKey, true);
+                    entity.WatchedAttributes.SetDouble(TowerLeftKey, sapi.World.Calendar.TotalHours);
+                }
                 Dismiss(player.PlayerUID);
                 continue;
             }

@@ -16,7 +16,8 @@ public partial class ThresholdSystem
     /// <summary>
     /// Someone uses one of the Hub's carved doors. Canon's three (Level 1, Level 11, and 178, here the Snackrooms) open
     /// for anyone; the pink ribbon door to Level 974 for someone carrying something cute; every other level's door only
-    /// to that level's key, which turns three times and is gone. The doors to levels nobody can reach never open. Every
+    /// to that level's key, which turns three times and is gone; and from then on that door knows whoever opened it, and
+    /// lets them through again without a key (0.701.2, <see cref="HubSystem.DoorKnows"/>). The doors to levels nobody can reach never open. Every
     /// carved door is one way: the doorway is gone behind you. The Tower's own doors come here too: its ten ways in and
     /// out (<see cref="UseTowerDoor"/>), and the forbidden ones up the stair, which never open.
     /// </summary>
@@ -54,6 +55,7 @@ public partial class ThresholdSystem
             return;
         }
         ItemSlot key = null;
+        bool known = false;
         if (target == WorldLayout.Level974)
         {
             if (!HubSystem.CarriesSomethingCute(player))
@@ -62,7 +64,7 @@ public partial class ThresholdSystem
                 return;
             }
         }
-        else if (!WorldLayout.HubDoorOpen(target))
+        else if (!WorldLayout.HubDoorOpen(target) && !(known = HubSystem.DoorKnows(player, target)))
         {
             key = HubSystem.FindKey(player, target);
             if (key == null)
@@ -84,9 +86,11 @@ public partial class ThresholdSystem
             // Three full turns, and the key is gone with the doorway
             key.TakeOut(1);
             key.MarkDirty();
+            HubSystem.RememberDoor(player, target);
             Play(pos, "backrooms:sounds/effect/hub/keyturn");
             player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:hub-door-turn"), EnumChatType.Notification);
         }
+        else if (known) player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:hub-door-known"), EnumChatType.Notification);
         // The ribbon comes undone, or the slab grinds aside
         player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get(target == WorldLayout.Level974 ? "backrooms:hub-pinkdoor-open" : "backrooms:hub-door-open"),
             EnumChatType.Notification);
@@ -97,8 +101,9 @@ public partial class ThresholdSystem
     }
 
     /// <summary>
-    /// An ornate door of the Tower's. From outside it lets you into the rotunda, unless you have been in before (canon: no
-    /// one is let in twice); from inside it lets you out onto its approach. Not a threshold of the network: the door is
+    /// An ornate door of the Tower's. From outside it lets you into the rotunda, unless you have been in within the last
+    /// in-game month (canon: no one is let in twice; from 0.701.2 the Tower forgets, <see cref="HubSystem.ForgetHours"/>);
+    /// from inside it lets you out onto its approach. Not a threshold of the network: the door is
     /// the way in and out of the one building.
     /// </summary>
     private void UseTowerDoor(IServerPlayer player, BlockPos pos, System.Action<string, int> refuse)
@@ -114,10 +119,19 @@ public partial class ThresholdSystem
             if (d < best) { best = d; k = i; }
         }
         bool inside = layout.InHubTower(player.Entity.Pos.X, player.Entity.Pos.Z);
-        if (!inside && HubSystem.TowerVisited(player))
+        if (!inside)
         {
-            refuse("backrooms:hub-tower-refused", 1500);
-            return;
+            double closed = HubSystem.TowerClosedHours(player);
+            if (closed > 0)
+            {
+                int days = System.Math.Max(1, (int)System.Math.Ceiling(closed / sapi.World.Calendar.HoursPerDay));
+                Play(pos, "game:sounds/effect/latch");
+                player.SendIngameError("backrooms-hubdoor", Lang.Get("backrooms:hub-tower-refused", days));
+                busyUntilMs[player.PlayerUID] = sapi.World.ElapsedMilliseconds + 1500;
+                return;
+            }
+            // (It has forgotten them: in as if for the first time, and the Keymaster will come down again)
+            sapi.ModLoader.GetModSystem<HubSystem>()?.Readmit(player);
         }
         var (dx, dz) = layout.HubSpokeDirection(k);
         double r = inside ? 28.5 : 15;
