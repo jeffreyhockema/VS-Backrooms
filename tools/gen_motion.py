@@ -583,7 +583,7 @@ def lang():
         "floodedhouse": "The water takes you.",
         "twilightgate": "The rusted gate swings open in the half light.",
         "castle-alarm": "Somewhere in the castle, a key is turning.",
-        "thronedoor-shut": "This door is only painted on. Today, at least.",
+        "thronedoor-shut": "This door is only painted on. Today, at least: one of the four opens each day.",
         "throneroom": "A long dim hall, a table set for two, and at its head a king of stone.",
         "trial-busy": "The King is receiving someone else.",
         "trial-start": "\"Sit, sit. Let us see what you are afraid of.\" The King's stone face does not move. Something stirs at the end of the table.",

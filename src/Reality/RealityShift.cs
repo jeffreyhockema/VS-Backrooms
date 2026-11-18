@@ -24,6 +24,15 @@ public static class RealityShift
 
     private const ulong SaltShift = 0x5F17;
 
+    /// <summary>
+    /// Whether a shift puts the lights out in a level. Not where the light is the sky's (Level 10's fields, Level 94's hills,
+    /// Level 52's blue sky, Level 73's moon, Level 47's forest): there the lamps that fail are not what lights the place, so
+    /// the view does not black out and creatures still see by daylight (a player's report, 2026-11; 0.701.2). The stability
+    /// drain and the restless creatures of a shift are everywhere.
+    /// </summary>
+    public static bool LightsFailIn(int level) =>
+        level is not (10 or WorldLayout.Motion or WorldLayout.Level52 or WorldLayout.Level73 or WorldLayout.Level47);
+
     /// <summary>Strength from 0 (normal) to 1 (full shift) of the scheduled shift at a given time (hours since the world began).</summary>
     public static double ScheduledStrength(long seed, double elapsedHours)
     {

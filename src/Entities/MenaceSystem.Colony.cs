@@ -46,6 +46,53 @@ public partial class MenaceSystem
             sapi.Logger.Notification("[backrooms] a noise of {0:0.00} near the nest at {1},{2}: {3} spiders woken, {4} more put down", loudness, heart.X, heart.Z, woken, added);
     }
 
+    /// <summary>
+    /// The rest of Level 8's caves (0.701.2, after a player's report that, carrying a light, they never met one in an hour):
+    /// a loud noise off the 9th Road carries through the caverns as well. Breaking rock, the noise a pickaxe makes, is loud
+    /// enough. It wakes every spider lying in wait within <see cref="CaveWakeRange"/>, and if none was, now and then one
+    /// comes out of the dark for whoever made it: put down out of sight, it hunts (one each <see cref="CaveCallEveryMs"/> for
+    /// a player at most, <see cref="CaveCallChance"/> of a loud noise, scaled by the entities setting). Never for a noise on
+    /// the road, nor near a nest, which <see cref="NestHeard"/> answers. A fire, water or the road still keep one off.
+    /// </summary>
+    public const double CaveWakeRange = 40, CaveCallChance = 0.25;
+
+    /// <summary>How often (ms) a player's noise can call a spider out of the caves.</summary>
+    public const long CaveCallEveryMs = 240_000;
+
+    private readonly Dictionary<long, long> caveCalledMs = new();
+
+    private void CaveHeard(Vec3d at, double loudness, Entity who)
+    {
+        if (loudness < NestWakeLoudness || layout == null || who == null || !who.Alive || !Setting.Entities || Paused) return;
+        if (who is not EntityPlayer && !Senses.IsTestTarget(who) || Strike.IsCreative(who)) return;
+        int x = (int)Math.Floor(at.X), z = (int)Math.Floor(at.Z);
+        if (layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z)) != 8 || layout.IsNinthRoad(x, z)) return;
+        if (layout.NestHeartNear(x, z, NestWakeRange) != null) return;
+        int woken = 0;
+        foreach (Entity spider in sapi.World.GetEntitiesAround(at, (float)CaveWakeRange, 24, e => e.Alive && e.Code?.Domain == "backrooms" && e.Code.Path == "giantspider"))
+            if (spider.GetBehavior<Vintagestory.GameContent.EntityBehaviorTaskAI>()?.TaskManager?.GetTask<AiTaskSpider>() is { } task && task.WakeFor(who)) woken++;
+        if (woken > 0)
+        {
+            if (Logging) sapi.Logger.Notification("[backrooms] a noise of {0:0.00} in Level 8's caves at {1},{2}: {3} spiders woken", loudness, x, z, woken);
+            return;
+        }
+        long now = sapi.World.ElapsedMilliseconds;
+        if (caveCalledMs.TryGetValue(who.EntityId, out long last) && now >= last && now - last < CaveCallEveryMs) return;
+        if (rand.NextDouble() >= CaveCallChance * Setting.SetPieceScale || !types.TryGetValue(Roster.GiantSpider, out EntityProperties type)) return;
+        Assessment a = AssessmentOf(who);
+        if (a.Band == MenaceBand.Safe) return;
+        for (int attempt = 0; attempt < 24; attempt++)
+        {
+            double angle = rand.NextDouble() * Math.PI * 2, d = 18 + rand.NextDouble() * 14;
+            int sx = (int)Math.Floor(who.Pos.X + Math.Cos(angle) * d), sz = (int)Math.Floor(who.Pos.Z + Math.Sin(angle) * d);
+            if (layout.IsNinthRoad(sx, sz) || NestSpot(sx, sz, who) is not { } spot) continue;
+            if (Spawn(type, spot, who, Encounter.Hunt, a.Passive) == null) continue;
+            caveCalledMs[who.EntityId] = now;
+            if (Logging) sapi.Logger.Notification("[backrooms] a noise of {0:0.00} in Level 8's caves at {1},{2} called a spider out at {3:0},{4:0}", loudness, x, z, spot.X, spot.Z);
+            return;
+        }
+    }
+
     /// <summary>Puts down one or two spiders in the dark about a nest's heart if fewer than <see cref="NestSpiders"/> are about it. Returns how many.</summary>
     private int Reinforce((int X, int Z) heart, Entity who, int about) => Reinforce(heart.X, heart.Z, who, about);
 

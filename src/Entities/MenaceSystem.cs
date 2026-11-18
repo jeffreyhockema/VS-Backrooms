@@ -375,6 +375,7 @@ public partial class MenaceSystem : ModSystem
         if (layout == null || at == null) return;
         Noises.Raise(at, loudness, source, who, sapi.World.ElapsedMilliseconds);
         NestHeard(at, loudness, who);
+        CaveHeard(at, loudness, who);
         if (Logging && source != "run") sapi.Logger.Notification("[backrooms] noise {0} {1:0.00} at {2:0},{3:0},{4:0}{5}", source, loudness, at.X, at.Y, at.Z, who == null ? "" : " by " + who.Code.Path + " #" + who.EntityId);
     }
 
@@ -437,7 +438,7 @@ public partial class MenaceSystem : ModSystem
             a.NearWanderer = true;
         }
         a.Flickering = watch.FlickerUntilHours > sapi.World.Calendar.TotalHours;
-        a.Shift = (reality?.ShiftStrength ?? 0) > 0;
+        a.Shift = (reality?.ShiftStrength ?? 0) > 0 && Reality.RealityShift.LightsFailIn(a.Level);
         a.Dark = a.Flickering || Senses.InDark(target);
         a.OutHours = TimeOut(target, watch, a);
         a.Noise = watch.Noise;

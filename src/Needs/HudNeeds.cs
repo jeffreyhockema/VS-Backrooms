@@ -31,6 +31,8 @@ public class HudNeeds : HudElement
     private long listener;
     private float flashAcc;
     private GuiComposer composer;
+    private GuiComposer feverComposer;
+    private string shownFever = "";
 
     public HudNeeds(ICoreClientAPI capi) : base(capi)
     {
@@ -56,6 +58,7 @@ public class HudNeeds : HudElement
     public override void Dispose()
     {
         capi.Event.UnregisterGameTickListener(listener);
+        feverComposer?.Dispose();
         base.Dispose();
     }
 
@@ -73,6 +76,8 @@ public class HudNeeds : HudElement
         IPlayer player = capi.World.Player;
         EntityPlayer entity = player?.Entity;
         if (entity == null) return;
+
+        UpdateFever(entity);
 
         EnumGameMode mode = player.WorldData.CurrentGameMode;
         bool survival = mode != EnumGameMode.Creative && mode != EnumGameMode.Spectator;
@@ -114,6 +119,35 @@ public class HudNeeds : HudElement
             }
             if (rearm && rest < ThirstRestFlash) restBar.ShouldFlash = true;
         }
+    }
+
+    /// <summary>
+    /// Party Fever notice (Level Fun): a line above the meters while a bite can still be bandaged (with the seconds left)
+    /// and while the fever lasts. Driven by the synced watched attributes, so each player sees only their own. Recomposed
+    /// only when the text changes.
+    /// </summary>
+    private void UpdateFever(EntityPlayer entity)
+    {
+        int bite = entity.WatchedAttributes.GetInt(Regions.FunSystem.BiteKey, 0);
+        double fever = entity.WatchedAttributes.GetDouble(Regions.FunSystem.FeverKey, 0);
+        string text = bite > 0 ? Lang.Get("backrooms:hud-fun-bite", bite)
+            : fever > 0 ? Lang.Get("backrooms:hud-fun-fever", (int)Math.Round(fever * 100)) : "";
+        if (text == shownFever) return;
+        shownFever = text;
+        feverComposer?.Dispose();
+        feverComposer = null;
+        Composers.Remove("fever");
+        if (text.Length == 0) return;
+        ElementBounds frame = new ElementBounds
+        {
+            Alignment = EnumDialogArea.CenterBottom,
+            BothSizing = ElementSizing.Fixed,
+            fixedWidth = 400.0,
+            fixedHeight = 30.0
+        }.WithFixedAlignmentOffset(0.0, -115.0);
+        CairoFont font = CairoFont.WhiteMediumText().WithColor(bite > 0 ? new double[] { 1, 0.85, 0.3, 1 } : new double[] { 1, 0.4, 0.4, 1 }).WithOrientation(EnumTextOrientation.Center);
+        feverComposer = capi.Gui.CreateCompo("backrooms-fever", frame).AddDynamicText(text, font, ElementBounds.Fixed(0, 0, 400, 30), "fevertext").Compose();
+        Composers["fever"] = feverComposer;
     }
 
     private void Compose()

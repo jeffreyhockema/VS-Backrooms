@@ -18,7 +18,7 @@ def generate():
         "levelhint-1702": "The lamps give out from here on. Nobody has mapped what lies beyond.",
         "levelname-1702": "The Hub",
         # Doors and keys
-        "hub-door-locked": "Locked. Its key is somewhere in the level it leads to.",
+        "hub-door-locked": "Locked. Its key is somewhere in the level it leads to, and only that level's key opens it: hold a key here and listen for its own door.",
         "hub-door-dead": "Locked. Whatever lies behind it, its key is nowhere you can go.",
         "hub-door-turn": "The key turns three times.",
         "hub-door-open": "The slab grinds aside.",

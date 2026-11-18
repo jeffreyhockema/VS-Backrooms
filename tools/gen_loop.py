@@ -681,9 +681,10 @@ def pry_bar():
     }, "prybar")
     LANG["item-prybar"] = "Pry Bar"
     LANG["itemdesc-prybar"] = ("Hold right-click on a locked door to force it. It gives for good if there is a room behind it, but everything "
-                               "nearby will hear. Doors set in solid wall will not give, and cost nothing to try.")
+                               "nearby will hear. A door set in solid wall comes away too, and shows you the wall.")
     LANG["pry-solid"] = "It won't give. There's solid wall behind it."
     LANG["pry-notlocked"] = "It isn't locked. It goes somewhere."
+    LANG["pry-fake"] = "The door comes away. Behind it there is nothing but solid wall."  # (0.701.2: a fake door is pried off too)
 
 
 SEED_CROPS = ("turnip", "carrot", "onion", "flax", "spelt")

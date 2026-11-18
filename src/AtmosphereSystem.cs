@@ -423,7 +423,8 @@ public partial class AtmosphereSystem : ModSystem
         float flickerTarget = (level is 1 or 2 && capi.World.Calendar.TotalHours < flickerUntil) || capi.World.Calendar.TotalHours < blackoutUntil ? 0.85f : 0f;
         flicker += (flickerTarget - flicker) * Math.Min(1f, dt * (flickerTarget > flicker ? 6f : 1.5f));
         if (flicker < 0.01f) flicker = 0f;
-        float shift = Math.Max((float)(reality?.ShiftStrength ?? 0), flicker);
+        // (The shift's blackout only where the lights are what lights the place: RealityShift.LightsFailIn)
+        float shift = Math.Max(Reality.RealityShift.LightsFailIn(level) ? (float)(reality?.ShiftStrength ?? 0) : 0f, flicker);
         // (A shift already under way when the player joins makes no sound)
         if (!shiftSeen) { shiftWasActive = shift > 0; shiftSeen = true; }
         if (shift > 0 && !shiftWasActive)

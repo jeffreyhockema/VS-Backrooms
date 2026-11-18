@@ -8,7 +8,8 @@ namespace Backrooms.Entities;
 
 /// <summary>
 /// Firesalt: a handful of the strange salt found by Level 3's generators, which burns with a hot red light once set
-/// down. While it burns nothing hostile comes near (see <see cref="Wards"/>); after half a day it is spent.
+/// down. While it burns nothing hostile comes near (see <see cref="Wards"/>); after half a day it is spent, and leaves a
+/// pinch of pale ash that welds like powdered borax (firesaltash, from 0.701.2).
 /// </summary>
 public class BlockFiresalt : Block
 {
@@ -51,6 +52,8 @@ public class BlockEntityFiresalt : BlockEntity
         if (HoursLeft > 0) return;
         Api.World.PlaySoundAt(new AssetLocation("game:sounds/effect/extinguish1"), Pos, 0, null, true, 16);
         Api.World.BlockAccessor.SetBlock(0, Pos);
+        if (Api.World.GetItem(new AssetLocation("backrooms:firesaltash")) is Item ash)
+            Api.World.SpawnItemEntity(new ItemStack(ash), Pos.ToVec3d().Add(0.5, 0.2, 0.5));
         Wards.Invalidate();
     }
 

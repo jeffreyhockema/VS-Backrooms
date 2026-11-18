@@ -16,7 +16,8 @@ namespace Backrooms.Salvage;
 /// The pry bar. Every level has rooms behind locked doors that nobody has been into since they were locked: Level 1's
 /// steel doors, Level 2's storerooms, Level 4's offices, Level 5's guest rooms, Level 9's houses. Lean on a pry bar
 /// for a few seconds and the door gives, for good. It is loud: whatever is near hears it. A door with nothing behind it
-/// (and there are many) does not give, and costs nothing to try; a door that goes somewhere is not locked at all.
+/// (and there are many) comes away too, and shows the solid wall it was set in (from 0.701.2: before, it would not give,
+/// and players could not tell a fake door from a stuck one); a door that goes somewhere is not locked at all.
 /// </summary>
 public class PrySystem : ModSystem
 {
@@ -70,7 +71,10 @@ public class PrySystem : ModSystem
         // Not in somebody else's claim (TryAccess tells the player why)
         if (!sapi.World.Claims.TryAccess(player, pos, EnumBlockAccessFlags.BuildOrBreak)) return false;
 
-        if (Refusal(pos) is { } why)
+        string why = Refusal(pos);
+        // (A door set in solid wall comes away all the same, and shows the wall: no room, no bracket, the bar worn as ever)
+        bool fake = why == "backrooms:pry-solid";
+        if (why != null && !fake)
         {
             player.SendIngameError("backrooms-pry", Say.T(player, why));
             return false;
@@ -83,7 +87,8 @@ public class PrySystem : ModSystem
             Block there = blocks.GetBlock(at);
             if (there.Code?.Domain == "backrooms" && Family(there) == family) blocks.SetBlock(0, at);
         }
-        if (sapi.World.GetItem(new AssetLocation("backrooms:metalbracket")) is Item bracket)
+        if (fake) player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:pry-fake"), EnumChatType.Notification);
+        else if (sapi.World.GetItem(new AssetLocation("backrooms:metalbracket")) is Item bracket)
             sapi.World.SpawnItemEntity(new ItemStack(bracket), pos.ToVec3d().Add(0.5, 0.5, 0.5));
         sapi.World.PlaySoundAt(new AssetLocation("game:sounds/block/metaldoor"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, false, 48, 1f);
         sapi.World.PlaySoundAt(new AssetLocation("game:sounds/effect/anvilhit"), pos.X + 0.5, pos.Y + 1, pos.Z + 0.5, null, true, 48, 0.8f);

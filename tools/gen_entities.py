@@ -1884,8 +1884,11 @@ LANG = {
     "deadcreature-animation-paper": "Killed by Paper Animations",
     "deadcreature-roboman": "Killed by a Robo-Man",
     "block-firesalt": "Firesalt",
-    "blockdesc-firesalt": "A strange salt that burns with a hot red light once set down. While it burns, nothing hostile comes near. Burns for half a day.",
+    "blockdesc-firesalt": "A strange salt that burns with a hot red light once set down. While it burns, nothing hostile comes near. Burns for half a day, and leaves a pinch of ash that serves as flux.",
     "firesalt-hoursleft": "Burns for about {0} more hours",
+    # (0.701.2) What it leaves when spent: assets/backrooms/itemtypes/deep/firesaltash.json (hand-written)
+    "item-firesaltash": "Fire Salt Ash",
+    "itemdesc-firesaltash": "What a handful of fire salt leaves once it has burnt out. It welds like powdered borax: use it as flux at the anvil.",
     "block-mothhiveheart": "Deathmoth Hive Heart",
     "blockdesc-mothhiveheart": "Resin walled round columns of pale larvae, at the heart of a Deathmoth hive. Breaking it brings every female near, and more after them.",
     "block-clumpremnant": "Clump Remnant",

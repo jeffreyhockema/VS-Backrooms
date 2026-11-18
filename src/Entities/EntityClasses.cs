@@ -18,6 +18,10 @@ public class EntityDeathmoth : EntityButterfly
     /// </summary>
     public override void OnGameTick(float dt)
     {
+        if (!Alive)
+        {
+            Fall(dt);
+        }
         if (!Alive && Api?.Side == EnumAppSide.Client)
         {
             agentTick ??= (System.Action<float>)System.Activator.CreateInstance(typeof(System.Action<float>), this, AgentTick);
@@ -25,6 +29,21 @@ public class EntityDeathmoth : EntityButterfly
             return;
         }
         base.OnGameTick(dt);
+    }
+
+    /// <summary>
+    /// Its habitat is Air, and vanilla's gravity module (PModuleGravity) never applies to an Air entity, so a dead moth
+    /// kept whatever motion it died with and hung or drifted up. Dead, it is pulled down by hand until it rests.
+    /// </summary>
+    private void Fall(float dt)
+    {
+        var pos = Pos;
+        if (OnGround)
+        {
+            pos.Motion.Y = System.Math.Min(pos.Motion.Y, 0);
+            return;
+        }
+        pos.Motion.Y = System.Math.Min(pos.Motion.Y, 0) - Vintagestory.API.Config.GlobalConstants.GravityPerSecond * dt;
     }
 }
 

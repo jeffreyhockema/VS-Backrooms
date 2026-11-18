@@ -122,6 +122,34 @@ public partial class ThresholdSystem
     }
 
     /// <summary>
+    /// Puts back the doors beside an arrival that a way back is written onto (a locked door that then opens onto where the
+    /// traveller came from), if someone has pried one away: a pry bar takes even a door set in solid wall (0.701.2). Only the
+    /// generator's own door blocks of such a tile, and only where there is nothing now.
+    /// </summary>
+    private void RestoreDoorsNear(int ax, int az)
+    {
+        if (sapi.ModLoader.GetModSystem<BackroomsModSystem>()?.Generator is not { } generator) return;
+        IBlockAccessor blocks = sapi.World.BlockAccessor;
+        for (int x = ax - 2; x <= ax + 2; x++)
+            for (int z = az - 2; z <= az + 2; z++)
+            {
+                Tile tile = layout.TileAt(x, z);
+                if (tile.Kind != TileKind.Door || !network.Recorded(x, z)) continue;
+                int floor = geometry.FloorFor(tile.Level);
+                for (int y = floor + 1; y <= floor + 3; y++) RestoreDoorBlock(generator, blocks, tile, new BlockPos(x, y, z));
+            }
+    }
+
+    private void RestoreDoorBlock(WorldGenerator generator, IBlockAccessor blocks, Tile tile, BlockPos pos)
+    {
+        {
+            if (blocks.GetChunkAtBlockPos(pos) == null || blocks.GetBlock(pos).BlockId != 0) return;
+            int id = generator.ColumnBlock(tile, pos.X, pos.Z, pos.Y, out _);
+            if (id != 0 && sapi.World.GetBlock(id) is { } door && Salvage.PrySystem.Doors.Contains(Salvage.PrySystem.Family(door))) blocks.SetBlock(id, pos);
+        }
+    }
+
+    /// <summary>
     /// Makes sure the door or elevator built as the way back of a threshold stands at its arrival (each time someone
     /// arrives that way: once built, nothing changes). Where the wall has been changed so that it cannot (a container
     /// put there, a claim), the way back becomes a thin spot on the arrival instead, for good. A chunk not yet loaded is

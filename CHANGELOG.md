@@ -1,7 +1,16 @@
 ﻿# Changelog
 
-## 0.701.1 — a light in the deep
-- Level 7's ways out are easier to find. A wanderer's note about the ring of standing stones or the cave mouth in the deep now marks the nearest one on your map, in every world. New worlds only (layout version 17): the tops of a stone circle's standing stones glow faintly, and a cave mouth is ringed with faintly glowing rock, with a glow at the bottom of its shaft, so a diver can spot them in the dark. The handbook's Level 7 page says where to look: both lie shallower than the tar of the abyss.
+## 0.701.2 — a light in the deep
+- Level 7's ways out are easier to find. A wanderer's note about the ring of standing stones or the cave mouth in the deep now marks the nearest one on your map, in every world. New worlds only (layout version 17): the tops of a stone circle's standing stones glow faintly, a cave mouth is ringed with faintly glowing rock with a glow at the bottom of its shaft, and the rope ladder down to a sunken room hangs beside the room's tunnel instead of in front of it. The handbook's Level 7 page says where to look: both lie shallower than the tar of the abyss.
+- The present left for you after escaping Level ! can be opened: break it for its 25 rusty gears and 2 temporal gears. Before, it could not be broken at all.
+- Giant Spiders come out for noise. Off the 9th Road, a racket (rock broken with a pickaxe, a fight, a forced door) wakes any spider within 40 blocks, and now and then calls one out of the dark to hunt whoever made it, lamp or no lamp. A fire, water or the road still keep them off.
+- A Reality Shift no longer blacks out the levels lit by a sky (Level 10, Level 94, Level 52, Level 73 and Level 47): the lamps fail, the sky does not, and creatures there still see by it. Stability drains everywhere as before.
+- Party Fever shows on screen: a countdown while a Partygoer's bite can still be bandaged, then the fever while you have it.
+- The pry bar takes off a door set in solid wall too, and shows you the wall behind it (no bracket), so a fake door is no longer a mystery. A door someone's way back is written onto is put back when they arrive, if it was pried away.
+- Murky water boils clean by the batch: pour up to six litres into a clay cooking pot on a lit firepit, let it cook, and pour it out again. Salt water still never boils fresh.
+- Fire salt that has burnt out leaves a pinch of Fire Salt Ash, which works as flux at the anvil, like powdered borax.
+- A dead Deathmoth falls to the ground instead of drifting up to the ceiling.
+- Clearer messages: Level 94's painted throne-room doors say that one of the four opens each day, the Hub's locked doors say that only their own level's key opens them, and the handbook says crops need warmth (the Hub is too cold for them).
 
 ## 0.701.0 — nine new levels
 - Nine new places, each with ways in and out, a handbook page that opens once you have been there, wanderers' notes, its own sounds and its own dangers: Level 73 "The Redlands" (a red plain under a black sky, a castle with the moon over it, and Coran, who leads you out), the Basement (a cellar of furnace rooms, rec rooms and flooded dead ends), Level 52 "School Halls" (a green campus of classrooms, canteens, courts and a gym), Level 31 "Roller Rink" (a rink with a DJ booth, an arcade, a rental counter and a food court), Level 120 "Broken Servos" (a ripped-apart data hall of racks and consoles), Level 15 "Futuristic Halls" (white halls, labs and a door that does not open), Level 23 "The Petrified Garden" (a forest of stone trees under a lid with holes in it, and Base Seedling), Level 14 "The Hospital" (long dark wards, and the Hunter) and Level 47 "The Adderwood" (an old-growth forest with a manor and a wanderer's camp).

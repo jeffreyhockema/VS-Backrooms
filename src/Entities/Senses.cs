@@ -63,8 +63,11 @@ public static class Senses
     public static bool LightsOut;
 
     /// <summary>The world's own light at a position (lamps and fires, and daylight where there is sky); none while the lights are out.</summary>
-    public static int WorldLight(IWorldAccessor world, Vec3d pos) => LightsOut ? 0 :
-        world.BlockAccessor.GetLightLevel((int)Math.Floor(pos.X), (int)Math.Floor(pos.Y), (int)Math.Floor(pos.Z), EnumLightLevelType.MaxTimeOfDayLight);
+    /// (While the lights are out the sky's light still counts, so a shift does not darken Level 10's fields or Level 94's
+    /// hills to the creatures' eyes; 0.701.2. Under the ceilings of the other levels that is none.)
+    public static int WorldLight(IWorldAccessor world, Vec3d pos) =>
+        world.BlockAccessor.GetLightLevel((int)Math.Floor(pos.X), (int)Math.Floor(pos.Y), (int)Math.Floor(pos.Z),
+            LightsOut ? EnumLightLevelType.TimeOfDaySunLight : EnumLightLevelType.MaxTimeOfDayLight);
 
     /// <summary>
     /// How bright a position is, counting the light the given people carry: carried light falls off by a level a

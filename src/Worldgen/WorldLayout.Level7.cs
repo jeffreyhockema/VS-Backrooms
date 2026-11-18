@@ -523,6 +523,9 @@ public sealed partial class WorldLayout
                 if (t.Kind != TileKind.Water || t.Zone != 0 || t.Under != 0 || t.Floor == FloorKind.Jetty || t.Detail != 0) return;
             }
         bool midnight = depth >= MidnightDepth;
+        // (From layout version 17 the line hangs against the wall beside the tunnel's mouth, not in front of it, where its
+        // ladder was in the way of a diver swimming in: a player's report, 2026-11)
+        int lineAcross = Version >= 17 ? 2 : 0;
         var rng = new Rng(Hashing.Mix(h));
         for (int z = cz - 4; z <= cz + 4; z++)
             for (int x = cx - 4; x <= cx + 4; x++)
@@ -535,7 +538,7 @@ public sealed partial class WorldLayout
                 if (ring)
                 {
                     // Round it on the seabed, what went down with it (never in front of the tunnel's mouth)
-                    if (along == 4 && Math.Abs(across) <= 1) { t.Variant = 0; t.Stack = 0; t.SupplyBox = false; }
+                    if (along == 4 && (Math.Abs(across) <= 1 || across == lineAcross)) { t.Variant = 0; t.Stack = 0; t.SupplyBox = false; }
                     else if (rng.Chance(0.18))
                     {
                         byte[] wreck = { Props.WreckCrate, Props.ScrapMetal, Props.BonePile, midnight ? Props.Ribcage : Props.Backpack };
@@ -543,7 +546,7 @@ public sealed partial class WorldLayout
                         t.Stack = 0;
                         t.SupplyBox = false;
                     }
-                    if (along == 4 && across == 0)
+                    if (along == 4 && across == lineAcross)
                     {
                         // The line down from the buoy, against the room's wall
                         t.Zone = L7ZoneLine;

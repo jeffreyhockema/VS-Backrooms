@@ -45,6 +45,9 @@ public class FunSystem : ModSystem
     public const int GuestRange = 32;
     public const double FeverPerBite = 0.34, PendingSeconds = 30, DecayPerHour = 0.1, AlmondCure = 0.1;
     private const string SaveKey = "backrooms-fun";
+    /// <summary>Player attribute (watched, so the client HUD sees it): whole seconds left to treat a bite, 0 when none.</summary>
+    public const string BiteKey = "backrooms:funBiteLeft";
+
     private const string LatchStat = "backrooms:funLatch", FeverStat = "backrooms:funFever";
 
     private static FunSystem server;
@@ -402,6 +405,10 @@ public class FunSystem : ModSystem
         }
         else lastHealth.Remove(id);
 
+        // Mirror the untreated bite to the client (only on a change: a watched write resends)
+        int left = pending.TryGetValue(id, out var open) ? Math.Max(1, (int)Math.Ceiling((open.DueMs - now) / 1000.0)) : 0;
+        if (entity.WatchedAttributes.GetInt(BiteKey, 0) != left) entity.WatchedAttributes.SetInt(BiteKey, left);
+
         // Falling, slowly, once out of the level; Almond Water helps
         double hours = sapi.World.Calendar.TotalHours;
         double drank = entity.Attributes.GetDouble(AlmondWater.DrankKey, -1);
@@ -461,6 +468,7 @@ public class FunSystem : ModSystem
         EntityPlayer entity = player.Entity;
         if (entity == null) return;
         pending.Remove(entity.EntityId);
+        entity.WatchedAttributes.SetInt(BiteKey, 0);
         entity.WatchedAttributes.SetDouble(FeverKey, 0);
         int x = (int)Math.Floor(entity.Pos.X), z = (int)Math.Floor(entity.Pos.Z);
         if (layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z)) != WorldLayout.FunLevel) return;

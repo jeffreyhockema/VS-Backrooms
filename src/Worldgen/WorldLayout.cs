@@ -535,7 +535,8 @@ public sealed partial class WorldLayout
     /// The new levels' balance of 0.700.0-pre.11 is also layout 16's, but read in every world (<see cref="ExpVersion"/>).</item>
     /// <item><b>17</b>: Level 7's ways out glow faintly, so a diver can find them in the dark (a player's report, 2026-11-15): the tops of
     /// a stone circle's standing stones, and a ring of rock round a cave mouth and the bottom of its shaft, are glowing island rock
-    /// (islandrockglow; WorldGenerator.Deep.cs Level7Block). Blocks only: the tiles, and so <c>layouthash</c>, are as in 16.</item>
+    /// (islandrockglow; WorldGenerator.Deep.cs Level7Block). And the line down to a sunken room hangs against its wall beside the
+    /// tunnel's mouth, two tiles to the side, not in front of it, where its rope ladder was in a diver's way (AddSunkenRoom).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 17;

@@ -1,0 +1,27 @@
+// Boiling water in batches: 1 to 6 litres of water in a clay cooking pot on a lit firepit come out as that many litres of water.
+// Water the pot holds is plain vanilla water (the murky/tainted mark lives on the bucket or bowl it was poured from, not on the
+// water in a pot slot), so the output, which is made fresh, is clean. Salt water is another liquid (saltwaterportion) and has
+// no recipe: it stays salt. Same shape as vanilla's liquid recipes (potash, glue).
+[
+	{
+		code: "boiledwater",
+		perishableProps: {
+			type: "None",
+			freshHours: { avg: 36 },
+			transitionHours: { avg: 36 },
+			transitionRatio: 1,
+			transitionedStack: { type: "item", code: "game:waterportion" }
+		},
+		shape: { base: "block/food/meal/liquid" },
+		ingredients: [
+			{
+				code: "water",
+				validStacks: [ { type: "item", code: "game:waterportion" } ],
+				minQuantity: 1,
+				maxQuantity: 1,
+				portionSizeLitres: 1
+			}
+		],
+		cooksInto: { type: "Item", code: "game:waterportion", quantity: 100 }
+	}
+]

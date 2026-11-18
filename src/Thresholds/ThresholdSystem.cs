@@ -566,6 +566,7 @@ public partial class ThresholdSystem : ModSystem
                     sapi.World.ElapsedMilliseconds - startedMs, style ?? "plain");
                 if (link.Marker) LeaveThinSpot(link);
                 if (wayBack != null) BuildWayBack(player, source.Value);
+                else RestoreDoorsNear(ax, az);
                 if (faceYaw is { } spoke) Face(player, spoke);
                 else if (onStairs) Face(player, DownFlight(onto.Pier));
                 else if (away is { } d) Face(player, (float)Math.Atan2(d.Dx, d.Dz));
